@@ -9,7 +9,7 @@ class StartScreen extends StatelessWidget {
     return Center(
       child: AspectRatio(
         aspectRatio: 16 / 9, // تنسيق الفيديو
-        child: VideoPlayer(
+        child: VideoPlayer(//hi rory
           VideoPlayerController.asset('assets/video/start_video.mp4'), // استخدام ملف الفيديو من الموارد
         ),
       ),
