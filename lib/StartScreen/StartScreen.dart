@@ -10,7 +10,7 @@ class StartScreen extends StatelessWidget {
       child: AspectRatio(
         aspectRatio: 16 / 9, // تنسيق الفيديو
         child: VideoPlayer(
-          VideoPlayerController.asset('assets/video/start_video.mp4'), // استخدام ملف الفيديو من الموارد
+          VideoPlayerController.asset('assets/video/.mp4'), // استخدام ملف الفيديو من الموارد
         ),
       ),
     );
