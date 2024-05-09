@@ -7,12 +7,13 @@ class StartScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: AspectRatio(
-        aspectRatio: 16 / 9, // تنسيق الفيديو
-        child: VideoPlayer(
-          VideoPlayerController.asset('assets/video/start_video.mp4'), // استخدام ملف الفيديو من الموارد
-        ),
-      ),
+      child: Text("data",style: TextStyle(fontSize: 600),),
+      // child: AspectRatio(
+      //   aspectRatio: 16 / 9, // تنسيق الفيديو
+      //   child: VideoPlayer(
+      //     VideoPlayerController.asset('assets/video/start_video.mp4'), // استخدام ملف الفيديو من الموارد
+      // ),
+      //),
     );
   }
 }
