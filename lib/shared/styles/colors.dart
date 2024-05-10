@@ -2,16 +2,21 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 
-class AppColors{
+class AppColor{//
   // الألوان
-  static  Color primaryColorBackground = HexColor("#BEBFC4").withOpacity(0.1);
-  static  Color secondaryColorBackground = HexColor("#EBEEF3");//
-  static  Color threeColorBackground = Colors.white;
+  static  Color navyBlueColor = HexColor("#130160");//كحلي
+  static Color orangeColor=HexColor('#FCA34D');//اورنج
+  static Color blackColor=HexColor('#000000');
+  static Color fontColorDescription=HexColor('#524B6B');//لون الكتابة يلي تحت العناويين
+  static Color fontColor=HexColor('#0D0140');// لون كتابة مثل email ..password
+  static Color checkboxColor=HexColor('#E6E1FF');// لون كتابة مثل email ..password
+  static Color googleColor=HexColor('#D6CDFE');// لون كتابة مثل email ..password
+  static Color buttonColor=HexColor('#7551FF');// لون كتابة مثل read more
+  static Color grayColorFont=HexColor('#AAA6B9');
 
-  static  Color cardColorBackground = HexColor("#91B1E2");
-  static  Color secondaryColorBlue =  HexColor("#BEBFC4").withOpacity(0.5);
-  static  Color chartChartColor =  HexColor("#D8DEF4");
-  static  Color fontColorBackgroundBlack = Colors.black87;
+
+
+
 
 
 }

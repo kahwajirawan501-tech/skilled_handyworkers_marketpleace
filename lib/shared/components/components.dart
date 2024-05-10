@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:skilled_handyworkers_marketpleace/shared/components/constant.dart';
+import 'package:skilled_handyworkers_marketpleace/shared/styles/colors.dart';
 
 void navigateTo({context,widget})=>Navigator.push(//الصفحات لسا معي اذا عملت باك
     context
@@ -52,11 +53,8 @@ void showToast({
       }
 
 
- Widget yyLine()=>Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Container(width:double.infinity ,height: 1,color:Colors.black,),
-        );
-
-
-
+ Widget myLine()=>Padding(
+   padding: const EdgeInsets.symmetric(vertical: 8.0),
+   child: Container(width:double.infinity ,height: 1,color:Colors.grey,),
+ );
 
