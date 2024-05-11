@@ -15,7 +15,7 @@ class AppColor{//
   static Color grayColorFont=HexColor('#AAA6B9');
 
   static Color backgroundColor=HexColor('#F9F9F9');
- static  Color arrowBackColor=HexColor("#3B4657");
+ static  Color arrowBackColor=HexColor("#3B4657");//D6CDFE
   static Color bluColor=HexColor('#150B3D');
 
 

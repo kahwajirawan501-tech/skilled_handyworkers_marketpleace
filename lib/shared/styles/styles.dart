@@ -12,6 +12,7 @@ class AppFontStyles{
   static const double aboutMe =16;
   static const double borderRadius =20;
   static const double sizeBoxInProfile =32;
+  static const double borderRadiusTextField =10;
 
 
 
