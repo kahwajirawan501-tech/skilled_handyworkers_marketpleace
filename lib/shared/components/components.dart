@@ -3,6 +3,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:skilled_handyworkers_marketpleace/shared/components/constant.dart';
 import 'package:skilled_handyworkers_marketpleace/shared/styles/colors.dart';
+import 'package:skilled_handyworkers_marketpleace/shared/styles/styles.dart';
 
 void navigateTo({context,widget})=>Navigator.push(//الصفحات لسا معي اذا عملت باك
     context
@@ -58,3 +59,29 @@ void showToast({
    child: Container(width:double.infinity ,height: 1,color:Colors.grey,),
  );
 
+Widget button({
+  required VoidCallback? onPressed ,
+  required String text,
+ required double height,
+  required double width,
+  required double fontSize,
+  required FontWeight? fontWeight,
+  required Color color,
+  required Color colorBackground,
+
+})=>Container(
+  height: height,
+  width:width ,
+  decoration: BoxDecoration(
+    borderRadius: BorderRadius.circular(6),
+    color: colorBackground
+  ),
+  child:TextButton(
+    onPressed:onPressed ,
+    child:Center(child: Text(text.toUpperCase(), style: TextStyle(
+      fontSize: fontSize,
+      fontWeight: fontWeight
+        ,color: color
+    ),)) ,
+  ),
+);
