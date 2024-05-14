@@ -11,7 +11,9 @@ class AppFontStyles{
   static const double padding =26;
   static const double aboutMe =16;
   static const double borderRadius =20;
-  static const double sizeBoxInProfile =32;
+  static const double sizeBetweenTitleAndSubTitle =32;
+  static const double sizeBetweenBoxAndSubTitle =12;
+
   static const double borderRadiusTextField =10;
 
 

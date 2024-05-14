@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:skilled_handyworkers_marketpleace/profileScreens/Box.dart';
 import 'package:skilled_handyworkers_marketpleace/shared/components/constant.dart';
 import 'package:skilled_handyworkers_marketpleace/shared/styles/colors.dart';
 import 'package:skilled_handyworkers_marketpleace/shared/styles/styles.dart';
@@ -124,7 +125,7 @@ void showCustomModal(BuildContext context,{
                 width: 30,
                 height: 3,
               ),
-              const SizedBox(height: AppFontStyles.sizeBoxInProfile),
+              const SizedBox(height: AppFontStyles.sizeBetweenTitleAndSubTitle),
               Text(
                 title,
                 style: TextStyle(
@@ -142,7 +143,7 @@ void showCustomModal(BuildContext context,{
                   fontWeight: AppFontStyles.fontWeightBold,
                 ),
               ),
-              const SizedBox(height: AppFontStyles.sizeBoxInProfile + 16),
+              const SizedBox(height: AppFontStyles.sizeBetweenTitleAndSubTitle + 16),
               button(
                 onPressed:onPressed1,
                 text: titleButton1,
@@ -171,3 +172,47 @@ void showCustomModal(BuildContext context,{
     },
   );
 }
+
+Widget defaultTextField({
+  required TextEditingController controller,
+  required TextInputType type,
+  Function? onSubmit,
+  Function? onChange,
+  bool isPassword = false,
+  String? label,
+  String? hint,
+   IconData? prefix,
+  IconData? suffix,
+  Function()?suffixPressed,
+   FormFieldValidator? validate,
+  FormFieldSetter? onSaved,
+  required double height,
+  final BorderRadiusGeometry? borderRadius//
+
+}) =>
+    Box(
+      height:height ,
+      borderRadius: borderRadius,
+      widget: TextFormField(
+          controller: controller,
+          keyboardType: type,
+          obscureText: isPassword,
+          onSaved: onSaved,
+          validator: validate,
+          cursorColor: AppColor.grayColorFont,
+          cursorWidth: 0.5,
+
+          decoration: InputDecoration(
+
+              suffixIconConstraints: BoxConstraints(maxWidth: 24),
+
+              contentPadding: EdgeInsetsDirectional.zero,
+
+              border: OutlineInputBorder(
+                borderSide: BorderSide.none,
+
+              ) ,
+              suffixIcon: IconButton(icon: Icon(suffix,color:AppColor.eyeColors,), onPressed:suffixPressed)
+          )),
+
+    );

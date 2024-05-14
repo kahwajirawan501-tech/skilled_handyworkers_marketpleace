@@ -48,7 +48,7 @@ dependencies:
   fluttertoast:
   video_player:
   archive:
-
+  image_picker:
 dev_dependencies:
   flutter_test:
     sdk: flutter

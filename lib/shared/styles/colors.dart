@@ -16,9 +16,13 @@ class AppColor{//
 
   static Color backgroundColor=HexColor('#F9F9F9');
  static  Color arrowBackColor=HexColor("#3B4657");//D6CDFE
-  static Color bluColor=HexColor('#150B3D');
+  static Color bluColor=HexColor('#150B3D');//56CD54
+  static Color greenColor=HexColor('#56CD54');//56CD54
+//60778C
+  static Color eyeColors=HexColor('#60778C');//56CD54
 
-
+  static Color inactiveTrackColor=HexColor('#E5E5E5');//3D4859
+  static Color thumbColor=HexColor('#3D4B60');//3D4859
 
 
 
