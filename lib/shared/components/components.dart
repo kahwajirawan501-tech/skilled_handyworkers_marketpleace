@@ -17,7 +17,9 @@ void navigateAndFinish({context,widget})=>Navigator.pushAndRemoveUntil(//هي م
   builder: (context)=>widget,
 ),
     ( Route<dynamic>route)=>false,//هاد الصفحة يلي فاتت بدي ياها ولا لا
-);
+).then((_) {
+ // Refresh the state when returning back
+});
 
 void showToast({
   required String text,

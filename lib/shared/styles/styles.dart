@@ -13,6 +13,7 @@ class AppFontStyles{
   static const double borderRadius =20;
   static const double sizeBetweenTitleAndSubTitle =32;
   static const double sizeBetweenBoxAndSubTitle =12;
+  static const double sizeFontInHome =22;
 
   static const double borderRadiusTextField =10;
 

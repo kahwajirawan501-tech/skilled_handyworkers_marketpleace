@@ -24,6 +24,8 @@ class PassWord extends StatelessWidget {
       builder: (context, state) {
         return  Scaffold(
           appBar: AppBar(
+            surfaceTintColor:  AppColor.backgroundColor,
+
             leading:IconButton(
               icon:Icon( Icons.arrow_back,color: AppColor.arrowBackColor,),
               onPressed: () {

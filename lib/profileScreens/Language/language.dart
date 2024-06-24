@@ -20,6 +20,8 @@ class _LanguageState extends State<Language> {
 
     return Scaffold(
       appBar: AppBar(
+        surfaceTintColor:  AppColor.backgroundColor,
+
         leading:IconButton(
           icon:Icon( Icons.arrow_back,color: AppColor.arrowBackColor,),
           onPressed: () {
