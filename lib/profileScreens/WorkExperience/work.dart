@@ -28,7 +28,9 @@ class Work extends StatelessWidget {
         leading:IconButton(
           icon:Icon( Icons.arrow_back,color: AppColor.arrowBackColor,),
           onPressed: () {
-            navigateAndFinish(widget:const ProfileScreen() ,context: context);
+            Navigator.pop(context);
+
+            // navigateAndFinish(widget:const ProfileScreen() ,context: context);
           },
 
         ),

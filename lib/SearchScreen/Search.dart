@@ -19,6 +19,15 @@ class _SearchState extends State<Search> {
   final TextEditingController textControllerLocation=TextEditingController()  ;
    bool clickPosting=false;
    bool clickOpenQuestion=false;
+  List<String> imagePaths=[
+    "assets/images/download.jpg",
+    "assets/images/download.jpg",
+    "assets/images/download.jpg",
+    "assets/images/download.jpg",
+    "assets/images/download.jpg",
+    "assets/images/download.jpg",
+    "assets/images/download.jpg",
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -117,13 +126,47 @@ class _SearchState extends State<Search> {
              if(clickPosting)
                Expanded(child: ConditionalBuilder(
                    condition: clickPosting,
-                   builder: (context) =>ListOfPosting() ,
+                   builder: (context) =>ListOfPosting(
+                   imagePaths:imagePaths,
+                   imagePath: "assets/images/Mask group.png",
+                   name: "Orlando Diggs",
+                   numberOfCommit:"10" ,
+                   time:"21 minutes ago" ,
+                   onPressedForCommit:(){
+
+                   },
+                   onPressedForFavorit:(){
+
+                   },
+                   onTapImage:(){
+
+                   },
+    videoUrl:"",
+    )  ,
                    fallback: (context) =>  Center(child: CircularProgressIndicator(color:AppColor.orangeColor,),),
                ),),
               if(clickOpenQuestion)
                 Expanded(child: ConditionalBuilder(
                   condition: clickOpenQuestion,
-                  builder: (context) =>ListOfOpenQuestion() ,
+                  builder: (context) =>ListOfOpenQuestion(
+    time: "21 minutes ago",
+    numberOfCommit: "10",
+    name: "Orlando Diggs",
+    imagePath: "assets/images/Mask group.png",
+    openQuestion:"What are the characteristics of a fake job call form?\n"
+    "Because I always find fake job calls so "
+    "I'm confused which job to take can you share your knowledge here? thank you",
+    onTapImage: () {
+
+    },
+    onPressedForCommit:(){
+
+    },
+    onPressedForFavorit: (){
+
+    },
+
+    )  ,
                   fallback: (context) =>  Center(child: CircularProgressIndicator(color:AppColor.orangeColor,),),
                 ),),
           ],

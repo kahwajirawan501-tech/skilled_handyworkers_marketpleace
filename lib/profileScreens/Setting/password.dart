@@ -29,7 +29,9 @@ class PassWord extends StatelessWidget {
             leading:IconButton(
               icon:Icon( Icons.arrow_back,color: AppColor.arrowBackColor,),
               onPressed: () {
-                navigateAndFinish(widget:const Setting() ,context: context);
+                Navigator.pop(context);
+
+                // navigateAndFinish(widget:const Setting() ,context: context);
               },
 
             ),

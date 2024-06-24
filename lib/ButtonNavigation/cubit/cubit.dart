@@ -19,10 +19,11 @@ class HomeCubit extends Cubit<HomeStates>{
   int selectedIndex=0;
    final List<Widget> pages = [
      HomeScreen(),
-     TabBarPosting() ,
      ProfileScreen(),
+     TabBarPosting() ,
      Save(),
-
+     Save(),
+     Save(),
    ];
   void onItemTappedForBottomNavigationBar(int index) {
 

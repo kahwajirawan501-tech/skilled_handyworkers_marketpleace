@@ -5,9 +5,18 @@ import 'package:skilled_handyworkers_marketpleace/shared/styles/colors.dart';
 import 'package:skilled_handyworkers_marketpleace/shared/styles/styles.dart';
 
 class OpenQuestionModel extends StatefulWidget {
-
-
-  const OpenQuestionModel({Key? key}) : super(key: key);
+  final GestureTapCallback? onTapImage;
+  final String imagePath;//"assets/images/Mask group.png"
+  final String name;//Orlando Diggs
+  final String time;//21 minutes ago
+  final VoidCallback? onPressedForCommit;
+  final VoidCallback? onPressedForFavorit;
+  final String numberOfCommit;
+  final String openQuestion;
+//"What are the characteristics of a fake job call form?\n"
+//                     "Because I always find fake job calls so "
+//                     "I'm confused which job to take can you share your knowledge here? thank you"
+  const OpenQuestionModel({Key? key, this.onTapImage, required this.imagePath, required this.name, required this.time, this.onPressedForCommit, this.onPressedForFavorit, required this.numberOfCommit, required this.openQuestion}) : super(key: key);
 
   @override
   State<OpenQuestionModel> createState() => _OpenQuestionModelState();
@@ -32,16 +41,19 @@ class _OpenQuestionModelState extends State<OpenQuestionModel> {
               children: [
                 ListTile(
                   contentPadding: EdgeInsets.zero,
-                  leading: ClipOval(
-                    child: Image.asset(
-                      "assets/images/Mask group.png",
-                      fit: BoxFit.cover,
-                      height: 50,
-                      width: 50,
+                  leading: GestureDetector(
+                    onTap: widget.onTapImage,
+                    child: ClipOval(
+                      child: Image.asset(
+                        widget.imagePath,
+                        fit: BoxFit.cover,
+                        height: 50,
+                        width: 50,
+                      ),
                     ),
                   ),
                   title: Text(
-                    "Orlando Diggs",
+                    widget.name,
                     style: TextStyle(
                       fontSize: AppFontStyles.descriptionSplashScreenFontSize,
                       color: AppColor.bluColor,
@@ -49,7 +61,7 @@ class _OpenQuestionModelState extends State<OpenQuestionModel> {
                     ),
                   ),
                   subtitle: Text(
-                    "21 minutes ago",
+                    widget.time,
                     style: TextStyle(
                       fontSize: AppFontStyles.descriptionLoginFontSize,
                       color: AppColor.fontColorDescription,
@@ -59,9 +71,7 @@ class _OpenQuestionModelState extends State<OpenQuestionModel> {
                 ),
                 const SizedBox(height: AppFontStyles.sizeBetweenBoxAndSubTitle),
 
-                Text("What are the characteristics of a fake job call form?\n"
-                    "Because I always find fake job calls so "
-                    "I'm confused which job to take can you share your knowledge here? thank you",
+                Text(widget.openQuestion,
                   style: TextStyle(fontWeight:AppFontStyles.fontWeightSemiBold ),
                 ),
                 const SizedBox(height: AppFontStyles.sizeBetweenBoxAndSubTitle),
@@ -84,7 +94,7 @@ class _OpenQuestionModelState extends State<OpenQuestionModel> {
                   children: [
                     IconButton(
                       icon:  Icon(Icons.favorite, color:Colors.red),
-                      onPressed: () {},
+                      onPressed:widget.onPressedForFavorit,
                     ),
                   ],
                 ),
@@ -92,10 +102,10 @@ class _OpenQuestionModelState extends State<OpenQuestionModel> {
                   children: [
                     IconButton(
                       icon: const Icon(CupertinoIcons.bubble_left),
-                      onPressed: () {},
+                      onPressed:widget.onPressedForCommit,
                     ),
                     Text(
-                      '10',
+                      widget.numberOfCommit,
                       style: TextStyle(
                           fontSize: AppFontStyles.aboutMe,
                           color: AppColor.commentFont),
@@ -103,14 +113,7 @@ class _OpenQuestionModelState extends State<OpenQuestionModel> {
                   ],
                 ),
                 const Spacer(),
-                Row(
-                  children: [
-                    IconButton(
-                      icon: const Icon(CupertinoIcons.arrowshape_turn_up_right),
-                      onPressed: () {},
-                    ),
-                  ],
-                ),
+
               ],
             ),
           ),

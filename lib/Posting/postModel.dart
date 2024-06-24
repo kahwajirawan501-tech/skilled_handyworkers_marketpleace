@@ -10,8 +10,16 @@ import 'package:flutter/services.dart';
 class PostModel extends StatefulWidget {
   final String? videoUrl;
   final List<String>? imagePaths;
+  final GestureTapCallback? onTapImage;
+  final String imagePath;//"assets/images/Mask group.png"
+  final String name;//Orlando Diggs
+  final String time;//21 minutes ago
+  final VoidCallback? onPressedForCommit;
+  final VoidCallback? onPressedForFavorit;
+  final String numberOfCommit;
 
-  const PostModel({Key? key, this.videoUrl, this.imagePaths}) : super(key: key);
+
+  const PostModel({Key? key, this.videoUrl, this.imagePaths, this.onTapImage, required this.imagePath, required this.name, required this.time, this.onPressedForCommit, required this.numberOfCommit, this.onPressedForFavorit}) : super(key: key);
 
   @override
   State<PostModel> createState() => _PostModelState();
@@ -151,16 +159,19 @@ class _PostModelState extends State<PostModel> {
               children: [
                 ListTile(
                   contentPadding: EdgeInsets.zero,
-                  leading: ClipOval(
-                    child: Image.asset(
-                      "assets/images/Mask group.png",
-                      fit: BoxFit.cover,
-                      height: 50,
-                      width: 50,
+                  leading: GestureDetector(
+                    onTap:widget.onTapImage,
+                    child: ClipOval(
+                      child: Image.asset(
+                       widget.imagePath,
+                        fit: BoxFit.cover,
+                        height: 50,
+                        width: 50,
+                      ),
                     ),
                   ),
                   title: Text(
-                    "Orlando Diggs",
+                    widget.name,
                     style: TextStyle(
                       fontSize: AppFontStyles.descriptionSplashScreenFontSize,
                       color: AppColor.bluColor,
@@ -168,7 +179,7 @@ class _PostModelState extends State<PostModel> {
                     ),
                   ),
                   subtitle: Text(
-                    "21 minutes ago",
+                    widget.time,
                     style: TextStyle(
                       fontSize: AppFontStyles.descriptionLoginFontSize,
                       color: AppColor.fontColorDescription,
@@ -208,7 +219,7 @@ class _PostModelState extends State<PostModel> {
                   children: [
                     IconButton(
                       icon:  Icon(Icons.favorite, color:Colors.red),
-                      onPressed: () {},
+                      onPressed:widget.onPressedForFavorit,
                     ),
                   ],
                 ),
@@ -216,10 +227,10 @@ class _PostModelState extends State<PostModel> {
                   children: [
                     IconButton(
                       icon: const Icon(CupertinoIcons.bubble_left),
-                      onPressed: () {},
+                      onPressed: widget.onPressedForCommit,
                     ),
                     Text(
-                      '10',
+                      widget.numberOfCommit,
                       style: TextStyle(
                           fontSize: AppFontStyles.aboutMe,
                           color: AppColor.commentFont),
@@ -227,14 +238,7 @@ class _PostModelState extends State<PostModel> {
                   ],
                 ),
                 const Spacer(),
-                Row(
-                  children: [
-                    IconButton(
-                      icon: const Icon(CupertinoIcons.arrowshape_turn_up_right),
-                      onPressed: () {},
-                    ),
-                  ],
-                ),
+
               ],
             ),
           ),

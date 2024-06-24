@@ -44,11 +44,22 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
                 ),
                 Spacer(),
                 IconButton(
-                  icon: Icon(Icons.group_work_outlined, size: 24),
+                  icon: Icon(Icons.perm_identity_outlined, size: 24),
                   color: cubit.selectedIndex == 1 ? AppColor.bottomNavigationBar : AppColor.unSelectItemBottomBar,
                   onPressed: () {
                     setState(() {
                       cubit.onItemTappedForBottomNavigationBar(1);
+
+                    });
+                  },
+                ),
+                Spacer(),
+                IconButton(
+                  icon: Icon(Icons.group_work_outlined, size: 24),
+                  color: cubit.selectedIndex == 2 ? AppColor.bottomNavigationBar : AppColor.unSelectItemBottomBar,
+                  onPressed: () {
+                    setState(() {
+                      cubit.onItemTappedForBottomNavigationBar(2);
 
                     });
                   },
@@ -79,10 +90,21 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
                 Spacer(),
                 IconButton(
                   icon: Icon(CupertinoIcons.bubble_left, size: 24),
-                  color: cubit.selectedIndex == 2 ? AppColor.bottomNavigationBar : AppColor.unSelectItemBottomBar,
+                  color: cubit.selectedIndex == 3 ? AppColor.bottomNavigationBar : AppColor.unSelectItemBottomBar,
                   onPressed: () {
                     setState(() {
-                      cubit.onItemTappedForBottomNavigationBar(2);
+                      cubit.onItemTappedForBottomNavigationBar(3);
+
+                    });
+                  },
+                ),
+                Spacer(),
+                IconButton(
+                  icon: Icon(Icons.notifications_none_outlined, size: 24),
+                  color: cubit.selectedIndex == 4? AppColor.bottomNavigationBar : AppColor.unSelectItemBottomBar,
+                  onPressed: () {
+                    setState(() {
+                      cubit.onItemTappedForBottomNavigationBar(4);
 
                     });
                   },
@@ -91,10 +113,10 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
 
                 IconButton(
                   icon: Icon(Icons.bookmark_border_outlined, size: 24),
-                  color: cubit.selectedIndex == 3 ? AppColor.bottomNavigationBar : AppColor.unSelectItemBottomBar,
+                  color: cubit.selectedIndex == 5 ? AppColor.bottomNavigationBar : AppColor.unSelectItemBottomBar,
                   onPressed: () {
                     setState(() {
-                      cubit.onItemTappedForBottomNavigationBar(3);
+                      cubit.onItemTappedForBottomNavigationBar(5);
 
                     });
                   },
