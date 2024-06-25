@@ -16,7 +16,7 @@ class _SaveState extends State<Save> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        foregroundColor: AppColor.backgroundColor,
+        surfaceTintColor: AppColor.backgroundColor,
         backgroundColor: AppColor.backgroundColor,
         title: Text("Save Post",style: TextStyle
           (fontSize:AppFontStyles.borderRadius ,fontWeight: AppFontStyles.fontWeightBold,color: AppColor.bluColor),),
@@ -33,25 +33,7 @@ class _SaveState extends State<Save> {
       ),
       body: Container(
         color: AppColor.backgroundColor,
-        child: ListOfOpenQuestion(
-          time: "21 minutes ago",
-          numberOfCommit: "10",
-          name: "Orlando Diggs",
-          imagePath: "assets/images/Mask group.png",
-          openQuestion:"What are the characteristics of a fake job call form?\n"
-              "Because I always find fake job calls so "
-              "I'm confused which job to take can you share your knowledge here? thank you",
-          onTapImage: () {
-
-          },
-          onPressedForCommit:(){
-
-          },
-          onPressedForFavorit: (){
-
-          },
-
-        ) ,
+        child: Text("kkk") ,
       ),
     );
   }

@@ -14,7 +14,7 @@ class AppColor{//
   static Color googleColor=HexColor('#D6CDFE');// لون كتابة مثل email ..password
   static Color buttonColor=HexColor('#7551FF');// لون كتابة مثل read more
   static Color grayColorFont=HexColor('#AAA6B9');
-
+//F9F9F9
   static Color backgroundColor=HexColor('#F9F9F9');
  static  Color arrowBackColor=HexColor("#3B4657");//D6CDFE
   static Color bluColor=HexColor('#150B3D');//56CD54
