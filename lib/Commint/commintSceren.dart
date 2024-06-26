@@ -1,3 +1,4 @@
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,39 +18,29 @@ class CommitScreen extends StatefulWidget {
 
 class _CommitScreenState extends State<CommitScreen> {
   final _commentController = TextEditingController();
-  final List<Map<String, dynamic>> _comments = []; // Use dynamic for flexibility
   bool _isReplying = false;
   int _replyIndex = -1;
 
   void _addComment() {
     if (_commentController.text.isNotEmpty) {
+      if (_isReplying && _replyIndex != -1) {
+        CommitCubit.get(context).addReply(_replyIndex, _commentController.text);
+      } else {
+        CommitCubit.get(context).addComment(_commentController.text);
+      }
+      _commentController.clear();
       setState(() {
-        if (_isReplying && _replyIndex != -1) {
-          // Add reply
-          (_comments[_replyIndex]['replies'] as List<Map<String, dynamic>>).add({
-            'content': _commentController.text,
-            'time': DateTime.now().toIso8601String(),
-          });
-        } else {
-          // Add new comment
-          _comments.add({
-            'content': _commentController.text,
-            'time': DateTime.now().toIso8601String(),
-            'replies': <Map<String, dynamic>>[], // Initialize replies as empty list
-          });
-        }
-        _commentController.clear();
         _isReplying = false;
         _replyIndex = -1;
       });
     }
   }
 
-  void _replyToComment(int index) {
+  void _replyToComment(int index, int commentId) {
     setState(() {
       _isReplying = true;
       _replyIndex = index;
-      _commentController.text = "Replying to: ${_comments[index]['content']}";
+      _commentController.text = "Replying to: ${CommitCubit.get(context).commentsPost[index]['content']}";
     });
   }
 
@@ -59,11 +50,17 @@ class _CommitScreenState extends State<CommitScreen> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    CommitCubit.get(context).getCommit();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColor.backgroundColor,
-        surfaceTintColor:AppColor.backgroundColor ,
+        surfaceTintColor: AppColor.backgroundColor,
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back,
@@ -74,13 +71,9 @@ class _CommitScreenState extends State<CommitScreen> {
           },
         ),
       ),
-      body: BlocConsumer<CommitCubit,CommitStates>(
-
-        listener:(context, state) {
-
-        },
+      body: BlocConsumer<CommitCubit, CommitStates>(
+        listener: (context, state) {},
         builder: (context, state) {
-        //  CommitCubit.get(context).getCommitForPost(widget.id);
           return Container(
             color: AppColor.backgroundColor,
             child: Padding(
@@ -88,158 +81,159 @@ class _CommitScreenState extends State<CommitScreen> {
               child: Column(
                 children: [
                   Expanded(
-
-                    child: _comments.isEmpty
-                        ? const Center(
-                      child: Text(
-                        'No comments yet. Be the first to comment!',
-                        style: TextStyle(color: Colors.grey, fontSize: 16),
-                      ),
-                    )
-                        : ListView.builder(
-                      itemCount: _comments.length,
-                      itemBuilder: (context, index) {
-                        return Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                ClipOval(
-                                  child: Image.asset(
-                                    "assets/images/Mask group.png",
-                                    fit: BoxFit.cover,
-                                    height: 40,
-                                    width: 40,
+                    child: ConditionalBuilder(
+                      condition: CommitCubit.get(context).commentsPost.isNotEmpty,
+                      builder: (context) => CommitCubit.get(context).commentsPost.isEmpty
+                          ? const Center(
+                        child: Text(
+                          'No comments yet. Be the first to comment!',
+                          style: TextStyle(color: Colors.grey, fontSize: 16),
+                        ),
+                      )
+                          : ListView.builder(
+                        itemCount: CommitCubit.get(context).commentsPost.length,
+                        itemBuilder: (context, index) {
+                          final comment = CommitCubit.get(context).commentsPost[index];
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  ClipOval(
+                                    child: Image.asset(
+                                      comment['author']['profileImage'],
+                                      fit: BoxFit.cover,
+                                      height: 40,
+                                      width: 40,
+                                    ),
                                   ),
-                                ),
-                                const SizedBox(width: 10),
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                      constraints: const BoxConstraints(maxWidth: 270, minWidth: 217),
-                                      padding: const EdgeInsets.symmetric(horizontal: AppFontStyles.aboutMe, vertical: 12),
-                                      decoration: BoxDecoration(
-                                        color: AppColor.orangeColor.withOpacity(0.1),
-                                        borderRadius: const BorderRadius.only(
-                                          topLeft: Radius.circular(30),
-                                          topRight: Radius.circular(30),
-                                          bottomRight: Radius.circular(30),
+                                  const SizedBox(width: 10),
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        constraints: const BoxConstraints(maxWidth: 270, minWidth: 217),
+                                        padding: const EdgeInsets.symmetric(horizontal: AppFontStyles.aboutMe, vertical: 12),
+                                        decoration: BoxDecoration(
+                                          color: AppColor.orangeColor.withOpacity(0.1),
+                                          borderRadius: const BorderRadius.only(
+                                            topLeft: Radius.circular(30),
+                                            topRight: Radius.circular(30),
+                                            bottomRight: Radius.circular(30),
+                                          ),
+                                        ),
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              comment['author']['name'],
+                                              style: const TextStyle(fontWeight: FontWeight.bold),
+                                            ),
+                                            const SizedBox(height: 5),
+                                            Text(comment['content']),
+                                            const SizedBox(height: 5),
+                                          ],
                                         ),
                                       ),
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                      const SizedBox(height: 4),
+                                      Row(
                                         children: [
                                           Text(
-                                            'User ${index + 1}',
-                                            style: const TextStyle(fontWeight: FontWeight.bold),
+                                            _formatDate(comment['time']),
+                                            style: const TextStyle(color: Colors.grey, fontSize: AppFontStyles.soSmallFontSize),
                                           ),
-                                          const SizedBox(height: 5),
-                                          Text(_comments[index]['content']),
-                                          const SizedBox(height: 5),
+                                          const SizedBox(width: AppFontStyles.aboutMe),
+                                          GestureDetector(
+                                            onTap: () {
+                                              _replyToComment(index, comment['id']);
+                                            },
+                                            child: Text(
+                                              'Reply',
+                                              style: TextStyle(color: AppColor.orangeColor, fontSize: AppFontStyles.descriptionLoginFontSize),
+                                            ),
+                                          ),
                                         ],
                                       ),
-                                    ),
-                                    const SizedBox(height: 4),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          _formatDate(_comments[index]['time']),
-                                          style: const TextStyle(color: Colors.grey, fontSize: AppFontStyles.soSmallFontSize),
-                                        ),
-                                        const SizedBox(width: AppFontStyles.aboutMe),
-                                        GestureDetector(
-                                          onTap: () {
-                                            _replyToComment(index);
-                                          },
-                                          child: Text(
-                                            'Reply',
-                                            style: TextStyle(color: AppColor.orangeColor, fontSize: AppFontStyles.descriptionLoginFontSize),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        ...(_comments[index]['replies'] as List<Map<String, dynamic>>).map((reply) {
-                                          return Row(
-                                            children: [
-                                              ClipOval(
-                                                child: Image.asset(
-                                                  "assets/images/Mask group.png",
-                                                  fit: BoxFit.cover,
-                                                  height: 40,
-                                                  width: 40,
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          ...(comment['replies'] as List<Map<String, dynamic>>).map((reply) {
+                                            return Row(
+                                              children: [
+                                                ClipOval(
+                                                  child: Image.asset(
+                                                    reply['author']['profileImage'],
+                                                    fit: BoxFit.cover,
+                                                    height: 40,
+                                                    width: 40,
+                                                  ),
                                                 ),
-                                              ),
-                                              const SizedBox(width: 10),
-                                              Column(
-                                                mainAxisAlignment: MainAxisAlignment.start,
-                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                children: [
-                                                  Container(
-                                                    constraints: const BoxConstraints(maxWidth: 270, minWidth: 217),
-                                                    padding: const EdgeInsets.symmetric(horizontal: AppFontStyles.aboutMe, vertical: 12),
-                                                    decoration: BoxDecoration(
-                                                      color: AppColor.navyBlueColor.withOpacity(0.1),
-                                                      borderRadius: const BorderRadius.only(
-                                                        topLeft: Radius.circular(30),
-                                                        topRight: Radius.circular(30),
-                                                        bottomRight: Radius.circular(30),
+                                                const SizedBox(width: 10),
+                                                Column(
+                                                  mainAxisAlignment: MainAxisAlignment.start,
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    Container(
+                                                      constraints: const BoxConstraints(maxWidth: 270, minWidth: 217),
+                                                      padding: const EdgeInsets.symmetric(horizontal: AppFontStyles.aboutMe, vertical: 12),
+                                                      decoration: BoxDecoration(
+                                                        color: AppColor.navyBlueColor.withOpacity(0.1),
+                                                        borderRadius: const BorderRadius.only(
+                                                          topLeft: Radius.circular(30),
+                                                          topRight: Radius.circular(30),
+                                                          bottomRight: Radius.circular(30),
+                                                        ),
+                                                      ),
+                                                      child: Column(
+                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                        children: [
+                                                          Text(
+                                                            reply['author']['name'],
+                                                            style: const TextStyle(fontWeight: FontWeight.bold),
+                                                          ),
+                                                          const SizedBox(height: 5),
+                                                          Text(reply['content']),
+                                                        ],
                                                       ),
                                                     ),
-                                                    child: Column(
-                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                    const SizedBox(height: 4),
+                                                    Row(
                                                       children: [
-                                                        const Text(
-                                                          'User replied:',
-                                                          style: TextStyle(fontWeight: FontWeight.bold),
+                                                        Text(
+                                                          _formatDate(reply['time']),
+                                                          style: const TextStyle(color: Colors.grey, fontSize: AppFontStyles.soSmallFontSize),
                                                         ),
-                                                        const SizedBox(height: 5),
-                                                        Text(reply['content']),
+                                                        const SizedBox(width: AppFontStyles.aboutMe),
+                                                        GestureDetector(
+                                                          onTap: () {
+                                                            _replyToComment(index, comment['id']);
+                                                          },
+                                                          child: Text(
+                                                            'Reply',
+                                                            style: TextStyle(color: AppColor.orangeColor, fontSize: AppFontStyles.descriptionLoginFontSize),
+                                                          ),
+                                                        ),
                                                       ],
                                                     ),
-                                                  ),
-                                                  const SizedBox(height: 4),
-                                                  Row(
-                                                    children: [
-                                                      Text(
-                                                        _formatDate(_comments[index]['time']),
-                                                        style: const TextStyle(color: Colors.grey, fontSize: AppFontStyles.soSmallFontSize),
-                                                      ),
-                                                      const SizedBox(width: AppFontStyles.aboutMe),
-                                                      GestureDetector(
-                                                        onTap: () {
-                                                          _replyToComment(index);
-                                                        },
-                                                        child: Text(
-                                                          'Reply',
-                                                          style: TextStyle(color: AppColor.orangeColor, fontSize: AppFontStyles.descriptionLoginFontSize),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ],
-                                              ),
-
-                                            ],
-                                          );
-
-                                        }).toList(),
-
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: AppFontStyles.padding),
-                          ],
-                        );
-                      },
+                                                  ],
+                                                ),
+                                              ],
+                                            );
+                                          }).toList(),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: AppFontStyles.padding),
+                            ],
+                          );
+                        },
+                      ),
+                      fallback: (context) => Center(child: CircularProgressIndicator(color: AppColor.orangeColor)),
                     ),
                   ),
                   Row(

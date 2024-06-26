@@ -13,3 +13,8 @@ class CommitErrorStateStates extends CommitStates {
   final int statusCode;
   CommitErrorStateStates(this.statusCode);
 }
+class CommitStatesState extends CommitStates{
+  final List<Map<String, dynamic>> comments;
+  CommitStatesState(this.comments);
+
+}
