@@ -6,6 +6,8 @@ import 'package:skilled_handyworkers_marketpleace/shared/components/constant.dar
 import 'package:skilled_handyworkers_marketpleace/shared/styles/colors.dart';
 import 'package:skilled_handyworkers_marketpleace/shared/styles/styles.dart';
 
+import '../styles/colors.dart';
+
 void navigateTo({context,widget})=>Navigator.push(//الصفحات لسا معي اذا عملت باك
     context
     , MaterialPageRoute(
@@ -65,12 +67,13 @@ void showToast({
 Widget button({
   required VoidCallback? onPressed ,
   required String text,
- required double height,
+  required double height,
   required double width,
   required double fontSize,
   required FontWeight? fontWeight,
   required Color color,
   required Color colorBackground,
+  Function? function,
 
 })=>Container(
   height: height,
@@ -80,6 +83,7 @@ Widget button({
     color: colorBackground
   ),
   child:TextButton(
+
     onPressed:onPressed ,
     child:Center(child: Text(text.toUpperCase(), style: TextStyle(
       fontSize: fontSize,
@@ -96,6 +100,8 @@ void showCustomModal(BuildContext context,{
   required String titleButton2,
   required VoidCallback? onPressed1 ,
   required VoidCallback? onPressed2 ,
+
+
 
 
 
@@ -155,6 +161,7 @@ void showCustomModal(BuildContext context,{
                 fontWeight: AppFontStyles.fontWeightBold,
                 color: Colors.white,
                 colorBackground: AppColor.navyBlueColor,
+                function: (){},
               ),
               const SizedBox(height: 8),
               button(
@@ -165,7 +172,7 @@ void showCustomModal(BuildContext context,{
                 fontSize: AppFontStyles.descriptionSplashScreenFontSize,
                 fontWeight: AppFontStyles.fontWeightBold,
                 color: Colors.white,
-                colorBackground: AppColor.googleColor,
+                colorBackground: AppColor.googleColor, function: (){},
               ),
             ],
           ),
@@ -174,6 +181,80 @@ void showCustomModal(BuildContext context,{
     },
   );
 }
+Widget defaultTextFieldLog({
+  required TextEditingController controller,
+  required TextInputType type,
+  Function? onSubmit,
+  Function? onChange,
+  bool isPassword = false,
+  required validate,
+  String? label,
+  String? hint,
+  IconData? prefix,
+  IconData? suffix,
+  Function? suffixPressed,
+
+}) =>
+    TextFormField(
+      cursorColor:AppColor.navyBlueColor,//تغير لون المؤشر
+      controller: controller,
+      keyboardType: type,
+      obscureText: isPassword,
+      // onFieldSubmitted: onSubmit!(),
+      //onChanged: onChange!(),
+      validator: validate,
+      decoration: InputDecoration(
+        contentPadding: EdgeInsets.symmetric(horizontal: 20.0), // ضبط موضع النص
+        hintStyle: TextStyle(
+          fontSize: 14,
+          color: HexColor("6C6D72"),
+          overflow: TextOverflow.visible,
+          shadows:[Shadow(color:Colors.cyan)]
+        ),
+        //isDense: false,
+        alignLabelWithHint: false,
+        filled: true,
+        fillColor:Colors.white,
+        labelText: label,
+        hintText: hint,
+        // focusColor: P,
+        border: OutlineInputBorder(
+         borderSide: BorderSide.none,
+          borderRadius: BorderRadius.circular(12),
+        ),
+      //  prefixIcon: Icon(prefix,color: AppColor.orangeColor),
+//icon:Icons.email,
+        suffixIcon: IconButton(
+          onPressed: () {
+            suffixPressed!();
+          },
+          icon: Icon(suffix,color: Colors.black,),
+        ),
+//icon:Icons.email,
+      ),
+    );
+
+Widget defaultTextButton({
+  required Function function,
+  required String text,
+  FontWeight? fontWeight,
+  double? fontSize,
+   Color? color,
+
+}) =>
+    TextButton(onPressed: () {
+      function();
+    }, child: Text( style: TextStyle(
+      fontWeight: fontWeight,
+        fontSize:fontSize ,
+        color: color,
+
+        // fontWeight: AppFontStyles.fontWeightSemiBold4,
+        // fontSize: AppFontStyles.descriptionLoginFontSize,
+        // color:AppColor.welcomeColor
+    ),
+        text),
+    );
 
 Widget defaultTextField({
   required TextEditingController controller,
@@ -214,7 +295,7 @@ Widget defaultTextField({
                 borderSide: BorderSide.none,
 
               ) ,
-              suffixIcon: IconButton(icon: Icon(suffix,color:AppColor.eyeColors,), onPressed:suffixPressed)
+              suffixIcon: IconButton(icon: Icon(suffix,color:Colors.white), onPressed:suffixPressed)
           )),
 
     );

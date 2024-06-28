@@ -1,12 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:skilled_handyworkers_marketpleace/profileScreens/Box.dart';
 import 'package:skilled_handyworkers_marketpleace/profileScreens/Setting/password.dart';
 import 'package:skilled_handyworkers_marketpleace/profileScreens/profileScreen.dart';
 import 'package:skilled_handyworkers_marketpleace/shared/components/components.dart';
 import 'package:skilled_handyworkers_marketpleace/shared/styles/colors.dart';
 import 'package:skilled_handyworkers_marketpleace/shared/styles/styles.dart';
+
+import '../../shared/network/local/local_controller.dart';
 
 class Setting extends StatefulWidget {
   const Setting({Key? key}) : super(key: key);
@@ -16,20 +20,17 @@ class Setting extends StatefulWidget {
 }
 
 class _SettingState extends State<Setting> {
+
   bool isNotificationSwitched = false;
  bool isDartModeSwitched=false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        surfaceTintColor:  AppColor.backgroundColor,
-
         leading:IconButton(
           icon:Icon( Icons.arrow_back,color: AppColor.arrowBackColor,),
           onPressed: () {
-            Navigator.pop(context);
-
-            // navigateAndFinish(widget:const ProfileScreen() ,context: context);
+            navigateAndFinish(widget:const ProfileScreen() ,context: context);
           },
 
         ),

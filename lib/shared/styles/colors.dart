@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 
@@ -16,7 +15,7 @@ class AppColor{//
   static Color grayColorFont=HexColor('#AAA6B9');
 //F9F9F9
   static Color backgroundColor=HexColor('#F9F9F9');
- static  Color arrowBackColor=HexColor("#3B4657");//D6CDFE
+  static  Color arrowBackColor=HexColor("#3B4657");//D6CDFE
   static Color bluColor=HexColor('#150B3D');//56CD54
   static Color greenColor=HexColor('#56CD54');//56CD54
 //CBC9D4

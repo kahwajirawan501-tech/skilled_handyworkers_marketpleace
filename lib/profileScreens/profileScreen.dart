@@ -30,8 +30,9 @@ class ProfileScreen extends StatelessWidget {
         onTapSetting: () {
           navigateTo(context: context,widget: Setting());//AddWorkExperience
         }, textButton: 'Edit Profile', visibility: true, left: 255, top: 30,
+
         onTapEditorChange: () {
-          navigateAndFinish(widget: EditProfile(),context: context);
+          navigateTo(widget: EditProfile(),context: context);
         }, visibilitySetting: true, arrBackVisibility: false,
 
 

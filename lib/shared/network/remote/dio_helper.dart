@@ -4,8 +4,12 @@ class DioHelper{
   static init(){
     dio=Dio(
         BaseOptions(
-          baseUrl: 'http://192.168.43.142:8000/api/',//url project
+          baseUrl: 'http://192.168.1.1:3000/',//url project
+          //https://project2-azure-seven.vercel.app
+          //http://172.128.0.6:3000/auth/signin
           receiveDataWhenStatusError: true,
+          // connectTimeout: 5000, // 5 ثواني
+          // receiveTimeout: 5000, // 5 ثواني
           // headers: {
           //   'Content-Type':'application/json',
           //   //'lang':'en', language

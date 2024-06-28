@@ -49,9 +49,11 @@ dependencies:
   video_player:
   archive:
   image_picker:
-  image_cropper:
-  multi_image_picker2:
-  image_gallery_saver:
+  get:
+  socket_io_client:
+  #image_gallery_saver:
+
+dev_dependencies:
   file_picker:
   video_thumbnail:
   flutter_test:

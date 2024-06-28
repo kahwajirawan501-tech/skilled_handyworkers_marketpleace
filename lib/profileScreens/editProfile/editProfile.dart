@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:skilled_handyworkers_marketpleace/profileScreens/Box.dart';
-import 'package:skilled_handyworkers_marketpleace/profileScreens/Setting/setting.dart';
 import 'package:skilled_handyworkers_marketpleace/profileScreens/appBarProfile.dart';
 import 'package:skilled_handyworkers_marketpleace/profileScreens/profileScreen.dart';
 import 'package:skilled_handyworkers_marketpleace/shared/components/components.dart';

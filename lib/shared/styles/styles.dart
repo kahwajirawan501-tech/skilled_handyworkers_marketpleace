@@ -27,6 +27,8 @@ class AppFontStyles{
   static const FontWeight fontWeightBold = FontWeight.bold;
   static const FontWeight fontWeightSemiBold=FontWeight.w600;
   static const FontWeight fontWeightMedium=FontWeight.w500;
+  static const FontWeight fontWeightSemiBold7=FontWeight.w700;
+  static const FontWeight fontWeightSemiBold4=FontWeight.w400;
 
 
 

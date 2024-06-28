@@ -1,19 +1,14 @@
-import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:skilled_handyworkers_marketpleace/shared/components/constant.dart';
 import 'package:skilled_handyworkers_marketpleace/shared/styles/colors.dart';
 import 'package:skilled_handyworkers_marketpleace/shared/styles/styles.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'dart:typed_data';
 import 'package:flutter/services.dart';
-import 'package:video_player/video_player.dart';
-import 'package:video_thumbnail/video_thumbnail.dart';
 class PostModel extends StatefulWidget {
-  final List<XFile>? _selectedVideos;
+  final String? videoUrl;
   final List<String>? imagePaths;
   final GestureTapCallback? onTapImage;
   final String imagePath;//"assets/images/Mask group.png"
@@ -22,10 +17,9 @@ class PostModel extends StatefulWidget {
   final VoidCallback? onPressedForCommit;
   final VoidCallback? onPressedForFavorit;
   final String numberOfCommit;
-///////////////////////////////////////////////////////////////
 
 
-  const PostModel({Key? key, List<XFile>? videoUrl, this.imagePaths, this.onTapImage, required this.imagePath, required this.name, required this.time, this.onPressedForCommit, required this.numberOfCommit, this.onPressedForFavorit}) : _selectedVideos = videoUrl, super(key: key);
+  const PostModel({Key? key, this.videoUrl, this.imagePaths, this.onTapImage, required this.imagePath, required this.name, required this.time, this.onPressedForCommit, required this.numberOfCommit, this.onPressedForFavorit}) : super(key: key);
 
   @override
   State<PostModel> createState() => _PostModelState();
@@ -103,6 +97,7 @@ class _PostModelState extends State<PostModel> {
       },
     );
   }
+
   Future<void> _saveImageToDevice(String imagePath) async {
     try {
       // Get the byte data from the image file
@@ -147,116 +142,6 @@ class _PostModelState extends State<PostModel> {
       );
     }
   }
-
-
-  Future<Uint8List?> generateThumbnail(String videoPath) async {
-    return await VideoThumbnail.thumbnailData(
-      video: videoPath,
-      imageFormat: ImageFormat.PNG,
-      maxHeight: 64, // specify the height of the thumbnail, keep aspect ratio
-      quality: 75,
-    );
-  }
-
-
-
-  void _showVideoInDialog(XFile video) {
-    VideoPlayerController _videoPlayerController = VideoPlayerController.file(File(video.path));
-    _videoPlayerController.initialize().then((_) {
-      setState(() {
-        _videoPlayerController.play(); // Autoplay when dialog opens
-      });
-    });
-
-    showGeneralDialog(
-      context: context,
-
-      barrierDismissible: false, // prevent closing on tap outside
-      barrierLabel: "video Preview",
-      barrierColor: Colors.transparent,
-      transitionDuration: const Duration(milliseconds: 200),
-      pageBuilder: (context, animation, secondaryAnimation) {
-        return Dialog(
-          backgroundColor: Colors.transparent,
-          child: AspectRatio(
-            aspectRatio: _videoPlayerController.value.aspectRatio,
-            child: GestureDetector(
-              onTap: () {
-                setState(() {
-                  if (_videoPlayerController.value.isPlaying) {
-                    _videoPlayerController.pause();
-                  } else {
-                    _videoPlayerController.play();
-                  }
-                });
-              },
-              child: VideoPlayer(_videoPlayerController),
-            ),
-          ),
-        );
-      },
-    ).then((_) {
-      _videoPlayerController.pause(); // Pause video when dialog is dismissed
-      _videoPlayerController.dispose(); // Dispose the controller to release resources
-    });
-  }
-  void _showAllVideos() {
-    showGeneralDialog(
-      context: context,
-      barrierDismissible: false, // prevent closing on tap outside
-      barrierLabel: "All video Preview",
-      barrierColor: AppColor.backgroundColor,
-      transitionDuration: const Duration(milliseconds: 200),
-      pageBuilder: (context, animation, secondaryAnimation) {
-        return StatefulBuilder(
-          builder: (context, setDialogState) {
-            return Dialog(
-              backgroundColor: Colors.transparent,
-              child: GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
-                  crossAxisSpacing: 4.0,
-                  mainAxisSpacing: 4.0,
-                  childAspectRatio: 1.0, // Added to make the videos square
-                ),
-                itemCount: widget._selectedVideos!.length,
-                itemBuilder: (BuildContext context, int index) {
-                  XFile video = widget._selectedVideos![index];
-                  VideoPlayerController videoPlayerController = VideoPlayerController.file(File(video.path));
-
-                  return GestureDetector(
-                    onTap: () {
-                      _showVideoInDialog(video);
-                    },
-                    child: Stack(
-                      children: [
-                        FutureBuilder<Uint8List?>(
-                          future: generateThumbnail(video.path),
-                          builder: (context, snapshot) {
-                            if (snapshot.connectionState == ConnectionState.done && snapshot.hasData) {
-                              return SizedBox(
-                                width: double.infinity,
-                                height: double.infinity,
-                                child: Image.memory(snapshot.data!, fit: BoxFit.cover),
-                              );
-                            } else {
-                              return  Center(child: CircularProgressIndicator(color: AppColor.orangeColor));
-                            }
-                          },
-                        ),
-
-                      ],
-                    ),
-                  );
-                },
-              ),
-            );
-          },
-        );
-      },
-    );
-  }
-
 
   @override
   Widget build(BuildContext context) {
@@ -303,7 +188,7 @@ class _PostModelState extends State<PostModel> {
                   ),
                 ),
                 const SizedBox(height: AppFontStyles.sizeBetweenBoxAndSubTitle),
-                widget._selectedVideos != null
+                widget.videoUrl != null
                     ? Container(
                      height: 200,
                      color: Colors.black,

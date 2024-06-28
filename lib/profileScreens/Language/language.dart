@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:skilled_handyworkers_marketpleace/profileScreens/Box.dart';
 import 'package:skilled_handyworkers_marketpleace/profileScreens/profileScreen.dart';
 import 'package:skilled_handyworkers_marketpleace/shared/components/components.dart';
+import 'package:skilled_handyworkers_marketpleace/shared/network/local/local_controller.dart';
 import 'package:skilled_handyworkers_marketpleace/shared/styles/colors.dart';
 import 'package:skilled_handyworkers_marketpleace/shared/styles/styles.dart';
 
@@ -17,7 +19,7 @@ class _LanguageState extends State<Language> {
 
   @override
   Widget build(BuildContext context) {
-
+  MyLocalController controllerLang =Get.find();
     return Scaffold(
       appBar: AppBar(
         surfaceTintColor:  AppColor.backgroundColor,
@@ -71,16 +73,17 @@ class _LanguageState extends State<Language> {
                             Spacer(),
 
                             Radio(
-                                activeColor:AppColor.orangeColor,
-                                value:1,
-                                groupValue:_value,
-                                onChanged:(value){
-                                  setState(() {
-                                    print(_value);
-                                    _value=value as int;
-
-                                  });
-                                })
+                              activeColor: AppColor.orangeColor,
+                              value: 1,
+                              groupValue: _value,
+                              onChanged: (value) {
+                                setState(() {
+                                  print(_value);
+                                  _value = value as int;
+                                 // إضافة استدعاء الدالة هنا
+                                });
+                              },
+                            )
                           ],
                         ),
                       ),),
@@ -100,15 +103,18 @@ class _LanguageState extends State<Language> {
                             ),),
                             Spacer(),
                             Radio(
-                                activeColor:AppColor.orangeColor,
-                                value:2,
-                                groupValue:_value,
-                                onChanged:(value){
-                                  setState(() {
-                                    _value=value as int;
+                              activeColor: AppColor.orangeColor,
+                              value: 2,
+                              groupValue: _value,
+                              onChanged: (value) {
+                                setState(() {
+                                  print(_value);
+                                  _value = value as int;
+                                  // إضافة استدعاء الدالة هنا
+                                });
+                              },
+                            )
 
-                                  });
-                                }),
                           ],
                         ),
                       ),),
@@ -126,7 +132,11 @@ class _LanguageState extends State<Language> {
               child:  button(
                   colorBackground: AppColor.navyBlueColor,
                   onPressed:(){
-
+                    if (_value == 1) {
+                      controllerLang.changeLang("ar");
+                    } else {
+                      controllerLang.changeLang("en");
+                    }
                   },
                   text:"Save",
                   height: 50,
