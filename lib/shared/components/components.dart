@@ -41,7 +41,7 @@ void showToast({
       {  Color color;
         switch(state){
           case ToastStates.SUCCESS:
-            color= HexColor(green.toString());
+            color=AppColor.grayColorFont;
 
             break;
           case ToastStates.EROOR:

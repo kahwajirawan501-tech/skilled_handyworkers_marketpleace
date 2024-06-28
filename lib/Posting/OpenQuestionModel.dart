@@ -13,9 +13,7 @@ class OpenQuestionModel extends StatefulWidget {
   final VoidCallback? onPressedForFavorit;
   final String numberOfCommit;
   final String openQuestion;
-//"What are the characteristics of a fake job call form?\n"
-//                     "Because I always find fake job calls so "
-//                     "I'm confused which job to take can you share your knowledge here? thank you"
+  /////////////////////////////////////
   const OpenQuestionModel({Key? key, this.onTapImage, required this.imagePath, required this.name, required this.time, this.onPressedForCommit, this.onPressedForFavorit, required this.numberOfCommit, required this.openQuestion}) : super(key: key);
 
   @override

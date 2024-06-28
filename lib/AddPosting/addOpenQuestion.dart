@@ -18,6 +18,9 @@ class AddOpenQuestion extends StatefulWidget {
 class _AddOpenQuestionState extends State<AddOpenQuestion> {
   final TextEditingController _textControllerService = TextEditingController();
   final TextEditingController _textControllerLocation = TextEditingController();
+  final TextEditingController _textControllerDescription=TextEditingController();
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,12 +38,31 @@ class _AddOpenQuestionState extends State<AddOpenQuestion> {
         ),
         actions: [
           TextButton(onPressed:() {
+            if(_textControllerLocation.text.isEmpty
+                ||_textControllerService.text.isEmpty||_textControllerDescription.text.isEmpty
+               ){
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+
+                  backgroundColor: AppColor.backgroundColor,
+                  content: Center(child: Text('You must fill in the service field and the location field and the description file '
+                    ,style: TextStyle(color: AppColor.grayColorFont),)),
+                  duration: const Duration(seconds: 2),
+                ),
+              );
+            }
+            else{
+              // AddPostCubit.get(context).addOpenQuestion(0, _textControllerService.text,
+              //     _textControllerLocation.text, _textControllerDescription.text);
+            }
+
 
           }, child:Text("post",style:TextStyle(
               fontSize: AppFontStyles.descriptionLoginFontSize,
               fontWeight: AppFontStyles.fontWeightBold,
               color: AppColor.bottomNavigationBar
           ) ,))
+
         ],
         elevation: 0.0,
         backgroundColor: AppColor.backgroundColor,
@@ -206,7 +228,8 @@ class _AddOpenQuestionState extends State<AddOpenQuestion> {
 
                     padding: const EdgeInsets.symmetric(horizontal: AppFontStyles.padding),
                     child: TextFormField(
-
+                      controller: _textControllerDescription,
+                      keyboardType: TextInputType.text,
                       maxLines: 30, // حدد الحد الأقصى لعدد الأسطر
                       decoration:  InputDecoration(
 

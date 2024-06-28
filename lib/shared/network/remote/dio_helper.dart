@@ -96,7 +96,7 @@ return dio.patch(url,data: data);
 
 
 
-  static Future<Response> postDataPharmacy(
+  static Future<Response> postDataWithFormData(
       {required String url,
         query,
         required FormData data,

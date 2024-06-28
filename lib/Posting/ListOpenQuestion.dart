@@ -11,7 +11,7 @@ import 'package:skilled_handyworkers_marketpleace/shared/styles/colors.dart';
 import 'package:skilled_handyworkers_marketpleace/shared/styles/styles.dart';
 
 class ListOfOpenQuestion extends StatefulWidget {
-  final List<Map<String, dynamic>> openQuestionPost;
+  final List<Map<String, dynamic>>? openQuestionPost;
 
   const ListOfOpenQuestion({Key? key, required this.openQuestionPost}) : super(key: key);
 
@@ -30,17 +30,17 @@ class _ListOfOpenQuestionState extends State<ListOfOpenQuestion> {
           child: ListView.separated(
               itemBuilder: (context, index) =>
                   OpenQuestionModel(
-                    time:widget.openQuestionPost[index]['time'],
-                    numberOfCommit: widget.openQuestionPost[index]['numberOfCommit'],
-                    name: widget.openQuestionPost[index]['postAuthor']['name'],
-                    imagePath:widget.openQuestionPost[index]['postAuthor']['profileImage'],
-                    openQuestion:widget.openQuestionPost[index]['postContent'],
+                    time:widget.openQuestionPost![index]['time'],
+                    numberOfCommit: widget.openQuestionPost![index]['numberOfCommit'],
+                    name: widget.openQuestionPost![index]['postAuthor']['name'],
+                    imagePath:widget.openQuestionPost![index]['postAuthor']['profileImage'],
+                    openQuestion:widget.openQuestionPost![index]['postContent'],
                     onTapImage: () {
 
                     },
                     onPressedForCommit:(){
 
-                      navigateTo(context: context,widget: CommitScreen(id:widget.openQuestionPost[index]['postId'])) ;
+                      navigateTo(context: context,widget: CommitScreen(idPost:widget.openQuestionPost![index]['postId'],typePost: "openQuestion",)) ;
 
                     },
                     onPressedForFavorit: (){
@@ -49,7 +49,7 @@ class _ListOfOpenQuestionState extends State<ListOfOpenQuestion> {
 
                   ),
               separatorBuilder: (context, index) => SizedBox(height: AppFontStyles.descriptionLoginFontSize,),
-              itemCount:widget.openQuestionPost.length),
+              itemCount:widget.openQuestionPost!.length),
         ),
       ),
     );

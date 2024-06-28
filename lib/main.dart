@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:skilled_handyworkers_marketpleace/AddPosting/cubit/cubit.dart';
 import 'package:skilled_handyworkers_marketpleace/ButtonNavigation/cubit/cubit.dart';
 import 'package:skilled_handyworkers_marketpleace/ButtonNavigation/BottonNavigationBar.dart';
 import 'package:skilled_handyworkers_marketpleace/Commint/cubit/cubit.dart';
@@ -81,6 +82,12 @@ class MyApp extends StatelessWidget {
 
 
         ),
+        BlocProvider(
+
+          create:(context) =>AddPostCubit(),
+
+
+        )
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

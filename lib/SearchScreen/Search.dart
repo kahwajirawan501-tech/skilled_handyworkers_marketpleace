@@ -135,13 +135,23 @@ class _SearchState extends State<Search> {
                 if(clickPosting)
                   Expanded(child: ConditionalBuilder(
                     condition: clickPosting && state is !SearchPostLoadStateStates,
-                    builder: (context) =>ListOfPosting(post:CubitSearch.get(context).post,)  ,
+                    builder: (context) =>CubitSearch.get(context).post.isEmpty?const Center(
+                     child: Text(
+                     'No post yet.',
+                     style:
+                     TextStyle(color: Colors.grey, fontSize: 16),
+                     )):ListOfPosting(post:CubitSearch.get(context).post,)  ,
                     fallback: (context) =>  Center(child: CircularProgressIndicator(color:AppColor.orangeColor,),),
                   ),),
                 if(clickOpenQuestion)
                   Expanded(child: ConditionalBuilder(
                     condition: clickOpenQuestion && state is !SearchOpenQuestionLoadStateStates,
-                    builder: (context) =>ListOfOpenQuestion(openQuestionPost:CubitSearch.get(context).openQuestionPost ,)  ,
+                    builder: (context) =>CubitSearch.get(context).openQuestionPost.isEmpty?const Center(
+                     child: Text(
+                    'No post yet.',
+                     style:
+                     TextStyle(color: Colors.grey, fontSize: 16),
+          )):ListOfOpenQuestion(openQuestionPost:CubitSearch.get(context).openQuestionPost ,)  ,
                     fallback: (context) =>  Center(child: CircularProgressIndicator(color:AppColor.orangeColor,),),
                   ),),
               ],

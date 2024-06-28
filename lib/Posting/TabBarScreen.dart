@@ -66,7 +66,7 @@ class _TabBarPostingState extends State<TabBarPosting> {
                           children: [
                             ClipOval(
                               child: Image.asset(
-                                "assets/images/Mask group.png",
+                                image!.isEmpty?"assets/images/aboutmy.png":image!,
                                 fit: BoxFit.cover,
                                 height: 80,
                                 width: 80,
@@ -74,7 +74,7 @@ class _TabBarPostingState extends State<TabBarPosting> {
                             ),
                             SizedBox(height: AppFontStyles.aboutMe,),
                             Text(
-                              "Orlando Diggs",
+                              name!.isEmpty?"":name!,
                               style: TextStyle(
                                 fontSize: AppFontStyles.aboutMe,
                                 color: AppColor.fontColor,
@@ -95,7 +95,7 @@ class _TabBarPostingState extends State<TabBarPosting> {
                           child: Row(
                             children: [
                               Text(
-                                "male",
+                                gender!.isEmpty?"":gender!,
                                 style: TextStyle(
                                   fontSize: AppFontStyles.aboutMe,
                                   color: AppColor.fontColor,
@@ -109,7 +109,7 @@ class _TabBarPostingState extends State<TabBarPosting> {
                                 ),
                               ),
                               Text(
-                                "syria",
+                               location!.isEmpty?"":location!,
                                 style: TextStyle(
                                   fontSize: AppFontStyles.aboutMe,
                                   color: AppColor.fontColor,
@@ -117,7 +117,7 @@ class _TabBarPostingState extends State<TabBarPosting> {
                               ),
                               Spacer(),
                               Text(
-                                "0997654357",
+                                number!.isEmpty?"":number!,
                                 style: TextStyle(
                                   fontSize: AppFontStyles.aboutMe,
                                   color: AppColor.fontColor,
@@ -191,14 +191,27 @@ class _TabBarPostingState extends State<TabBarPosting> {
                   if(clickPosting)
                     Expanded(child: ConditionalBuilder(
                       condition: clickPosting && state is !YourPostPostLoadStateStates,
-                      builder: (context) =>ListOfPosting(post: CubitYourPost.get(context).yourPost['post'],) ,//CubitYourPost.get(context).getPost(1);
+                      builder: (context) =>CubitYourPost.get(context).yourPost['post']!=null
+                     ?ListOfPosting(post: CubitYourPost.get(context).yourPost['post'],):const Center(
+                        child: Text(
+                          'No post yet.',
+                          style:
+                          TextStyle(color: Colors.grey, fontSize: 16),
+                        )),
+                      //CubitYourPost.get(context).getPost(1);
                       fallback: (context) =>  Center(child: CircularProgressIndicator(color:AppColor.orangeColor,),),
                     ),),
                   if(clickOpenQuestion)
 
                     Expanded(child: ConditionalBuilder(
                       condition: clickOpenQuestion&& state is !YourPostPostLoadStateStates,
-                      builder: (context) =>ListOfOpenQuestion(openQuestionPost: CubitYourPost.get(context).yourPost['OpenQuestion']) ,
+                      builder: (context) =>CubitYourPost.get(context).yourPost['OpenQuestion']!=null
+                          ?ListOfOpenQuestion(openQuestionPost: CubitYourPost.get(context).yourPost['OpenQuestion'],):const Center(
+                          child: Text(
+                            'No post yet.',
+                            style:
+                            TextStyle(color: Colors.grey, fontSize: 16),
+                          )),
                       fallback: (context) =>  Center(child: CircularProgressIndicator(color:AppColor.orangeColor,),),
                     ),),
                 ],
