@@ -1,3 +1,4 @@
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -15,15 +16,15 @@ final Widget widget;
 final VoidCallback? onPressed;
 
   const Location({Key? key, required this.textController, required this.widget, this.onPressed}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
-    // TextEditingController _textController = TextEditingController();
 
     return BlocConsumer<LocationCubit, LocationStates>(
-      listener: (context, state) {},
+      listener: (context, state) {
+
+      },
       builder: (context, state) {
-        var services = state is LocationStatesSearchResultState
+        var location = state is LocationStatesSearchResultState
             ? state.searchResult
             : LocationCubit.get(context).location;
 
@@ -68,7 +69,7 @@ final VoidCallback? onPressed;
                       color: AppColor.bluColor,
                     ),
                   ),
-                  SizedBox(height: AppFontStyles.sizeBetweenTitleAndSubTitle),
+                  const SizedBox(height: AppFontStyles.sizeBetweenTitleAndSubTitle),
                   Box(
                     borderRadius: BorderRadius.circular(AppFontStyles.borderRadiusTextField),
                     height: 50,
@@ -90,38 +91,51 @@ final VoidCallback? onPressed;
 
                           ),
                           border: InputBorder.none,
-                          prefixIcon: Icon(Icons.search),
+                          prefixIcon: const Icon(Icons.search),
                           suffixIcon: GestureDetector(
                             onTap: () {
                               clearTextField(textController);
                               LocationCubit.get(context).searchLocation('');
                             },
-                            child: Icon(Icons.clear,size: 15,),
+                            child: const Icon(Icons.clear,size: 15,),
                           ),
                         ),
                         cursorColor: AppColor.orangeColor,
                       ),
                     ),
                   ),
-                  SizedBox(height: AppFontStyles.sizeBetweenTitleAndSubTitle),
+                  const SizedBox(height: AppFontStyles.sizeBetweenTitleAndSubTitle),
                   Expanded(
-                    child: ListView.separated(
-                      itemBuilder: (context, index) => GestureDetector(
-                        onTap: () {
-                          textController.text = services[index];
-                          LocationCubit.get(context).searchLocation(services[index]);
-                        },
-                        child: Text(
-                          services[index].toString(),
-                          style: TextStyle(
-                            fontSize: AppFontStyles.descriptionLoginFontSize,
-                            color: AppColor.fontColorDescription,
+                    child:ConditionalBuilder(
+                      condition:state is !LocationLoadingStatesStateStates ,
+                      builder: (context) => location.isEmpty?
+                      const Center(
+                        child:
+                        Text(
+                          'There is no area with this name',
+                          style:
+                          TextStyle(color: Colors.grey, fontSize: 16),
+                        ),
+                      ): ListView.separated(
+                        itemBuilder: (context, index) => GestureDetector(
+                          onTap: () {
+                            textController.text = location[index]['name'];
+                            LocationCubit.get(context).searchLocation(location[index]['name']);
+                          },
+                          child: Text(
+                            location[index]['name'].toString(),
+                            style: TextStyle(
+                              fontSize: AppFontStyles.descriptionLoginFontSize,
+                              color: AppColor.fontColorDescription,
+                            ),
                           ),
                         ),
+                        separatorBuilder: (context, index) =>
+                        const SizedBox(height: AppFontStyles.sizeBetweenTitleAndSubTitle),
+                        itemCount: location.length,
                       ),
-                      separatorBuilder: (context, index) =>
-                          SizedBox(height: AppFontStyles.sizeBetweenTitleAndSubTitle),
-                      itemCount: services.length,
+                      fallback: (context) => Center(child: CircularProgressIndicator(color: AppColor.orangeColor,)),
+
                     ),
                   ),
                 ],

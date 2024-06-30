@@ -7,9 +7,10 @@ void signOut(context){// for signOut
     if(value){
 
     }
-  });
+  }
+  );
 }
-
+String?accessToken='';
 int? id=1;
 String? image="assets/images/Mask group.png";
 String? name="Orlando Diggs";

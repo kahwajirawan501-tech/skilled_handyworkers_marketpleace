@@ -121,9 +121,6 @@ class CommitCubit extends Cubit<CommitStates> {
 
   }
 
-
-
-
   // CommitModel commitModel;
   void getCommitForPost(int idPost) {
     emit(CommitLoadStateStates());

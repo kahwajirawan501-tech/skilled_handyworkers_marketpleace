@@ -1,4 +1,5 @@
 
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -104,23 +105,34 @@ class Service extends StatelessWidget {
                   ),
                   SizedBox(height: AppFontStyles.sizeBetweenTitleAndSubTitle),
                   Expanded(
-                    child: ListView.separated(
-                      itemBuilder: (context, index) => GestureDetector(
-                        onTap: () {
-                          textController.text = services[index];
-                          ServiceCubit.get(context).searchService(services[index]);
-                        },
-                        child: Text(
-                          services[index].toString(),
-                          style: TextStyle(
-                            fontSize: AppFontStyles.descriptionLoginFontSize,
-                            color: AppColor.fontColorDescription,
+                    child:ConditionalBuilder(
+                      condition:state is !ServiceLoadingStateStates ,
+                      builder: (context) =>  services.isEmpty?  const Center(
+                        child:
+                        Text(
+                          'There is no service with this name',
+                          style:
+                          TextStyle(color: Colors.grey, fontSize: 16),
+                        ),
+                      ): ListView.separated(
+                        itemBuilder: (context, index) => GestureDetector(
+                          onTap: () {
+                            textController.text = services[index]['name'];
+                            ServiceCubit.get(context).searchService(services[index]['name']);
+                          },
+                          child: Text(
+                            services[index]['name'].toString(),
+                            style: TextStyle(
+                              fontSize: AppFontStyles.descriptionLoginFontSize,
+                              color: AppColor.fontColorDescription,
+                            ),
                           ),
                         ),
+                        separatorBuilder: (context, index) =>
+                            SizedBox(height: AppFontStyles.sizeBetweenTitleAndSubTitle),
+                        itemCount: services.length,
                       ),
-                      separatorBuilder: (context, index) =>
-                          SizedBox(height: AppFontStyles.sizeBetweenTitleAndSubTitle),
-                      itemCount: services.length,
+                      fallback: (context) => Center( child: CircularProgressIndicator(color: AppColor.orangeColor,),),
                     ),
                   ),
                 ],

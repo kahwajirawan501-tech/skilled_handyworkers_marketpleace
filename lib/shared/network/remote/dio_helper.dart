@@ -4,7 +4,7 @@ class DioHelper{
   static init(){
     dio=Dio(
         BaseOptions(
-          baseUrl: 'http://192.168.1.1:3000/',//url project
+          baseUrl: 'http://192.168.43.142:3000/',//url project
           //https://project2-azure-seven.vercel.app
           //http://172.128.0.6:3000/auth/signin
           receiveDataWhenStatusError: true,
@@ -56,7 +56,7 @@ class DioHelper{
       {required String url,
         query,
         required Map<String,dynamic>data,
-        String lang ='en',
+       // String lang ='en',
         String?  token,
       }) async {
     dio.options.headers={
