@@ -15,14 +15,27 @@ class SearchPostErrorStateStates extends SearchStates {
 }
 
 
-class SearchOpenQuestionLoadStateStates extends SearchStates {
+class SearchPostOnlyLocationLoadStateStates extends SearchStates {
 
 }
-class SearchOpenQuestionSucssessfullStateStates extends SearchStates {
+class SearchPostOnlyLocationSucssessfullStateStates extends SearchStates {
 
-  SearchOpenQuestionSucssessfullStateStates();
+  SearchPostOnlyLocationSucssessfullStateStates();
 }
-class SearchOpenQuestionErrorStateStates extends SearchStates {
+class SearchPostOnlyLocationErrorStateStates extends SearchStates {
   final int statusCode;
-  SearchOpenQuestionErrorStateStates(this.statusCode);
+  SearchPostOnlyLocationErrorStateStates(this.statusCode);
+}
+
+
+class SearchPostOnlyServiceLoadStateStates extends SearchStates {
+
+}
+class SearchPostOnlyServiceSucssessfullStateStates extends SearchStates {
+
+  SearchPostOnlyServiceSucssessfullStateStates();
+}
+class SearchPostOnlyServiceErrorStateStates extends SearchStates {
+  final int statusCode;
+  SearchPostOnlyServiceErrorStateStates(this.statusCode);
 }

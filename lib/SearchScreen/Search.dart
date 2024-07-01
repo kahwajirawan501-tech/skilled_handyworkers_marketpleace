@@ -26,16 +26,60 @@ class _SearchState extends State<Search> {
   final TextEditingController textControllerLocation=TextEditingController()  ;
    bool clickPosting=false;
    bool clickOpenQuestion=false;
-
+  List<Map<String, dynamic>> post=[];
+  List<Map<String, dynamic>> openQuestion=[];
+  Future<void> _handleRefresh() async {
+    CubitSearch.get(context).changePagePost(textControllerService.text, textControllerLocation.text);
+  }
+  Future<void> _handleRefreshLocation() async {
+    CubitSearch.get(context).changePagePostLocation( textControllerLocation.text);
+  }
+  Future<void> _handleRefreshService() async {
+    CubitSearch.get(context).changePagePostService(textControllerService.text);
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBarSearch(textControllerLocation: textControllerLocation,textControllerService: textControllerService,),
       body: BlocConsumer<CubitSearch,SearchStates>(
         listener: (context, state) {
-          if(state is SearchPostSucssessfullStateStates){
 
-          }
+        if(state is SearchPostSucssessfullStateStates){
+          post=CubitSearch.get(context).postSearch;
+          openQuestion=CubitSearch.get(context).openQuestionPostSearch;
+          print("the length of post ");
+          print(post.length);
+          print("the length of openQuestion ");
+          print(openQuestion.length);
+        }
+        else if(state is SearchPostErrorStateStates){
+          showToast(text:"error in search \n", state: ToastStates.EROOR);
+
+        }
+        if(state is SearchPostOnlyServiceSucssessfullStateStates){
+          post=CubitSearch.get(context).postSearchService;
+          openQuestion=CubitSearch.get(context).openQuestionPostSearchService;
+          print("the length of postSearchService ");
+          print(post.length);
+          print("the length of openQuestionPostSearchService ");
+          print(openQuestion.length);
+        }
+        else if(state is SearchPostOnlyServiceErrorStateStates){
+          showToast(text:"error in search \n", state: ToastStates.EROOR);
+
+        }
+        if(state is SearchPostOnlyLocationSucssessfullStateStates){
+          post=CubitSearch.get(context).postSearchLocation;
+          openQuestion=CubitSearch.get(context).openQuestionPostSearchLocation;
+          print("the length of postSearchLocation ");
+          print(post.length);
+          print("the length of openQuestionPostSearchLocation ");
+          print(openQuestion.length);
+        }
+        else if(state is SearchPostOnlyLocationErrorStateStates){
+          showToast(text:"error in search \n", state: ToastStates.EROOR);
+
+        }
         },
         builder: (context, state) {
           return  Container(
@@ -61,20 +105,39 @@ class _SearchState extends State<Search> {
                                 SnackBar(
                                   backgroundColor: AppColor.backgroundColor,
 
-                                  content: Center(child: Text('Please select service and location first',style: TextStyle(color: AppColor.grayColorFont))),
+                                  content: Center(child: Text('Please select service or location first',style: TextStyle(color: AppColor.grayColorFont))),
                                   duration: Duration(seconds: 2),
                                 ),
                               );
                             }
-                            else{
-
+                            else if(textControllerService.text.isNotEmpty&&textControllerLocation.text.isNotEmpty){
                               setState(() {
                                 clickPosting=!clickPosting;
                                 if(clickPosting){
                                   clickOpenQuestion=false;
 
                                 }
-                             //   CubitSearch.get(context).getPost(textControllerService.text, textControllerLocation.text);
+                                CubitSearch.get(context).changePagePost(textControllerService.text, textControllerLocation.text);
+                              });
+                            }
+                            else if(textControllerService.text.isNotEmpty&&textControllerLocation.text.isEmpty){
+                              setState(() {
+                                clickPosting=!clickPosting;
+                                if(clickPosting){
+                                  clickOpenQuestion=false;
+
+                                }
+                                CubitSearch.get(context).changePagePostService(textControllerService.text);
+                              });
+                            }
+                            else if(textControllerService.text.isEmpty&&textControllerLocation.text.isNotEmpty){
+                              setState(() {
+                                clickPosting=!clickPosting;
+                                if(clickPosting){
+                                  clickOpenQuestion=false;
+
+                                }
+                                CubitSearch.get(context).changePagePostLocation(textControllerLocation.text);
                               });
                             }
                           },
@@ -103,18 +166,37 @@ class _SearchState extends State<Search> {
                                 ),
                               );
                             }
-                            else{
-
+                            else if(textControllerService.text.isNotEmpty&&textControllerLocation.text.isNotEmpty){
                               setState(() {
                                 clickOpenQuestion=!clickOpenQuestion;
                                 if(clickOpenQuestion){
                                   clickPosting=false;
 
                                 }
-                                  // CubitSearch.get(context).getOpenQuestionPost(textControllerService.text, textControllerLocation.text);
-
+                                CubitSearch.get(context).changePagePost(textControllerService.text, textControllerLocation.text);
                               });
                             }
+                            else if(textControllerService.text.isNotEmpty&&textControllerLocation.text.isEmpty){
+                              setState(() {
+                                clickOpenQuestion=!clickOpenQuestion;
+                                if(clickOpenQuestion){
+                                  clickPosting=false;
+
+                                }
+                                CubitSearch.get(context).changePagePostService(textControllerService.text);
+                              });
+                            }
+                            else if(textControllerService.text.isEmpty&&textControllerLocation.text.isNotEmpty){
+                              setState(() {
+                                clickOpenQuestion=!clickOpenQuestion;
+                                if(clickOpenQuestion){
+                                  clickPosting=false;
+
+                                }
+                                CubitSearch.get(context).changePagePostLocation(textControllerLocation.text);
+                              });
+                            }
+
 
                           },
                           child: Container(
@@ -134,24 +216,35 @@ class _SearchState extends State<Search> {
                   Expanded(child: Image.asset("assets/images/Illustrasi.png")),
                 if(clickPosting)
                   Expanded(child: ConditionalBuilder(
-                    condition: clickPosting && state is !SearchPostLoadStateStates,
-                    builder: (context) =>CubitSearch.get(context).post.isEmpty?const Center(
+                    condition: clickPosting && (state is !SearchPostLoadStateStates ||state is !SearchPostOnlyServiceLoadStateStates||state is !SearchPostOnlyLocationLoadStateStates),
+                    builder: (context) =>CubitSearch.get(context).post.isEmpty?
+                    const Center(
                      child: Text(
                      'No post yet.',
                      style:
                      TextStyle(color: Colors.grey, fontSize: 16),
-                     )):ListOfPosting(post:CubitSearch.get(context).post,)  ,
+                     )):RefreshIndicator(
+                    color: AppColor.orangeColor,
+                      onRefresh:(textControllerLocation.text.isEmpty&&textControllerService.text.isEmpty)?_handleRefresh:
+                      (textControllerLocation.text.isEmpty&&textControllerService.text.isNotEmpty)?_handleRefreshService:_handleRefreshLocation,
+                        child: ListOfPosting(post:post,))  ,
                     fallback: (context) =>  Center(child: CircularProgressIndicator(color:AppColor.orangeColor,),),
                   ),),
+
+
                 if(clickOpenQuestion)
                   Expanded(child: ConditionalBuilder(
-                    condition: clickOpenQuestion && state is !SearchOpenQuestionLoadStateStates,
+                    condition: clickOpenQuestion && (state is !SearchPostLoadStateStates ||state is !SearchPostOnlyServiceLoadStateStates||state is !SearchPostOnlyLocationLoadStateStates),
                     builder: (context) =>CubitSearch.get(context).openQuestionPost.isEmpty?const Center(
                      child: Text(
                     'No post yet.',
                      style:
                      TextStyle(color: Colors.grey, fontSize: 16),
-          )):ListOfOpenQuestion(openQuestionPost:CubitSearch.get(context).openQuestionPost ,)  ,
+          )):RefreshIndicator(
+                      color: AppColor.orangeColor,
+                        onRefresh:(textControllerLocation.text.isEmpty&&textControllerService.text.isEmpty)?_handleRefresh:
+                        (textControllerLocation.text.isEmpty&&textControllerService.text.isNotEmpty)?_handleRefreshService:_handleRefreshLocation,
+                        child: ListOfOpenQuestion(openQuestionPost:openQuestion ,))  ,
                     fallback: (context) =>  Center(child: CircularProgressIndicator(color:AppColor.orangeColor,),),
                   ),),
               ],

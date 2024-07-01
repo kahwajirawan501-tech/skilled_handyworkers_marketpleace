@@ -14,3 +14,28 @@ class YourPostPostErrorStateStates extends YourPostStates {
   YourPostPostErrorStateStates(this.statusCode);
 }
 
+class DeletePostLoadStateStates extends YourPostStates {
+
+}
+class  DeletePostSucssessfullStateStates extends YourPostStates {
+
+  DeletePostSucssessfullStateStates();
+}
+class  DeletePostErrorStateStates extends YourPostStates {
+  final int statusCode;
+  DeletePostErrorStateStates(this.statusCode);
+}
+
+
+
+class YourOpenQuestionPostLoadStateStates extends YourPostStates {
+
+}
+class YourOpenQuestionPostSucssessfullStateStates extends YourPostStates {
+
+  YourOpenQuestionPostSucssessfullStateStates();
+}
+class YourOpenQuestionPostErrorStateStates extends YourPostStates {
+  final int statusCode;
+  YourOpenQuestionPostErrorStateStates(this.statusCode);
+}

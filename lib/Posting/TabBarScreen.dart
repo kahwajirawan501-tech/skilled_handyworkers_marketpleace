@@ -25,6 +25,15 @@ class _TabBarPostingState extends State<TabBarPosting> {
 
   bool clickPosting=false;
   bool clickOpenQuestion=false;
+
+
+
+  Future<void> _handleRefresh() async {
+    CubitYourPost.get(context).changePageOpenQuestion();
+  }
+  Future<void> _handleRefreshPost() async {
+    CubitYourPost.get(context).changePagePost();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -145,7 +154,10 @@ class _TabBarPostingState extends State<TabBarPosting> {
                                 clickOpenQuestion=false;
                         //        CubitYourPost.get(context).getPost(1);
                               }
+                              CubitYourPost.get(context).changePagePost();
+
                             });
+
                           },
                           child: Container(
                               decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),
@@ -169,6 +181,8 @@ class _TabBarPostingState extends State<TabBarPosting> {
                                 // CubitYourPost.get(context).getPost(1);
 
                               }
+                              CubitYourPost.get(context).changePageOpenQuestion();
+
                             });
 
 
@@ -192,7 +206,10 @@ class _TabBarPostingState extends State<TabBarPosting> {
                     Expanded(child: ConditionalBuilder(
                       condition: clickPosting && state is !YourPostPostLoadStateStates,
                       builder: (context) =>CubitYourPost.get(context).yourPost['post']!=null
-                     ?ListOfPosting(post: CubitYourPost.get(context).yourPost['post'],):const Center(
+                     ?RefreshIndicator(
+                        onRefresh: _handleRefreshPost,
+                          color: AppColor.orangeColor,
+                          child: ListOfPosting(post: CubitYourPost.get(context).yourPost['post'],)):const Center(
                         child: Text(
                           'No post yet.',
                           style:
@@ -206,7 +223,11 @@ class _TabBarPostingState extends State<TabBarPosting> {
                     Expanded(child: ConditionalBuilder(
                       condition: clickOpenQuestion&& state is !YourPostPostLoadStateStates,
                       builder: (context) =>CubitYourPost.get(context).yourPost['OpenQuestion']!=null
-                          ?ListOfOpenQuestion(openQuestionPost: CubitYourPost.get(context).yourPost['OpenQuestion'],):const Center(
+                          ?RefreshIndicator(
+                          color: AppColor.orangeColor,
+
+                          onRefresh: _handleRefresh,
+                          child: ListOfOpenQuestion(openQuestionPost: CubitYourPost.get(context).yourPost['OpenQuestion'],)):const Center(
                           child: Text(
                             'No post yet.',
                             style:

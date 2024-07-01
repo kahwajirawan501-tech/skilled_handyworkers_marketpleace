@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skilled_handyworkers_marketpleace/AddPosting/cubit/cubit.dart';
@@ -615,345 +616,376 @@ class _AddPostState extends State<AddPost> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        surfaceTintColor:  AppColor.backgroundColor,
+    return BlocConsumer<AddPostCubit,AddPostStates>(
+      listener: (context, state) {
 
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back,
-            color: AppColor.arrowBackColor,
+        if(state is PostFileSucssessfullStateStates){
+
+           AddPostCubit.get(context).addPost( _textControllerService.text,
+               _textControllerLocation.text, _textControllerDescription.text
+               ,AddPostCubit.get(context).ima, AddPostCubit.get(context).video);
+
+        }
+        else if(state is PostFileErrorStateStates){
+           showToast(text:"error !! , when upload image and video \n"+state.message, state: ToastStates.EROOR);
+        }
+
+        if(state is AddPostSucssessfullStateStates){
+          showToast(text:"The post has been published successfully", state: ToastStates.EROOR);
+          navigateAndFinish(widget:const BottomNavigationScreen(),context: context);
+
+        }
+        else if(state is AddPostErrorStateStates){
+          showToast(text:"The post hasn't been published successfully \n"+state.message, state: ToastStates.EROOR);
+
+        }
+
+      },
+      builder: (context, state) {
+        return Scaffold(
+          appBar: AppBar(
+            surfaceTintColor:  AppColor.backgroundColor,
+            leading: IconButton(
+              icon: Icon(
+                Icons.arrow_back,
+                color: AppColor.arrowBackColor,
+              ),
+              onPressed: () {
+                navigateAndFinish(widget:const BottomNavigationScreen(),context: context);
+              },
+            ),
+            actions: [
+              TextButton(onPressed:() {
+                if(_textControllerLocation.text.isEmpty
+                    &&_textControllerService.text.isEmpty
+                    &&(_selectedImages.isEmpty&&_selectedVideos.isEmpty)){
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+
+                      backgroundColor: AppColor.backgroundColor,
+                      content: Center(child: Text('You must fill in the service field and the location field and  choose the videos or photos that you want to publish',style: TextStyle(color: AppColor.grayColorFont),)),
+                      duration: const Duration(seconds: 2),
+                    ),
+                  );
+                }else if(_textControllerLocation.text.isNotEmpty
+                    &&_textControllerService.text.isEmpty
+                    &&(_selectedImages.isEmpty&&_selectedVideos.isEmpty)){
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+
+                      backgroundColor: AppColor.backgroundColor,
+                      content: Center(child: Text('You must fill in the service field  and  choose the videos or photos that you want to publish',style: TextStyle(color: AppColor.grayColorFont),)),
+                      duration: const Duration(seconds: 2),
+                    ),
+                  );
+                }
+                else if(_textControllerLocation.text.isEmpty
+                    &&_textControllerService.text.isNotEmpty
+                    &&(_selectedImages.isEmpty&&_selectedVideos.isEmpty)){
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+
+                      backgroundColor: AppColor.backgroundColor,
+                      content: Center(child: Text('You must fill in the location field  and  choose the videos or photos that you want to publish',style: TextStyle(color: AppColor.grayColorFont),)),
+                      duration: const Duration(seconds: 2),
+                    ),
+                  );
+                }
+                else if(_textControllerLocation.text.isNotEmpty
+                    &&_textControllerService.text.isNotEmpty
+                    &&_selectedImages.isEmpty&&_selectedVideos.isEmpty){
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+
+                      backgroundColor: AppColor.backgroundColor,
+                      content: Center(child: Text('choose the videos or photos that you want to publish',
+                        style: TextStyle(color: AppColor.grayColorFont),)),
+                      duration: const Duration(seconds: 2),
+                    ),
+                  );
+                }
+                else{
+                  AddPostCubit.get(context).postFile(_selectedImages, _selectedVideos);
+                }
+
+              }, child:Text("post",style:TextStyle(
+                  fontSize: AppFontStyles.descriptionLoginFontSize,
+                  fontWeight: AppFontStyles.fontWeightBold,
+                  color: AppColor.bottomNavigationBar
+              ) ,))
+            ],
+            elevation: 0.0,
+            backgroundColor: AppColor.backgroundColor,
           ),
-          onPressed: () {
-            navigateAndFinish(widget:const BottomNavigationScreen(),context: context);
-          },
-        ),
-        actions: [
-          TextButton(onPressed:() {
-              if(_textControllerLocation.text.isEmpty
-                  &&_textControllerService.text.isEmpty
-                  &&(_selectedImages.isEmpty&&_selectedVideos.isEmpty)){
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
+          body: BlocConsumer<AddPostCubit,AddPostStates>(
 
-                    backgroundColor: AppColor.backgroundColor,
-                    content: Center(child: Text('You must fill in the service field and the location field and  choose the videos or photos that you want to publish',style: TextStyle(color: AppColor.grayColorFont),)),
-                    duration: const Duration(seconds: 2),
-                  ),
-                );
-              }else if(_textControllerLocation.text.isNotEmpty
-                  &&_textControllerService.text.isEmpty
-                  &&(_selectedImages.isEmpty&&_selectedVideos.isEmpty)){
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
+            listener: (context, state) {
 
-                    backgroundColor: AppColor.backgroundColor,
-                    content: Center(child: Text('You must fill in the service field  and  choose the videos or photos that you want to publish',style: TextStyle(color: AppColor.grayColorFont),)),
-                    duration: const Duration(seconds: 2),
-                  ),
-                );
-              }
-              else if(_textControllerLocation.text.isEmpty
-                  &&_textControllerService.text.isNotEmpty
-                  &&(_selectedImages.isEmpty&&_selectedVideos.isEmpty)){
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-
-                    backgroundColor: AppColor.backgroundColor,
-                    content: Center(child: Text('You must fill in the location field  and  choose the videos or photos that you want to publish',style: TextStyle(color: AppColor.grayColorFont),)),
-                    duration: const Duration(seconds: 2),
-                  ),
-                );
-              }
-              else if(_textControllerLocation.text.isNotEmpty
-                  &&_textControllerService.text.isNotEmpty
-                  &&_selectedImages.isEmpty&&_selectedVideos.isEmpty){
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-
-                    backgroundColor: AppColor.backgroundColor,
-                    content: Center(child: Text('choose the videos or photos that you want to publish',style: TextStyle(color: AppColor.grayColorFont),)),
-                    duration: const Duration(seconds: 2),
-                  ),
-                );
-              }
-              else{
-                // AddPostCubit.get(context).addPost(0, _textControllerService.text,
-                //     _textControllerLocation.text, _textControllerDescription.text,_selectedImages, _selectedVideos);
-              }
-
-
-          }, child:Text("post",style:TextStyle(
-              fontSize: AppFontStyles.descriptionLoginFontSize,
-              fontWeight: AppFontStyles.fontWeightBold,
-              color: AppColor.bottomNavigationBar
-          ) ,))
-        ],
-        elevation: 0.0,
-        backgroundColor: AppColor.backgroundColor,
-      ),
-      body: BlocConsumer<AddPostCubit,AddPostStates>(
-
-        listener: (context, state) {
-
-        },
-        builder: (context, state) {
-          return  Container(
-            color: AppColor.backgroundColor,
-            height: double.infinity,
-            width: double.infinity,
-            child: SingleChildScrollView(
-              physics: const BouncingScrollPhysics(),
-              child: Padding(
-                padding: const EdgeInsets.all(AppFontStyles.padding),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Add Post",
-                      style: TextStyle(
-                        fontSize: AppFontStyles.aboutMe,
-                        fontWeight: AppFontStyles.fontWeightSemiBold,
-                        color: AppColor.bluColor,
-                      ),
-                    ),
-                    const SizedBox(
-                      height: AppFontStyles.sizeBetweenTitleAndSubTitle,
-                    ),
-                    ListTile(
-                      contentPadding: EdgeInsets.zero,
-
-                      leading: ClipOval(
-                        child: Image.asset(
-                          "assets/images/Mask group.png",
-                          fit: BoxFit.cover,
-                          height: 50,
-                          width: 50,
-                        ),
-                      ),
-                      title:  Text(
-                        "Orlando Diggs",
-                        style: TextStyle(
-                          fontSize: AppFontStyles.descriptionSplashScreenFontSize,
-                          color: AppColor.bluColor,
-                          fontWeight: AppFontStyles.fontWeightBold,
-                        ),
-                      ),
-                      subtitle:    Text(
-                        " Damascus",
-                        style: TextStyle(
-                          fontSize: AppFontStyles.descriptionLoginFontSize,
-                          color: AppColor.fontColorDescription,
-                          fontWeight: AppFontStyles.fontWeightMedium,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: AppFontStyles.sizeBetweenTitleAndSubTitle),
-                    Text(
-                      " Service Type",
-                      style: TextStyle(
-                        fontWeight: AppFontStyles.fontWeightSemiBold,
-                        fontSize: AppFontStyles.descriptionLoginFontSize,
-                        color: AppColor.bluColor,
-                      ),
-                    ),
-                    const SizedBox(height: AppFontStyles.sizeBetweenBoxAndSubTitle),
-                    Box(
-                      widget: SizedBox(
-                        width: double.infinity,
-                        height: 40,
-                        child: GestureDetector(
-                          onTap: () async {
-                            final result = await Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => Service(
-                                  textController: _textControllerService,
-                                  title: "Add Service",
-                                  titleSearch: "Search",
-                                  widget: const AddPost(),
-                                ),
-                              ),
-                            );
-                            if (result != null && result is String) {
-                              setState(() {
-                                _textControllerService.text = result;
-                                selectService=true;
-                              });
-                            }
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: AppFontStyles.padding, vertical: 8),
-                            child: Text(
-                              _textControllerService.text.isEmpty ? "Select service" : _textControllerService.text,
-                              style: TextStyle(
-                                color: AppColor.grayColorFont,
-                                fontSize: AppFontStyles.descriptionLoginFontSize,
-                              ),
-                            ),
+            },
+            builder: (context, state) {
+              return  Container(
+                color: AppColor.backgroundColor,
+                height: double.infinity,
+                width: double.infinity,
+                child: SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(),
+                  child: Padding(
+                    padding: const EdgeInsets.all(AppFontStyles.padding),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        ConditionalBuilder(
+                            condition: state is !AddPostLoadStateStates,
+                            builder: (context) => const SizedBox(),
+                            fallback:(context) => LinearProgressIndicator(color: AppColor.orangeColor,minHeight:1.0,),),
+                        SizedBox(height:AppFontStyles.aboutMe,),
+                        Text(
+                          "Add Post",
+                          style: TextStyle(
+                            fontSize: AppFontStyles.aboutMe,
+                            fontWeight: AppFontStyles.fontWeightSemiBold,
+                            color: AppColor.bluColor,
                           ),
                         ),
-                      ),
-                      height: 40,
-                      borderRadius: const BorderRadius.all(Radius.circular(10)),
-                    ),
-                    const SizedBox(height: AppFontStyles.sizeBetweenBoxAndSubTitle),
-                    Text(
-                      " Location",
-                      style: TextStyle(
-                        fontWeight: AppFontStyles.fontWeightSemiBold,
-                        fontSize: AppFontStyles.descriptionLoginFontSize,
-                        color: AppColor.bluColor,
-                      ),
-                    ),
-                    const SizedBox(height: AppFontStyles.sizeBetweenBoxAndSubTitle),
-                    Box(
-                      widget: SizedBox(
-                        width: double.infinity,
-                        height: 40,
-                        child: GestureDetector(
-                          onTap: () async {
-                            final result = await Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => Location(
-                                  textController: _textControllerLocation,
-                                  widget: const AddPost(),
-                                ),
-                              ),
-                            );
-                            if (result != null && result is String) {
-                              setState(() {
-                                _textControllerLocation.text = result;
-                                selectLocation=true;
-                              });
-                            }
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: AppFontStyles.padding, vertical: 8),
-                            child: Text(
-                              _textControllerLocation.text.isEmpty ? "Select location" : _textControllerLocation.text,
-                              style: TextStyle(
-                                color: AppColor.grayColorFont,
-                                fontSize: AppFontStyles.descriptionLoginFontSize,
-                              ),
+                        const SizedBox(
+                          height: AppFontStyles.sizeBetweenTitleAndSubTitle,
+                        ),
+                        ListTile(
+                          contentPadding: EdgeInsets.zero,
+
+                          leading: ClipOval(
+                            child: Image.asset(
+                              "assets/images/Mask group.png",
+                              fit: BoxFit.cover,
+                              height: 50,
+                              width: 50,
                             ),
                           ),
-                        ),
-                      ),
-                      height: 40,
-                      borderRadius: const BorderRadius.all(Radius.circular(10)),
-                    ),
-                    const SizedBox(height: AppFontStyles.sizeBetweenBoxAndSubTitle),
-                    Text(
-                      " Add Description ",
-                      style: TextStyle(
-                        fontWeight: AppFontStyles.fontWeightSemiBold,
-                        fontSize: AppFontStyles.descriptionLoginFontSize,
-                        color: AppColor.bluColor,
-                      ),
-                    ),
-                    const SizedBox(height: AppFontStyles.sizeBetweenBoxAndSubTitle),
-
-                    Box(
-                      borderRadius: BorderRadius.circular(AppFontStyles.borderRadius),
-                      height: 100,
-                      widget:Padding(
-
-                        padding: const EdgeInsets.symmetric(horizontal: AppFontStyles.padding),
-                        child: TextFormField(
-                          controller: _textControllerDescription,
-                          keyboardType: TextInputType.text,
-                          maxLines: 20, // حدد الحد الأقصى لعدد الأسطر
-                          decoration:  InputDecoration(
-
-                            hintText:'add your description ..',
-                            hintStyle: TextStyle(
-
-                              color: AppColor.grayColorFont,
+                          title:  Text(
+                            "Orlando Diggs",
+                            style: TextStyle(
+                              fontSize: AppFontStyles.descriptionSplashScreenFontSize,
+                              color: AppColor.bluColor,
+                              fontWeight: AppFontStyles.fontWeightBold,
+                            ),
+                          ),
+                          subtitle:    Text(
+                            " Damascus",
+                            style: TextStyle(
                               fontSize: AppFontStyles.descriptionLoginFontSize,
+                              color: AppColor.fontColorDescription,
+                              fontWeight: AppFontStyles.fontWeightMedium,
                             ),
-                            border: InputBorder.none,
-
-                            // هنا يمكنك تحديد نص التلميح
                           ),
-                          cursorColor: AppColor.grayColorFont,
-                          cursorHeight:24,
                         ),
+                        const SizedBox(height: AppFontStyles.sizeBetweenTitleAndSubTitle),
+                        Text(
+                          " Service Type",
+                          style: TextStyle(
+                            fontWeight: AppFontStyles.fontWeightSemiBold,
+                            fontSize: AppFontStyles.descriptionLoginFontSize,
+                            color: AppColor.bluColor,
+                          ),
+                        ),
+                        const SizedBox(height: AppFontStyles.sizeBetweenBoxAndSubTitle),
+                        Box(
+                          widget: SizedBox(
+                            width: double.infinity,
+                            height: 40,
+                            child: GestureDetector(
+                              onTap: () async {
+                                final result = await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => Service(
+                                      textController: _textControllerService,
+                                      title: "Add Service",
+                                      titleSearch: "Search",
+                                      widget: const AddPost(),
+                                    ),
+                                  ),
+                                );
+                                if (result != null && result is String) {
+                                  setState(() {
+                                    _textControllerService.text = result;
+                                    selectService=true;
+                                  });
+                                }
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: AppFontStyles.padding, vertical: 8),
+                                child: Text(
+                                  _textControllerService.text.isEmpty ? "Select service" : _textControllerService.text,
+                                  style: TextStyle(
+                                    color: AppColor.grayColorFont,
+                                    fontSize: AppFontStyles.descriptionLoginFontSize,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          height: 40,
+                          borderRadius: const BorderRadius.all(Radius.circular(10)),
+                        ),
+                        const SizedBox(height: AppFontStyles.sizeBetweenBoxAndSubTitle),
+                        Text(
+                          " Location",
+                          style: TextStyle(
+                            fontWeight: AppFontStyles.fontWeightSemiBold,
+                            fontSize: AppFontStyles.descriptionLoginFontSize,
+                            color: AppColor.bluColor,
+                          ),
+                        ),
+                        const SizedBox(height: AppFontStyles.sizeBetweenBoxAndSubTitle),
+                        Box(
+                          widget: SizedBox(
+                            width: double.infinity,
+                            height: 40,
+                            child: GestureDetector(
+                              onTap: () async {
+                                final result = await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => Location(
+                                      textController: _textControllerLocation,
+                                      widget: const AddPost(),
+                                    ),
+                                  ),
+                                );
+                                if (result != null && result is String) {
+                                  setState(() {
+                                    _textControllerLocation.text = result;
+                                    selectLocation=true;
+                                  });
+                                }
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: AppFontStyles.padding, vertical: 8),
+                                child: Text(
+                                  _textControllerLocation.text.isEmpty ? "Select location" : _textControllerLocation.text,
+                                  style: TextStyle(
+                                    color: AppColor.grayColorFont,
+                                    fontSize: AppFontStyles.descriptionLoginFontSize,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          height: 40,
+                          borderRadius: const BorderRadius.all(Radius.circular(10)),
+                        ),
+                        const SizedBox(height: AppFontStyles.sizeBetweenBoxAndSubTitle),
+                        Text(
+                          " Add Description ",
+                          style: TextStyle(
+                            fontWeight: AppFontStyles.fontWeightSemiBold,
+                            fontSize: AppFontStyles.descriptionLoginFontSize,
+                            color: AppColor.bluColor,
+                          ),
+                        ),
+                        const SizedBox(height: AppFontStyles.sizeBetweenBoxAndSubTitle),
 
-                      ),),
-                    const SizedBox(height: AppFontStyles.sizeBetweenBoxAndSubTitle + 20),
+                        Box(
+                          borderRadius: BorderRadius.circular(AppFontStyles.borderRadius),
+                          height: 100,
+                          widget:Padding(
 
-                    if (_selectedImages.isNotEmpty) _buildSelectedImagesPreview(),
-                    const SizedBox(height: AppFontStyles.sizeBetweenBoxAndSubTitle),
+                            padding: const EdgeInsets.symmetric(horizontal: AppFontStyles.padding),
+                            child: TextFormField(
+                              controller: _textControllerDescription,
+                              keyboardType: TextInputType.text,
+                              maxLines: 20, // حدد الحد الأقصى لعدد الأسطر
+                              decoration:  InputDecoration(
 
-                    if (_selectedVideos .isNotEmpty && _videoPlayerController != null)
-                      _buildSelectedVideosPreview()
-                  ],
+                                hintText:'add your description ..',
+                                hintStyle: TextStyle(
+
+                                  color: AppColor.grayColorFont,
+                                  fontSize: AppFontStyles.descriptionLoginFontSize,
+                                ),
+                                border: InputBorder.none,
+
+                                // هنا يمكنك تحديد نص التلميح
+                              ),
+                              cursorColor: AppColor.grayColorFont,
+                              cursorHeight:24,
+                            ),
+
+                          ),),
+                        const SizedBox(height: AppFontStyles.sizeBetweenBoxAndSubTitle + 20),
+
+                        if (_selectedImages.isNotEmpty) _buildSelectedImagesPreview(),
+                        const SizedBox(height: AppFontStyles.sizeBetweenBoxAndSubTitle),
+
+                        if (_selectedVideos .isNotEmpty && _videoPlayerController != null)
+                          _buildSelectedVideosPreview()
+                      ],
+                    ),
+                  ),
                 ),
+              );
+            },
+          ),
+          bottomNavigationBar: Container(
+            padding: const EdgeInsets.only(bottom: 10),
+            color: Colors.white,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12.0),
+              child: Row(
+                children: [
+                  IconButton(
+                    onPressed:(){
+                      if (selectService && selectLocation) {
+                        _showImageSourceDialog();
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            backgroundColor: AppColor.backgroundColor,
+
+                            content: Center(child: Text('Please select service and location first',style: TextStyle(color: AppColor.grayColorFont))),
+                            duration: const Duration(seconds: 2),
+                          ),
+                        );
+                      }
+                    },
+                    icon: Icon(Icons.image, color: AppColor.orangeColor, size: 24),
+                  ),
+
+                  IconButton(
+                    onPressed:() {
+
+                      if (selectService && selectLocation) {
+                        _showVideoSourceDialog();
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+
+                            backgroundColor: AppColor.backgroundColor,
+                            content: Center(child: Text('Please select service and location first',style: TextStyle(color: AppColor.grayColorFont),)),
+                            duration: const Duration(seconds: 2),
+                          ),
+                        );
+                      }
+
+                    },
+                    icon: Icon(Icons.video_collection, color: AppColor.orangeColor, size: 24),
+                  ),
+                  const Spacer(),
+                  Text(
+                    " Add Image or Video ",
+                    style: TextStyle(
+                      fontWeight: AppFontStyles.fontWeightSemiBold,
+                      fontSize: AppFontStyles.descriptionLoginFontSize,
+                      color: AppColor.orangeColor,
+                    ),
+                  ),
+                ],
               ),
             ),
-          );
-        },
-      ),
-      bottomNavigationBar: Container(
-        padding: const EdgeInsets.only(bottom: 10),
-        color: Colors.white,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12.0),
-          child: Row(
-            children: [
-              IconButton(
-                onPressed:(){
-              if (selectService && selectLocation) {
-              _showImageSourceDialog();
-              } else {
-              ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                backgroundColor: AppColor.backgroundColor,
-
-                content: Center(child: Text('Please select service and location first',style: TextStyle(color: AppColor.grayColorFont))),
-              duration: const Duration(seconds: 2),
-              ),
-              );
-              }
-                },
-                icon: Icon(Icons.image, color: AppColor.orangeColor, size: 24),
-              ),
-
-              IconButton(
-                onPressed:() {
-
-                  if (selectService && selectLocation) {
-                    _showVideoSourceDialog();
-                  } else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-
-                        backgroundColor: AppColor.backgroundColor,
-                        content: Center(child: Text('Please select service and location first',style: TextStyle(color: AppColor.grayColorFont),)),
-                        duration: const Duration(seconds: 2),
-                      ),
-                    );
-                  }
-
-                },
-                icon: Icon(Icons.video_collection, color: AppColor.orangeColor, size: 24),
-              ),
-              const Spacer(),
-              Text(
-                " Add Image or Video ",
-                style: TextStyle(
-                  fontWeight: AppFontStyles.fontWeightSemiBold,
-                  fontSize: AppFontStyles.descriptionLoginFontSize,
-                  color: AppColor.orangeColor,
-                ),
-              ),
-            ],
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

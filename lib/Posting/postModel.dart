@@ -7,26 +7,40 @@ import 'package:skilled_handyworkers_marketpleace/shared/styles/styles.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'dart:typed_data';
 import 'package:flutter/services.dart';
+
 class PostModel extends StatefulWidget {
-  final String? videoUrl;
-  final List<String>? imagePaths;
+  final List<dynamic>? videoUrl;
+  final List<dynamic>? imagePaths;
   final GestureTapCallback? onTapImage;
-  final String imagePath;//"assets/images/Mask group.png"
-  final String name;//Orlando Diggs
-  final String time;//21 minutes ago
+  final String imagePath; // "assets/images/Mask group.png"
+  final String name; // Orlando Diggs
+  final String time; // 21 minutes ago
   final VoidCallback? onPressedForCommit;
   final VoidCallback? onPressedForFavorit;
   final String numberOfCommit;
+  final VoidCallback? onPressed;
+  final bool deleteAndEdit;
 
-
-  const PostModel({Key? key, this.videoUrl, this.imagePaths, this.onTapImage, required this.imagePath, required this.name, required this.time, this.onPressedForCommit, required this.numberOfCommit, this.onPressedForFavorit}) : super(key: key);
+  const PostModel({
+    Key? key,
+    this.videoUrl,
+    this.imagePaths,
+    this.onTapImage,
+    required this.imagePath,
+    required this.name,
+    required this.time,
+    this.onPressedForCommit,
+    required this.numberOfCommit,
+    this.onPressedForFavorit,
+    this.onPressed,
+    required this.deleteAndEdit,
+  }) : super(key: key);
 
   @override
   State<PostModel> createState() => _PostModelState();
 }
 
 class _PostModelState extends State<PostModel> {
-
   void _openImageDialog(String imagePath) {
     showGeneralDialog(
       barrierColor: Colors.white,
@@ -47,18 +61,21 @@ class _PostModelState extends State<PostModel> {
                   height: double.infinity,
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                      image: AssetImage(imagePath),
+                      image:NetworkImage("http://192.168.43.142:3000$imagePath"),
+                      //mediaPaths[index]=="assets/images/aboutmy.png"?
+                      // Image.asset("assets/images/aboutmy.png",fit: BoxFit.cover):
                       fit: BoxFit.fitWidth,
                     ),
                   ),
                 ),
+                //imagePath=="assets/images/aboutmy.png"?AssetImage(imagePath)as ImageProvider<Object>:
                 Positioned(
                   right: 0,
-                   top: 0,
+                  top: 0,
                   child: IconButton(
-                    icon: Icon(Icons.download_outlined, color:AppColor.orangeColor),
+                    icon: Icon(Icons.download_outlined, color: AppColor.orangeColor),
                     onPressed: () {
-                      _saveImageToDevice(imagePath);
+                      _saveImageToDevice("http://192.168.43.142:3000$imagePath");
                     },
                   ),
                 ),
@@ -69,6 +86,7 @@ class _PostModelState extends State<PostModel> {
       },
     );
   }
+
   void _showAllImagesDialog() {
     showGeneralDialog(
       context: context,
@@ -79,18 +97,20 @@ class _PostModelState extends State<PostModel> {
       pageBuilder: (BuildContext buildContext, Animation animation, Animation secondaryAnimation) {
         return Dialog(
           backgroundColor: AppColor.backgroundColor,
-          insetPadding: EdgeInsets.symmetric(vertical: AppFontStyles.aboutMe,horizontal: 0),
+          insetPadding: EdgeInsets.symmetric(vertical: AppFontStyles.aboutMe, horizontal: 0),
           child: ListView.separated(
             itemBuilder: (context, index) => GestureDetector(
               onTap: () {
                 _openImageDialog(widget.imagePaths![index]);
               },
-              child: Image.asset(
-                widget.imagePaths![index],
+              child: Image.network(
+                "http://192.168.43.142:3000${widget.imagePaths![index]}",
                 fit: BoxFit.cover,
               ),
             ),
-            separatorBuilder: (context, index) => SizedBox(height: AppFontStyles.aboutMe-4,),
+            separatorBuilder: (context, index) => SizedBox(
+              height: AppFontStyles.aboutMe - 4,
+            ),
             itemCount: widget.imagePaths!.length,
           ),
         );
@@ -101,7 +121,7 @@ class _PostModelState extends State<PostModel> {
   Future<void> _saveImageToDevice(String imagePath) async {
     try {
       // Get the byte data from the image file
-      final ByteData bytes = await rootBundle.load(imagePath);
+      final ByteData bytes = await rootBundle.load("http://192.168.43.142:3000$imagePath");
       final Uint8List list = bytes.buffer.asUint8List();
 
       // Save the image to the device gallery
@@ -111,8 +131,8 @@ class _PostModelState extends State<PostModel> {
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          title: Text('Saved Successfully',style: TextStyle(color: AppColor.bluColor),),
-          content: Text('Image saved to gallery.',style: TextStyle(color: AppColor.grayColorFont),),
+          title: Text('Saved Successfully', style: TextStyle(color: AppColor.bluColor)),
+          content: Text('Image saved to gallery.', style: TextStyle(color: AppColor.grayColorFont)),
           actions: [
             TextButton(
               child: Text('OK', style: TextStyle(color: AppColor.orangeColor)),
@@ -128,11 +148,11 @@ class _PostModelState extends State<PostModel> {
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          title: Text('Error',style: TextStyle(color: AppColor.bluColor),),
-          content: Text('Failed to save image.',style: TextStyle(color: AppColor.grayColorFont),),
+          title: Text('Error', style: TextStyle(color: AppColor.bluColor)),
+          content: Text('Failed to save image.', style: TextStyle(color: AppColor.grayColorFont)),
           actions: [
             TextButton(
-              child: Text('OK',style: TextStyle(color: AppColor.orangeColor)),
+              child: Text('OK', style: TextStyle(color: AppColor.orangeColor)),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -160,10 +180,17 @@ class _PostModelState extends State<PostModel> {
                 ListTile(
                   contentPadding: EdgeInsets.zero,
                   leading: GestureDetector(
-                    onTap:widget.onTapImage,
+                    onTap: widget.onTapImage,
                     child: ClipOval(
-                      child: Image.asset(
-                       widget.imagePath,
+                      child: widget.imagePath != "assets/images/aboutmy.png"
+                          ? Image.network(
+                        "http://192.168.43.142:3000${widget.imagePath}",
+                        fit: BoxFit.cover,
+                        height: 50,
+                        width: 50,
+                      )
+                          : Image.asset(
+                        widget.imagePath,
                         fit: BoxFit.cover,
                         height: 50,
                         width: 50,
@@ -186,19 +213,12 @@ class _PostModelState extends State<PostModel> {
                       fontWeight: AppFontStyles.fontWeightMedium,
                     ),
                   ),
+                  trailing: widget.deleteAndEdit
+                      ? IconButton(onPressed: widget.onPressed, icon: Icon(Icons.more_vert))
+                      : SizedBox(),
                 ),
                 const SizedBox(height: AppFontStyles.sizeBetweenBoxAndSubTitle),
-                widget.videoUrl != null
-                    ? Container(
-                     height: 200,
-                     color: Colors.black,
-                     child: const Center(
-                    child: Icon(Icons.play_circle_outline, color: Colors.white, size: 50),
-                  ),
-                )
-                    : widget.imagePaths != null && widget.imagePaths!.isNotEmpty
-                    ? _buildImageGrid(widget.imagePaths!)
-                    : const SizedBox(),
+                _buildMediaGrid(),
                 const SizedBox(height: AppFontStyles.sizeBetweenBoxAndSubTitle),
               ],
             ),
@@ -218,8 +238,8 @@ class _PostModelState extends State<PostModel> {
                 Row(
                   children: [
                     IconButton(
-                      icon:  Icon(Icons.favorite, color:Colors.red),
-                      onPressed:widget.onPressedForFavorit,
+                      icon: Icon(Icons.favorite, color: Colors.red),
+                      onPressed: widget.onPressedForFavorit,
                     ),
                   ],
                 ),
@@ -231,14 +251,11 @@ class _PostModelState extends State<PostModel> {
                     ),
                     Text(
                       widget.numberOfCommit,
-                      style: TextStyle(
-                          fontSize: AppFontStyles.aboutMe,
-                          color: AppColor.commentFont),
+                      style: TextStyle(fontSize: AppFontStyles.aboutMe, color: AppColor.commentFont),
                     ),
                   ],
                 ),
                 const Spacer(),
-
               ],
             ),
           ),
@@ -247,8 +264,17 @@ class _PostModelState extends State<PostModel> {
     );
   }
 
-  Widget _buildImageGrid(List<String> imagePaths) {
-    int imageCount = imagePaths.length > 5 ? 5 : imagePaths.length;
+  Widget _buildMediaGrid() {
+    List<String> mediaPaths = [];
+    if (widget.videoUrl != null) {
+      mediaPaths.addAll(widget.videoUrl!.cast<String>());
+    }
+    if (widget.imagePaths != null) {
+      mediaPaths.addAll(widget.imagePaths!.cast<String>());
+    }
+
+    int itemCount = mediaPaths.length > 5 ? 5 : mediaPaths.length;
+
     return GridView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
@@ -257,15 +283,30 @@ class _PostModelState extends State<PostModel> {
         mainAxisSpacing: 4.0,
         crossAxisSpacing: 4.0,
       ),
-      itemCount: imageCount + (imagePaths.length > 5 ? 1 : 0),
+      itemCount: itemCount + (mediaPaths.length > 5 ? 1 : 0),
       itemBuilder: (context, index) {
         if (index < 5) {
+          bool isVideo = widget.videoUrl != null && widget.videoUrl!.contains(mediaPaths[index]);
           return GestureDetector(
-            onTap: () => _openImageDialog(imagePaths[index]),
-            child: Image.asset(imagePaths[index], fit: BoxFit.cover),
+            onTap: () {
+              if (isVideo) {
+                // Play the video
+              } else {
+                _openImageDialog(mediaPaths[index]);
+              }
+            },
+            child: isVideo
+                ? Container(
+              color: Colors.black,
+              child: const Center(
+                child: Icon(Icons.play_circle_outline, color: Colors.white, size: 50),
+              ),
+            )
+                :Image(image: NetworkImage("http://192.168.43.142:3000${mediaPaths[index]}"),fit: BoxFit.cover),
           );
         } else {
           return GestureDetector(
+
             onTap: () {
               _showAllImagesDialog();
             },
@@ -273,7 +314,7 @@ class _PostModelState extends State<PostModel> {
               color: AppColor.comment,
               child: Center(
                 child: Text(
-                  '+${imagePaths.length - 5}',
+                  '+${mediaPaths.length - 5}',
                   style: const TextStyle(color: Colors.white, fontSize: 20),
                 ),
               ),

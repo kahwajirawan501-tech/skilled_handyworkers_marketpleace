@@ -28,12 +28,13 @@ void showToast({
   required ToastStates state,
 })=>Fluttertoast.showToast(
           msg: text,
+
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,//ظهور
           timeInSecForIosWeb: 5,
           backgroundColor: chooseToastColor(state),
-          textColor: Colors.white,
-          fontSize: 16.0,
+          textColor:AppColor.grayColorFont,
+          fontSize: 12.0,
 
       );
       enum ToastStates{
@@ -43,11 +44,11 @@ void showToast({
       {  Color color;
         switch(state){
           case ToastStates.SUCCESS:
-            color=AppColor.grayColorFont;
+            color=AppColor.backgroundColor;
 
             break;
           case ToastStates.EROOR:
-            color=  Colors.grey;
+            color=  AppColor.backgroundColor;
             break;
           case ToastStates.WARNING:
             color=  Colors.amber;
@@ -284,14 +285,19 @@ Widget defaultTextField({
           validator: validate,
           cursorColor: AppColor.grayColorFont,
           cursorWidth: 0.5,
-
           decoration: InputDecoration(
+            hintText: hint,
+        hintStyle: TextStyle(
 
+    color: AppColor.grayColorFont,
+    fontSize: AppFontStyles.descriptionLoginFontSize,
+),
               suffixIconConstraints: BoxConstraints(maxWidth: 24),
 
               contentPadding: EdgeInsetsDirectional.zero,
 
               border: OutlineInputBorder(
+
                 borderSide: BorderSide.none,
 
               ) ,

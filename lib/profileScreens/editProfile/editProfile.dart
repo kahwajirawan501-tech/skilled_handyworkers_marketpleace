@@ -4,6 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:skilled_handyworkers_marketpleace/SearchModel/searchLocation.dart';
+import 'package:skilled_handyworkers_marketpleace/SearchModel/searchService.dart';
 import 'package:skilled_handyworkers_marketpleace/profileScreens/Box.dart';
 import 'package:skilled_handyworkers_marketpleace/profileScreens/appBarProfile.dart';
 import 'package:skilled_handyworkers_marketpleace/profileScreens/profileScreen.dart';
@@ -29,7 +31,9 @@ class _EditProfileState extends State<EditProfile> {
 
    var location=TextEditingController();
 
-   int _value=2;
+  var service=TextEditingController();
+
+  int _value=2;
 
   File? image;
   String? imageFile;
@@ -216,6 +220,51 @@ class _EditProfileState extends State<EditProfile> {
                   ),),
 
                 const SizedBox(height: AppFontStyles.sizeBetweenBoxAndSubTitle-4,),
+                Text("Skill",style: TextStyle(
+                    fontWeight:AppFontStyles.fontWeightBold ,
+                    fontSize: AppFontStyles.descriptionLoginFontSize,
+                    color: AppColor.navyBlueColor
+                ),),
+                const SizedBox(height: AppFontStyles.sizeBetweenBoxAndSubTitle-4,),
+                Box(
+                  widget: SizedBox(
+                    width: double.infinity,
+                    height: 40,
+                    child: GestureDetector(
+                      onTap: () async {
+                        final result = await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => Service(
+                              title: "Add Service",
+                              titleSearch: "Search",
+                              textController: service,
+                              widget:  EditProfile(),
+                            ),
+                          ),
+                        );
+                        if (result != null && result is String) {
+                          setState(() {
+                            service.text = result;
+                          });
+                        }
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: AppFontStyles.padding, vertical: 8),
+                        child: Text(
+                          service.text.isEmpty ? "Select service" : service.text,
+                          style: TextStyle(
+                            color: AppColor.grayColorFont,
+                            fontSize: AppFontStyles.descriptionLoginFontSize,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  height: 40,
+                  borderRadius: const BorderRadius.all(Radius.circular(10)),
+                ),
+                const SizedBox(height: AppFontStyles.sizeBetweenBoxAndSubTitle-4,),
 
                 Text("Location",style: TextStyle(
                     fontWeight:AppFontStyles.fontWeightBold ,
@@ -224,18 +273,42 @@ class _EditProfileState extends State<EditProfile> {
                 ),),
                 const SizedBox(height: AppFontStyles.sizeBetweenBoxAndSubTitle-4,),
                 Box(
-                  borderRadius: BorderRadius.circular(AppFontStyles.borderRadiusTextField),
+                  widget: SizedBox(
+                    width: double.infinity,
+                    height: 40,
+                    child: GestureDetector(
+                      onTap: () async {
+                        final result = await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => Location(
+                              textController: location,
+                              widget:  EditProfile(),
+                            ),
+                          ),
+                        );
+                        if (result != null && result is String) {
+                          setState(() {
+                            location.text = result;
+                          });
+                        }
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: AppFontStyles.padding, vertical: 8),
+                        child: Text(
+                          location.text.isEmpty ? "Select location" : location.text,
+                          style: TextStyle(
+                            color: AppColor.grayColorFont,
+                            fontSize: AppFontStyles.descriptionLoginFontSize,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
                   height: 40,
-                  widget:Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: AppFontStyles.padding),
-                      child: defaultTextField(
-                        controller: location,
-                        type:TextInputType.text,
-                        height: 40,
-                        borderRadius:BorderRadius.circular(AppFontStyles.borderRadiusTextField) ,
-                      )
+                  borderRadius: const BorderRadius.all(Radius.circular(10)),
+                ),
 
-                  ),),
                 const SizedBox(height: AppFontStyles.sizeBetweenBoxAndSubTitle+24,),
 
                 Center(

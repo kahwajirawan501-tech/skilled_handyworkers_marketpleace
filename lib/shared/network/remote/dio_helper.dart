@@ -166,4 +166,20 @@ return dio.patch(url,data: data);
 
     return await dio.get(url,);
   }
+
+  static Future<Response> deletePost(
+      {required String url,
+        query,
+        String?  token,
+      }) async {
+
+    dio.options.headers={
+
+      'Accept':'application/json',
+      "Authorization":"Bearer $token",
+    };
+    //Response response =await dio.post(url, queryParameters: query,data: data);
+
+    return dio.delete(url, queryParameters: query);
+  }
 }

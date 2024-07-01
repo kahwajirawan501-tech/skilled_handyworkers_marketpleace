@@ -5,8 +5,11 @@ import 'package:skilled_handyworkers_marketpleace/Commint/commintSceren.dart';
 import 'package:skilled_handyworkers_marketpleace/Commint/cubit/cubit.dart';
 import 'package:skilled_handyworkers_marketpleace/Commint/cubit/states.dart';
 import 'package:skilled_handyworkers_marketpleace/Posting/OpenQuestionModel.dart';
+import 'package:skilled_handyworkers_marketpleace/Posting/cubit/cubit.dart';
+import 'package:skilled_handyworkers_marketpleace/Posting/cubit/states.dart';
 import 'package:skilled_handyworkers_marketpleace/Posting/postModel.dart';
 import 'package:skilled_handyworkers_marketpleace/shared/components/components.dart';
+import 'package:skilled_handyworkers_marketpleace/shared/components/constant.dart';
 import 'package:skilled_handyworkers_marketpleace/shared/styles/colors.dart';
 import 'package:skilled_handyworkers_marketpleace/shared/styles/styles.dart';
 
@@ -20,6 +23,38 @@ class ListOfOpenQuestion extends StatefulWidget {
 }
 
 class _ListOfOpenQuestionState extends State<ListOfOpenQuestion> {
+  void _showOptions(int id) {
+    showModalBottomSheet(
+      backgroundColor: AppColor.backgroundColor,
+      context: context,
+      builder: (BuildContext context) {
+        return SafeArea(
+          child: Wrap(
+            children: <Widget>[
+              ListTile(
+                leading: Icon(Icons.delete, color: AppColor.orangeColor),
+                title:
+                Text("Delete", style: TextStyle(color: AppColor.bluColor)),
+                onTap: () {
+                  Navigator.pop(context);
+                  // CubitYourPost.get(context).deletePost(id);
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.edit, color: AppColor.orangeColor),
+                title: Text("Edit", style: TextStyle(color: AppColor.bluColor)),
+                onTap: () {
+
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,20 +65,25 @@ class _ListOfOpenQuestionState extends State<ListOfOpenQuestion> {
           child: ListView.separated(
               itemBuilder: (context, index) =>
                   OpenQuestionModel(
-                    time:widget.openQuestionPost![index]['time'],
-                    numberOfCommit: widget.openQuestionPost![index]['numberOfCommit'],
-                    name: widget.openQuestionPost![index]['postAuthor']['name'],
-                    imagePath:widget.openQuestionPost![index]['postAuthor']['profileImage'],
-                    openQuestion:widget.openQuestionPost![index]['postContent'],
+                    time:widget.openQuestionPost![index]['publishedAt'],
+                    numberOfCommit:"78" ,//widget.openQuestionPost![index]['numberOfCommit']
+                    name: widget.openQuestionPost![index]['user']['fullName'],
+                    imagePath:widget.openQuestionPost![index]['user']['profileImage'] ?? "assets/images/aboutmy.png",
+                    openQuestion:widget.openQuestionPost![index]['text'],
                     onTapImage: () {
 
                     },
                     onPressedForCommit:(){
 
-                      navigateTo(context: context,widget: CommitScreen(idPost:widget.openQuestionPost![index]['postId'],typePost: "openQuestion",)) ;
+                    //  navigateTo(context: context,widget: CommitScreen(idPost:widget.openQuestionPost![index]['postId'],typePost: "openQuestion",)) ;
 
                     },
                     onPressedForFavorit: (){
+
+                    },
+                    deleteAndEdit:true,//widget.openQuestionPost![index]['postAuthor']['id']==id?true :false,
+                    onPressed: () {
+                    //  _showOptions(widget.openQuestionPost![index]['postId']);
 
                     },
 

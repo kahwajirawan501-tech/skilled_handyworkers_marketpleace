@@ -107,26 +107,35 @@ class CubitYourPost extends Cubit<YourPostStates>{
         },
       ]
     }
-
   ;
 
+  int currentPageOpenQuestion=1;
+  void changePageOpenQuestion() {
+      currentPageOpenQuestion++;
+      getOpenQuestion(currentPageOpenQuestion);
+      print("openQuestion.length");
+      print(openQuestion.length);
+  }
 
+  int currentPagePost=1;
+  void changePagePost() {
+    currentPagePost++;
+    getPost(currentPagePost);
+    print("post.length");
+    print(post.length);
+  }
 
-  //InformationModel informationModel;
-  void getPost(int id){
-    emit(YourPostPostSucssessfullStateStates());
-    print("YourPostPostSucssessfullStateStates");
-    DioHelper.postData(
-      url:'',
-      token: '',
-      data: {
-        'id': id,
+final List<Map<String,dynamic>>post=[];
+final List<Map<String,dynamic>>openQuestion=[];
 
-      },
+ void getPost(int page){
+    emit(YourPostPostLoadStateStates());
+    print("YourPostPostLoadStateStates");
+    DioHelper.getData(
+      url:'post/posts?page=$page&limit=10',
     ).then((value)
     {
-
-      // informationModel=InformationModel.fromJson(value.data);
+      post.addAll(List<Map<String, dynamic>>.from(value.data));
       print("YourPostPostSucssessfullStateStates");
       emit(YourPostPostSucssessfullStateStates());
 
@@ -137,6 +146,44 @@ class CubitYourPost extends Cubit<YourPostStates>{
       emit(YourPostPostErrorStateStates(statusCode));
     });
   }
+ void getOpenQuestion(int page){
+    emit(YourOpenQuestionPostLoadStateStates());
+    print("YourOpenQuestionPostLoadStateStates");
+    DioHelper.getData(
+      url:'post/posts?page=$page&limit=10',
+    ).then((value)
+    {
 
+      openQuestion.addAll(List<Map<String, dynamic>>.from(value.data));
+
+      print("YourOpenQuestionPostSucssessfullStateStates");
+      emit(YourPostPostSucssessfullStateStates());
+
+    }
+    ).catchError((error){
+      int statusCode = error.response?.statusCode ?? -1;
+      print("YourOpenQuestionPostErrorStateStates");
+      emit(YourOpenQuestionPostErrorStateStates(statusCode));
+    });
+  }
+
+  void deletePost(String id){
+    emit(DeletePostLoadStateStates());
+    print("DeletePostLoadStateStates");
+    DioHelper.deletePost(
+      url:'post/$id',
+    ).then((value)
+    {
+
+      print("DeletePostSucssessfullStateStates");
+      emit(DeletePostSucssessfullStateStates());
+
+    }
+    ).catchError((error){
+      int statusCode = error.response?.statusCode ?? -1;
+      print("DeletePostErrorStateStates");
+      emit(DeletePostErrorStateStates(statusCode));
+    });
+  }
 
 }

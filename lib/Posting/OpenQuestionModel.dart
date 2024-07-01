@@ -13,8 +13,10 @@ class OpenQuestionModel extends StatefulWidget {
   final VoidCallback? onPressedForFavorit;
   final String numberOfCommit;
   final String openQuestion;
+  final VoidCallback? onPressed;
+  final bool deleteAndEdit;
   /////////////////////////////////////
-  const OpenQuestionModel({Key? key, this.onTapImage, required this.imagePath, required this.name, required this.time, this.onPressedForCommit, this.onPressedForFavorit, required this.numberOfCommit, required this.openQuestion}) : super(key: key);
+  const OpenQuestionModel({Key? key, this.onTapImage, required this.imagePath, required this.name, required this.time, this.onPressedForCommit, this.onPressedForFavorit, required this.numberOfCommit, required this.openQuestion, this.onPressed, required this.deleteAndEdit}) : super(key: key);
 
   @override
   State<OpenQuestionModel> createState() => _OpenQuestionModelState();
@@ -41,8 +43,15 @@ class _OpenQuestionModelState extends State<OpenQuestionModel> {
                   contentPadding: EdgeInsets.zero,
                   leading: GestureDetector(
                     onTap: widget.onTapImage,
-                    child: ClipOval(
-                      child: Image.asset(
+                    child:ClipOval(
+                      child: widget.imagePath != "assets/images/aboutmy.png"
+                          ? Image.network(
+                        "http://192.168.43.142:3000${widget.imagePath}",
+                        fit: BoxFit.cover,
+                        height: 50,
+                        width: 50,
+                      )
+                          : Image.asset(
                         widget.imagePath,
                         fit: BoxFit.cover,
                         height: 50,
@@ -66,6 +75,9 @@ class _OpenQuestionModelState extends State<OpenQuestionModel> {
                       fontWeight: AppFontStyles.fontWeightMedium,
                     ),
                   ),
+                  trailing:widget.deleteAndEdit?
+                  IconButton(onPressed:widget.onPressed, icon: Icon(Icons.more_vert)):SizedBox(),
+
                 ),
                 const SizedBox(height: AppFontStyles.sizeBetweenBoxAndSubTitle),
 

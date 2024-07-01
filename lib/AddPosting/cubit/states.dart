@@ -7,11 +7,12 @@ class AddPostLoadStateStates extends AddPostStates {
 }
 class AddPostSucssessfullStateStates extends AddPostStates {
 
-  AddPostSucssessfullStateStates();
 }
 class AddPostErrorStateStates extends AddPostStates {
   final int statusCode;
-  AddPostErrorStateStates(this.statusCode);
+  final String message;
+
+  AddPostErrorStateStates(this.statusCode, this.message);
 }
 class AddPostStatesState extends AddPostStates{
   AddPostStatesState();
@@ -27,8 +28,23 @@ class AddOpenQuestionSucssessfullStateStates extends AddPostStates {
 }
 class AddOpenQuestionErrorStateStates extends AddPostStates {
   final int statusCode;
-  AddOpenQuestionErrorStateStates(this.statusCode);
+  final String message;
+
+  AddOpenQuestionErrorStateStates(this.statusCode, this.message);
 }
 class AddOpenQuestionStatesState extends AddPostStates{
 
+}
+
+
+class PostFileLoadStateStates extends AddPostStates {
+
+}
+class PostFileSucssessfullStateStates extends AddPostStates {
+
+}
+class PostFileErrorStateStates extends AddPostStates {
+  final int statusCode;
+  final String message;
+  PostFileErrorStateStates(this.statusCode, this.message);
 }
