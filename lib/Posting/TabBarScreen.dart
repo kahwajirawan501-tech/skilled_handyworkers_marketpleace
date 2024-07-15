@@ -2,43 +2,54 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:skilled_handyworkers_marketpleace/Commint/commintSceren.dart';
-import 'package:skilled_handyworkers_marketpleace/Posting/ListOfPosting.dart';
-import 'package:skilled_handyworkers_marketpleace/Posting/ListOpenQuestion.dart';
+import 'package:skilled_handyworkers_marketpleace/Posting/ListOfPostForUser.dart';
+import 'package:skilled_handyworkers_marketpleace/Posting/ListOpenQuestionForUser.dart';
 import 'package:skilled_handyworkers_marketpleace/Posting/cubit/cubit.dart';
 import 'package:skilled_handyworkers_marketpleace/Posting/cubit/states.dart';
 import 'package:skilled_handyworkers_marketpleace/profileScreens/Box.dart';
-import 'package:skilled_handyworkers_marketpleace/profileScreens/profileScreen.dart';
 import 'package:skilled_handyworkers_marketpleace/shared/components/components.dart';
 import 'package:skilled_handyworkers_marketpleace/shared/components/constant.dart';
 import 'package:skilled_handyworkers_marketpleace/shared/styles/colors.dart';
 import 'package:skilled_handyworkers_marketpleace/shared/styles/styles.dart';
 
-class TabBarPosting extends StatefulWidget {
+class TabBarPosting extends StatefulWidget
+{
   const TabBarPosting({Key? key}) : super(key: key);
 
   @override
   State<TabBarPosting> createState() => _TabBarPostingState();
 }
 
-class _TabBarPostingState extends State<TabBarPosting> {
+ class _TabBarPostingState extends State<TabBarPosting> {
 
   bool clickPosting=false;
   bool clickOpenQuestion=false;
+  List<Map<String, dynamic>> post = [];
+  List<Map<String, dynamic>> openQuestion = [];
 
 
 
-  Future<void> _handleRefresh() async {
-    CubitYourPost.get(context).changePageOpenQuestion();
-  }
-  Future<void> _handleRefreshPost() async {
-    CubitYourPost.get(context).changePagePost();
-  }
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocConsumer<CubitYourPost,YourPostStates>(
         listener: (context, state) {
+         if(state is YourPostPostSucssessfullStateStates){
+           setState(() {
+             post = CubitYourPost.get(context).post;
+
+           });
+         }
+         if(state is YourOpenQuestionPostSucssessfullStateStates){
+          setState(() {
+            openQuestion = CubitYourPost.get(context).openQuestion;
+          });
+
+         }
+
 
         },
         builder: (context, state) {
@@ -74,8 +85,10 @@ class _TabBarPostingState extends State<TabBarPosting> {
                         child: Column(
                           children: [
                             ClipOval(
-                              child: Image.asset(
-                                image!.isEmpty?"assets/images/aboutmy.png":image!,
+                              child:imageNetwork!=null?Image.network(imageNetwork!, fit: BoxFit.cover,
+                                height: 80,
+                                width: 80,): Image.asset(
+                                imageCope!,
                                 fit: BoxFit.cover,
                                 height: 80,
                                 width: 80,
@@ -140,21 +153,20 @@ class _TabBarPostingState extends State<TabBarPosting> {
                   ),
                   SizedBox(height: AppFontStyles.aboutMe,),
                   Row(
+
                     children: [
                       SizedBox(width: AppFontStyles.aboutMe,),
                       Expanded(
 
                         child: Box(widget:GestureDetector(
                           onTap: () {
-
-
                             setState(() {
                               clickPosting=!clickPosting;
                               if(clickPosting){
                                 clickOpenQuestion=false;
-                        //        CubitYourPost.get(context).getPost(1);
-                              }
-                              CubitYourPost.get(context).changePagePost();
+                                post.clear();
+                                                            }
+                              CubitYourPost.get(context).getPost();
 
                             });
 
@@ -178,10 +190,10 @@ class _TabBarPostingState extends State<TabBarPosting> {
                               clickOpenQuestion=!clickOpenQuestion;
                               if(clickOpenQuestion){
                                 clickPosting=false;
-                                // CubitYourPost.get(context).getPost(1);
+                                openQuestion.clear();
 
                               }
-                              CubitYourPost.get(context).changePageOpenQuestion();
+                              CubitYourPost.get(context).getOpenQuestion();
 
                             });
 
@@ -196,45 +208,41 @@ class _TabBarPostingState extends State<TabBarPosting> {
                           ),
                         ), height: 40, borderRadius: BorderRadius.circular(10)),
                       ),
-                      SizedBox(width: AppFontStyles.aboutMe,),
 
                     ],
                   ),
                   if(!(clickOpenQuestion||clickPosting))
                     Expanded(child: Center(child: Image.asset("assets/images/Illustrasi.png"))),
-                  if(clickPosting)
-                    Expanded(child: ConditionalBuilder(
-                      condition: clickPosting && state is !YourPostPostLoadStateStates,
-                      builder: (context) =>CubitYourPost.get(context).yourPost['post']!=null
-                     ?RefreshIndicator(
-                        onRefresh: _handleRefreshPost,
-                          color: AppColor.orangeColor,
-                          child: ListOfPosting(post: CubitYourPost.get(context).yourPost['post'],)):const Center(
-                        child: Text(
-                          'No post yet.',
-                          style:
-                          TextStyle(color: Colors.grey, fontSize: 16),
-                        )),
-                      //CubitYourPost.get(context).getPost(1);
-                      fallback: (context) =>  Center(child: CircularProgressIndicator(color:AppColor.orangeColor,),),
-                    ),),
-                  if(clickOpenQuestion)
+                  if (clickPosting)
+                    Expanded(
+                      child: ConditionalBuilder(
+                        condition: state is! YourPostPostLoadStateStates ,
+                        builder: (context) => ListOfPostingUser(
+                          post: post,
 
-                    Expanded(child: ConditionalBuilder(
-                      condition: clickOpenQuestion&& state is !YourPostPostLoadStateStates,
-                      builder: (context) =>CubitYourPost.get(context).yourPost['OpenQuestion']!=null
-                          ?RefreshIndicator(
-                          color: AppColor.orangeColor,
+                        ),
+                        fallback: (context) => Center(
+                          child: CircularProgressIndicator(
+                            color: AppColor.orangeColor,
+                          ),
+                        ),
+                      ),
+                    ),
+                  if (clickOpenQuestion)
+                    Expanded(
+                      child: ConditionalBuilder(
+                        condition:state is !YourOpenQuestionPostLoadStateStates ,
+                        builder: (context) =>ListOfOpenQuestionUser(
+                          openQuestionPost: openQuestion,
 
-                          onRefresh: _handleRefresh,
-                          child: ListOfOpenQuestion(openQuestionPost: CubitYourPost.get(context).yourPost['OpenQuestion'],)):const Center(
-                          child: Text(
-                            'No post yet.',
-                            style:
-                            TextStyle(color: Colors.grey, fontSize: 16),
-                          )),
-                      fallback: (context) =>  Center(child: CircularProgressIndicator(color:AppColor.orangeColor,),),
-                    ),),
+                        ),
+                        fallback: (context) => Center(
+                          child: CircularProgressIndicator(
+                            color: AppColor.orangeColor,
+                          ),
+                        ),
+                      ),
+                    ),
                 ],
               ),
             ),

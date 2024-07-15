@@ -5,6 +5,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skilled_handyworkers_marketpleace/AddPosting/cubit/cubit.dart';
 import 'package:skilled_handyworkers_marketpleace/AddPosting/cubit/states.dart';
+import 'package:skilled_handyworkers_marketpleace/Posting/cubit/cubit.dart';
 import 'package:skilled_handyworkers_marketpleace/shared/components/constant.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
 import 'package:flutter/material.dart';
@@ -40,8 +41,8 @@ class _AddPostState extends State<AddPost> {
 
 
   void printSelectedVideos() {
-    for (int i = 0; i < _selectedVideos.length; i++) {
-      print("Video ${i + 1}: ${_selectedVideos[i].path}");
+    for (int i = 0; i < _selectedImages.length; i++) {
+      print("Video ${i + 1}: ${_selectedImages[i].path}");
     }
   }
   final ImagePicker _picker = ImagePicker();
@@ -614,6 +615,10 @@ class _AddPostState extends State<AddPost> {
 
 
 
+
+
+
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AddPostCubit,AddPostStates>(
@@ -632,8 +637,8 @@ class _AddPostState extends State<AddPost> {
 
         if(state is AddPostSucssessfullStateStates){
           showToast(text:"The post has been published successfully", state: ToastStates.EROOR);
-          navigateAndFinish(widget:const BottomNavigationScreen(),context: context);
-
+          Navigator.pop(context);
+          CubitYourPost.get(context).getPost();
         }
         else if(state is AddPostErrorStateStates){
           showToast(text:"The post hasn't been published successfully \n"+state.message, state: ToastStates.EROOR);
@@ -736,9 +741,14 @@ class _AddPostState extends State<AddPost> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         ConditionalBuilder(
-                            condition: state is !AddPostLoadStateStates,
+                          condition:state is !PostFileLoadStateStates ,
+                          builder: (context) => ConditionalBuilder(
+                            condition:state is !AddPostLoadStateStates ,
                             builder: (context) => const SizedBox(),
                             fallback:(context) => LinearProgressIndicator(color: AppColor.orangeColor,minHeight:1.0,),),
+                          fallback: (context) => LinearProgressIndicator(color: AppColor.orangeColor,minHeight:1.0,) ,
+
+                        ),
                         SizedBox(height:AppFontStyles.aboutMe,),
                         Text(
                           "Add Post",
@@ -752,18 +762,18 @@ class _AddPostState extends State<AddPost> {
                           height: AppFontStyles.sizeBetweenTitleAndSubTitle,
                         ),
                         ListTile(
-                          contentPadding: EdgeInsets.zero,
-
                           leading: ClipOval(
-                            child: Image.asset(
-                              "assets/images/Mask group.png",
+                            child: imageNetwork!=null?Image.network(imageNetwork!,fit: BoxFit.cover,
+                              height: 50,
+                              width: 50,):Image.asset(
+                              imageCope!,
                               fit: BoxFit.cover,
                               height: 50,
                               width: 50,
                             ),
                           ),
                           title:  Text(
-                            "Orlando Diggs",
+                            name!=null?name!:"",
                             style: TextStyle(
                               fontSize: AppFontStyles.descriptionSplashScreenFontSize,
                               color: AppColor.bluColor,
@@ -771,7 +781,7 @@ class _AddPostState extends State<AddPost> {
                             ),
                           ),
                           subtitle:    Text(
-                            " Damascus",
+                            location!=null?location!:"",
                             style: TextStyle(
                               fontSize: AppFontStyles.descriptionLoginFontSize,
                               color: AppColor.fontColorDescription,

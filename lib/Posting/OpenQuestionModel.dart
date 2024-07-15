@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:skilled_handyworkers_marketpleace/shared/components/constant.dart';
 import 'package:skilled_handyworkers_marketpleace/shared/styles/colors.dart';
 import 'package:skilled_handyworkers_marketpleace/shared/styles/styles.dart';
 
@@ -34,19 +35,22 @@ class _OpenQuestionModelState extends State<OpenQuestionModel> {
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
+
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.all(AppFontStyles.aboutMe),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 ListTile(
                   contentPadding: EdgeInsets.zero,
                   leading: GestureDetector(
                     onTap: widget.onTapImage,
                     child:ClipOval(
-                      child: widget.imagePath != "assets/images/aboutmy.png"
+                      child: widget.imagePath != pathImageCope
                           ? Image.network(
-                        "http://192.168.43.142:3000${widget.imagePath}",
+                        "$api${widget.imagePath}",
                         fit: BoxFit.cover,
                         height: 50,
                         width: 50,
@@ -82,6 +86,7 @@ class _OpenQuestionModelState extends State<OpenQuestionModel> {
                 const SizedBox(height: AppFontStyles.sizeBetweenBoxAndSubTitle),
 
                 Text(widget.openQuestion,
+
                   style: TextStyle(fontWeight:AppFontStyles.fontWeightSemiBold ),
                 ),
                 const SizedBox(height: AppFontStyles.sizeBetweenBoxAndSubTitle),

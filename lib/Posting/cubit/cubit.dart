@@ -109,32 +109,20 @@ class CubitYourPost extends Cubit<YourPostStates>{
     }
   ;
 
-  int currentPageOpenQuestion=1;
-  void changePageOpenQuestion() {
-      currentPageOpenQuestion++;
-      getOpenQuestion(currentPageOpenQuestion);
-      print("openQuestion.length");
-      print(openQuestion.length);
-  }
 
-  int currentPagePost=1;
-  void changePagePost() {
-    currentPagePost++;
-    getPost(currentPagePost);
-    print("post.length");
-    print(post.length);
-  }
 
 final List<Map<String,dynamic>>post=[];
 final List<Map<String,dynamic>>openQuestion=[];
 
- void getPost(int page){
+ void getPost(){
     emit(YourPostPostLoadStateStates());
     print("YourPostPostLoadStateStates");
+    post.clear();
     DioHelper.getData(
-      url:'post/posts?page=$page&limit=10',
+      url:'post/4042a457-eb42-473d-ad90-e95ad2297525/posts',
     ).then((value)
     {
+      print(value.data);
       post.addAll(List<Map<String, dynamic>>.from(value.data));
       print("YourPostPostSucssessfullStateStates");
       emit(YourPostPostSucssessfullStateStates());
@@ -146,18 +134,18 @@ final List<Map<String,dynamic>>openQuestion=[];
       emit(YourPostPostErrorStateStates(statusCode));
     });
   }
- void getOpenQuestion(int page){
+ void getOpenQuestion(){
     emit(YourOpenQuestionPostLoadStateStates());
     print("YourOpenQuestionPostLoadStateStates");
+    openQuestion.clear();
     DioHelper.getData(
-      url:'post/posts?page=$page&limit=10',
+      url:'post/4042a457-eb42-473d-ad90-e95ad2297525/open-questions',
     ).then((value)
     {
-
       openQuestion.addAll(List<Map<String, dynamic>>.from(value.data));
-
+       print(openQuestion);
       print("YourOpenQuestionPostSucssessfullStateStates");
-      emit(YourPostPostSucssessfullStateStates());
+      emit(YourOpenQuestionPostSucssessfullStateStates());
 
     }
     ).catchError((error){
@@ -166,7 +154,6 @@ final List<Map<String,dynamic>>openQuestion=[];
       emit(YourOpenQuestionPostErrorStateStates(statusCode));
     });
   }
-
   void deletePost(String id){
     emit(DeletePostLoadStateStates());
     print("DeletePostLoadStateStates");
@@ -177,7 +164,8 @@ final List<Map<String,dynamic>>openQuestion=[];
 
       print("DeletePostSucssessfullStateStates");
       emit(DeletePostSucssessfullStateStates());
-
+     getOpenQuestion();
+     getPost();
     }
     ).catchError((error){
       int statusCode = error.response?.statusCode ?? -1;
@@ -185,5 +173,7 @@ final List<Map<String,dynamic>>openQuestion=[];
       emit(DeletePostErrorStateStates(statusCode));
     });
   }
+
+
 
 }

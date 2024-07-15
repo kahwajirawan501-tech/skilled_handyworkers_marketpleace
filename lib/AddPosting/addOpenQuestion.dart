@@ -4,9 +4,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skilled_handyworkers_marketpleace/AddPosting/cubit/cubit.dart';
 import 'package:skilled_handyworkers_marketpleace/AddPosting/cubit/states.dart';
 import 'package:skilled_handyworkers_marketpleace/ButtonNavigation/BottonNavigationBar.dart';
+import 'package:skilled_handyworkers_marketpleace/Posting/cubit/cubit.dart';
 import 'package:skilled_handyworkers_marketpleace/SearchModel/searchLocation.dart';
 import 'package:skilled_handyworkers_marketpleace/profileScreens/Box.dart';
 import 'package:skilled_handyworkers_marketpleace/shared/components/components.dart';
+import 'package:skilled_handyworkers_marketpleace/shared/components/constant.dart';
 import 'package:skilled_handyworkers_marketpleace/shared/styles/colors.dart';
 import 'package:skilled_handyworkers_marketpleace/shared/styles/styles.dart';
 
@@ -31,8 +33,8 @@ class _AddOpenQuestionState extends State<AddOpenQuestion> {
       listener: (context, state) {
         if(state is AddOpenQuestionSucssessfullStateStates){
           showToast(text:"The post has been published successfully", state: ToastStates.EROOR);
-          navigateAndFinish(widget:const BottomNavigationScreen(),context: context);
-
+          Navigator.pop(context);
+          CubitYourPost.get(context).getOpenQuestion();
         }
         else if(state is AddOpenQuestionErrorStateStates){
           showToast(text:"The post hasn't been published successfully \n"+state.message, state: ToastStates.EROOR);
@@ -114,15 +116,17 @@ class _AddOpenQuestionState extends State<AddOpenQuestion> {
                     ),
                     ListTile(
                       leading: ClipOval(
-                        child: Image.asset(
-                          "assets/images/Mask group.png",
+                        child: imageNetwork!=null?Image.network(imageNetwork!,fit: BoxFit.cover,
+                          height: 50,
+                          width: 50,):Image.asset(
+                          imageCope!,
                           fit: BoxFit.cover,
                           height: 50,
                           width: 50,
                         ),
                       ),
                       title:  Text(
-                        "Orlando Diggs",
+                        name!=null?name!:"",
                         style: TextStyle(
                           fontSize: AppFontStyles.descriptionSplashScreenFontSize,
                           color: AppColor.bluColor,
@@ -130,7 +134,7 @@ class _AddOpenQuestionState extends State<AddOpenQuestion> {
                         ),
                       ),
                       subtitle:    Text(
-                        " 21 minutes ago",
+                        location!=null?location!:"",
                         style: TextStyle(
                           fontSize: AppFontStyles.descriptionLoginFontSize,
                           color: AppColor.fontColorDescription,

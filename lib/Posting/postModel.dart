@@ -1,12 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:http/http.dart' as http; // Add this import
+import 'dart:typed_data';
+import 'package:flutter/services.dart';
+import 'package:image_gallery_saver/image_gallery_saver.dart';
+import 'package:path/path.dart' as p;
 import 'package:skilled_handyworkers_marketpleace/shared/components/constant.dart';
 import 'package:skilled_handyworkers_marketpleace/shared/styles/colors.dart';
 import 'package:skilled_handyworkers_marketpleace/shared/styles/styles.dart';
-import 'package:image_gallery_saver/image_gallery_saver.dart';
-import 'dart:typed_data';
-import 'package:flutter/services.dart';
+import 'package:video_player/video_player.dart';
+import 'package:video_thumbnail/video_thumbnail.dart';
 
 class PostModel extends StatefulWidget {
   final List<dynamic>? videoUrl;
@@ -41,6 +44,87 @@ class PostModel extends StatefulWidget {
 }
 
 class _PostModelState extends State<PostModel> {
+  VideoPlayerController? _videoPlayerController;
+  Future<Uint8List?> generateThumbnail(String videoPath) async {
+    return await VideoThumbnail.thumbnailData(
+      video: videoPath,
+      imageFormat: ImageFormat.PNG,
+      maxHeight: 64, // specify the height of the thumbnail, keep aspect ratio
+      quality: 75,
+    );
+  }
+
+  void _showAllMediaDialog(List<dynamic> mediaItems) {
+    List<dynamic> images = [];
+    List<dynamic> videos = [];
+
+    for (var path in mediaItems) {
+      String extension = p.extension(path).toLowerCase();
+
+      if (extension == '.jpg' || extension == '.jpeg' || extension == '.png' || extension == '.gif' || extension == '.bmp') {
+        images.add(path);
+      } else if (extension == '.mp4' || extension == '.avi' || extension == '.mov' || extension == '.wmv' || extension == '.flv') {
+        videos.add(path);
+      }
+    }
+
+    showGeneralDialog(
+      context: context,
+      barrierColor: Colors.white,
+      barrierDismissible: true,
+      barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
+      transitionDuration: const Duration(milliseconds: 200),
+      pageBuilder: (BuildContext buildContext, Animation animation, Animation secondaryAnimation) {
+        return Dialog(
+          backgroundColor: Colors.transparent,
+          insetPadding: EdgeInsets.only(top: 32.0),
+          child: SingleChildScrollView(
+            child: Column(
+              children: List.generate(mediaItems.length, (index) {
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: GestureDetector(
+                    onTap: () {
+                      if (videos.contains(mediaItems[index])) {
+                        _openVideoDialog(mediaItems[index]); // Passes the video URL
+                      } else {
+                        _openImageDialog(mediaItems[index]); // Passes the image URL
+                      }
+                    },
+                    child: videos.contains(mediaItems[index])
+                        ? FutureBuilder<Uint8List?>(
+                      future: generateThumbnail(mediaItems[index]),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState == ConnectionState.done && snapshot.hasData) {
+                          // Display a thumbnail for the video
+                          return Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              AspectRatio(
+                                  aspectRatio: 16 / 9,
+                                  child: Image.memory(snapshot.data!, fit: BoxFit.cover)),
+                              Icon(Icons.play_arrow, color: AppColor.orangeColor, size: 40),
+                            ],
+                          );
+                        } else {
+                          return Center(child: CircularProgressIndicator(color: AppColor.orangeColor));
+                        }
+                      },
+                    )
+                        : Image.network(
+                      mediaItems[index],
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                );
+              }),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   void _openImageDialog(String imagePath) {
     showGeneralDialog(
       barrierColor: Colors.white,
@@ -53,7 +137,7 @@ class _PostModelState extends State<PostModel> {
           insetPadding: EdgeInsets.zero,
           backgroundColor: Colors.transparent,
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: AppFontStyles.padding),
+            padding: const EdgeInsets.symmetric(vertical: 16.0),
             child: Stack(
               children: [
                 Container(
@@ -61,21 +145,18 @@ class _PostModelState extends State<PostModel> {
                   height: double.infinity,
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                      image:NetworkImage("http://192.168.43.142:3000$imagePath"),
-                      //mediaPaths[index]=="assets/images/aboutmy.png"?
-                      // Image.asset("assets/images/aboutmy.png",fit: BoxFit.cover):
+                      image: NetworkImage(imagePath),
                       fit: BoxFit.fitWidth,
                     ),
                   ),
                 ),
-                //imagePath=="assets/images/aboutmy.png"?AssetImage(imagePath)as ImageProvider<Object>:
                 Positioned(
                   right: 0,
                   top: 0,
                   child: IconButton(
-                    icon: Icon(Icons.download_outlined, color: AppColor.orangeColor),
+                    icon: Icon(Icons.download_outlined, color: Colors.orange),
                     onPressed: () {
-                      _saveImageToDevice("http://192.168.43.142:3000$imagePath");
+                      _saveImageToDevice(imagePath);
                     },
                   ),
                 ),
@@ -87,55 +168,64 @@ class _PostModelState extends State<PostModel> {
     );
   }
 
-  void _showAllImagesDialog() {
-    showGeneralDialog(
-      context: context,
-      barrierColor: AppColor.backgroundColor,
-      barrierDismissible: true,
-      barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
-      transitionDuration: Duration(milliseconds: 200),
-      pageBuilder: (BuildContext buildContext, Animation animation, Animation secondaryAnimation) {
-        return Dialog(
-          backgroundColor: AppColor.backgroundColor,
-          insetPadding: EdgeInsets.symmetric(vertical: AppFontStyles.aboutMe, horizontal: 0),
-          child: ListView.separated(
-            itemBuilder: (context, index) => GestureDetector(
-              onTap: () {
-                _openImageDialog(widget.imagePaths![index]);
-              },
-              child: Image.network(
-                "http://192.168.43.142:3000${widget.imagePaths![index]}",
-                fit: BoxFit.cover,
+  void _openVideoDialog(String videoUrl) {
+      VideoPlayerController _videoPlayerController = VideoPlayerController.network(videoUrl);
+
+      _videoPlayerController.initialize().then((_) {
+        setState(() {
+          _videoPlayerController.play(); // Autoplay when dialog opens
+        });
+      });
+
+      showGeneralDialog(
+        context: context,
+        barrierDismissible: false, // prevent closing on tap outside
+        barrierLabel: "video Preview",
+        barrierColor: Colors.white,
+        transitionDuration: const Duration(milliseconds: 200),
+        pageBuilder: (context, animation, secondaryAnimation) {
+          return Dialog(
+            insetPadding: EdgeInsets.zero,
+            backgroundColor: Colors.transparent,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 16.0),
+              child: AspectRatio(
+                aspectRatio: _videoPlayerController.value.aspectRatio,
+                child: GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      if (_videoPlayerController.value.isPlaying) {
+                        _videoPlayerController.pause();
+                      } else {
+                        _videoPlayerController.play();
+                      }
+                    });
+                  },
+                  child: VideoPlayer(_videoPlayerController),
+                ),
               ),
             ),
-            separatorBuilder: (context, index) => SizedBox(
-              height: AppFontStyles.aboutMe - 4,
-            ),
-            itemCount: widget.imagePaths!.length,
-          ),
-        );
-      },
-    );
-  }
-
+          );
+        },
+      ).then((_) {
+        _videoPlayerController.pause(); // Pause video when dialog is dismissed
+        _videoPlayerController.dispose(); // Dispose the controller to release resources
+      });
+    }
   Future<void> _saveImageToDevice(String imagePath) async {
     try {
-      // Get the byte data from the image file
-      final ByteData bytes = await rootBundle.load("http://192.168.43.142:3000$imagePath");
-      final Uint8List list = bytes.buffer.asUint8List();
-
-      // Save the image to the device gallery
+      final response = await http.get(Uri.parse("$api$imagePath"));
+      final Uint8List list = response.bodyBytes;
       final result = await ImageGallerySaver.saveImage(list);
 
-      // Show a confirmation dialog
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          title: Text('Saved Successfully', style: TextStyle(color: AppColor.bluColor)),
-          content: Text('Image saved to gallery.', style: TextStyle(color: AppColor.grayColorFont)),
+          title: Text('Saved Successfully', style: TextStyle(color: Colors.blue)),
+          content: Text('Image saved to gallery.', style: TextStyle(color: Colors.grey)),
           actions: [
             TextButton(
-              child: Text('OK', style: TextStyle(color: AppColor.orangeColor)),
+              child: Text('OK', style: TextStyle(color: Colors.orange)),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -144,15 +234,14 @@ class _PostModelState extends State<PostModel> {
         ),
       );
     } catch (e) {
-      print('Error saving image: $e');
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          title: Text('Error', style: TextStyle(color: AppColor.bluColor)),
-          content: Text('Failed to save image.', style: TextStyle(color: AppColor.grayColorFont)),
+          title: Text('Error', style: TextStyle(color: Colors.blue)),
+          content: Text('Failed to save image.', style: TextStyle(color: Colors.grey)),
           actions: [
             TextButton(
-              child: Text('OK', style: TextStyle(color: AppColor.orangeColor)),
+              child: Text('OK', style: TextStyle(color: Colors.orange)),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -182,9 +271,9 @@ class _PostModelState extends State<PostModel> {
                   leading: GestureDetector(
                     onTap: widget.onTapImage,
                     child: ClipOval(
-                      child: widget.imagePath != "assets/images/aboutmy.png"
+                      child: widget.imagePath != imageCope
                           ? Image.network(
-                        "http://192.168.43.142:3000${widget.imagePath}",
+                        "$api${widget.imagePath}",
                         fit: BoxFit.cover,
                         height: 50,
                         width: 50,
@@ -218,12 +307,13 @@ class _PostModelState extends State<PostModel> {
                       : SizedBox(),
                 ),
                 const SizedBox(height: AppFontStyles.sizeBetweenBoxAndSubTitle),
-                _buildMediaGrid(),
                 const SizedBox(height: AppFontStyles.sizeBetweenBoxAndSubTitle),
+
+                _buildMediaGrid(),
               ],
             ),
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: AppFontStyles.sizeBetweenBoxAndSubTitle),
           Container(
             decoration: BoxDecoration(
               borderRadius: const BorderRadius.only(
@@ -265,15 +355,15 @@ class _PostModelState extends State<PostModel> {
   }
 
   Widget _buildMediaGrid() {
-    List<String> mediaPaths = [];
+    List<dynamic> mediaItems = [];
     if (widget.videoUrl != null) {
-      mediaPaths.addAll(widget.videoUrl!.cast<String>());
+      mediaItems.addAll(widget.videoUrl!.map((url) => "$api$url"));
     }
     if (widget.imagePaths != null) {
-      mediaPaths.addAll(widget.imagePaths!.cast<String>());
+      mediaItems.addAll(widget.imagePaths!.map((url) => "$api$url"));
     }
 
-    int itemCount = mediaPaths.length > 5 ? 5 : mediaPaths.length;
+    int itemCount = mediaItems.length > 5 ? 5 : mediaItems.length;
 
     return GridView.builder(
       shrinkWrap: true,
@@ -283,38 +373,56 @@ class _PostModelState extends State<PostModel> {
         mainAxisSpacing: 4.0,
         crossAxisSpacing: 4.0,
       ),
-      itemCount: itemCount + (mediaPaths.length > 5 ? 1 : 0),
+      itemCount: itemCount + (mediaItems.length > 5 ? 1 : 0),
       itemBuilder: (context, index) {
         if (index < 5) {
-          bool isVideo = widget.videoUrl != null && widget.videoUrl!.contains(mediaPaths[index]);
-          return GestureDetector(
-            onTap: () {
-              if (isVideo) {
-                // Play the video
-              } else {
-                _openImageDialog(mediaPaths[index]);
-              }
-            },
-            child: isVideo
-                ? Container(
-              color: Colors.black,
-              child: const Center(
-                child: Icon(Icons.play_circle_outline, color: Colors.white, size: 50),
+          if (widget.videoUrl != null && index < widget.videoUrl!.length) {
+            return GestureDetector(
+              onTap: () {
+                _openVideoDialog(mediaItems[index]);
+              },
+              child: Stack(
+                fit: StackFit.expand,
+                children: [
+                  FutureBuilder<Uint8List?>(
+                    future: generateThumbnail(mediaItems[index]),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.done && snapshot.hasData) {
+                        return SizedBox(
+                          width: double.infinity,
+                          height: double.infinity,
+                          child: Image.memory(snapshot.data!, fit: BoxFit.cover),
+                        );
+                      } else {
+                        return Center(child: CircularProgressIndicator(color: AppColor.orangeColor));
+                      }
+                    },
+                  ),
+                  Icon(Icons.play_arrow, color: AppColor.orangeColor, size: 40),
+                ],
               ),
-            )
-                :Image(image: NetworkImage("http://192.168.43.142:3000${mediaPaths[index]}"),fit: BoxFit.cover),
-          );
+            );
+          } else {
+            return GestureDetector(
+              onTap: () {
+                _openImageDialog(mediaItems[index]);
+              },
+              child: Image.network(
+                mediaItems[index],
+                fit: BoxFit.cover,
+              ),
+            );
+          }
         } else {
           return GestureDetector(
-
             onTap: () {
-              _showAllImagesDialog();
+              _showAllMediaDialog(mediaItems);
             },
             child: Container(
-              color: AppColor.comment,
+              color: Colors.grey,
               child: Center(
                 child: Text(
-                  '+${mediaPaths.length - 5}',
+                  '+${mediaItems.length - 5}',
                   style: const TextStyle(color: Colors.white, fontSize: 20),
                 ),
               ),
@@ -324,4 +432,5 @@ class _PostModelState extends State<PostModel> {
       },
     );
   }
+
 }

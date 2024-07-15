@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:skilled_handyworkers_marketpleace/Posting/ListOfPosting.dart';
-import 'package:skilled_handyworkers_marketpleace/Posting/ListOpenQuestion.dart';
+import 'package:skilled_handyworkers_marketpleace/SearchScreen/ListOfPosting.dart';
+import 'package:skilled_handyworkers_marketpleace/SearchScreen/ListOpenQuestion.dart';
 import 'package:skilled_handyworkers_marketpleace/shared/styles/colors.dart';
 import 'package:skilled_handyworkers_marketpleace/shared/styles/styles.dart';
 

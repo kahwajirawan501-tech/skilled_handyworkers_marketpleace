@@ -63,7 +63,7 @@ class CommitCubit extends Cubit<CommitStates> {
         'name': name,
         'gender': gender,
         'address': location,
-        'profileImage': image,
+        'profileImage': imageCope,
         'number': number
       },
       'replies': <Map<String, dynamic>>[],
@@ -84,7 +84,7 @@ class CommitCubit extends Cubit<CommitStates> {
         'name': name,
         'gender': gender,
         'address': location,
-        'profileImage': image,
+        'profileImage': imageCope,
         'number': number
       },
     };

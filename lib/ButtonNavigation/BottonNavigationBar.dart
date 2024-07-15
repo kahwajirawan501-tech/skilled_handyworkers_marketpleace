@@ -74,11 +74,15 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
                         titleButton1: "Post",
                         titleButton2: "Open Question",
                         onPressed1: () {
-                         navigateAndFinish(context: context,widget: AddPost());
+                          Navigator.pop(context);
 
+                          navigateTo(context: context,widget: AddPost());
                         },
                         onPressed2: () {
-                          navigateAndFinish(context: context,widget: AddOpenQuestion());
+                          Navigator.pop(context);
+
+                          navigateTo(context: context,widget: AddOpenQuestion());
+
                         },);
                   },
                   icon: Icon(

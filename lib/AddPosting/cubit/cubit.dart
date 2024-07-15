@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:skilled_handyworkers_marketpleace/AddPosting/cubit/states.dart';
 import 'package:path/path.dart' as p;
+import 'package:skilled_handyworkers_marketpleace/shared/components/constant.dart';
 
 import 'package:skilled_handyworkers_marketpleace/shared/network/remote/dio_helper.dart';
 
@@ -18,9 +19,9 @@ class AddPostCubit extends Cubit<AddPostStates>{
     emit(AddPostLoadStateStates());
     print("AddPostLoadStateStates");
 
-    DioHelper.postData(
+    await DioHelper.postData(
       url:'post/create',
-      token:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjQwNDJhNDU3LWViNDItNDczZC1hZDkwLWU5NWFkMjI5NzUyNSIsImZ1bGxOYW1lIjoiTm91ciBOYSIsImVtYWlsIjoibm91cm5hZmlzYWgyMkBnbWFpbC5jb20iLCJpYXQiOjE3MTk4MzY5MDksImV4cCI6MTcyMDA5NjEwOX0.vG5txwa0G-clIIUGlXZ5hQHBRsR6Lq_W-QWaDgd7iqE"
+      token: accessToken
       ,
       data:{
         'type':"post",
@@ -50,9 +51,9 @@ class AddPostCubit extends Cubit<AddPostStates>{
     print("AddOpenQuestionLoadStateStates");
 
 
-    DioHelper.postData(
+  await  DioHelper.postData(
       url:'post/create',
-      token:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjQwNDJhNDU3LWViNDItNDczZC1hZDkwLWU5NWFkMjI5NzUyNSIsImZ1bGxOYW1lIjoiTm91ciBOYSIsImVtYWlsIjoibm91cm5hZmlzYWgyMkBnbWFpbC5jb20iLCJpYXQiOjE3MTk4MzY5MDksImV4cCI6MTcyMDA5NjEwOX0.vG5txwa0G-clIIUGlXZ5hQHBRsR6Lq_W-QWaDgd7iqE"
+      token:accessToken
       ,
       data: {
         'type':"open_question",
@@ -97,11 +98,11 @@ class AddPostCubit extends Cubit<AddPostStates>{
       'files': allFiles,
     });
 
-    DioHelper.postDataWithFormData(
+  await  DioHelper.postDataWithFormData(
       url: 'upload/post',
       data: formData,
+      token:accessToken
     ).then((value) {
-      print(value.data);
       List<dynamic> responseData = value.data;
 
       for (var fileData in responseData) {
@@ -110,9 +111,9 @@ class AddPostCubit extends Cubit<AddPostStates>{
         String extension = p.extension(originalName).toLowerCase();
 
         if (extension == '.jpg' || extension == '.jpeg' || extension == '.png' || extension == '.gif' || extension == '.bmp') {
-          ima.add(originalName);
+          ima.add(filePath);
         } else if (extension == '.mp4' || extension == '.avi' || extension == '.mov' || extension == '.wmv' || extension == '.flv') {
-          video.add(originalName);
+          video.add(filePath);
         }
       }
 

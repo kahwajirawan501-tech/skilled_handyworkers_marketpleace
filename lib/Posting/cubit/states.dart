@@ -39,3 +39,17 @@ class YourOpenQuestionPostErrorStateStates extends YourPostStates {
   final int statusCode;
   YourOpenQuestionPostErrorStateStates(this.statusCode);
 }
+
+
+
+class GetInformationPostLoadStateStates extends YourPostStates {
+
+}
+class GetInformationPostSucssessfullStateStates extends YourPostStates {
+
+  GetInformationPostSucssessfullStateStates();
+}
+class GetInformationPostErrorStateStates extends YourPostStates {
+  final int statusCode;
+  GetInformationPostErrorStateStates(this.statusCode);
+}
