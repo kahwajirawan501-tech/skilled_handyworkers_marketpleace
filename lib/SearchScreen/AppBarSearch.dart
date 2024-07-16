@@ -12,6 +12,7 @@ class AppBarSearch extends StatefulWidget implements PreferredSizeWidget {
   final TextEditingController textControllerService ;
   final TextEditingController textControllerLocation ;
 
+
   const AppBarSearch({
     Key? key, required this.textControllerService, required this.textControllerLocation,
   }) : super(key: key);
@@ -79,6 +80,7 @@ class _AppBarSearchState extends State<AppBarSearch> {
                         widget.textControllerService.text = result;
                       });
                     }
+
                   },
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: AppFontStyles.aboutMe, vertical: 8),

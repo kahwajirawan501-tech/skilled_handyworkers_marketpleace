@@ -1,22 +1,19 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:skilled_handyworkers_marketpleace/Commint/commintSceren.dart';
-import 'package:skilled_handyworkers_marketpleace/Commint/cubit/cubit.dart';
-import 'package:skilled_handyworkers_marketpleace/Commint/cubit/states.dart';
+
 import 'package:skilled_handyworkers_marketpleace/SearchScreen/ListOfPosting.dart';
 import 'package:skilled_handyworkers_marketpleace/SearchScreen/ListOpenQuestion.dart';
 import 'package:skilled_handyworkers_marketpleace/SearchScreen/AppBarSearch.dart';
 import 'package:skilled_handyworkers_marketpleace/SearchScreen/cubit/cubit.dart';
 import 'package:skilled_handyworkers_marketpleace/SearchScreen/cubit/states.dart';
 import 'package:skilled_handyworkers_marketpleace/profileScreens/Box.dart';
-import 'package:skilled_handyworkers_marketpleace/shared/components/components.dart';
+import 'package:skilled_handyworkers_marketpleace/shared/components/constant.dart';
 import 'package:skilled_handyworkers_marketpleace/shared/styles/colors.dart';
 import 'package:skilled_handyworkers_marketpleace/shared/styles/styles.dart';
 
 class Search extends StatefulWidget {
   const Search({Key? key}) : super(key: key);
-
   @override
   State<Search> createState() => _SearchState();
 }
@@ -28,76 +25,13 @@ class _SearchState extends State<Search> {
   bool clickOpenQuestion = false;
   List<Map<String, dynamic>> post = [];
   List<Map<String, dynamic>> openQuestion = [];
-  final ScrollController scrollController = ScrollController();
-  int currentPagePost = 1;
-  bool hasMoreData = true;
-  bool isLoadingMore = false;
-  double scrollOffset = 0;
 
-  @override
-  void initState() {
-    super.initState();
-    scrollController.addListener(_onScroll);
-  }
-
-  @override
-  void dispose() {
-    scrollController.dispose();
-    super.dispose();
-  }
-
-  void _onScroll() {
-    if (!isLoadingMore && scrollController.position.pixels == scrollController.position.maxScrollExtent && hasMoreData) {
-      setState(() {
-        isLoadingMore = true;
-        scrollOffset = scrollController.position.pixels;
-
-      });
-      _loadMoreData();
-
-    }
-  }
-  void _loadMoreData(){
-    if (clickPosting) {
-
-      if (textControllerService.text.isNotEmpty && textControllerLocation.text.isNotEmpty) {
-        CubitSearch.get(context).getPostForLocationAndService(
-          textControllerService.text,
-          textControllerLocation.text,
-          currentPagePost,
-        );
-      } else if (textControllerService.text.isNotEmpty) {
-        CubitSearch.get(context).getPostForService(
-          textControllerService.text,
-          currentPagePost,
-        );
-      } else if (textControllerLocation.text.isNotEmpty) {
-        CubitSearch.get(context).getPostForLocation(
-          textControllerLocation.text,
-          currentPagePost,
-        );
-      }
-    } else if (clickOpenQuestion) {
-
-      if (textControllerService.text.isNotEmpty && textControllerLocation.text.isNotEmpty) {
-        CubitSearch.get(context).getPostForLocationAndService(
-          textControllerService.text,
-          textControllerLocation.text,
-          currentPagePost,
-        );
-      } else if (textControllerService.text.isNotEmpty) {
-        CubitSearch.get(context).getPostForService(
-          textControllerService.text,
-          currentPagePost,
-        );
-      } else if (textControllerLocation.text.isNotEmpty) {
-        CubitSearch.get(context).getPostForLocation(
-          textControllerLocation.text,
-          currentPagePost,
-        );
-      }
-    }
-  }
+  bool serviceAndLocation=false;
+  bool service=false;
+  bool location=false;
+  bool serviceAndLocationPost=false;
+  bool servicePost=false;
+  bool locationPost=false;
 
   @override
   Widget build(BuildContext context) {
@@ -112,37 +46,18 @@ class _SearchState extends State<Search> {
               state is SearchPostOnlyServiceSucssessfullStateStates ||
               state is SearchPostSucssessfullStateStates) {
             setState(() {
-              List<Map<String, dynamic>> newPosts = [];
-              List<Map<String, dynamic>> newOpenQuestions = [];
-
               if (state is SearchPostOnlyLocationSucssessfullStateStates) {
-                newPosts = CubitSearch.get(context).postSearchLocation;
-                newOpenQuestions = CubitSearch.get(context).openQuestionPostSearchLocation;
+                post = CubitSearch.get(context).postSearchLocation;
+                openQuestion = CubitSearch.get(context).openQuestionPostSearchLocation;
               } else if (state is SearchPostOnlyServiceSucssessfullStateStates) {
-                newPosts = CubitSearch.get(context).postSearchService;
-                newOpenQuestions = CubitSearch.get(context).openQuestionPostSearchService;
-              } else if (state is SearchPostSucssessfullStateStates) {
-                newPosts = CubitSearch.get(context).postSearch;
-                newOpenQuestions = CubitSearch.get(context).openQuestionPostSearch;
+                post = CubitSearch.get(context).postSearchService;
+                openQuestion = CubitSearch.get(context).openQuestionPostSearchService;
+              }  if (state is SearchPostSucssessfullStateStates) {
+                post = CubitSearch.get(context).postSearch;
+                openQuestion = CubitSearch.get(context).openQuestionPostSearch;
               }
-
-              if (newPosts.isEmpty && newOpenQuestions.isEmpty) {
-                hasMoreData = false;
-              } else {
-                post.addAll(newPosts);
-                openQuestion.addAll(newOpenQuestions);
-                currentPagePost++;
-              }
-
-              isLoadingMore = false;
-                if(scrollController.hasClients){
-                  scrollController.jumpTo(scrollOffset);
-
-                }
-
             });
-          }
-        },
+          }},
         builder: (context, state) {
           return Container(
             color: AppColor.backgroundColor,
@@ -182,14 +97,13 @@ class _SearchState extends State<Search> {
                                     if (clickPosting) {
                                       clickOpenQuestion = false;
                                       post.clear();
-                                      currentPagePost = 1;
-                                      hasMoreData = true;
-                                    }
+                                      servicePost=true;
+                                      CubitSearch.get(context).currentPage=1;
 
-                                    CubitSearch.get(context).getPostForService(
-                                      textControllerService.text,
-                                      currentPagePost,
-                                    );
+                                    }
+                                    CubitSearch.get(context).getPostForService(textControllerService.text,CubitSearch.get(context).currentPage);
+
+
                                   });
                                 } else if (textControllerService.text.isEmpty &&
                                     textControllerLocation.text.isNotEmpty) {
@@ -198,14 +112,13 @@ class _SearchState extends State<Search> {
                                     if (clickPosting) {
                                       clickOpenQuestion = false;
                                       post.clear();
-                                      currentPagePost = 1;
-                                      hasMoreData = true;
-                                    }
+                                      locationPost=true;
+                                      CubitSearch.get(context).currentPage=1;
 
-                                    CubitSearch.get(context).getPostForLocation(
-                                      textControllerLocation.text,
-                                      currentPagePost,
-                                    );
+                                    }
+                                    CubitSearch.get(context).getPostForLocation(textControllerLocation.text,CubitSearch.get(context).currentPage);
+
+
                                   });
                                 } else if (textControllerService.text.isNotEmpty &&
                                     textControllerLocation.text.isNotEmpty) {
@@ -214,15 +127,13 @@ class _SearchState extends State<Search> {
                                     if (clickPosting) {
                                       clickOpenQuestion = false;
                                       post.clear();
-                                      currentPagePost = 1;
-                                      hasMoreData = true;
-                                    }
+                                      serviceAndLocationPost=true;
+                                      CubitSearch.get(context).currentPage=1;
 
-                                    CubitSearch.get(context).getPostForLocationAndService(
-                                      textControllerService.text,
-                                      textControllerLocation.text,
-                                      currentPagePost,
-                                    );
+                                    }
+                                    CubitSearch.get(context).getPostForLocationAndService(textControllerService.text,textControllerLocation.text,CubitSearch.get(context).currentPage);
+
+
                                   });
                                 }
                               },
@@ -272,13 +183,11 @@ class _SearchState extends State<Search> {
                                     if (clickOpenQuestion) {
                                       clickPosting = false;
                                       openQuestion.clear();
-                                      currentPagePost = 1;
-                                      hasMoreData = true;
+                                      location=true;
+                                      CubitSearch.get(context).currentPage=1;
+
                                     }
-                                    CubitSearch.get(context).getPostForLocation(
-                                      textControllerLocation.text,
-                                      currentPagePost,
-                                    );
+                                    CubitSearch.get(context).getPostForLocation(textControllerLocation.text,  CubitSearch.get(context).currentPage);
                                   });
                                 } else if (textControllerService.text.isNotEmpty &&
                                     textControllerLocation.text.isEmpty) {
@@ -287,13 +196,12 @@ class _SearchState extends State<Search> {
                                     if (clickOpenQuestion) {
                                       clickPosting = false;
                                       openQuestion.clear();
-                                      currentPagePost = 1;
-                                      hasMoreData = true;
+                                      service=true;
+                                      CubitSearch.get(context).currentPage=1;
+
                                     }
-                                    CubitSearch.get(context).getPostForService(
-                                      textControllerService.text,
-                                      currentPagePost,
-                                    );
+                                    CubitSearch.get(context).getPostForService(textControllerService.text,  CubitSearch.get(context).currentPage);
+
                                   });
                                 } else if (textControllerService.text.isNotEmpty &&
                                     textControllerLocation.text.isNotEmpty) {
@@ -302,14 +210,12 @@ class _SearchState extends State<Search> {
                                     if (clickOpenQuestion) {
                                       clickPosting = false;
                                       openQuestion.clear();
-                                      currentPagePost = 1;
-                                      hasMoreData = true;
+                                      CubitSearch.get(context).currentPage=1;
+                                      serviceAndLocation=true;
+
                                     }
-                                    CubitSearch.get(context).getPostForLocationAndService(
-                                      textControllerService.text,
-                                      textControllerLocation.text,
-                                      currentPagePost,
-                                    );
+                                    CubitSearch.get(context).getPostForLocationAndService(textControllerService.text,textControllerLocation.text,  CubitSearch.get(context).currentPage);
+
                                   });
                                 }
                               },
@@ -344,10 +250,20 @@ class _SearchState extends State<Search> {
                       condition:(state is! SearchPostOnlyLocationLoadStateStates &&
                           state is! SearchPostOnlyServiceLoadStateStates &&
                           state is! SearchPostLoadStateStates),
-                      builder: (context) => ListOfPosting(
+                      builder: (context) =>  post.isEmpty?
+                      Center(
+                        child: Text(
+                          'No open questions yet.',
+                          style: TextStyle(color: Colors.grey, fontSize: 16),
+                        ),
+                      )
+                          :ListOfPosting(
                         post: post,
-                        scrollController: scrollController,
-                        hasMoreData: hasMoreData,
+                        textControllerService: textControllerService,
+                        textControllerLocation:  textControllerLocation,
+                        location: locationPost,
+                        service: servicePost,
+                        serviceAndLocation: serviceAndLocationPost,
                       ),
                       fallback: (context) => Center(
                         child: CircularProgressIndicator(
@@ -362,14 +278,21 @@ class _SearchState extends State<Search> {
                       condition: state is! SearchPostOnlyLocationLoadStateStates &&
                           state is! SearchPostOnlyServiceLoadStateStates &&
                           state is! SearchPostLoadStateStates,
-                          builder: (context) =>isLoadingMore? Center(
-                          child: CircularProgressIndicator(
-                         color: AppColor.orangeColor,
-                          ),
-                           ): ListOfOpenQuestion(
+                      builder: (context) =>
+                      openQuestion.isEmpty?
+                      Center(
+                        child: Text(
+                          'No open questions yet.',
+                          style: TextStyle(color: Colors.grey, fontSize: 16),
+                        ),
+                      )
+                          :ListOfOpenQuestion(
                         openQuestionPost: openQuestion,
-                        scrollController: scrollController,
-                        hasMoreData: hasMoreData,
+                        textControllerService: textControllerService,
+                        textControllerLocation:  textControllerLocation,
+                        location: location,
+                        service: service,
+                        serviceAndLocation: serviceAndLocation,
                       ),
                       fallback: (context) => Center(
                         child: CircularProgressIndicator(

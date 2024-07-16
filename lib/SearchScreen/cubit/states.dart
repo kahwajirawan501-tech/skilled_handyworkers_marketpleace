@@ -39,3 +39,43 @@ class SearchPostOnlyServiceErrorStateStates extends SearchStates {
   final int statusCode;
   SearchPostOnlyServiceErrorStateStates(this.statusCode);
 }
+
+
+
+class SearchPostLoadStateStatesNext extends SearchStates {
+
+}
+class SearchPostSucssessfullStateStatesNext extends SearchStates {
+
+  SearchPostSucssessfullStateStatesNext();
+}
+class SearchPostErrorStateStatesNext extends SearchStates {
+  final int statusCode;
+  SearchPostErrorStateStatesNext(this.statusCode);
+}
+
+
+class SearchPostOnlyLocationLoadStateStatesNext extends SearchStates {
+
+}
+class SearchPostOnlyLocationSucssessfullStateStatesNext extends SearchStates {
+
+  SearchPostOnlyLocationSucssessfullStateStatesNext();
+}
+class SearchPostOnlyLocationErrorStateStatesNext extends SearchStates {
+  final int statusCode;
+  SearchPostOnlyLocationErrorStateStatesNext(this.statusCode);
+}
+
+
+class SearchPostOnlyServiceLoadStateStatesNext extends SearchStates {
+
+}
+class SearchPostOnlyServiceSucssessfullStateStatesNext extends SearchStates {
+
+  SearchPostOnlyServiceSucssessfullStateStatesNext();
+}
+class SearchPostOnlyServiceErrorStateStatesNext extends SearchStates {
+  final int statusCode;
+  SearchPostOnlyServiceErrorStateStatesNext(this.statusCode);
+}
