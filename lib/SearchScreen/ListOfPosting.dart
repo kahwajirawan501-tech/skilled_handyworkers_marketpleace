@@ -24,43 +24,11 @@ class ListOfPosting extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    void _showOptions(String id) {
-      showModalBottomSheet(
-        backgroundColor: AppColor.backgroundColor,
-        context: context,
-        builder: (BuildContext context) {
-          return SafeArea(
-            child: Wrap(
-              children: <Widget>[
-                ListTile(
-                  leading: Icon(Icons.delete, color: AppColor.orangeColor),
-                  title: Text("Delete", style: TextStyle(color: AppColor.bluColor)),
-                  onTap: () {
-                    Navigator.pop(context);
-                    CubitYourPost.get(context).deletePost(id);
-                  },
-                ),
-                ListTile(
-                  leading: Icon(Icons.edit, color: AppColor.orangeColor),
-                  title: Text("Edit", style: TextStyle(color: AppColor.bluColor)),
-                  onTap: () {
-                    Navigator.pop(context);
-                    navigateTo(widget: EditPost(id:id),context: context);
-                    EditPostCubit.get(context).getInformationForPost(id);
-
-                  },
-                ),
-              ],
-            ),
-          );
-        },
-      );
-    }
 
 
     return post.isEmpty
         ? const Center(
-      child: Text(
+         child: Text(
         'No post yet.',
         style: TextStyle(color: Colors.grey, fontSize: 16),
       ),
@@ -100,9 +68,8 @@ class ListOfPosting extends StatelessWidget {
               onTapImage: () {},
               videoUrl: post[index]['videos'],
               onPressed: () {
-                 _showOptions(post[index]['_id']);
               },
-              deleteAndEdit: post[index]['postAuthor']['_id'] == id ? true : false, // post[index]['postAuthor']['id'] == id ? true : false
+              deleteAndEdit:  false, // post[index]['postAuthor']['id'] == id ? true : false
             );
                   },
                 ),

@@ -120,72 +120,7 @@ class _AddPostState extends State<AddPost> {
     }
   }
 
-  Widget _buildSelectedImagesPreview() {
-    int remainingImagesCount = _selectedImages.length - 5;
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          "Image :",
-          style: TextStyle(
-            fontWeight: AppFontStyles.fontWeightSemiBold,
-            fontSize: AppFontStyles.descriptionLoginFontSize,
-            color: AppColor.bluColor,
-          ),
-        ),
-        const SizedBox(height: AppFontStyles.sizeBetweenBoxAndSubTitle),
 
-        GridView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 3,
-            crossAxisSpacing: 4.0,
-            mainAxisSpacing: 4.0,
-          ),
-          itemCount: _selectedImages.length > 5 ? 5 : _selectedImages.length,
-          itemBuilder: (BuildContext context, int index) {
-            XFile image = _selectedImages[index];
-            return GestureDetector(
-              onTap: () {
-                _showImageInDialog(image);
-              },
-              child: Stack(
-                children: [
-                  Image.file(
-                    File(image.path),
-                    fit: BoxFit.cover,
-                    width: double.infinity,
-                    height: double.infinity,
-                  ),
-                  Positioned(
-                    right: 0,
-                    child: IconButton(
-                      icon: Icon(
-                        Icons.cancel,
-                        color: AppColor.orangeColor,
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          _selectedImages.removeAt(index);
-                        });
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            );
-          },
-        ),
-        if (remainingImagesCount > 0)
-          GestureDetector(
-            onTap: _showAllImages,
-            child: Text("+$remainingImagesCount more"),
-          ),
-      ],
-    );
-  }
 
   void _showImageSourceDialog() {
     showModalBottomSheet(
@@ -219,48 +154,32 @@ class _AddPostState extends State<AddPost> {
       },
     );
   }
-
-  void _showImageInDialog(XFile image) {
-    showGeneralDialog(
-      context: context,
-      barrierDismissible: true,
-      barrierLabel: "Image Preview",
-      barrierColor: Colors.transparent,
-      transitionDuration: const Duration(milliseconds: 200),
-      pageBuilder: (context, animation1, animation2) {
-        return Dialog(
-          backgroundColor: Colors.transparent,
-          child: Center(
-            child: Image.file(
-              File(image.path),
-              fit: BoxFit.contain,
-              width: double.infinity,
-              height: double.infinity,
-            ),
+  Widget _buildSelectedImagesPreview() {
+    int remainingImagesCount = _selectedImages.length - 5;
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          "Image :",
+          style: TextStyle(
+            fontWeight: AppFontStyles.fontWeightSemiBold,
+            fontSize: AppFontStyles.descriptionLoginFontSize,
+            color: AppColor.bluColor,
           ),
-        );
-      },
-    );
-  }
-
-  void _showAllImages() {
-    showGeneralDialog(
-      context: context,
-      barrierDismissible: true,
-      barrierLabel: "All Images",
-      barrierColor:AppColor.backgroundColor,
-      transitionDuration: const Duration(milliseconds: 200),
-      pageBuilder: (context, animation1, animation2) {
-        return Dialog(
-          backgroundColor: Colors.transparent,
-          child: GridView.builder(
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              crossAxisSpacing: 4.0,
-              mainAxisSpacing: 4.0,
-            ),
-            itemCount: _selectedImages.length,
-            itemBuilder: (BuildContext context, int index) {
+        ),
+        const SizedBox(height: AppFontStyles.sizeBetweenBoxAndSubTitle),
+        GridView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 3,
+            crossAxisSpacing: 4.0,
+            mainAxisSpacing: 4.0,
+          ),
+          itemCount: _selectedImages.length > 5 ? 6 : _selectedImages.length,
+          itemBuilder: (BuildContext context, int index) {
+            if (index < 5) {
               XFile image = _selectedImages[index];
               return GestureDetector(
                 onTap: () {
@@ -284,7 +203,6 @@ class _AddPostState extends State<AddPost> {
                         onPressed: () {
                           setState(() {
                             _selectedImages.removeAt(index);
-                            Navigator.pop(context);
                           });
                         },
                       ),
@@ -292,8 +210,122 @@ class _AddPostState extends State<AddPost> {
                   ],
                 ),
               );
-            },
+            } else {
+              // Last item to show the remaining images count
+              return GestureDetector(
+                onTap: () {
+                  _showAllImages();
+                },
+                child: Container(
+                  color: Colors.grey,
+                  child: Center(
+                    child: Text(
+                      "+$remainingImagesCount",
+                      style: const TextStyle(color: Colors.white, fontSize: 20),
+                    ),
+                  ),
+                ),
+              );
+            }
+          },
+        ),
+      ],
+    );
+  }
+  void _showImageInDialog(XFile image) {
+    showGeneralDialog(
+      context: context,
+      barrierDismissible: true,
+      barrierLabel: "Image Preview",
+      barrierColor: Colors.white,
+      transitionDuration: const Duration(milliseconds: 200),
+      pageBuilder: (context, animation1, animation2) {
+        return Dialog(
+          insetPadding: EdgeInsets.zero,
+
+          backgroundColor: Colors.transparent,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 16.0),
+            child: Container(
+              width: double.infinity,
+              height: double.infinity,
+              child: Center(
+                child: Image.file(
+                  File(image.path),
+                  fit: BoxFit.contain,
+
+                ),
+              ),
+            ),
           ),
+        );
+      },
+    );
+  }
+
+  void _showAllImages() {
+    showGeneralDialog(
+      context: context,
+      barrierDismissible: true,
+      barrierLabel: "All Images",
+      barrierColor:AppColor.backgroundColor,
+      transitionDuration: const Duration(milliseconds: 200),
+      pageBuilder: (context, animation1, animation2) {
+        return StatefulBuilder(
+          builder: (context, setDialogState) {
+            return Dialog(
+              insetPadding: EdgeInsets.only(top: 32.0),
+
+              backgroundColor: Colors.transparent,
+              child: SingleChildScrollView(
+                child: Column(
+                  children:List.generate(_selectedImages.length,(index) {
+                    XFile image = _selectedImages[index];
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: GestureDetector(
+                        onTap: () {
+                          _showImageInDialog(image);
+                        },
+                        child: Stack(
+                          children: [
+                            Image.file(
+                              File(image.path),
+                              fit: BoxFit.cover,
+
+                            ),
+                            Positioned(
+                              right: 0,
+                              child: IconButton(
+                                icon: Icon(
+                                  Icons.cancel,
+                                  color: AppColor.orangeColor,
+                                ),
+                                onPressed: () {
+
+                                  setDialogState(() {
+                                    setState(() {
+                                      _selectedImages.removeAt(index);
+
+                                      if (_selectedImages.isEmpty) {
+                                        Navigator.pop(context);
+                                      }
+                                    });
+
+                                  });
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },),
+                ),
+              ),
+            );
+          },
+
         );
       },
     );
@@ -420,24 +452,28 @@ class _AddPostState extends State<AddPost> {
 
       barrierDismissible: false, // prevent closing on tap outside
       barrierLabel: "video Preview",
-      barrierColor: Colors.transparent,
+      barrierColor: Colors.white,
       transitionDuration: const Duration(milliseconds: 200),
       pageBuilder: (context, animation, secondaryAnimation) {
         return Dialog(
+          insetPadding: EdgeInsets.zero,
           backgroundColor: Colors.transparent,
-          child: AspectRatio(
-            aspectRatio: _videoPlayerController.value.aspectRatio,
-            child: GestureDetector(
-              onTap: () {
-                setState(() {
-                  if (_videoPlayerController.value.isPlaying) {
-                    _videoPlayerController.pause();
-                  } else {
-                    _videoPlayerController.play();
-                  }
-                });
-              },
-              child: VideoPlayer(_videoPlayerController),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 16.0),
+            child: AspectRatio(
+              aspectRatio: _videoPlayerController.value.aspectRatio,
+              child: GestureDetector(
+                onTap: () {
+                  setState(() {
+                    if (_videoPlayerController.value.isPlaying) {
+                      _videoPlayerController.pause();
+                    } else {
+                      _videoPlayerController.play();
+                    }
+                  });
+                },
+                child: VideoPlayer(_videoPlayerController),
+              ),
             ),
           ),
         );
@@ -453,73 +489,76 @@ class _AddPostState extends State<AddPost> {
     showGeneralDialog(
       context: context,
       barrierDismissible: false, // prevent closing on tap outside
-      barrierLabel: "All video Preview",
-      barrierColor: AppColor.backgroundColor,
+      barrierColor: Colors.white,
+      barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
       transitionDuration: const Duration(milliseconds: 200),
       pageBuilder: (context, animation, secondaryAnimation) {
         return StatefulBuilder(
           builder: (context, setDialogState) {
             return Dialog(
-              backgroundColor: Colors.transparent,
-              child: GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
-                  crossAxisSpacing: 4.0,
-                  mainAxisSpacing: 4.0,
-                  childAspectRatio: 1.0, // Added to make the videos square
-                ),
-                itemCount: _selectedVideos.length,
-                itemBuilder: (BuildContext context, int index) {
-                  XFile video = _selectedVideos[index];
-                  VideoPlayerController videoPlayerController = VideoPlayerController.file(File(video.path));
+              insetPadding: EdgeInsets.only(top: 32.0),
 
-                  return GestureDetector(
-                    onTap: () {
-                      _showVideoInDialog(video);
-                    },
-                    child: Stack(
-                      children: [
-                        FutureBuilder<Uint8List?>(
-                          future: generateThumbnail(video.path),
-                          builder: (context, snapshot) {
-                            if (snapshot.connectionState == ConnectionState.done && snapshot.hasData) {
-                              return SizedBox(
-                                width: double.infinity,
-                                height: double.infinity,
-                                child: Image.memory(snapshot.data!, fit: BoxFit.cover),
-                              );
-                            } else {
-                              return  Center(child: CircularProgressIndicator(color: AppColor.orangeColor));
-                            }
-                          },
-                        ),
-                        Positioned(
-                          right: 0,
-                          child: IconButton(
-                            icon: Icon(
-                              Icons.cancel,
-                              color: AppColor.orangeColor,
-                            ),
-                            onPressed: () {
-                              setDialogState(() {
-                                setState(() {
-                                  if (videoPlayerController.value.isPlaying) {
-                                    videoPlayerController.pause();
-                                  }
-                                  videoPlayerController.dispose(); // Dispose the video player
-                                  _selectedVideos.removeAt(index);
-                                });
-                                if (_selectedVideos.isEmpty) {
-                                  Navigator.pop(context);
+              backgroundColor: Colors.transparent,
+              child: SingleChildScrollView(
+                child: Column(
+                  children: List.generate(_selectedVideos.length, (index) {
+                    XFile video = _selectedVideos[index];
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: GestureDetector(
+                        onTap: () {
+                          _showVideoInDialog(video);
+                        },
+                        child: Stack(
+
+                          children: [
+                            FutureBuilder<Uint8List?>(
+                              future: generateThumbnail(video.path),
+                              builder: (context, snapshot) {
+                                if (snapshot.connectionState == ConnectionState.done && snapshot.hasData) {
+                                  return Stack(
+                                    alignment: Alignment.center,
+
+                                    children: [
+                                      AspectRatio(
+                                        aspectRatio: 16 / 9,
+                                        child: Image.memory(snapshot.data!, fit: BoxFit.cover),
+                                      ),
+                                      Icon(Icons.play_arrow, color: AppColor.orangeColor, size: 40),
+
+                                    ],
+
+                                  );
+                                } else {
+                                  return Center(child: CircularProgressIndicator(color: AppColor.orangeColor));
                                 }
-                              });
-                            },
-                          ),
+                              },
+                            ),
+                            Positioned(
+                              right: 0,
+                              child: IconButton(
+                                icon: Icon(
+                                  Icons.cancel,
+                                  color: AppColor.orangeColor,
+                                ),
+                                onPressed: () {
+                                  setDialogState(() {
+                                    setState(() {
+                                      _selectedVideos.removeAt(index);
+                                    });
+                                    if (_selectedVideos.isEmpty) {
+                                      Navigator.pop(context);
+                                    }
+                                  });
+                                },
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                  );
-                },
+                      ),
+                    );
+                  }),
+                ),
               ),
             );
           },
@@ -554,61 +593,80 @@ class _AddPostState extends State<AddPost> {
             mainAxisSpacing: 4.0,
             childAspectRatio: 1.0, // Added to make the videos square
           ),
-          itemCount: _selectedVideos.length > 5 ? 5 : _selectedVideos.length,
+          itemCount: _selectedVideos.length > 5 ? 6 : _selectedVideos.length,
           itemBuilder: (BuildContext context, int index) {
-            XFile video = _selectedVideos[index];
-            VideoPlayerController videoPlayerController = VideoPlayerController.file(File(video.path));
+            if(index<5){
+              XFile video = _selectedVideos[index];
+              VideoPlayerController videoPlayerController = VideoPlayerController.file(File(video.path));
 
-            return GestureDetector(
-              onTap: () {
-                _showVideoInDialog(video);
-              },
-              child: Stack(
-                children: [
-                  FutureBuilder<Uint8List?>(
-                    future: generateThumbnail(video.path),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.done && snapshot.hasData) {
-                        return SizedBox(
-                          width: double.infinity,
-                          height: double.infinity,
-                          child: Image.memory(snapshot.data!, fit: BoxFit.cover),
-                        );
-                      } else {
-                        return  Center(child: CircularProgressIndicator(color: AppColor.orangeColor,));
-                      }
-                    },
-                  ),
-                  Positioned(
-                    right: 0,
-                    child: IconButton(
-                      icon: Icon(
-                        Icons.cancel,
-                        color: AppColor.orangeColor,
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          if (videoPlayerController.value.isPlaying) {
-                            videoPlayerController.pause();
-                          }
-                          videoPlayerController.dispose(); // Dispose the video player
-                          _selectedVideos.removeAt(index);
-                          // Remove the video from the list
-                          printSelectedVideos();
-                        });
+              return GestureDetector(
+                onTap: () {
+                  _showVideoInDialog(video);
+                },
+                child: Stack(
+                  fit: StackFit.expand,
+
+                  children: [
+                    FutureBuilder<Uint8List?>(
+                      future: generateThumbnail(video.path),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState == ConnectionState.done && snapshot.hasData) {
+                          return SizedBox(
+                            width: double.infinity,
+                            height: double.infinity,
+                            child: Image.memory(snapshot.data!, fit: BoxFit.cover),
+                          );
+                        } else {
+                          return  Center(child: CircularProgressIndicator(color: AppColor.orangeColor,));
+                        }
                       },
                     ),
+                    Icon(Icons.play_arrow, color: AppColor.orangeColor, size: 40),
+
+                    Positioned(
+                      right: 0,
+                      child: IconButton(
+                        icon: Icon(
+                          Icons.cancel,
+                          color: AppColor.orangeColor,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            if (videoPlayerController.value.isPlaying) {
+                              videoPlayerController.pause();
+                            }
+                            videoPlayerController.dispose(); // Dispose the video player
+                            _selectedVideos.removeAt(index);
+                            // Remove the video from the list
+                          });
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            }
+            else{
+              return GestureDetector(
+                onTap: () {
+                  _showAllVideos();
+                },
+                child: Container(
+                  color: Colors.grey,
+                  child: Center(
+                    child: Text(
+                      "+$remainingVideosCount",
+                      style: const TextStyle(color: Colors.white, fontSize: 20),
+                    ),
                   ),
-                ],
-              ),
-            );
+                ),
+              );
+
+            }
+
           },
         ),
-        if (remainingVideosCount > 0)
-          GestureDetector(
-            onTap: _showAllVideos,
-            child: Text("+$remainingVideosCount more"),
-          ),
+
       ],
     );
   }

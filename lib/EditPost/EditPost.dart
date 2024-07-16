@@ -139,6 +139,41 @@ class _EditPostState extends State<EditPost> {
     }
   }
 
+
+
+
+  void _showImageSourceDialog() {
+    showModalBottomSheet(
+      backgroundColor: AppColor.backgroundColor,
+      context: context,
+      builder: (BuildContext context) {
+        return SafeArea(
+
+          child: Wrap(
+
+            children: <Widget>[
+              ListTile(
+                leading: Icon(Icons.photo_library,color: AppColor.orangeColor,),
+                title: Text("Choose from Gallery",style: TextStyle(color: AppColor.bluColor)),
+                onTap: () {
+                  Navigator.pop(context);
+                  _pickImagesFromGallery();
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.camera_alt,color: AppColor.orangeColor),
+                title: Text("Take Photo",style: TextStyle(color: AppColor.bluColor),),
+                onTap: () {
+                  Navigator.pop(context);
+                  _pickImageFromCamera();
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
   Widget _buildSelectedImagesPreview() {
     int remainingImagesCount = _selectedImages.length - 5;
     return Column(
@@ -217,41 +252,6 @@ class _EditPostState extends State<EditPost> {
       ],
     );
   }
-
-
-  void _showImageSourceDialog() {
-    showModalBottomSheet(
-      backgroundColor: AppColor.backgroundColor,
-      context: context,
-      builder: (BuildContext context) {
-        return SafeArea(
-
-          child: Wrap(
-
-            children: <Widget>[
-              ListTile(
-                leading: Icon(Icons.photo_library,color: AppColor.orangeColor,),
-                title: Text("Choose from Gallery",style: TextStyle(color: AppColor.bluColor)),
-                onTap: () {
-                  Navigator.pop(context);
-                  _pickImagesFromGallery();
-                },
-              ),
-              ListTile(
-                leading: Icon(Icons.camera_alt,color: AppColor.orangeColor),
-                title: Text("Take Photo",style: TextStyle(color: AppColor.bluColor),),
-                onTap: () {
-                  Navigator.pop(context);
-                  _pickImageFromCamera();
-                },
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
-
   void _showImageInDialog(XFile image) {
     showGeneralDialog(
       context: context,

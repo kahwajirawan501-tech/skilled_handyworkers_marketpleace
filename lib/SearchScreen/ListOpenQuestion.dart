@@ -21,40 +21,10 @@ class ListOfOpenQuestion extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    void _showOptions(String id) {
-      showModalBottomSheet(
-        backgroundColor: AppColor.backgroundColor,
-        context: context,
-        builder: (BuildContext context) {
-          return SafeArea(
-            child: Wrap(
-              children: <Widget>[
-                ListTile(
-                  leading: Icon(Icons.delete, color: AppColor.orangeColor),
-                  title: Text("Delete", style: TextStyle(color: AppColor.bluColor)),
-                  onTap: () {
-                    Navigator.pop(context);
-                    CubitYourPost.get(context).deletePost(id);
-                  },
-                ),
-                ListTile(
-                  leading: Icon(Icons.edit, color: AppColor.orangeColor),
-                  title: Text("Edit", style: TextStyle(color: AppColor.bluColor)),
-                  onTap: () {
-                    Navigator.pop(context);
-                    navigateTo(widget: EditOpenQuestion(id:id),context: context);
-                  },
-                ),
-              ],
-            ),
-          );
-        },
-      );
-    }
 
     return openQuestionPost.isEmpty
         ? const Center(
-      child: Text(
+          child: Text(
         'No open questions yet.',
         style: TextStyle(color: Colors.grey, fontSize: 16),
       ),
@@ -73,7 +43,7 @@ class ListOfOpenQuestion extends StatelessWidget {
             ),
           );
         }
-        return OpenQuestionModel(
+         return OpenQuestionModel(
           time: openQuestionPost[index]['publishedAt'],
           numberOfCommit: "78",
           name: openQuestionPost[index]['user']['fullName'],
@@ -84,9 +54,8 @@ class ListOfOpenQuestion extends StatelessWidget {
             // navigateTo(context: context, widget: CommitScreen(idPost: openQuestionPost[index]['postId'], typePost: "openQuestion"));
           },
           onPressedForFavorit: () {},
-          deleteAndEdit:  openQuestionPost[index]['user']['_id'] == id ? true : false, //
+          deleteAndEdit:   false, //
           onPressed: () {
-             _showOptions(openQuestionPost[index]['user']['_id']);
           },
         );
       },

@@ -170,6 +170,7 @@ final List<Map<String,dynamic>>openQuestion=[];
     ).catchError((error){
       int statusCode = error.response?.statusCode ?? -1;
       print("DeletePostErrorStateStates");
+      print(error.toString());
       emit(DeletePostErrorStateStates(statusCode));
     });
   }
