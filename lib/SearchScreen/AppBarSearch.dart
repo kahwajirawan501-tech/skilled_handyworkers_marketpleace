@@ -64,6 +64,7 @@ class _AppBarSearchState extends State<AppBarSearch> {
                 height: 40,
                 child: GestureDetector(
                   onTap: () async {
+
                     final result = await Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -154,3 +155,6 @@ class _AppBarSearchState extends State<AppBarSearch> {
 
 
 }
+
+
+

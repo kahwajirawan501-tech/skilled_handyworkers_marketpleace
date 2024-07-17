@@ -1,6 +1,7 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:skilled_handyworkers_marketpleace/Commint/commintSceren.dart';
 import 'package:skilled_handyworkers_marketpleace/EditPost/EditPost.dart';
 import 'package:skilled_handyworkers_marketpleace/EditPost/cubit/cubit.dart';
 import 'package:skilled_handyworkers_marketpleace/Posting/cubit/cubit.dart';
@@ -96,7 +97,7 @@ class _ListOfPostingUserState extends State<ListOfPostingUser> {
                       numberOfCommit: "67",
                       time: widget.post[index]['publishedAt'],
                       onPressedForCommit: () {
-                        // navigateTo(context: context, widget: CommitScreen(idPost: post[index]['postId'], typePost: "post"));
+    navigateTo(context: context, widget: CommitScreen(idPost: widget.post[index]['_id'], typePost: "post"));
                       },
                       onPressedForFavorit: () {},
                       onTapImage: () {},

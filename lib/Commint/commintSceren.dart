@@ -4,12 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skilled_handyworkers_marketpleace/Commint/cubit/cubit.dart';
 import 'package:skilled_handyworkers_marketpleace/Commint/cubit/states.dart';
+import 'package:skilled_handyworkers_marketpleace/shared/components/components.dart';
 import 'package:skilled_handyworkers_marketpleace/shared/components/constant.dart';
 import 'package:skilled_handyworkers_marketpleace/shared/styles/colors.dart';
 import 'package:skilled_handyworkers_marketpleace/shared/styles/styles.dart';
 
 class CommitScreen extends StatefulWidget {
-  final int idPost;
+  final String idPost;
   final String typePost;
   const CommitScreen({Key? key, required this.idPost, required this.typePost}) : super(key: key);
 
@@ -24,41 +25,57 @@ class _CommitScreenState extends State<CommitScreen> {
   bool _isEditing = false;
   int _editingCommentIndex = -1;
   int _editingReplyIndex = -1;
+  String _commitId="0";
+  String _replyId="0";
+  int _commitIndexDelete=-1;
+  int _replyIndexDelete=-1;
+  int _isCicle=-1;
 
   void _addComment() {
     if (_commentController.text.isNotEmpty) {
       if (_isEditing) {
         if (_isReplying && _editingReplyIndex != -1) {
-          CommitCubit.get(context).editReply(_editingCommentIndex,
-              _editingReplyIndex, _commentController.text);
+
+          CommitCubit.get(context).editReplyForPost(_replyId, _commitId, _commentController.text);
+
         } else {
-          CommitCubit.get(context)
-              .editComment(_editingCommentIndex, _commentController.text);
+
+          CommitCubit.get(context).editCommitForPost(widget.idPost, _commitId, _commentController.text);
+
+
+
         }
       } else {
         if (_isReplying && _replyIndex != -1) {
-          CommitCubit.get(context)
-              .addReply(_replyIndex, _commentController.text);
+          CommitCubit.get(context).addReply(_replyIndex, _commentController.text);
+
+          CommitCubit.get(context).addReplyForCommit(_commitId, _commentController.text);
+
+
         } else {
           CommitCubit.get(context).addComment(_commentController.text);
+          CommitCubit.get(context).addCommitForPost(widget.idPost, _commentController.text);
+
+
         }
       }
-      _commentController.clear();
+
       setState(() {
         _isReplying = false;
-        _replyIndex = -1;
         _isEditing = false;
-        _editingCommentIndex = -1;
-        _editingReplyIndex = -1;
+        _commitId="0";
+        _replyId="0";
+
       });
     }
   }
 
-  void _replyToComment(int index, int commentId) {
+  void _replyToComment(int index, String commentId) {
     setState(() {
       _isReplying = true;
       _replyIndex = index;
-      _commentController.text = "Replying to : ${CommitCubit.get(context).commentsPost[index]['author']['name']}\t \t \t \t  ";
+      _commitId=commentId;
+      _commentController.text = "Replying to : ${CommitCubit.get(context).comments[index]["fullName"]}\t \t \t \t  ";
     });
   }
 
@@ -99,11 +116,20 @@ class _CommitScreenState extends State<CommitScreen> {
 
   void _deleteComment(int commentIndex,
       {bool isReply = false, int? replyIndex}) {
+    _commitIndexDelete=commentIndex;
+
     setState(() {
       if (isReply && replyIndex != null) {
-        CommitCubit.get(context).deleteReply(commentIndex, replyIndex);
+        CommitCubit.get(context).deleteReplyForPost(_replyId);
+
+
+
+
       } else {
-        CommitCubit.get(context).deleteComment(commentIndex);
+
+        CommitCubit.get(context).deleteCommitForPost(_commitId);
+
+
       }
     });
   }
@@ -112,16 +138,20 @@ class _CommitScreenState extends State<CommitScreen> {
     setState(() {
       _isEditing = true;
       _editingCommentIndex = commentIndex;
+
       if (isReply && replyIndex != null) {
         _isReplying = true;
         _editingReplyIndex = replyIndex;
         _commentController.text = CommitCubit.get(context)
-            .commentsPost[commentIndex]['replies'][replyIndex]['content'];
+            .comments[commentIndex]['replies'][replyIndex]['text'];
+
       } else {
         _isReplying = false;
         _editingReplyIndex = -1;
         _commentController.text =
-            CommitCubit.get(context).commentsPost[commentIndex]['content'];
+            CommitCubit.get(context).comments[commentIndex]['text'];
+
+
       }
     });
   }
@@ -134,8 +164,7 @@ class _CommitScreenState extends State<CommitScreen> {
   @override
   void initState() {
     super.initState();
-   // CommitCubit.get(context).getCommitForPost(widget.idPost);
-    CommitCubit.get(context).getCommit();
+    CommitCubit.get(context).getCommitForPost(widget.idPost);
   }
 
   @override
@@ -156,6 +185,160 @@ class _CommitScreenState extends State<CommitScreen> {
       ),
       body: BlocConsumer<CommitCubit, CommitStates>(
         listener: (context, state) {
+        setState(() {
+          //////////////////////////////////////////////////////////////delete commit
+          if(state is DeleteCommitSucssessfullStateStates){
+            CommitCubit.get(context).deleteComment(_commitIndexDelete);
+            _commitId="0";
+            _replyId="0";
+            _commitIndexDelete=-1;
+            _replyIndexDelete=-1;
+            _replyIndex = -1;
+            _editingCommentIndex = -1;
+            _editingReplyIndex = -1;
+            _commitIndexDelete=-1;
+          }
+          else if (state is DeleteCommitErrorStateStates){
+            showToast(text:"The commit hasn't been delete successfully \n", state: ToastStates.EROOR);
+            _commitId="0";
+            _replyId="0";
+            _commitIndexDelete=-1;
+            _replyIndexDelete=-1;
+            _replyIndex = -1;
+            _editingCommentIndex = -1;
+            _editingReplyIndex = -1;
+            _commitIndexDelete=-1;
+
+          }
+          ////////////////////////////////////////////////////////////////delete reply
+          if(state is DeleteReplySucssessfullStateStates){
+            CommitCubit.get(context).deleteReply(_commitIndexDelete, _replyIndexDelete);
+            print(_replyIndexDelete);
+            print(_commitIndexDelete);
+            _commitId="0";
+            _replyId="0";
+            _commitIndexDelete=-1;
+            _replyIndexDelete=-1;
+            _replyIndex = -1;
+            _editingCommentIndex = -1;
+            _editingReplyIndex = -1;
+            _commitIndexDelete=-1;
+          }
+          else if (state is DeleteReplyErrorStateStates){
+            showToast(text:"The commit hasn't been delete successfully \n", state: ToastStates.EROOR);
+            print(_replyIndexDelete);
+            print(_commitIndexDelete);
+            _commitId="0";
+            _replyId="0";
+            _commitIndexDelete=-1;
+            _replyIndexDelete=-1;
+            _replyIndex = -1;
+            _editingCommentIndex = -1;
+            _editingReplyIndex = -1;
+            _commitIndexDelete=-1;
+          }
+          ////////////////////////////////////////////////////////////////edit commit
+
+          if(state is EditCommitSucssessfullStateStates){
+            CommitCubit.get(context).editComment(_editingCommentIndex, _commentController.text);
+            _commentController.clear();
+
+            _commitId="0";
+            _replyId="0";
+            _commitIndexDelete=-1;
+            _replyIndexDelete=-1;
+            _replyIndex = -1;
+            _editingCommentIndex = -1;
+            _editingReplyIndex = -1;
+            _commitIndexDelete=-1;
+          }
+          else if (state is EditCommitErrorStateStates){
+            showToast(text:"The commit hasn't been edit successfully \n", state: ToastStates.EROOR);
+            _commitId="0";
+            _replyId="0";
+            _commitIndexDelete=-1;
+            _replyIndexDelete=-1;
+            _replyIndex = -1;
+            _editingCommentIndex = -1;
+            _editingReplyIndex = -1;
+            _commitIndexDelete=-1;
+          }
+          ////////////////////////////////////////////////////////////////edit reply
+          if(state is EditReplySucssessfullStateStates){
+            CommitCubit.get(context).editReply(_editingCommentIndex,
+                _editingReplyIndex, _commentController.text);
+            _commentController.clear();
+
+            _commitId="0";
+            _replyId="0";
+            _commitIndexDelete=-1;
+            _replyIndexDelete=-1;
+            _replyIndex = -1;
+            _editingCommentIndex = -1;
+            _editingReplyIndex = -1;
+            _commitIndexDelete=-1;
+          }
+          else if (state is EditReplyErrorStateStates){
+            showToast(text:"The commit hasn't been edit successfully \n", state: ToastStates.EROOR);
+
+            _commitId="0";
+            _replyId="0";
+            _commitIndexDelete=-1;
+            _replyIndexDelete=-1;
+            _replyIndex = -1;
+            _editingCommentIndex = -1;
+            _editingReplyIndex = -1;
+            _commitIndexDelete=-1;
+          }
+
+          /////////////////////////////////////////////////////////////////add commit
+          if(state is AddCommitSucssessfullStateStates){
+            _commentController.clear();
+            _commitId="0";
+            _replyId="0";
+            _commitIndexDelete=-1;
+            _replyIndexDelete=-1;
+            _replyIndex = -1;
+            _editingCommentIndex = -1;
+            _editingReplyIndex = -1;
+            _commitIndexDelete=-1;
+          }
+          else if (state is AddCommitErrorStateStates){
+            showToast(text:"The commit hasn't been add successfully \n", state: ToastStates.EROOR);
+            _commitId="0";
+            _replyId="0";
+            _commitIndexDelete=-1;
+            _replyIndexDelete=-1;
+            _replyIndex = -1;
+            _editingCommentIndex = -1;
+            _editingReplyIndex = -1;
+            _commitIndexDelete=-1;
+          }
+          ///////////////////////////////////////////////////////////////////add reply
+          if(state is AddReplySucssessfullStateStates){
+            _commentController.clear();
+            _commitId="0";
+            _replyId="0";
+            _commitIndexDelete=-1;
+            _replyIndexDelete=-1;
+            _replyIndex = -1;
+            _editingCommentIndex = -1;
+            _editingReplyIndex = -1;
+            _commitIndexDelete=-1;
+          }
+          else if (state is AddReplyErrorStateStates){
+            showToast(text:"The commit hasn't been add successfully \n", state: ToastStates.EROOR);
+            _commitId="0";
+            _replyId="0";
+            _commitIndexDelete=-1;
+            _replyIndexDelete=-1;
+            _replyIndex = -1;
+            _editingCommentIndex = -1;
+            _editingReplyIndex = -1;
+            _commitIndexDelete=-1;
+          }
+        });
+
 
         },
         builder: (context, state) {
@@ -168,9 +351,9 @@ class _CommitScreenState extends State<CommitScreen> {
                   Expanded(
                     child: ConditionalBuilder(
                       condition:
-                    true  ,//CommitCubit.get(context).commentsPost.isNotEmpty //state is CommitLoadStateStates
+                      state is! CommitLoadStateStates  ,//CommitCubit.get(context).commentsPost.isNotEmpty //state is CommitLoadStateStates
                       builder: (context) => CommitCubit.get(context)
-                          .commentsPost
+                          .comments
                           .isEmpty
                           ? const Center(
                         child: Text(
@@ -181,17 +364,21 @@ class _CommitScreenState extends State<CommitScreen> {
                       )
                           : ListView.builder(
                         itemCount:
-                        CommitCubit.get(context).commentsPost.length,
+                        CommitCubit.get(context).comments.length,
                         itemBuilder: (context, index) {
                           final comment = CommitCubit.get(context)
-                              .commentsPost[index];
+                              .comments[index];
                           return Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               GestureDetector(
                                 onLongPress: () {
-                                  if (comment['author']['id'] == id) {
+                                  if (comment['userId'] == id) {
                                     _showOptions(context, index);
+                                setState(() {
+                              _commitId=comment['id'];
+
+                              });
                                   }
                                 },
                                 child: Row(
@@ -199,8 +386,8 @@ class _CommitScreenState extends State<CommitScreen> {
                                   CrossAxisAlignment.start,
                                   children: [
                                     ClipOval(
-                                      child: Image.asset(
-                                        comment['author']['profileImage'],
+                                      child: Image.network(
+                                        api+comment['profileImage'],
                                         fit: BoxFit.cover,
                                         height: 40,
                                         width: 40,
@@ -242,13 +429,13 @@ class _CommitScreenState extends State<CommitScreen> {
                                             CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                comment['author']['name'],
+                                                comment['fullName'],
                                                 style: const TextStyle(
                                                     fontWeight:
                                                     FontWeight.bold),
                                               ),
                                               const SizedBox(height: 5),
-                                              Text(comment['content']),
+                                              Text(comment['text']),
                                               const SizedBox(height: 5),
                                             ],
                                           ),
@@ -256,19 +443,42 @@ class _CommitScreenState extends State<CommitScreen> {
                                         const SizedBox(height: 4),
                                         Row(
                                           children: [
-                                            Text(
-                                              _formatDate(
-                                                  comment['time']),
-                                              style: const TextStyle(
-                                                  color: Colors.grey,
-                                                  fontSize: AppFontStyles
-                                                      .soSmallFontSize),
-                                            ),
+                                            // Text(
+                                            //   "67",//_formatDate(comment['time'])
+                                            //
+                                            //   style: const TextStyle(
+                                            //       color: Colors.grey,
+                                            //       fontSize: AppFontStyles
+                                            //           .soSmallFontSize),
+                                            // ),
+                                            const SizedBox(width: 10,),
+                                            ConditionalBuilder(
+                                                condition: state is !AddCommitLoadStateStates &&
+                                                    state is !DeleteCommitLoadStateStates
+                                                    && state is! EditCommitLoadStateStates,
+                                                builder:(context) =>    const Text(
+                          "5:19 PM",//_formatDate(comment['time'])
+
+                          style: TextStyle(
+                          color: Colors.grey,
+                          fontSize: AppFontStyles
+                              .soSmallFontSize),
+                          ),
+                                                fallback:(context) =>
+                                                (_commitId==comment['id'] ||index==CommitCubit.get(context).comments.length-1)?
+                                                Container(
+
+                                                  child: CircularProgressIndicator(color:AppColor.orangeColor,strokeWidth: 2,)
+                                                  ,
+                                                  height: 10,
+                                                  width: 10,
+                                                ):SizedBox(),),
                                             const SizedBox(
                                                 width: AppFontStyles
                                                     .aboutMe),
                                             GestureDetector(
                                               onTap: () {
+
                                                 _replyToComment(
                                                     index, comment['id']);
                                               },
@@ -290,29 +500,33 @@ class _CommitScreenState extends State<CommitScreen> {
                                           children: [
                                             ...(comment['replies']
                                             as List<
-                                                Map<String,
-                                                    dynamic>>)
+                                                dynamic>)
                                                 .map((reply) {
+                                                  print("object");
+                                                  print(reply);
                                               return GestureDetector(
                                                 onLongPress: () {
-                                                  if (reply['author']
-                                                  ['id'] ==
+
+                                                  if (reply['userId']
+                                                   ==
                                                       id) {
                                                     _showOptions(
                                                         context, index,
                                                         isReply: true,
-                                                        replyIndex: comment[
-                                                        'replies']
-                                                            .indexOf(
-                                                            reply));
+                                                        replyIndex: comment['replies'].indexOf(reply));
+                                                    _replyId=reply["id"];
+                                                    _commitId=comment['id'];
+                                                    _replyIndexDelete=comment['replies'].indexOf(reply);
                                                   }
+
                                                 },
                                                 child: Row(
                                                   children: [
                                                     ClipOval(
-                                                      child: Image.asset(
-                                                        reply['author'][
-                                                        'profileImage'],
+                                                      child: Image.network(
+
+                                                        api+reply['profileImage']
+                                                        ,
                                                         fit: BoxFit.cover,
                                                         height: 40,
                                                         width: 40,
@@ -368,9 +582,8 @@ class _CommitScreenState extends State<CommitScreen> {
                                                                 .start,
                                                             children: [
                                                               Text(
-                                                                reply['author']
-                                                                [
-                                                                'name'],
+                                                                reply['fullName']
+                                                               ,
                                                                 style: const TextStyle(
                                                                     fontWeight:
                                                                     FontWeight.bold),
@@ -379,7 +592,7 @@ class _CommitScreenState extends State<CommitScreen> {
                                                                   height:
                                                                   5),
                                                               Text(reply[
-                                                              'content']),
+                                                              'text']),
                                                             ],
                                                           ),
                                                         ),
@@ -387,16 +600,37 @@ class _CommitScreenState extends State<CommitScreen> {
                                                             height: 4),
                                                         Row(
                                                           children: [
-                                                            Text(
-                                                              _formatDate(
-                                                                  reply[
-                                                                  'time']),
-                                                              style: const TextStyle(
-                                                                  color: Colors
-                                                                      .grey,
-                                                                  fontSize:
-                                                                  AppFontStyles.soSmallFontSize),
-                                                            ),
+                                                            // Text(//_formatDate(reply['time'])
+                                                            //   "6"
+                                                            //       ,
+                                                            //
+                                                            //   style: const TextStyle(
+                                                            //       color: Colors
+                                                            //           .grey,
+                                                            //       fontSize:
+                                                            //       AppFontStyles.soSmallFontSize),
+                                                            // ),
+                                                            const SizedBox(width: 10,),
+                                                            ConditionalBuilder(
+                                                              condition: state is !AddReplyLoadStateStates &&
+                                                                  state is!DeleteReplyLoadStateStates
+                                                                  && state is !EditReplyLoadStateStates,
+                                                              builder:(context) =>    const Text(
+                                                                "5:19 PM",//_formatDate(comment['time'])
+
+                                                                style: TextStyle(
+                                                                    color: Colors.grey,
+                                                                    fontSize: AppFontStyles
+                                                                        .soSmallFontSize),
+                                                              ),
+                                                              fallback:(context) =>_replyId==reply["id"]? Container(
+
+                                                                child: CircularProgressIndicator(
+                                                                  color:AppColor.orangeColor,strokeWidth: 2,)
+                                                                ,
+                                                                height: 10,
+                                                                width: 10,
+                                                              ):SizedBox(),),
                                                             const SizedBox(
                                                                 width: AppFontStyles
                                                                     .aboutMe),

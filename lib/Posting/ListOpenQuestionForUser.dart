@@ -1,6 +1,7 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:skilled_handyworkers_marketpleace/Commint/commintSceren.dart';
 import 'package:skilled_handyworkers_marketpleace/EditPost/EditOpenQuestion.dart';
 import 'package:skilled_handyworkers_marketpleace/Posting/OpenQuestionModel.dart';
 import 'package:skilled_handyworkers_marketpleace/Posting/cubit/cubit.dart';
@@ -99,7 +100,7 @@ class _ListOfOpenQuestionUserState extends State<ListOfOpenQuestionUser> {
                         openQuestion: widget.openQuestionPost[index]['text'],
                         onTapImage: () {},
                         onPressedForCommit: () {
-// navigateTo(context: context, widget: CommitScreen(idPost: openQuestionPost[index]['postId'], typePost: "openQuestion"));
+ navigateTo(context: context, widget: CommitScreen(idPost: widget.openQuestionPost[index]['_id'], typePost: "openQuestion"));
                         },
                         onPressed: () {
                           _showOptions(widget.openQuestionPost[index]['_id']);

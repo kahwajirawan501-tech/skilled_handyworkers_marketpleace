@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skilled_handyworkers_marketpleace/Posting/cubit/states.dart';
 import 'package:skilled_handyworkers_marketpleace/SearchScreen/cubit/states.dart';
+import 'package:skilled_handyworkers_marketpleace/shared/components/constant.dart';
 import 'package:skilled_handyworkers_marketpleace/shared/network/remote/dio_helper.dart';
 
 class CubitYourPost extends Cubit<YourPostStates>{
@@ -119,7 +120,7 @@ final List<Map<String,dynamic>>openQuestion=[];
     print("YourPostPostLoadStateStates");
     post.clear();
     DioHelper.getData(
-      url:'post/4042a457-eb42-473d-ad90-e95ad2297525/posts',
+      url:'post/$id/posts',
     ).then((value)
     {
       print(value.data);
@@ -139,7 +140,7 @@ final List<Map<String,dynamic>>openQuestion=[];
     print("YourOpenQuestionPostLoadStateStates");
     openQuestion.clear();
     DioHelper.getData(
-      url:'post/4042a457-eb42-473d-ad90-e95ad2297525/open-questions',
+      url:'post/$id/open-questions',
     ).then((value)
     {
       openQuestion.addAll(List<Map<String, dynamic>>.from(value.data));

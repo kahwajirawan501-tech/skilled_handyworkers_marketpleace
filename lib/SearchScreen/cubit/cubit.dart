@@ -137,4 +137,27 @@ class CubitSearch extends Cubit<SearchStates> {
     emit(SearchPostOnlyServiceLoadStateStatesNext());
     _fetchPostsForService(service, page);
   }
+
+
+
+  void deletePost(String id){
+    emit(DeletePostLoadStateStatesSearch());
+    print("DeletePostLoadStateStates");
+    DioHelper.deletePost(
+      url:'post/$id',
+    ).then((value)
+    {
+
+      print("DeletePostSucssessfullStateStates");
+      emit(DeletePostSucssessfullStateStatesSearch());
+
+    }
+    ).catchError((error){
+      int statusCode = error.response?.statusCode ?? -1;
+      print("DeletePostErrorStateStates");
+      print(error.toString());
+      emit(DeletePostErrorStateStatesSearch(statusCode));
+    });
+  }
+
 }

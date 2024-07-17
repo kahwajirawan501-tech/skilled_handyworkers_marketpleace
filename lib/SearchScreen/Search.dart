@@ -18,7 +18,7 @@ class Search extends StatefulWidget {
   State<Search> createState() => _SearchState();
 }
 
-class _SearchState extends State<Search> {
+class _SearchState extends  State<Search> {
   final TextEditingController textControllerService = TextEditingController();
   final TextEditingController textControllerLocation = TextEditingController();
   bool clickPosting = false;

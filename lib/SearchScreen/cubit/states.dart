@@ -79,3 +79,16 @@ class SearchPostOnlyServiceErrorStateStatesNext extends SearchStates {
   final int statusCode;
   SearchPostOnlyServiceErrorStateStatesNext(this.statusCode);
 }
+
+
+class DeletePostLoadStateStatesSearch extends SearchStates {
+
+}
+class  DeletePostSucssessfullStateStatesSearch extends SearchStates {
+
+  DeletePostSucssessfullStateStatesSearch();
+}
+class  DeletePostErrorStateStatesSearch extends SearchStates {
+  final int statusCode;
+  DeletePostErrorStateStatesSearch(this.statusCode);
+}

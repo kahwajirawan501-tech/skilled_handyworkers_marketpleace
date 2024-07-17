@@ -7,185 +7,105 @@ class CommitCubit extends Cubit<CommitStates> {
   CommitCubit() : super(CommitStatesInitialStateStates());
 
   static CommitCubit get(context) => BlocProvider.of(context);
+   List<Map<String, dynamic>> comments =[
 
-  final Map<String, dynamic> comments = {
-    'postId': 1,
-    'postAuthor': {
-      'id': 1,
-      'name': 'اسم الكاتب',
-      'gender': 'ذكر',
-      'address': 'عنوان الكاتب',
-      'profileImage': 'assets/images/Mask group.png',
-    },
-    'comments': [
-      {
-        'id': 1,
-        'content': 'Hi nina',
-        'time': '2024-06-27T15:30:00Z',
-        'author': {
-          'id': 1,
-          'name': 'Orlando Diggs',
-          'gender': 'female',
-          'address': 'Damascus',
-          'profileImage': 'assets/images/Mask group.png',
-        },
-        'replies': <Map<String, dynamic>>[
-          {
-            'id': 1,
-            'content': 'hi Taimaa',
-            'time': '2024-06-27T16:00:00Z',
-            'author': {
-              'id': 3,
-              'name': 'nina',
-              'gender': 'female',
-              'address': 'Damascus',
-              'profileImage': 'assets/images/imagePerson.jpg',
-            },
-          },
-        ],
-      },
-    ],
-  };
-
-  List<Map<String, dynamic>> get commentsPost => List<Map<String, dynamic>>.from(comments['comments'] as List);
+   ];
+   final String idReply="";
+   final String idCommit="";
 
   void getCommit() {
-    emit(CommitStatesState(commentsPost));
+    emit(CommitStatesState(comments));
   }
 
   void addComment(String content) {
     final newComment = {
-      'id': commentsPost.length + 1,
-      'content': content,
-      'time': DateTime.now().toIso8601String(),
-      'author': {
-        'id': id,
-        'name': name,
-        'gender': gender,
-        'address': location,
-        'profileImage': imageCope,
-        'number': number
-      },
+       'id': "",
+       'postId':"",
+       'userId': id,
+       'fullName': name,
+       'profileImage': "/uploads/post/files-1721217405528-473656958.jpg",
+       'text': content,
+      //'time': DateTime.now().toIso8601String(),
       'replies': <Map<String, dynamic>>[],
     };
 
-    (comments['comments'] as List).add(newComment);
-    emit(CommitStatesState(commentsPost));
- //   addCommitForPost(id!, commentsPost);
+    comments.add(newComment);
+    emit(CommitStatesState(comments));
   }
 
   void addReply(int commentIndex, String content) {
     final reply = {
-      'id': commentsPost[commentIndex]['replies'].length + 1,
-      'content': content,
-      'time': DateTime.now().toIso8601String(),
-      'author': {
-        'id': id,
-        'name': name,
-        'gender': gender,
-        'address': location,
-        'profileImage': imageCope,
-        'number': number
-      },
+      'id': "",
+      'userId': id,
+      'fullName': name,
+      'profileImage': "/uploads/post/files-1721217405528-473656958.jpg",
+      'text': content,
+      //'time': DateTime.now().toIso8601String(),
+
     };
 
-    (comments['comments'][commentIndex]['replies'] as List).add(reply);
-    emit(CommitStatesState(commentsPost));
+    comments[commentIndex]['replies'].add(reply);
+    print(reply);
+    emit(CommitStatesState(comments));
     //addCommitForPost(id!, commentsPost);
 
   }
 
   void deleteReply(int commentIndex, int replyIndex) {
-    (comments['comments'][commentIndex]['replies'] as List).removeAt(replyIndex);
-    emit(CommitStatesState(commentsPost));
+    comments[commentIndex]['replies'].removeAt(replyIndex);
+    emit(CommitStatesState(comments));
    // deleteCommitForPost(id!, commentsPost);
 
   }
 
   void deleteComment(int commentIndex) {
-    (comments['comments'] as List).removeAt(commentIndex);
-    emit(CommitStatesState(commentsPost));
+    comments .removeAt(commentIndex);
+    emit(CommitStatesState(comments));
     //deleteCommitForPost(id!, commentsPost);
   }
 
   void editReply(int commentIndex, int replyIndex,String content) {
-    (comments['comments'][commentIndex]['replies'][replyIndex] as Map<String, dynamic>)['content'] = content;
-    emit(CommitStatesState(commentsPost));
+    comments[commentIndex]['replies'][replyIndex] ['text'] = content;
+    emit(CommitStatesState(comments));
    // editCommitForPost(id!, commentsPost);
   }
 
   void editComment(int commentIndex,String content) {
-    (comments['comments'][commentIndex] as Map<String, dynamic>)['content'] = content;
-    emit(CommitStatesState(commentsPost));
+    comments[commentIndex]['text'] = content;
+    emit(CommitStatesState(comments));
     //editCommitForPost(id!, commentsPost);
 
   }
-
-  // CommitModel commitModel;
-  void getCommitForPost(int idPost) {
+////////////////////////////////////////////////////////////////////////////////////////
+  Future<void> getCommitForPost(String idPost)async {
     emit(CommitLoadStateStates());
     print("CommitLoadStateStates");
-    DioHelper.getData(
-      url: '',
-      token: '',
+   await DioHelper.getData(
+      url: '/comments/post/$idPost',
     ).then((value) {
-      // commitModel = CommitModel.fromJson(value.data);
+      comments = List<Map<String, dynamic>>.from(value.data);
+
       emit(CommitSucssessfullStateStates());
     }).catchError((error) {
+      print(error.toString());
       int statusCode = error.response?.statusCode ?? -1;
       emit(CommitErrorStateStates(statusCode));
     });
   }
 
-  void deleteCommitForPost(int idPost,List<Map<String, dynamic>>commit) {
-    emit(DeleteCommitLoadStateStates());
-    print("DeleteCommitLoadStateStates");
-    DioHelper.postData(
-      url: '',
-      token: '',
-      data: {
-        'idPost':idPost,
-        'commit':commit,
-      }
-    ).then((value) {
-
-      emit(DeleteCommitSucssessfullStateStates());
-    }).catchError((error) {
-      int statusCode = error.response?.statusCode ?? -1;
-      emit(DeleteCommitErrorStateStates(statusCode));
-    });
-  }
-
-  void editCommitForPost(int idPost,List<Map<String, dynamic>>commit) {
-    emit(EditCommitLoadStateStates());
-    print("EditCommitLoadStateStates");
-    DioHelper.postData(
-        url: '',
-        token: '',
-        data: {
-          'idPost':idPost,
-          'commit':commit,
-        }
-    ).then((value) {
-
-      emit(EditCommitSucssessfullStateStates());
-    }).catchError((error) {
-      int statusCode = error.response?.statusCode ?? -1;
-      emit(EditCommitErrorStateStates(statusCode));
-    });
-  }
-
-  void addCommitForPost(int idPost,List<Map<String, dynamic>>commit) {
+  Future<void> addCommitForPost(String idPost,String commit)async {
     emit(AddCommitLoadStateStates());
     print("AddCommitLoadStateStates");
-    DioHelper.postData(
-        url: '',
-        token: '',
+   await DioHelper.postData(
+        url: '/comments/add',
         data: {
-          'idPost':idPost,
-          'commit':commit,
+          "userId": id,
+          "postId": idPost,
+          "text": commit
         }
     ).then((value) {
+      comments[comments.length-1]['id']=value.data['_id'];
+      comments[comments.length-1]['postId']=idPost;
 
       emit(AddCommitSucssessfullStateStates());
     }).catchError((error) {
@@ -193,5 +113,112 @@ class CommitCubit extends Cubit<CommitStates> {
       emit(AddCommitErrorStateStates(statusCode));
     });
   }
+  Future<void> deleteCommitForPost(String idCommit)async {
+    emit(DeleteCommitLoadStateStates());
+    print("DeleteCommitLoadStateStates");
+    await DioHelper.deletePost(
+      url: '/comments/delete/$idCommit',
+        token: accessToken
+
+    ).then((value) {
+
+      emit(DeleteCommitSucssessfullStateStates());
+      print("DeleteCommitSucssessfullStateStates");
+    }).catchError((error) {
+      int statusCode = error.response?.statusCode ?? -1;
+      emit(DeleteCommitErrorStateStates(statusCode));
+      print(error.toString());
+      print("DeleteCommitErrorStateStates");
+    });
+  }
+  Future<void> editCommitForPost(String idPost,String idCommit,String commit)async {
+    emit(EditCommitLoadStateStates());
+    print("EditCommitLoadStateStates");
+   await DioHelper.putData(
+        url: '/comments/edit/$idCommit',
+        token: accessToken,
+        data: {
+          "userId": id,
+          "postId": idPost,
+          "text": commit
+
+        }
+    ).then((value) {
+
+      emit(EditCommitSucssessfullStateStates());
+      print("EditCommitSucssessfullStateStates");
+    }).catchError((error) {
+      int statusCode = error.response?.statusCode ?? -1;
+      print(error.toString());
+      emit(EditCommitErrorStateStates(statusCode));
+    });
+  }
+
+  Future<void> addReplyForCommit(String idCommit,String commit) async{
+    emit(AddReplyLoadStateStates());
+    print("AddReplyLoadStateStates");
+  await  DioHelper.postData(
+        url: '/comments/reply',
+        data: {
+          "commentId": idCommit,
+          "userId": id,
+          "text": commit
+        }
+    ).then((value) {
+
+      comments[comments.length-1]['replies'][comments[comments.length-1]['replies'].length-1]['id']=value.data['_id'];
+
+
+      emit(AddReplySucssessfullStateStates());
+      print("AddReplySucssessfullStateStates");
+    }).catchError((error) {
+      int statusCode = error.response?.statusCode ?? -1;
+      emit(AddReplyErrorStateStates(statusCode));
+      print(error.toString());
+      print("AddReplyErrorStateStates");
+
+    });
+  }
+  Future<void> deleteReplyForPost(String idReply) async{
+    emit(DeleteReplyLoadStateStates());
+    print("DeleteReplyLoadStateStates");
+  await  DioHelper.deletePost(
+      url: '/comments/reply/delete/$idReply',
+      token: accessToken
+    ).then((value) {
+
+      emit(DeleteReplySucssessfullStateStates());
+      print("DeleteReplySucssessfullStateStates");
+    }).catchError((error) {
+      int statusCode = error.response?.statusCode ?? -1;
+      print(error.toString());
+      emit(DeleteReplyErrorStateStates(statusCode));
+      print("DeleteReplyErrorStateStates");
+    });
+  }
+  Future<void> editReplyForPost(String idReply,String idCommit,String commit)async {
+    emit(EditReplyLoadStateStates());
+    print("EditReplyLoadStateStates");
+  await  DioHelper.putData(
+        url: '/comments/reply/edit/$idReply',
+        token: accessToken,
+        data: {
+          "commentId":idCommit,
+          "userId": id,
+          "text": commit
+
+        }
+    ).then((value) {
+
+      emit(EditReplySucssessfullStateStates());
+      print('EditReplySucssessfullStateStates');
+    }).catchError((error) {
+      int statusCode = error.response?.statusCode ?? -1;
+      print(error.toString());
+      emit(EditReplyErrorStateStates(statusCode));
+    });
+  }
+
+
 
 }

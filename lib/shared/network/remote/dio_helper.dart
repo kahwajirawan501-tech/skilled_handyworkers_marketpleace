@@ -62,7 +62,7 @@ class DioHelper{
     dio.options.headers={
       'Content-Type':'application/json',
 
-      'Authorization':token,
+      "Authorization":"Bearer $token",
     };
 
     return dio.put(url, queryParameters: query,data: data);

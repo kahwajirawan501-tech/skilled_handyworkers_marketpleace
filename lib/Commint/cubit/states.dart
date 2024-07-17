@@ -58,5 +58,39 @@ class CommitStatesState extends CommitStates{
 }
 
 
+class DeleteReplyLoadStateStates extends CommitStates {
+
+}
+class DeleteReplySucssessfullStateStates extends CommitStates {
+
+  DeleteReplySucssessfullStateStates();
+}
+class DeleteReplyErrorStateStates extends CommitStates {
+  final int statusCode;
+  DeleteReplyErrorStateStates(this.statusCode);
+}
+
+class EditReplyLoadStateStates extends CommitStates {
+
+}
+class EditReplySucssessfullStateStates extends CommitStates {
+
+}
+class EditReplyErrorStateStates extends CommitStates {
+  final int statusCode;
+  EditReplyErrorStateStates(this.statusCode);
+}
+
+class AddReplyLoadStateStates extends CommitStates {
+
+}
+class AddReplySucssessfullStateStates extends CommitStates {
+
+}
+class AddReplyErrorStateStates extends CommitStates {
+  final int statusCode;
+  AddReplyErrorStateStates(this.statusCode);
+}
+
 
 
