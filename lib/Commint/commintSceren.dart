@@ -20,6 +20,7 @@ class CommitScreen extends StatefulWidget {
 
 class _CommitScreenState extends State<CommitScreen> {
   final _commentController = TextEditingController();
+ int _indexCommitForCicle=-1;
   bool _isReplying = false;
   int _replyIndex = -1;
   bool _isEditing = false;
@@ -29,7 +30,11 @@ class _CommitScreenState extends State<CommitScreen> {
   String _replyId="0";
   int _commitIndexDelete=-1;
   int _replyIndexDelete=-1;
-  int _isCicle=-1;
+  bool _error=false;
+  bool _errorRyply=false;
+  String _textAddCommit="";
+  String _textAddReply="";
+  String _idCommitAddReply="";
 
   void _addComment() {
     if (_commentController.text.isNotEmpty) {
@@ -50,12 +55,15 @@ class _CommitScreenState extends State<CommitScreen> {
           CommitCubit.get(context).addReply(_replyIndex, _commentController.text);
 
           CommitCubit.get(context).addReplyForCommit(_commitId, _commentController.text);
-
+          _textAddReply=_commentController.text;
+          _idCommitAddReply=_commitId;
+          _commentController.clear();
 
         } else {
           CommitCubit.get(context).addComment(_commentController.text);
           CommitCubit.get(context).addCommitForPost(widget.idPost, _commentController.text);
-
+          _textAddCommit=_commentController.text;
+          _commentController.clear();
 
         }
       }
@@ -63,8 +71,8 @@ class _CommitScreenState extends State<CommitScreen> {
       setState(() {
         _isReplying = false;
         _isEditing = false;
-        _commitId="0";
-        _replyId="0";
+       // _commitId="0";
+      //  _replyId="0";
 
       });
     }
@@ -75,7 +83,7 @@ class _CommitScreenState extends State<CommitScreen> {
       _isReplying = true;
       _replyIndex = index;
       _commitId=commentId;
-      _commentController.text = "Replying to : ${CommitCubit.get(context).comments[index]["fullName"]}\t \t \t \t  ";
+      _commentController.text = "Replying to : ${CommitCubit.get(context).comments[index]["fullName"]}\t \t \t \n  ";
     });
   }
 
@@ -213,8 +221,6 @@ class _CommitScreenState extends State<CommitScreen> {
           ////////////////////////////////////////////////////////////////delete reply
           if(state is DeleteReplySucssessfullStateStates){
             CommitCubit.get(context).deleteReply(_commitIndexDelete, _replyIndexDelete);
-            print(_replyIndexDelete);
-            print(_commitIndexDelete);
             _commitId="0";
             _replyId="0";
             _commitIndexDelete=-1;
@@ -226,8 +232,7 @@ class _CommitScreenState extends State<CommitScreen> {
           }
           else if (state is DeleteReplyErrorStateStates){
             showToast(text:"The commit hasn't been delete successfully \n", state: ToastStates.EROOR);
-            print(_replyIndexDelete);
-            print(_commitIndexDelete);
+
             _commitId="0";
             _replyId="0";
             _commitIndexDelete=-1;
@@ -280,8 +285,6 @@ class _CommitScreenState extends State<CommitScreen> {
           }
           else if (state is EditReplyErrorStateStates){
             showToast(text:"The commit hasn't been edit successfully \n", state: ToastStates.EROOR);
-
-            _commitId="0";
             _replyId="0";
             _commitIndexDelete=-1;
             _replyIndexDelete=-1;
@@ -293,7 +296,8 @@ class _CommitScreenState extends State<CommitScreen> {
 
           /////////////////////////////////////////////////////////////////add commit
           if(state is AddCommitSucssessfullStateStates){
-            _commentController.clear();
+            _error=false;
+            _textAddCommit="";
             _commitId="0";
             _replyId="0";
             _commitIndexDelete=-1;
@@ -305,6 +309,7 @@ class _CommitScreenState extends State<CommitScreen> {
           }
           else if (state is AddCommitErrorStateStates){
             showToast(text:"The commit hasn't been add successfully \n", state: ToastStates.EROOR);
+            _error=true;
             _commitId="0";
             _replyId="0";
             _commitIndexDelete=-1;
@@ -317,6 +322,9 @@ class _CommitScreenState extends State<CommitScreen> {
           ///////////////////////////////////////////////////////////////////add reply
           if(state is AddReplySucssessfullStateStates){
             _commentController.clear();
+            _textAddReply="";
+            _idCommitAddReply="";
+            _errorRyply=false;
             _commitId="0";
             _replyId="0";
             _commitIndexDelete=-1;
@@ -328,6 +336,8 @@ class _CommitScreenState extends State<CommitScreen> {
           }
           else if (state is AddReplyErrorStateStates){
             showToast(text:"The commit hasn't been add successfully \n", state: ToastStates.EROOR);
+            _errorRyply=true;
+
             _commitId="0";
             _replyId="0";
             _commitIndexDelete=-1;
@@ -376,7 +386,9 @@ class _CommitScreenState extends State<CommitScreen> {
                                   if (comment['userId'] == id) {
                                     _showOptions(context, index);
                                 setState(() {
+
                               _commitId=comment['id'];
+
 
                               });
                                   }
@@ -456,28 +468,45 @@ class _CommitScreenState extends State<CommitScreen> {
                                                 condition: state is !AddCommitLoadStateStates &&
                                                     state is !DeleteCommitLoadStateStates
                                                     && state is! EditCommitLoadStateStates,
-                                                builder:(context) =>    const Text(
-                          "5:19 PM",//_formatDate(comment['time'])
+                                                builder:(context) =>(_error &&  (_commitId==comment['id'] ||
+                                                   ( index==CommitCubit.get(context).comments.length-1)))
+                                                    ?GestureDetector(
 
-                          style: TextStyle(
-                          color: Colors.grey,
-                          fontSize: AppFontStyles
-                              .soSmallFontSize),
-                          ),
+                                                    child: Icon(Icons.refresh_outlined,color:AppColor.orangeColor,size: 20,),onTap: () {
+                                                  CommitCubit.get(context).addCommitForPost(widget.idPost, _textAddCommit);
+
+                                                },)
+                                                    :const Text(
+                                                       "5:19 PM",//_formatDate(comment['time'])
+
+                                                         style: TextStyle(
+                                                         color: Colors.grey,
+                                                    fontSize: AppFontStyles
+                                                       .soSmallFontSize),
+                                                    ),
                                                 fallback:(context) =>
-                                                (_commitId==comment['id'] ||index==CommitCubit.get(context).comments.length-1)?
+                                                (((_commitId==comment['id'])&& (index==CommitCubit.get(context).comments.length-1))
+                                                    ||(_commitId==comment['id'])|| ((_commitId=='0')&&(index==CommitCubit.get(context).comments.length-1)))?
                                                 Container(
 
                                                   child: CircularProgressIndicator(color:AppColor.orangeColor,strokeWidth: 2,)
                                                   ,
                                                   height: 10,
                                                   width: 10,
-                                                ):SizedBox(),),
+                                                )   :const Text(
+                                                  "5:19 PM",//_formatDate(comment['time'])
+
+                                                  style: TextStyle(
+                                                      color: Colors.grey,
+                                                      fontSize: AppFontStyles
+                                                          .soSmallFontSize),
+                                                ),),
                                             const SizedBox(
                                                 width: AppFontStyles
                                                     .aboutMe),
                                             GestureDetector(
                                               onTap: () {
+                                                _indexCommitForCicle=index;
 
                                                 _replyToComment(
                                                     index, comment['id']);
@@ -502,9 +531,8 @@ class _CommitScreenState extends State<CommitScreen> {
                                             as List<
                                                 dynamic>)
                                                 .map((reply) {
-                                                  print("object");
-                                                  print(reply);
                                               return GestureDetector(
+
                                                 onLongPress: () {
 
                                                   if (reply['userId']
@@ -514,11 +542,10 @@ class _CommitScreenState extends State<CommitScreen> {
                                                         context, index,
                                                         isReply: true,
                                                         replyIndex: comment['replies'].indexOf(reply));
-                                                    _replyId=reply["id"];
+                                                    _replyId=reply['id'];
                                                     _commitId=comment['id'];
                                                     _replyIndexDelete=comment['replies'].indexOf(reply);
                                                   }
-
                                                 },
                                                 child: Row(
                                                   children: [
@@ -615,7 +642,19 @@ class _CommitScreenState extends State<CommitScreen> {
                                                               condition: state is !AddReplyLoadStateStates &&
                                                                   state is!DeleteReplyLoadStateStates
                                                                   && state is !EditReplyLoadStateStates,
-                                                              builder:(context) =>    const Text(
+                                                              builder:(context) =>
+                                                              (_errorRyply &&(((_replyId==reply['id'])
+                                                                  &&(comment['replies'].indexOf(reply)==comment['replies'].length-1))||
+                                                                  (_replyId==reply['id'])||
+                                                                  (_replyId=='0'&&(comment['replies'].indexOf(reply)==comment['replies'].length-1)))
+                                                              )
+                                                                  ?GestureDetector(
+
+                                                                child: Icon(Icons.refresh_outlined,color:AppColor.orangeColor,size: 20,),onTap: () {
+                                                                CommitCubit.get(context).addReplyForCommit(_idCommitAddReply, _textAddReply);
+
+                                                              },)
+                                                                  :const Text(
                                                                 "5:19 PM",//_formatDate(comment['time'])
 
                                                                 style: TextStyle(
@@ -623,14 +662,28 @@ class _CommitScreenState extends State<CommitScreen> {
                                                                     fontSize: AppFontStyles
                                                                         .soSmallFontSize),
                                                               ),
-                                                              fallback:(context) =>_replyId==reply["id"]? Container(
+                                                              fallback:(context) =>
+                                                              (((_replyId==reply['id'])
+                                                                  &&(comment['replies'].indexOf(reply)==comment['replies'].length-1))||
+                                                                  (_replyId==reply['id'])||
+                                                                  (_replyId=='0'&&(comment['replies'].indexOf(reply)==comment['replies'].length-1)&&_indexCommitForCicle==index))
+
+                                                                  ? Container(
+
+                                                                height: 10,
+                                                                width: 10,
 
                                                                 child: CircularProgressIndicator(
                                                                   color:AppColor.orangeColor,strokeWidth: 2,)
                                                                 ,
-                                                                height: 10,
-                                                                width: 10,
-                                                              ):SizedBox(),),
+                                                              )   :const Text(
+                                                                "5:19 PM",//_formatDate(comment['time'])
+
+                                                                style: TextStyle(
+                                                                    color: Colors.grey,
+                                                                    fontSize: AppFontStyles
+                                                                        .soSmallFontSize),
+                                                              ),),
                                                             const SizedBox(
                                                                 width: AppFontStyles
                                                                     .aboutMe),
@@ -671,9 +724,13 @@ class _CommitScreenState extends State<CommitScreen> {
                           maxLines: null,
                           // يسمح للنص بأن يتمدد لعدد غير محدود من الأسطر
                           minLines: 1,
+                          cursorColor: AppColor.navyBlueColor,
+
                           // يبدأ بسطر واحد ويمكن أن يتمدد حسب الحاجة
                           decoration: InputDecoration(
+
                             hintStyle: TextStyle(
+
                               color: AppColor.grayColorFont,
                               fontSize: AppFontStyles.descriptionLoginFontSize,
                             ),
@@ -682,10 +739,13 @@ class _CommitScreenState extends State<CommitScreen> {
                                 : 'Write your message...',
                             filled: true,
                             fillColor: Colors.white,
+
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(15),
                               borderSide: BorderSide.none,
+
                             ),
+
                             contentPadding: const EdgeInsets.symmetric(
                                 horizontal: 20, vertical: 8),
                           ),

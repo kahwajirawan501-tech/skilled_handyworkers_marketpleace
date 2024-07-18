@@ -88,8 +88,8 @@ class AddReplySucssessfullStateStates extends CommitStates {
 
 }
 class AddReplyErrorStateStates extends CommitStates {
-  final int statusCode;
-  AddReplyErrorStateStates(this.statusCode);
+
+  AddReplyErrorStateStates();
 }
 
 

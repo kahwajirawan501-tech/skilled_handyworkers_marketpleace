@@ -40,6 +40,7 @@ class CommitCubit extends Cubit<CommitStates> {
       'fullName': name,
       'profileImage': "/uploads/post/files-1721217405528-473656958.jpg",
       'text': content,
+      'commentId':""
       //'time': DateTime.now().toIso8601String(),
 
     };
@@ -134,6 +135,7 @@ class CommitCubit extends Cubit<CommitStates> {
   Future<void> editCommitForPost(String idPost,String idCommit,String commit)async {
     emit(EditCommitLoadStateStates());
     print("EditCommitLoadStateStates");
+
    await DioHelper.putData(
         url: '/comments/edit/$idCommit',
         token: accessToken,
@@ -144,7 +146,7 @@ class CommitCubit extends Cubit<CommitStates> {
 
         }
     ).then((value) {
-
+       print(comments);
       emit(EditCommitSucssessfullStateStates());
       print("EditCommitSucssessfullStateStates");
     }).catchError((error) {
@@ -157,6 +159,7 @@ class CommitCubit extends Cubit<CommitStates> {
   Future<void> addReplyForCommit(String idCommit,String commit) async{
     emit(AddReplyLoadStateStates());
     print("AddReplyLoadStateStates");
+    print(idCommit);
   await  DioHelper.postData(
         url: '/comments/reply',
         data: {
@@ -166,16 +169,24 @@ class CommitCubit extends Cubit<CommitStates> {
         }
     ).then((value) {
 
-      comments[comments.length-1]['replies'][comments[comments.length-1]['replies'].length-1]['id']=value.data['_id'];
+
+      for (var commit in comments){
+        if(commit.containsValue(idCommit)){
+          commit['replies'][ commit['replies'].length-1]['id']=value.data['_id'];
+          commit['replies'][ commit['replies'].length-1]['commentId']=idCommit;
+          print("hhbhjbhbb");
+          print(commit);
+        }
+      }
 
 
       emit(AddReplySucssessfullStateStates());
       print("AddReplySucssessfullStateStates");
     }).catchError((error) {
-      int statusCode = error.response?.statusCode ?? -1;
-      emit(AddReplyErrorStateStates(statusCode));
-      print(error.toString());
+
+     // print(error.toString());
       print("AddReplyErrorStateStates");
+      emit(AddReplyErrorStateStates());
 
     });
   }
