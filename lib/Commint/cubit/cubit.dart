@@ -1,7 +1,10 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:skilled_handyworkers_marketpleace/Commint/cubit/states.dart';
 import 'package:skilled_handyworkers_marketpleace/shared/components/constant.dart';
 import 'package:skilled_handyworkers_marketpleace/shared/network/remote/dio_helper.dart';
+import 'package:timezone/timezone.dart' as tz;
+import 'package:timezone/data/latest.dart' as tzData;
 
 class CommitCubit extends Cubit<CommitStates> {
   CommitCubit() : super(CommitStatesInitialStateStates());
@@ -25,6 +28,7 @@ class CommitCubit extends Cubit<CommitStates> {
        'fullName': name,
        'profileImage': "/uploads/post/files-1721217405528-473656958.jpg",
        'text': content,
+      'createdAt':"",
       //'time': DateTime.now().toIso8601String(),
       'replies': <Map<String, dynamic>>[],
     };
@@ -40,7 +44,8 @@ class CommitCubit extends Cubit<CommitStates> {
       'fullName': name,
       'profileImage': "/uploads/post/files-1721217405528-473656958.jpg",
       'text': content,
-      'commentId':""
+      'commentId':"",
+      'createdAt':""
       //'time': DateTime.now().toIso8601String(),
 
     };
@@ -81,10 +86,26 @@ class CommitCubit extends Cubit<CommitStates> {
   Future<void> getCommitForPost(String idPost)async {
     emit(CommitLoadStateStates());
     print("CommitLoadStateStates");
+    print(idPost);
+    comments.clear();
    await DioHelper.getData(
       url: '/comments/post/$idPost',
     ).then((value) {
-      comments = List<Map<String, dynamic>>.from(value.data);
+     List<Map<String, dynamic>> data = List<Map<String, dynamic>>.from(value.data);
+
+     data.forEach((comment) {
+       comment['createdAt'] = formatFacebookTime(comment['createdAt']);
+
+       if (comment['replies'] != null) {
+         comment['replies'].forEach((reply) {
+           reply['createdAt'] = formatFacebookTime(reply['createdAt']);
+         });
+       }
+     });
+
+     comments = data;
+
+
 
       emit(CommitSucssessfullStateStates());
     }).catchError((error) {
@@ -107,6 +128,8 @@ class CommitCubit extends Cubit<CommitStates> {
     ).then((value) {
       comments[comments.length-1]['id']=value.data['_id'];
       comments[comments.length-1]['postId']=idPost;
+
+      comments[comments.length-1]['createdAt']=formatFacebookTime(value.data['createdAt']);
 
       emit(AddCommitSucssessfullStateStates());
     }).catchError((error) {
@@ -174,8 +197,8 @@ class CommitCubit extends Cubit<CommitStates> {
         if(commit.containsValue(idCommit)){
           commit['replies'][ commit['replies'].length-1]['id']=value.data['_id'];
           commit['replies'][ commit['replies'].length-1]['commentId']=idCommit;
-          print("hhbhjbhbb");
-          print(commit);
+          commit['replies'][ commit['replies'].length-1]=formatFacebookTime(value.data['createdAt']);
+
         }
       }
 
@@ -231,5 +254,62 @@ class CommitCubit extends Cubit<CommitStates> {
   }
 
 
+  String formatFacebookTime(String postTimeStr) {
+    if (RegExp(r'^\d{2}:\d{2}:\d{2} [APM]{2}$').hasMatch(postTimeStr)) {
+      return postTimeStr;
+    }
+    // إزالة الجزء الأخير الذي يحتوي على معلومات المنطقة الزمنية بين الأقواس
+    postTimeStr = postTimeStr.split('(')[0].trim();
+
+    // تحويل الوقت المستلم إلى كائن DateTime
+    DateTime postTime = DateFormat("EEE MMM dd yyyy HH:mm:ss 'GMT'Z", 'en_US').parse(postTimeStr);
+    print(postTime);
+    // الحصول على الوقت الحالي (بتوقيت النظام المحلي)
+    DateTime now = DateTime.now();
+
+    print(now);
+    // حساب الفرق بين الوقت الحالي ووقت نشر البوست
+    Duration delta = now.difference(postTime);
+
+    // في حال كان الفرق أقل من دقيقة واحدة
+    if (delta < Duration(minutes: 1)) {
+      return "الآن";
+    }
+    // في حال كان الفرق أقل من ساعة واحدة
+    else if (delta < Duration(hours: 1)) {
+      int minutes = delta.inMinutes;
+      if (minutes == 1) {
+        return "منذ دقيقة واحدة";
+      } else if (minutes == 2) {
+        return "منذ دقيقتين";
+      } else if (minutes <= 10) {
+        return "منذ $minutes دقائق";
+      } else {
+        return "منذ $minutes دقيقة";
+      }
+    }
+    // في حال كان الفرق أقل من يوم واحد
+    else if (delta < Duration(days: 1)) {
+      int hours = delta.inHours;
+      if (hours == 1) {
+        return "منذ ساعة واحدة";
+      } else if (hours == 2) {
+        return "منذ ساعتين";
+      } else if (hours <= 10) {
+        return "منذ $hours ساعات";
+      } else {
+        return "منذ $hours ساعة";
+      }
+    }
+    // في حال كان الفرق بين يوم واحد ويومين
+    else if (delta < Duration(days: 2)) {
+      return "أمس الساعة ${DateFormat('HH:mm', 'ar').format(postTime)}";
+    }
+    // في حال كان الفرق أكثر من يومين
+    else {
+      return DateFormat('dd MMM yyyy الساعة HH:mm', 'ar').format(postTime);
+    }
+
+  }
 
 }

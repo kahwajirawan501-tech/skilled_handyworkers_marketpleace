@@ -94,3 +94,25 @@ class EditEducationErrorStateStates extends ProfileStates {
 
   EditEducationErrorStateStates(this.stateCode);
 }
+
+class GetInformationStatesLoadingStateStates extends ProfileStates {}
+class GetInformationSucssessfullStateStates extends ProfileStates {
+
+  GetInformationSucssessfullStateStates();
+}
+class GetInformationErrorStateStates extends ProfileStates {
+  final int stateCode;
+  GetInformationErrorStateStates(this.stateCode);
+}
+
+class PostFileLoadStateStates extends ProfileStates {
+
+}
+class PostFileSucssessfullStateStates extends ProfileStates {
+
+}
+class PostFileErrorStateStates extends ProfileStates {
+  final int statusCode;
+  final String message;
+  PostFileErrorStateStates(this.statusCode, this.message);
+}

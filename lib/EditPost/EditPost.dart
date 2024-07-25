@@ -1136,7 +1136,7 @@ class _EditPostState extends State<EditPost> {
                           ),
                         ),
                         subtitle:    Text(
-                          location!=null?location!:"",
+                          locationConst!=null?locationConst!:"",
                           style: TextStyle(
                             fontSize: AppFontStyles.descriptionLoginFontSize,
                             color: AppColor.fontColorDescription,

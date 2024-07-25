@@ -7,11 +7,15 @@ class profilrTile extends StatelessWidget {
   final String title;
   final VoidCallback onTap;
  final Widget widget;
+ final Widget line;
+ final Widget text;
+ final String addOrEdit;
+ final bool trueOrFalse;
   const profilrTile({
     Key? key,
     required this.imagePath,
     required this.title,
-    required this.onTap,  required this.widget,
+    required this.onTap,  required this.widget, required this.line, required this.text, required this.addOrEdit, required this.trueOrFalse,
   }) : super(key: key);
 
   @override
@@ -25,24 +29,45 @@ class profilrTile extends StatelessWidget {
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24),
-          child: Row(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Image.asset(imagePath),
-              SizedBox(width: 12),
-              Text(
-                title,
-                style: TextStyle(
-                  fontSize: AppFontStyles.descriptionSplashScreenFontSize,
-                  fontWeight: AppFontStyles.fontWeightBold,
-                  color: AppColor.bluColor,
+              Row(
+                children: [
+                  Image.asset(imagePath),
+                  SizedBox(width: 12),
+                  Text(
+                    title,
+                    style: TextStyle(
+                      fontSize: AppFontStyles.descriptionSplashScreenFontSize,
+                      fontWeight: AppFontStyles.fontWeightBold,
+                      color: AppColor.bluColor,
+                    ),
+                  ),
+                  Spacer(),
+                  GestureDetector(
+                    onTap: onTap,
+                    child: Image.asset(addOrEdit),
+                  ),
+                   widget,
+
+                ],
+              ),
+             Visibility(
+               visible: trueOrFalse,
+               child: Padding(
+                 padding: const EdgeInsets.symmetric(horizontal: 16.0,vertical: 12),
+                 child: line,
+               ),
+             ),
+              Visibility(
+                visible: trueOrFalse,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: text,
                 ),
-              ),
-              Spacer(),
-              GestureDetector(
-                onTap: onTap,
-                child: Image.asset("assets/images/Add.png"),
-              ),
-               widget
+              )
             ],
           ),
         ),

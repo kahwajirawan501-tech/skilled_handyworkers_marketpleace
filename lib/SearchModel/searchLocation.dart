@@ -35,7 +35,7 @@ final VoidCallback? onPressed;
             leading: IconButton(
               icon: Icon(Icons.arrow_back, color: AppColor.arrowBackColor),
               onPressed: () {
-                navigateAndFinish(widget: widget, context: context);
+                Navigator.pop(context);
               },
             ),
             actions: [

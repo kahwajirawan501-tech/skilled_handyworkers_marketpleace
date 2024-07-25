@@ -134,7 +134,7 @@ class _AddOpenQuestionState extends State<AddOpenQuestion> {
                         ),
                       ),
                       subtitle:    Text(
-                        location!=null?location!:"",
+                        locationConst!=null?locationConst!:"",
                         style: TextStyle(
                           fontSize: AppFontStyles.descriptionLoginFontSize,
                           color: AppColor.fontColorDescription,

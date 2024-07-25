@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:skilled_handyworkers_marketpleace/shared/components/constant.dart';
 import 'package:skilled_handyworkers_marketpleace/shared/styles/styles.dart';
 
 class AppBarProfile extends StatelessWidget implements PreferredSizeWidget {
@@ -31,9 +34,9 @@ class AppBarProfile extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       elevation: 0,
+leading:SizedBox(),
       flexibleSpace: Container(
         height: MediaQuery.of(context).size.height * (220 / 100),
-
         width: double.infinity,
         decoration: const BoxDecoration(
           borderRadius: BorderRadius.only(bottomRight: Radius.circular(35), bottomLeft: Radius.circular(35)),
@@ -80,12 +83,28 @@ class AppBarProfile extends StatelessWidget implements PreferredSizeWidget {
                 Padding(
                   padding: const EdgeInsets.only(left: 28.0 ,bottom: 7),
                   child: ClipOval(
-                    child: Image.asset(
+//imageFile ?? (imageNetwork!.isEmpty ? imageCope! : imageNetwork!)
+                    child:imageFiles!=null
+                        ? Image(
+                      image: FileImage(imageFiles as File),
+                      fit: BoxFit.cover,
+                      height: 50,
+                      width: 50,
+                    )
+                        : (imageNetwork!.isEmpty
+                        ? Image.asset(
                       pathImage,
                       fit: BoxFit.cover,
                       height: 50,
                       width: 50,
-                    ),
+                    )
+                        : Image.network(
+                      api + pathImage,
+                      fit: BoxFit.cover,
+                      height: 50,
+                      width: 50,
+                    )),
+
                   ),
                 ),
                 Padding(

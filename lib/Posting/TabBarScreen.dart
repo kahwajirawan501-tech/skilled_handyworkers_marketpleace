@@ -85,7 +85,7 @@ class TabBarPosting extends StatefulWidget
                         child: Column(
                           children: [
                             ClipOval(
-                              child:imageNetwork!=null?Image.network(imageNetwork!, fit: BoxFit.cover,
+                              child:imageNetwork!=null?Image.network(api+imageNetwork!, fit: BoxFit.cover,
                                 height: 80,
                                 width: 80,): Image.asset(
                                 imageCope!,
@@ -131,7 +131,7 @@ class TabBarPosting extends StatefulWidget
                                 ),
                               ),
                               Text(
-                               location!.isEmpty?"":location!,
+                               locationConst!.isEmpty?"":locationConst!,
                                 style: TextStyle(
                                   fontSize: AppFontStyles.aboutMe,
                                   color: AppColor.fontColor,
@@ -139,7 +139,7 @@ class TabBarPosting extends StatefulWidget
                               ),
                               Spacer(),
                               Text(
-                                number!.isEmpty?"":number!,
+                                numberConst!.isEmpty?"":numberConst!,
                                 style: TextStyle(
                                   fontSize: AppFontStyles.aboutMe,
                                   color: AppColor.fontColor,

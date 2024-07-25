@@ -2,20 +2,22 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skilled_handyworkers_marketpleace/profileScreens/Education/addEducation.dart';
 import 'package:skilled_handyworkers_marketpleace/profileScreens/Language/language.dart';
 import 'package:skilled_handyworkers_marketpleace/profileScreens/Setting/setting.dart';
 import 'package:skilled_handyworkers_marketpleace/profileScreens/WorkExperience/addWorkExperienc.dart';
 import 'package:skilled_handyworkers_marketpleace/profileScreens/aboutMe/aboutMe.dart';
 import 'package:skilled_handyworkers_marketpleace/profileScreens/appBarProfile.dart';
+import 'package:skilled_handyworkers_marketpleace/profileScreens/cubit/cubit.dart';
+import 'package:skilled_handyworkers_marketpleace/profileScreens/cubit/states.dart';
 import 'package:skilled_handyworkers_marketpleace/profileScreens/editProfile/editProfile.dart';
 import 'package:skilled_handyworkers_marketpleace/profileScreens/profilrTile.dart';
 import 'package:skilled_handyworkers_marketpleace/profileScreens/skill/skill.dart';
 import 'package:skilled_handyworkers_marketpleace/shared/components/components.dart';
+import 'package:skilled_handyworkers_marketpleace/shared/components/constant.dart';
 import 'package:skilled_handyworkers_marketpleace/shared/styles/colors.dart';
 import 'package:skilled_handyworkers_marketpleace/shared/styles/styles.dart';
-
-import 'WorkExperience/changeWorkExperience.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -23,53 +25,105 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
-      appBar: AppBarProfile(
-        email:"OrlandoDiggs@gmail.com" ,
-        name: "Orlando Diggs",pathImage: "assets/images/Mask group.png",
-        onTapSetting: () {
-          navigateTo(context: context,widget: Setting());//AddWorkExperience
-        }, textButton: 'Edit Profile', visibility: true, left: 255, top: 30,
+    return  BlocConsumer<ProfileCubit,ProfileStates>(
+      listener: (context, state) {
 
-        onTapEditorChange: () {
-          navigateTo(widget: EditProfile(),context: context);
-        }, visibilitySetting: true, arrBackVisibility: false,
+      },
+      builder: (context, state) {
+        return  Scaffold(
+          appBar: AppBarProfile(
+            email:email!,
+            name: name!,pathImage:imageNetwork!.isEmpty?imageCope!:imageNetwork!,
+            onTapSetting: () {
+              navigateTo(context: context,widget: const Setting());//AddWorkExperience
+            }, textButton: 'Edit Profile', visibility: true, left: 255, top: 30,
+
+            onTapEditorChange: () {
+              navigateTo(widget: EditProfile(),context: context);
+            }, visibilitySetting: true, arrBackVisibility: false,
 
 
 
-      ),
-      body: Container(
-        height: double.infinity,
-        color: AppColor.backgroundColor,
-        child: SingleChildScrollView(
-          physics: BouncingScrollPhysics(),
-          child: Column(
-            children: [
-              SizedBox(height: AppFontStyles.sizeBetweenTitleAndSubTitle,),
-              profilrTile(imagePath: "assets/images/aboutmy.png", title:"About me", onTap:(){
-                 navigateTo(context: context,widget: AboutMe());//AddWorkExperience
-              },widget:Text("") ,),
-              profilrTile(imagePath: "assets/images/work.png", title:"Work experience", onTap:(){
-                navigateTo(context: context,widget: ChangeWorkExperience());//AddEducation
-
-              },widget:Text("")),
-              profilrTile(imagePath: "assets/images/experience.png", title:"Education", onTap:(){
-                navigateTo(context: context,widget: AddEducation());//AddEducation
-
-              },widget:Text("")),
-              profilrTile(imagePath: "assets/images/skill.png", title:"Skill", onTap:(){
-                navigateTo(context: context,widget: Skill());//AddEducation
-
-              },widget:Text("")),
-              profilrTile(imagePath: "assets/images/language.png", title:"Language", onTap:(){
-                navigateTo(context: context,widget: Language());//AddEducation
-
-              },widget:Text("")),
-
-            ],
           ),
-        ),
-      ),
+          body: Container(
+            height: double.infinity,
+            color: AppColor.backgroundColor,
+            child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              child: Column(
+                children: [
+                  const SizedBox(height: AppFontStyles.sizeBetweenTitleAndSubTitle,),
+                  profilrTile(
+                      imagePath: "assets/images/aboutmy.png",
+                      title:"About me",
+                      addOrEdit:aboutMy!.isEmpty?"assets/images/Add.png":"assets/images/Edit.png",
+                      onTap:(){
+                        navigateTo(context: context,widget: const AboutMe());//AddWorkExperience
+                      },
+                      trueOrFalse:aboutMy!.isEmpty?false:true ,
+                      widget:const Text("") ,
+                      line: myLineTwo(),
+                      text:Text(aboutMy!,style: TextStyle(
+                          color: AppColor.fontColorDescription,
+                          fontSize: AppFontStyles.descriptionSplashScreenFontSize
+                      ),)
+
+                  ),
+                  profilrTile(
+                    imagePath: "assets/images/work.png",
+                    title:"Work experience",
+                    onTap:(){
+                      navigateTo(context: context,widget: const AddWorkExperience());//AddEducation
+
+                    },
+                    trueOrFalse:workTittle!.isEmpty&&workDescription!.isEmpty?false:true ,
+                    addOrEdit:workTittle!.isEmpty&&workDescription!.isEmpty?"assets/images/Add.png":"assets/images/Edit.png",
+                    widget:const Text("")
+                    ,line: myLineTwo(),
+                    text:Text("${workTittle!}\n${workDescription!}",style: TextStyle(
+                        color: AppColor.fontColorDescription,
+                        fontSize: AppFontStyles.descriptionSplashScreenFontSize
+                    ),) ,
+                  ),
+                  profilrTile(
+                      imagePath: "assets/images/experience.png",
+                      title:"Education",
+                      onTap:(){
+                        navigateTo(context: context,widget: const AddEducation());//AddEducation
+
+                      },
+                      trueOrFalse:educationTittle!.isEmpty&&educationDescription!.isEmpty?false:true ,
+
+                      addOrEdit:educationTittle!.isEmpty&&educationDescription!.isEmpty?"assets/images/Add.png":"assets/images/Edit.png",
+                      widget:const Text(""),
+                      line: myLineTwo(),
+                      text:Text("${educationTittle!}\n${educationDescription!}",style: TextStyle(
+                          color: AppColor.fontColorDescription,
+                          fontSize: AppFontStyles.descriptionSplashScreenFontSize
+                      ),)
+                  ),
+
+                  profilrTile(imagePath: "assets/images/language.png", title:"Language", onTap:(){
+                    navigateTo(context: context,widget: const Language());//AddEducation
+
+                  },
+                      addOrEdit: "assets/images/Add.png",
+                      trueOrFalse: false,
+                      widget:const Text(""),
+                      line: myLineTwo(),
+                      text:Text("hhhhhhhhhhhhhhhhhhhhhhhh",style: TextStyle(
+                          color: AppColor.fontColorDescription,
+                          fontSize: AppFontStyles.descriptionSplashScreenFontSize
+                      ),)
+                  ),
+
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+
     );
   }
 }

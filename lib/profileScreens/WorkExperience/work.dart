@@ -1,7 +1,11 @@
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skilled_handyworkers_marketpleace/profileScreens/Box.dart';
+import 'package:skilled_handyworkers_marketpleace/profileScreens/cubit/cubit.dart';
+import 'package:skilled_handyworkers_marketpleace/profileScreens/cubit/states.dart';
 import 'package:skilled_handyworkers_marketpleace/profileScreens/profileScreen.dart';
 import 'package:skilled_handyworkers_marketpleace/shared/components/components.dart';
 import 'package:skilled_handyworkers_marketpleace/shared/styles/colors.dart';
@@ -14,231 +18,246 @@ class Work extends StatelessWidget {
   final String description;
   final String titleButton1;
   final String titleButton2;
+  final TextEditingController jobTitle;
+  final TextEditingController descriptionJob;
   final VoidCallback? onPressed1 ;
   final VoidCallback? onPressed2 ;
   final bool buttonTF;
-  const Work({Key? key, required this.title, required this.field1, required this.field2, required this.description, required this.titleButton1, required this.titleButton2, this.onPressed1, this.onPressed2, required this.buttonTF}) : super(key: key);
+  final Widget conditionBuilder;
+  const Work({Key? key, required this.title, required this.field1, required this.field2, required this.description, required this.titleButton1, required this.titleButton2, this.onPressed1, this.onPressed2, required this.buttonTF, required this.jobTitle, required this.descriptionJob, required this.conditionBuilder}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        surfaceTintColor:  AppColor.backgroundColor,
+    return BlocConsumer<ProfileCubit,ProfileStates>(
+      listener: (context, state) {
 
-        leading:IconButton(
-          icon:Icon( Icons.arrow_back,color: AppColor.arrowBackColor,),
-          onPressed: () {
-            Navigator.pop(context);
+      },
+      builder: (context, state) {
+        return  Scaffold(
+          appBar: AppBar(
+            surfaceTintColor:  AppColor.backgroundColor,
 
-            // navigateAndFinish(widget:const ProfileScreen() ,context: context);
-          },
+            leading:IconButton(
+              icon:Icon( Icons.arrow_back,color: AppColor.arrowBackColor,),
+              onPressed: () {
+                Navigator.pop(context);
 
-        ),
-        elevation: 0.0,
-        backgroundColor: AppColor.backgroundColor,
-      ),
-      body:Stack(
+                // navigateAndFinish(widget:const ProfileScreen() ,context: context);
+              },
 
-        children: [
-          Container(
-            color:AppColor.backgroundColor ,
-            height: double.infinity,
-            width: double.infinity,
-            child:  SingleChildScrollView(
-              physics: const BouncingScrollPhysics(),
-              child: Padding(
-                padding: const EdgeInsets.all(AppFontStyles.padding),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(title,style: TextStyle(
-                        fontSize:AppFontStyles.aboutMe,
-                        fontWeight:   AppFontStyles.fontWeightSemiBold,
-                        color: AppColor.bluColor
-                    ),),
-                    const SizedBox(height: AppFontStyles.sizeBetweenTitleAndSubTitle,),
-                    Text(field1,style: TextStyle(
-                        fontWeight:AppFontStyles.fontWeightBold ,
-                        fontSize: AppFontStyles.descriptionLoginFontSize,
-                        color: AppColor.navyBlueColor
-                    ),),
-                    SizedBox(height: AppFontStyles.sizeBetweenBoxAndSubTitle,),
-                    Box(
-                      borderRadius: BorderRadius.circular(AppFontStyles.borderRadiusTextField),
-                      height: 40,
-                      widget:Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: AppFontStyles.padding),
-                        child: TextFormField(
-                          maxLines: 1, // حدد الحد الأقصى لعدد الأسطر
-                          decoration:  InputDecoration(
+            ),
+            elevation: 0.0,
+            backgroundColor: AppColor.backgroundColor,
+          ),
+          body:Stack(
 
-                            border: InputBorder.none,
+            children: [
+              Container(
+                color:AppColor.backgroundColor ,
+                height: double.infinity,
+                width: double.infinity,
+                child:  SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(),
+                  child: Padding(
+                    padding: const EdgeInsets.all(AppFontStyles.padding),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        conditionBuilder,
+                        SizedBox(height:AppFontStyles.aboutMe,),
+                        Text(title,style: TextStyle(
+                            fontSize:AppFontStyles.aboutMe,
+                            fontWeight:   AppFontStyles.fontWeightSemiBold,
+                            color: AppColor.bluColor
+                        ),),
+                        const SizedBox(height: AppFontStyles.sizeBetweenTitleAndSubTitle,),
+                        Text(field1,style: TextStyle(
+                            fontWeight:AppFontStyles.fontWeightBold ,
+                            fontSize: AppFontStyles.descriptionLoginFontSize,
+                            color: AppColor.navyBlueColor
+                        ),),
+                        SizedBox(height: AppFontStyles.sizeBetweenBoxAndSubTitle,),
+                        Box(
+                          borderRadius: BorderRadius.circular(AppFontStyles.borderRadiusTextField),
+                          height: 40,
+                          widget:Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: AppFontStyles.padding),
+                            child: TextFormField(
+                              controller: jobTitle,
+                              maxLines: 1, // حدد الحد الأقصى لعدد الأسطر
+                              decoration:  InputDecoration(
 
-                          ),
-                          cursorColor: AppColor.grayColorFont,
-                        ),
+                                border: InputBorder.none,
 
-                      ),),
-                    SizedBox(height: AppFontStyles.sizeBetweenBoxAndSubTitle,),
-
-                    Text(field2,style: TextStyle(
-                        fontWeight:AppFontStyles.fontWeightBold ,
-                        fontSize: AppFontStyles.descriptionLoginFontSize,
-                        color: AppColor.navyBlueColor
-                    ),),
-                    SizedBox(height: AppFontStyles.sizeBetweenBoxAndSubTitle,),
-                    Box(
-                      borderRadius: BorderRadius.circular(AppFontStyles.borderRadiusTextField),
-                      height: 155,
-                      widget:Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: AppFontStyles.padding),
-                        child: TextFormField(
-                          maxLines: 1, // حدد الحد الأقصى لعدد الأسطر
-                          decoration:  InputDecoration(
-                            hintText:description,
-                            hintStyle: TextStyle(
-                                color:AppColor.grayColorFont,
-                                fontSize: AppFontStyles.descriptionLoginFontSize
-
+                              ),
+                              cursorColor: AppColor.grayColorFont,
                             ),
-                            border: InputBorder.none,
 
-                          ),
-                          cursorColor: AppColor.grayColorFont,
-                        ),
+                          ),),
+                        SizedBox(height: AppFontStyles.sizeBetweenBoxAndSubTitle,),
 
-                      ),),
-                    Visibility(
-                      visible: buttonTF,
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Padding(
-                              padding:  const EdgeInsets.symmetric(vertical: 240),
-                              child: button(
-                                  colorBackground: AppColor.navyBlueColor,
-                                  onPressed:onPressed1,
-                                  text:titleButton1,
-                                  height: 50,
-                                  width: 213,
-                                  fontSize: AppFontStyles.descriptionSplashScreenFontSize,
-                                  fontWeight: AppFontStyles.fontWeightBold,
-                                  color:Colors.white),
+                        Text(field2,style: TextStyle(
+                            fontWeight:AppFontStyles.fontWeightBold ,
+                            fontSize: AppFontStyles.descriptionLoginFontSize,
+                            color: AppColor.navyBlueColor
+                        ),),
+                        SizedBox(height: AppFontStyles.sizeBetweenBoxAndSubTitle,),
+                        Box(
+                          borderRadius: BorderRadius.circular(AppFontStyles.borderRadiusTextField),
+                          height: 155,
+                          widget:Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: AppFontStyles.padding),
+                            child: TextFormField(
+                              maxLines: 1, // حدد الحد الأقصى لعدد الأسطر
+                              controller: descriptionJob,
+                              decoration:  InputDecoration(
+                                hintText:description,
+                                hintStyle: TextStyle(
+                                    color:AppColor.grayColorFont,
+                                    fontSize: AppFontStyles.descriptionLoginFontSize
+
+                                ),
+                                border: InputBorder.none,
+
+                              ),
+                              cursorColor: AppColor.grayColorFont,
                             ),
-                          ],
-                        ) ),
-                    Visibility(
-                        visible: !buttonTF,
-                        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Padding(
-                              padding:  const EdgeInsets.symmetric(vertical: 240),
-                              child: Row(
-                                children: [
 
-                                  button(
-                                      colorBackground: AppColor.googleColor,
-                                      onPressed:onPressed2,
-                                      text:titleButton2,
-                                      height: 50,
-                                      width: 160,
-                                      fontSize: AppFontStyles.descriptionSplashScreenFontSize,
-                                      fontWeight: AppFontStyles.fontWeightBold,
-                                      color:Colors.white),
-                                  SizedBox(width: 10,),
-                                  button(
+                          ),),
+                        Visibility(
+                            visible: buttonTF,
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Padding(
+                                  padding:  const EdgeInsets.symmetric(vertical: 240),
+                                  child: button(
                                       colorBackground: AppColor.navyBlueColor,
                                       onPressed:onPressed1,
                                       text:titleButton1,
                                       height: 50,
-                                      width: 160,
+                                      width: 213,
                                       fontSize: AppFontStyles.descriptionSplashScreenFontSize,
                                       fontWeight: AppFontStyles.fontWeightBold,
                                       color:Colors.white),
+                                ),
+                              ],
+                            ) ),
+                        Visibility(
+                            visible: !buttonTF,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Padding(
+                                  padding:  const EdgeInsets.symmetric(vertical: 240),
+                                  child: Row(
+                                    children: [
 
-                                ],
-                              ),
-                            ),
-                          ],
-                        ) ),
+                                      button(
+                                          colorBackground: AppColor.googleColor,
+                                          onPressed:onPressed2,
+                                          text:titleButton2,
+                                          height: 50,
+                                          width: 160,
+                                          fontSize: AppFontStyles.descriptionSplashScreenFontSize,
+                                          fontWeight: AppFontStyles.fontWeightBold,
+                                          color:Colors.white),
+                                      SizedBox(width: 10,),
+                                      button(
+                                          colorBackground: AppColor.navyBlueColor,
+                                          onPressed:onPressed1,
+                                          text:titleButton1,
+                                          height: 50,
+                                          width: 160,
+                                          fontSize: AppFontStyles.descriptionSplashScreenFontSize,
+                                          fontWeight: AppFontStyles.fontWeightBold,
+                                          color:Colors.white),
 
-                  ],
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ) ),
 
+                      ],
+
+                    ),
+                  ),
                 ),
               ),
-            ),
-          ),
-          Positioned(
-            top: 600,
-            left: MediaQuery.of(context).size.width / 2 - 106.5, // محور الأفقي (العرض) لتوسيط العنصر
+              Positioned(
+                top: 600,
+                left: MediaQuery.of(context).size.width / 2 - 106.5, // محور الأفقي (العرض) لتوسيط العنصر
 
-            child: Visibility(
-                visible: buttonTF,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Padding(
-                      padding:  const EdgeInsets.symmetric(vertical: 240),
-                      child: button(
-                          colorBackground: AppColor.navyBlueColor,
-                          onPressed:onPressed1,
-                          text:titleButton1,
-                          height: 50,
-                          width: 213,
-                          fontSize: AppFontStyles.descriptionSplashScreenFontSize,
-                          fontWeight: AppFontStyles.fontWeightBold,
-                          color:Colors.white),
-                    ),
-                  ],
-                ) ),
-          ),
-          Positioned(
-            top: 600,
-            left: MediaQuery.of(context).size.width / 2 - 106.5, // محور الأفقي (العرض) لتوسيط العنصر
-
-            child: Visibility(
-                visible: !buttonTF,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Padding(
-                      padding:  const EdgeInsets.symmetric(vertical: 240),
-                      child: Row(
-                        children: [
-
-                          button(
-                              colorBackground: AppColor.googleColor,
-                              onPressed:onPressed2,
-                              text:titleButton2,
-                              height: 50,
-                              width: 160,
-                              fontSize: AppFontStyles.descriptionSplashScreenFontSize,
-                              fontWeight: AppFontStyles.fontWeightBold,
-                              color:Colors.white),
-                          SizedBox(width: 10,),
-                          button(
+                child: Visibility(
+                    visible: buttonTF,
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding:  const EdgeInsets.symmetric(vertical: 240),
+                          child: button(
                               colorBackground: AppColor.navyBlueColor,
                               onPressed:onPressed1,
                               text:titleButton1,
                               height: 50,
-                              width: 160,
+                              width: 213,
                               fontSize: AppFontStyles.descriptionSplashScreenFontSize,
                               fontWeight: AppFontStyles.fontWeightBold,
                               color:Colors.white),
+                        ),
+                      ],
+                    ) ),
+              ),
+              Positioned(
+                top: 600,
+                left: MediaQuery.of(context).size.width / 2 - 106.5, // محور الأفقي (العرض) لتوسيط العنصر
 
-                        ],
-                      ),
-                    ),
-                  ],
-                ) ),
-          ),
+                child: Visibility(
+                    visible: !buttonTF,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Padding(
+                          padding:  const EdgeInsets.symmetric(vertical: 240),
+                          child: Row(
+                            children: [
 
-        ],
-      ) ,
+                              button(
+                                  colorBackground: AppColor.googleColor,
+                                  onPressed:onPressed2,
+                                  text:titleButton2,
+                                  height: 50,
+                                  width: 160,
+                                  fontSize: AppFontStyles.descriptionSplashScreenFontSize,
+                                  fontWeight: AppFontStyles.fontWeightBold,
+                                  color:Colors.white),
+                              SizedBox(width: 10,),
+                              button(
+                                  colorBackground: AppColor.navyBlueColor,
+                                  onPressed:onPressed1,
+                                  text:titleButton1,
+                                  height: 50,
+                                  width: 160,
+                                  fontSize: AppFontStyles.descriptionSplashScreenFontSize,
+                                  fontWeight: AppFontStyles.fontWeightBold,
+                                  color:Colors.white),
+
+                            ],
+                          ),
+                        ),
+                      ],
+                    ) ),
+              ),
+
+            ],
+          ) ,
+        );
+      },
+
     );
   }
 }

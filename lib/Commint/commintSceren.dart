@@ -172,6 +172,7 @@ class _CommitScreenState extends State<CommitScreen> {
   @override
   void initState() {
     super.initState();
+
     CommitCubit.get(context).getCommitForPost(widget.idPost);
   }
 
@@ -476,8 +477,8 @@ class _CommitScreenState extends State<CommitScreen> {
                                                   CommitCubit.get(context).addCommitForPost(widget.idPost, _textAddCommit);
 
                                                 },)
-                                                    :const Text(
-                                                       "5:19 PM",//_formatDate(comment['time'])
+                                                    : Text(
+                                                  comment['createdAt'],//_formatDate(comment['time'])
 
                                                          style: TextStyle(
                                                          color: Colors.grey,
@@ -493,8 +494,8 @@ class _CommitScreenState extends State<CommitScreen> {
                                                   ,
                                                   height: 10,
                                                   width: 10,
-                                                )   :const Text(
-                                                  "5:19 PM",//_formatDate(comment['time'])
+                                                )   : Text(
+                                                  comment['createdAt'],//_formatDate(comment['time'])
 
                                                   style: TextStyle(
                                                       color: Colors.grey,
@@ -654,8 +655,8 @@ class _CommitScreenState extends State<CommitScreen> {
                                                                 CommitCubit.get(context).addReplyForCommit(_idCommitAddReply, _textAddReply);
 
                                                               },)
-                                                                  :const Text(
-                                                                "5:19 PM",//_formatDate(comment['time'])
+                                                                  : Text(
+                                                                reply['createdAt'],//_formatDate(comment['time'])
 
                                                                 style: TextStyle(
                                                                     color: Colors.grey,
@@ -676,8 +677,8 @@ class _CommitScreenState extends State<CommitScreen> {
                                                                 child: CircularProgressIndicator(
                                                                   color:AppColor.orangeColor,strokeWidth: 2,)
                                                                 ,
-                                                              )   :const Text(
-                                                                "5:19 PM",//_formatDate(comment['time'])
+                                                              )   : Text(
+                                                                reply['createdAt'],//_formatDate(comment['time'])
 
                                                                 style: TextStyle(
                                                                     color: Colors.grey,

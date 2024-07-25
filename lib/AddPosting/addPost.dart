@@ -839,7 +839,7 @@ class _AddPostState extends State<AddPost> {
                             ),
                           ),
                           subtitle:    Text(
-                            location!=null?location!:"",
+                            locationConst!=null?locationConst!:"",
                             style: TextStyle(
                               fontSize: AppFontStyles.descriptionLoginFontSize,
                               color: AppColor.fontColorDescription,
