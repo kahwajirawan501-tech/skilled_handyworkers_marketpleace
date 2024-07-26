@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skilled_handyworkers_marketpleace/Commint/commintSceren.dart';
 import 'package:skilled_handyworkers_marketpleace/EditPost/EditPost.dart';
 import 'package:skilled_handyworkers_marketpleace/EditPost/cubit/cubit.dart';
+import 'package:skilled_handyworkers_marketpleace/InformationCustomerOne/information.dart';
 import 'package:skilled_handyworkers_marketpleace/Posting/cubit/cubit.dart';
 import 'package:skilled_handyworkers_marketpleace/Posting/cubit/states.dart';
 import 'package:skilled_handyworkers_marketpleace/Posting/postModel.dart';
@@ -90,6 +91,7 @@ class _ListOfPostingUserState extends State<ListOfPostingUser> {
                   padding: const EdgeInsets.symmetric(horizontal: AppFontStyles.aboutMe),
                   child: ListView.separated(
                     itemBuilder: (context, index) => PostModel(
+                      postText: widget.post[index]['text'],
                       imagePaths: widget.post[index]['images'],
                       imagePath: widget.post[index]['user']['profileImage'] ?? imageCope,
 
@@ -100,7 +102,12 @@ class _ListOfPostingUserState extends State<ListOfPostingUser> {
     navigateTo(context: context, widget: CommitScreen(idPost: widget.post[index]['_id'], typePost: "post"));
                       },
                       onPressedForFavorit: () {},
-                      onTapImage: () {},
+                      onTapImage: () {
+                        if(widget.post[index]['user']['_id'] != id) {
+                          navigateTo(context: context,widget: Information(idCustomer: widget.post[index]['user']['_id']));
+                        }
+
+                      },
                       videoUrl: widget.post[index]['videos'],
                       onPressed: () {
                         _showOptions(widget.post[index]['_id']);

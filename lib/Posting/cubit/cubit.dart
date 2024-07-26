@@ -74,6 +74,79 @@ final List<Map<String,dynamic>>openQuestion=[];
     });
   }
 
+  final List<Map<String,dynamic>>postCustomer=[];
+  final List<Map<String,dynamic>>openQuestionCustomer=[];
+
+  void getPostCustomer(String userId){
+    emit(CustomerPostPostLoadStateStates());
+    print("CustomerPostPostLoadStateStates");
+    postCustomer.clear();
+    DioHelper.getData(
+      url:'post/$userId/posts',
+    ).then((value)
+    {
+      print(value.data);
+      postCustomer.addAll(List<Map<String, dynamic>>.from(value.data));
+      print("CustomerPostPostSucssessfullStateStates");
+      emit(CustomerPostPostSucssessfullStateStates());
+
+    }
+    ).catchError((error){
+      int statusCode = error.response?.statusCode ?? -1;
+      print("CustomerPostPostErrorStateStates");
+      emit(CustomerPostPostErrorStateStates(statusCode));
+    });
+  }
+  void getOpenQuestionCustomer(String userId){
+    emit(CustomerOpenQuestionPostLoadStateStates());
+    print("CustomerOpenQuestionPostLoadStateStates");
+    openQuestionCustomer.clear();
+    DioHelper.getData(
+      url:'post/$userId/open-questions',
+    ).then((value)
+    {
+      openQuestionCustomer.addAll(List<Map<String, dynamic>>.from(value.data));
+      print("CustomerOpenQuestionPostSucssessfullStateStates");
+      emit(CustomerOpenQuestionPostSucssessfullStateStates());
+
+    }
+    ).catchError((error){
+      int statusCode = error.response?.statusCode ?? -1;
+      print("CustomerOpenQuestionPostErrorStateStates");
+      emit(CustomerOpenQuestionPostErrorStateStates(statusCode));
+    });
+  }
+  Map<String,dynamic>information={};
+  Future<void>getProfileInformationCustomer(String idUser)async{
+    emit(GetInformationStatesLoadingStateStates());
+    print("GetInformationStatesLoadingStateStates");
+    await  DioHelper.getData2(
+      url:'/users/$idUser',
+
+    ).then((value)
+    {
+      print("Response received");
+      print("Data: ${value.data}");
+      // Check if the response contains the expected data
+      if (value.data != null ) {
+        information=Map<String,dynamic>.from(value.data);
+        print("GetInformationSucssessfullStateStates");
+        emit(GetInformationSucssessfullStateStates());
+      } else {
+        print("GetInformationErrorStateStates");
+        emit(GetInformationErrorStateStates(0));
+      }
+
+
+    }
+    ).catchError((error){
+      int statusCode = error.response?.statusCode ?? -1;
+      print(error.toString());
+
+      print("GetInformationErrorStateStates");
+      emit(GetInformationErrorStateStates(statusCode));
+    });
+  }
 
 
 }

@@ -38,7 +38,7 @@ class _EditProfileState extends State<EditProfile> {
 
   var service=TextEditingController();
 
-  int _value=2;
+  int valueR=2;
 
   File? image;
   String? imageFile;
@@ -50,7 +50,7 @@ class _EditProfileState extends State<EditProfile> {
       setState(() {
         fullName.text = name ?? "";
         dateOfBirth.text = dateOfBirthh ?? "";
-        _value = (gender?.isNotEmpty ?? false) && gender == "female" ? 1 : 2;
+        valueR = (gender?.isEmpty ?? true) ? valueR : (gender == "male" ? 1 : 2);
         emailAddress.text = email ?? "";
         number.text = numberConst ?? "";
         service.text = skill ?? "";
@@ -59,16 +59,24 @@ class _EditProfileState extends State<EditProfile> {
     });
   }
 
-   @override
+
+  @override
   Widget build(BuildContext context) {
 
     return BlocConsumer<ProfileCubit,ProfileStates>(
       listener: (context, state) {
         if(state is PostFileSucssessfullStateStates){
 
-         ProfileCubit.get(context).editProfile
-           (ProfileCubit.get(context).image, fullName.text, dateOfBirth.text,_value==2?"female":"male",
-             emailAddress.text, number.text, location.text, service.text);
+          ProfileCubit.get(context).editProfile(
+            ProfileCubit.get(context).image,
+            fullName.text,
+            dateOfBirth.text,
+            valueR == 2 ? "female" : "male",  // This will send "female" if valueR is 1, otherwise "male"
+            emailAddress.text,
+            number.text,
+            location.text,
+            service.text,
+          );
 
         }
         else if(state is PostFileErrorStateStates){
@@ -173,62 +181,59 @@ class _EditProfileState extends State<EditProfile> {
                       Row(
                         children: [
                           Expanded(
-
-                              child:Box(
-                                borderRadius: BorderRadius.circular(AppFontStyles.borderRadiusTextField),
-                                height: 40,
-                                widget:Row(
-                                  children: [
-                                    Radio(
-                                        activeColor:AppColor.orangeColor,
-                                        value:2,
-                                        groupValue:_value,
-                                        onChanged:(value){
-                                          setState(() {
-                                            print(_value);
-                                            _value=value as int;
-
-                                          });
-                                        }),
-                                    Text("Male",style: TextStyle(
-                                        fontSize: AppFontStyles.descriptionLoginFontSize,
-                                        color:AppColor.navyBlueColor
-                                    ),),
-
-
-                                  ],
-                                ),
-                              )
+                            child: Box(
+                              borderRadius: BorderRadius.circular(AppFontStyles.borderRadiusTextField),
+                              height: 40,
+                              widget: Row(
+                                children: [
+                                  Radio(
+                                    activeColor: AppColor.orangeColor,
+                                    value: 1,
+                                    groupValue: valueR,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        valueR = value as int;
+                                      });
+                                    },
+                                  ),
+                                  Text(
+                                    "Male",
+                                    style: TextStyle(
+                                      fontSize: AppFontStyles.descriptionLoginFontSize,
+                                      color: AppColor.navyBlueColor,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
                           ),
-                          const SizedBox(width: AppFontStyles.sizeBetweenBoxAndSubTitle+8,),
-
+                          const SizedBox(width: AppFontStyles.sizeBetweenBoxAndSubTitle + 8),
                           Expanded(
-
-                              child: Box(
-                                borderRadius: BorderRadius.circular(AppFontStyles.borderRadiusTextField),
-                                height: 40,
-                                widget:Row(
-                                  children: [
-                                    Radio(
-                                        activeColor:AppColor.orangeColor,
-                                        value:1,
-                                        groupValue:_value,
-                                        onChanged:(value){
-                                          setState(() {
-                                            print(_value);
-                                            _value=value as int;
-
-                                          });
-                                        }),
-                                    Text("Female",style: TextStyle(
-                                        fontSize: AppFontStyles.descriptionLoginFontSize,
-                                        color:AppColor.navyBlueColor
-                                    ),),
-
-
-                                  ],
-                                ),
-                              )
+                            child: Box(
+                              borderRadius: BorderRadius.circular(AppFontStyles.borderRadiusTextField),
+                              height: 40,
+                              widget: Row(
+                                children: [
+                                  Radio(
+                                    activeColor: AppColor.orangeColor,
+                                    value: 2,
+                                    groupValue: valueR,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        valueR = value as int;
+                                      });
+                                    },
+                                  ),
+                                  Text(
+                                    "Female",
+                                    style: TextStyle(
+                                      fontSize: AppFontStyles.descriptionLoginFontSize,
+                                      color: AppColor.navyBlueColor,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
                           ),
                         ],
                       ),
@@ -377,7 +382,7 @@ class _EditProfileState extends State<EditProfile> {
                               else{
                                 print(image);
                                 ProfileCubit.get(context).editProfile
-                                  ("", fullName.text, dateOfBirth.text,_value==2?"female":"male",
+                                  ("", fullName.text, dateOfBirth.text,valueR==2?"female":"male",
                                     emailAddress.text, number.text, location.text, service.text);
                               }
 

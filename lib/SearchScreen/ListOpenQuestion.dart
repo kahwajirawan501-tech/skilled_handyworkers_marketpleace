@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:skilled_handyworkers_marketpleace/Commint/commintSceren.dart';
 import 'package:skilled_handyworkers_marketpleace/EditPost/EditOpenQuestion.dart';
+import 'package:skilled_handyworkers_marketpleace/InformationCustomerOne/information.dart';
 import 'package:skilled_handyworkers_marketpleace/Posting/OpenQuestionModel.dart';
 import 'package:skilled_handyworkers_marketpleace/Posting/cubit/cubit.dart';
 import 'package:skilled_handyworkers_marketpleace/SearchScreen/cubit/cubit.dart';
 import 'package:skilled_handyworkers_marketpleace/SearchScreen/cubit/states.dart';
 import 'package:skilled_handyworkers_marketpleace/shared/components/components.dart';
+import 'package:skilled_handyworkers_marketpleace/shared/components/constant.dart';
 
 import 'package:skilled_handyworkers_marketpleace/shared/styles/colors.dart';
 import 'package:skilled_handyworkers_marketpleace/shared/styles/styles.dart';
@@ -103,9 +106,13 @@ class ListOfOpenQuestion extends StatelessWidget {
                     name: openQuestionPost[index]['user']['fullName'],
                     imagePath: openQuestionPost[index]['user']['profileImage'] ?? "assets/images/aboutmy.png",
                     openQuestion: openQuestionPost[index]['text'],
-                    onTapImage: () {},
+                    onTapImage: () {
+                      if( openQuestionPost[index]['user']['_id'] != id) {
+                        navigateTo(context: context,widget: Information(idCustomer: openQuestionPost[index]['user']['_id']));
+                      }
+                    },
                     onPressedForCommit: () {
-                      // navigateTo(context: context, widget: CommitScreen(idPost: openQuestionPost[index]['postId'], typePost: "openQuestion"));
+                      navigateTo(context: context, widget: CommitScreen(idPost:openQuestionPost[index]['_id'], typePost: "openQuestion"));
                     },
                     onPressedForFavorit: () {},
                     deleteAndEdit: false, // Decide whether to show delete and edit buttons

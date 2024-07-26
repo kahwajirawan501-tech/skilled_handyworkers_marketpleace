@@ -15,16 +15,17 @@ class ProfileCubit extends Cubit<ProfileStates> {
 
   static ProfileCubit get(context) => BlocProvider.of(context);
 
-  void editProfile(String imagee,String fullName,String dataOfBirth,String gender,
+  void editProfile(String imagee,String fullName,String dataOfBirth,String genderr,
       String email,String number,String location,String service){
     emit(EditProfileStatesLoadingStateStates());
     print("EditProfileStatesLoadingStateStates");
+    print(genderr);
     Map<String, dynamic> data = {};
     if (imagee.isNotEmpty) data['profileImage'] = imagee;
     if (fullName.isNotEmpty) data['fullName'] = fullName;
     if (email.isNotEmpty) data['email'] = email;
     if (dataOfBirth.isNotEmpty) data['dateOfBirth'] = dataOfBirth;
-    if (gender.isNotEmpty) data['gender'] = gender;
+    if (genderr.isNotEmpty) data['gender'] = genderr;
    if (location.isNotEmpty) data['location'] = location;
     if (number.isNotEmpty) data['phoneNumber'] = number;
    if (service.isNotEmpty) data['skills'] = service;
@@ -127,6 +128,8 @@ class ProfileCubit extends Cubit<ProfileStates> {
          skill=value.data['skills'] ?? "";
          print("GetInformationSucssessfullStateStates");
          emit(GetInformationSucssessfullStateStates());
+         print(imageNetwork);
+
        } else {
          print("GetInformationErrorStateStates");
          emit(GetInformationErrorStateStates(0));

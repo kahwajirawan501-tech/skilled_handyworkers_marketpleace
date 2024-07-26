@@ -23,7 +23,7 @@ class PostModel extends StatefulWidget {
   final String numberOfCommit;
   final VoidCallback? onPressed;
   final bool deleteAndEdit;
-
+  final String postText;
   const PostModel({
     Key? key,
     this.videoUrl,
@@ -36,7 +36,7 @@ class PostModel extends StatefulWidget {
     required this.numberOfCommit,
     this.onPressedForFavorit,
     this.onPressed,
-    required this.deleteAndEdit,
+    required this.deleteAndEdit, required this.postText,
   }) : super(key: key);
 
   @override
@@ -265,6 +265,8 @@ class _PostModelState extends State<PostModel> {
           Padding(
             padding: const EdgeInsets.all(AppFontStyles.aboutMe),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+
               children: [
                 ListTile(
                   contentPadding: EdgeInsets.zero,
@@ -305,6 +307,15 @@ class _PostModelState extends State<PostModel> {
                   trailing: widget.deleteAndEdit
                       ? IconButton(onPressed: widget.onPressed, icon: Icon(Icons.more_vert))
                       : SizedBox(),
+                ),
+                const SizedBox(height: AppFontStyles.sizeBetweenBoxAndSubTitle),
+
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  child: Text(widget.postText,
+
+                    style: TextStyle(fontWeight:AppFontStyles.fontWeightSemiBold ),
+                  ),
                 ),
                 const SizedBox(height: AppFontStyles.sizeBetweenBoxAndSubTitle),
                 const SizedBox(height: AppFontStyles.sizeBetweenBoxAndSubTitle),

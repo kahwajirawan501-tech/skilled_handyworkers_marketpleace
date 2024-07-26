@@ -26,9 +26,9 @@ class CommitCubit extends Cubit<CommitStates> {
        'postId':"",
        'userId': id,
        'fullName': name,
-       'profileImage': "/uploads/post/files-1721217405528-473656958.jpg",
+       'profileImage': imageNetwork,
        'text': content,
-      'createdAt':"",
+      'createdAt':DateTime.now().toIso8601String(),
       //'time': DateTime.now().toIso8601String(),
       'replies': <Map<String, dynamic>>[],
     };
@@ -42,15 +42,16 @@ class CommitCubit extends Cubit<CommitStates> {
       'id': "",
       'userId': id,
       'fullName': name,
-      'profileImage': "/uploads/post/files-1721217405528-473656958.jpg",
+      'profileImage':imageNetwork,
       'text': content,
       'commentId':"",
-      'createdAt':""
+      'createdAt':DateTime.now().toIso8601String()
       //'time': DateTime.now().toIso8601String(),
 
     };
 
     comments[commentIndex]['replies'].add(reply);
+    print("objectuiiiiiiiiiiiiiiiiiiiiii");
     print(reply);
     emit(CommitStatesState(comments));
     //addCommitForPost(id!, commentsPost);
@@ -94,6 +95,7 @@ class CommitCubit extends Cubit<CommitStates> {
      List<Map<String, dynamic>> data = List<Map<String, dynamic>>.from(value.data);
 
      data.forEach((comment) {
+       print(comment['createdAt']);
        comment['createdAt'] = formatFacebookTime(comment['createdAt']);
 
        if (comment['replies'] != null) {
@@ -128,7 +130,6 @@ class CommitCubit extends Cubit<CommitStates> {
     ).then((value) {
       comments[comments.length-1]['id']=value.data['_id'];
       comments[comments.length-1]['postId']=idPost;
-
       comments[comments.length-1]['createdAt']=formatFacebookTime(value.data['createdAt']);
 
       emit(AddCommitSucssessfullStateStates());
@@ -192,12 +193,14 @@ class CommitCubit extends Cubit<CommitStates> {
         }
     ).then((value) {
 
-
+print(value.data);
       for (var commit in comments){
         if(commit.containsValue(idCommit)){
           commit['replies'][ commit['replies'].length-1]['id']=value.data['_id'];
           commit['replies'][ commit['replies'].length-1]['commentId']=idCommit;
-          commit['replies'][ commit['replies'].length-1]=formatFacebookTime(value.data['createdAt']);
+
+
+         commit['replies'][ commit['replies'].length-1]['createdAt']=formatFacebookTime(value.data['createdAt']);
 
         }
       }
@@ -255,9 +258,12 @@ class CommitCubit extends Cubit<CommitStates> {
 
 
   String formatFacebookTime(String postTimeStr) {
-    if (RegExp(r'^\d{2}:\d{2}:\d{2} [APM]{2}$').hasMatch(postTimeStr)) {
+    if (RegExp(r'^\d{1,2}:\d{2}:\d{2} [APM]{2}$').hasMatch(postTimeStr)) {
+      // إذا كان التنسيق صحيحًا، نعيد الوقت كما هو
       return postTimeStr;
     }
+
+
     // إزالة الجزء الأخير الذي يحتوي على معلومات المنطقة الزمنية بين الأقواس
     postTimeStr = postTimeStr.split('(')[0].trim();
 
@@ -311,5 +317,4 @@ class CommitCubit extends Cubit<CommitStates> {
     }
 
   }
-
 }

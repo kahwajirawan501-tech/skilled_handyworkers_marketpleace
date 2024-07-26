@@ -17,129 +17,49 @@ class InformationCustomer extends StatefulWidget {
 class _InformationCustomerState extends State<InformationCustomer> {
   @override
   Widget build(BuildContext context) {
-    return  Container(
-      color: AppColor.backgroundColor,
-      width: double.infinity,
-      height:double.infinity ,
-      child: SingleChildScrollView(
+    return  Scaffold(
+      appBar: AppBar(
+        surfaceTintColor:  AppColor.backgroundColor,
 
-        physics: BouncingScrollPhysics(),
+        leading:IconButton(
+          icon:Icon( Icons.arrow_back,color: AppColor.arrowBackColor,),
+          onPressed: () {
+            Navigator.pop(context);
+            // navigateAndFinish(widget:const ProfileScreen() ,context: context);
+          },
 
-        child: Padding(
-          padding: const EdgeInsets.only(top: AppFontStyles.sizeBetweenTitleAndSubTitle+12),
+        ),
+        elevation: 0.0,
+        backgroundColor: AppColor.backgroundColor,
+      ),
+      body: Container(
+        color: AppColor.backgroundColor,
+        width: double.infinity,
+        height:double.infinity ,
+        child: SingleChildScrollView(
+
+          physics: BouncingScrollPhysics(),
+
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Stack(
-                alignment: Alignment.center,
-                children: [
-                  Column(
-
-                    children: [
-                      Container(width: double.infinity,height: 60,color: AppColor.backgroundColor,),
-                      Container(
-                        padding: EdgeInsets.zero,
-                        width: double.infinity,
-                        child: Image.asset(
-                          'assets/images/Group 48.png',
-                          fit: BoxFit.fitWidth,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Positioned(
-                    top:0, // Adjust this value to move the circle image vertically
-                    child: Column(
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            if (imageNetwork != null) {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => ImageScreen(
-                                    imageUrl: api + imageNetwork!,
-                                  ),
-                                ),
-                              );
-                            } else if (imageCope != null) {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => ImageScreen(
-                                    imageUrl: imageCope!,
-                                  ),
-                                ),
-                              );
-                            }
-                          },
-                          child: ClipOval(
-                            child:imageNetwork!=null?Image.network(api+imageNetwork!, fit: BoxFit.cover,
-                              height: 80,
-                              width: 80,): Image.asset(
-                              imageCope!,
-                              fit: BoxFit.cover,
-                              height: 80,
-                              width: 80,
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: AppFontStyles.aboutMe,),
-                        Text(
-                          name!.isEmpty?"":name!,
-                          style: TextStyle(
-                            fontSize: AppFontStyles.aboutMe,
-                            color: AppColor.fontColor,
-                            fontWeight: AppFontStyles.fontWeightBold,
-                          ),
-                        ),
-                        SizedBox(height: AppFontStyles.aboutMe,),
-
-                      ],
-                    ),
-                  ),
-                  Positioned(
-                    bottom:0,
-                    left: 0,
-                    right: 0,// Adjust this value to move the circle image vertically
-                    child:Padding(
-                      padding: const EdgeInsets.all(AppFontStyles.padding),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            email!.isEmpty?"":email!,
-                            style: TextStyle(
-                              fontSize: AppFontStyles.aboutMe,
-                              color: AppColor.fontColor,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: AppFontStyles.aboutMe,),
-              GestureDetector(
-                onTap: () {
-                  navigateTo(context: context,widget:TabBarPosting() );
-                },
+              Visibility(
+                visible: name!.isNotEmpty,
                 child: profilrTile(
-                  addOrEdit:"assets/images/Edit1.png" ,
-                  imagePath: "assets/images/Connection.png",
-                  title:"My Post",
+                    addOrEdit:"assets/images/Edit1.png" ,
+                    imagePath: "assets/images/aboutmy.png",
+                    title:"Full Name",
 
-                  onTap:(){
-
-                  },
-                  trueOrFalse:false,
-                  widget:const Text("") ,
-                  line: myLineTwo(),
-                  text:Text(""
-                  ),
+                    onTap:(){
+                    },
+                    trueOrFalse:name!.isEmpty?false:true ,
+                    widget:const Text("") ,
+                    line: myLineTwo(),
+                    text:Text(name!,style: TextStyle(
+                        color: AppColor.fontColorDescription,
+                        fontSize: AppFontStyles.descriptionSplashScreenFontSize
+                    ),)
 
                 ),
               ),

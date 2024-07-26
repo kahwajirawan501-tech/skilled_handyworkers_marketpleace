@@ -82,14 +82,28 @@ class Work extends StatelessWidget {
                           borderRadius: BorderRadius.circular(AppFontStyles.borderRadiusTextField),
                           height: 40,
                           widget:Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: AppFontStyles.padding),
+                            padding: const EdgeInsets.symmetric(horizontal: AppFontStyles.aboutMe),
                             child: TextFormField(
                               controller: jobTitle,
-                              maxLines: 1, // حدد الحد الأقصى لعدد الأسطر
+                              maxLines: 2,
+                              textInputAction: TextInputAction.newline,// حدد الحد الأقصى لعدد الأسطر
+                              style: TextStyle(
+
+                                color: AppColor.grayColorFont,
+                                fontSize: AppFontStyles.descriptionLoginFontSize,
+                              ),
                               decoration:  InputDecoration(
 
                                 border: InputBorder.none,
 
+                                suffixIcon: GestureDetector(
+                                  onTap: () {
+                                    clearTextField(jobTitle);
+
+                                  },
+                                  child: const Icon(Icons.clear,size: 15,),
+
+                                ),
                               ),
                               cursorColor: AppColor.grayColorFont,
                             ),
@@ -107,8 +121,14 @@ class Work extends StatelessWidget {
                           borderRadius: BorderRadius.circular(AppFontStyles.borderRadiusTextField),
                           height: 155,
                           widget:Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: AppFontStyles.padding),
+                            padding: const EdgeInsets.symmetric(horizontal: AppFontStyles.aboutMe),
                             child: TextFormField(
+                              textInputAction: TextInputAction.newline,
+                              style: TextStyle(
+
+                                color: AppColor.grayColorFont,
+                                fontSize: AppFontStyles.descriptionLoginFontSize,
+                              ),
                               maxLines: 1, // حدد الحد الأقصى لعدد الأسطر
                               controller: descriptionJob,
                               decoration:  InputDecoration(
@@ -118,11 +138,20 @@ class Work extends StatelessWidget {
                                     fontSize: AppFontStyles.descriptionLoginFontSize
 
                                 ),
+                                suffixIcon: GestureDetector(
+                                  onTap: () {
+                                    clearTextField(descriptionJob);
+
+                                  },
+                                  child: const Icon(Icons.clear,size: 15,),
+                                ),
                                 border: InputBorder.none,
 
                               ),
+
                               cursorColor: AppColor.grayColorFont,
                             ),
+
 
                           ),),
                         Visibility(
@@ -260,4 +289,7 @@ class Work extends StatelessWidget {
 
     );
   }
+}
+void clearTextField(TextEditingController controller) {
+  controller.clear();
 }

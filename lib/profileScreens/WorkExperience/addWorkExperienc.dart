@@ -136,3 +136,6 @@ class AddWorkExperience extends StatelessWidget {
     );
   }
 }
+void clearTextField(TextEditingController controller) {
+  controller.clear();
+}

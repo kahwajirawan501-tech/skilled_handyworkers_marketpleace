@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skilled_handyworkers_marketpleace/Commint/cubit/cubit.dart';
 import 'package:skilled_handyworkers_marketpleace/Commint/cubit/states.dart';
+import 'package:skilled_handyworkers_marketpleace/InformationCustomerOne/information.dart';
 import 'package:skilled_handyworkers_marketpleace/shared/components/components.dart';
 import 'package:skilled_handyworkers_marketpleace/shared/components/constant.dart';
 import 'package:skilled_handyworkers_marketpleace/shared/styles/colors.dart';
@@ -398,14 +399,24 @@ class _CommitScreenState extends State<CommitScreen> {
                                   crossAxisAlignment:
                                   CrossAxisAlignment.start,
                                   children: [
-                                    ClipOval(
-                                      child: Image.network(
-                                        api+comment['profileImage'],
-                                        fit: BoxFit.cover,
-                                        height: 40,
-                                        width: 40,
+                                    GestureDetector(
+                                      onTap: () {
+                                        if( comment['userId'] != id) {
+                                          navigateTo(context: context,widget: Information(idCustomer:comment['userId']));
+                                        }
+                                      },
+                                      child: ClipOval(
+                                        child:comment['profileImage']!=null?Image.network(api+comment['profileImage'], fit: BoxFit.cover,
+                                          height: 40,
+                                          width: 40,): Image.asset(
+                                          imageCope!,
+                                          fit: BoxFit.cover,
+                                          height: 40,
+                                          width: 40,
+                                        ),
                                       ),
                                     ),
+
                                     const SizedBox(width: 10),
                                     Column(
                                       mainAxisAlignment:
@@ -550,15 +561,24 @@ class _CommitScreenState extends State<CommitScreen> {
                                                 },
                                                 child: Row(
                                                   children: [
-                                                    ClipOval(
-                                                      child: Image.network(
 
-                                                        api+reply['profileImage']
-                                                        ,
-                                                        fit: BoxFit.cover,
-                                                        height: 40,
-                                                        width: 40,
+                                                    GestureDetector(
+                                                      onTap: () {
+                                                        if( reply['userId'] != id) {
+                                                          navigateTo(context: context,widget: Information(idCustomer:reply['userId']));
+                                                        }
+                                                      },
+                                                      child: ClipOval(
+                                                        child:reply['profileImage']!=null?Image.network(api+reply['profileImage'], fit: BoxFit.cover,
+                                                          height: 40,
+                                                          width: 40,): Image.asset(
+                                                          imageCope!,
+                                                          fit: BoxFit.cover,
+                                                          height: 40,
+                                                          width: 40,
+                                                        ),
                                                       ),
+
                                                     ),
                                                     const SizedBox(
                                                         width: 10),

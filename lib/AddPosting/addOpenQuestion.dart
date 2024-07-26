@@ -116,7 +116,7 @@ class _AddOpenQuestionState extends State<AddOpenQuestion> {
                     ),
                     ListTile(
                       leading: ClipOval(
-                        child: imageNetwork!=null?Image.network(imageNetwork!,fit: BoxFit.cover,
+                        child: imageNetwork!=null?Image.network(api+imageNetwork!,fit: BoxFit.cover,
                           height: 50,
                           width: 50,):Image.asset(
                           imageCope!,

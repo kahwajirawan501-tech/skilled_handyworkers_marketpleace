@@ -101,6 +101,7 @@ class CubitSearch extends Cubit<SearchStates> {
     DioHelper.getData2(
       url: 'post/search/skill?skill=$service&page=$page&limit=10',
     ).then((value) {
+      print(value.data);
       final List<Map<String, dynamic>> fetchedData = List<Map<String, dynamic>>.from(value.data);
       for (var post in fetchedData) {
         if (post['type'] == 'post') {
@@ -118,6 +119,7 @@ class CubitSearch extends Cubit<SearchStates> {
 
       emit(SearchPostOnlyServiceSucssessfullStateStates());
     }).catchError((error) {
+      print(error.toString());
       int statusCode = error.response?.statusCode ?? -1;
       emit(SearchPostOnlyServiceErrorStateStates(statusCode));
     });

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:skilled_handyworkers_marketpleace/Commint/commintSceren.dart';
 import 'package:skilled_handyworkers_marketpleace/EditPost/EditPost.dart';
 import 'package:skilled_handyworkers_marketpleace/EditPost/cubit/cubit.dart';
+import 'package:skilled_handyworkers_marketpleace/InformationCustomerOne/information.dart';
 import 'package:skilled_handyworkers_marketpleace/Posting/cubit/cubit.dart';
 import 'package:skilled_handyworkers_marketpleace/Posting/postModel.dart';
 import 'package:skilled_handyworkers_marketpleace/SearchScreen/cubit/cubit.dart';
@@ -101,6 +103,7 @@ class ListOfPosting extends StatelessWidget {
 
                   return  PostModel(
                     imagePaths: post[index]['images'],
+                    postText: post[index]['text'],
                     imagePath: post[index]['user']['profileImage'] == "assets/images/aboutmy.png"
                         ? "assets/images/aboutmy.png"
                         : post[index]['user']['profileImage'],
@@ -108,10 +111,14 @@ class ListOfPosting extends StatelessWidget {
                     numberOfCommit: "67",
                     time: post[index]['publishedAt'],
                     onPressedForCommit: () {
-                      // navigateTo(context: context, widget: CommitScreen(idPost: post[index]['postId'], typePost: "post"));
+                      navigateTo(context: context, widget: CommitScreen(idPost: post[index]['_id'], typePost: "post"));
                     },
                     onPressedForFavorit: () {},
-                    onTapImage: () {},
+                    onTapImage: () {
+                      if(post[index]['user']['_id'] != id) {
+                        navigateTo(context: context,widget: Information(idCustomer:post[index]['user']['_id']));
+                      }
+                    },
                     videoUrl: post[index]['videos'],
                     onPressed: () {
                     },

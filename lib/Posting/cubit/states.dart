@@ -27,6 +27,17 @@ class  DeletePostErrorStateStates extends YourPostStates {
 }
 
 
+class CustomerPostPostLoadStateStates extends YourPostStates {
+
+}
+class CustomerPostPostSucssessfullStateStates extends YourPostStates {
+
+  CustomerPostPostSucssessfullStateStates();
+}
+class CustomerPostPostErrorStateStates extends YourPostStates {
+  final int statusCode;
+  CustomerPostPostErrorStateStates(this.statusCode);
+}
 
 class YourOpenQuestionPostLoadStateStates extends YourPostStates {
 
@@ -38,6 +49,18 @@ class YourOpenQuestionPostSucssessfullStateStates extends YourPostStates {
 class YourOpenQuestionPostErrorStateStates extends YourPostStates {
   final int statusCode;
   YourOpenQuestionPostErrorStateStates(this.statusCode);
+}
+
+class CustomerOpenQuestionPostLoadStateStates extends YourPostStates {
+
+}
+class CustomerOpenQuestionPostSucssessfullStateStates extends YourPostStates {
+
+  CustomerOpenQuestionPostSucssessfullStateStates();
+}
+class CustomerOpenQuestionPostErrorStateStates extends YourPostStates {
+  final int statusCode;
+  CustomerOpenQuestionPostErrorStateStates(this.statusCode);
 }
 
 
@@ -52,4 +75,13 @@ class GetInformationPostSucssessfullStateStates extends YourPostStates {
 class GetInformationPostErrorStateStates extends YourPostStates {
   final int statusCode;
   GetInformationPostErrorStateStates(this.statusCode);
+}
+class GetInformationStatesLoadingStateStates extends YourPostStates {}
+class GetInformationSucssessfullStateStates extends YourPostStates {
+
+  GetInformationSucssessfullStateStates();
+}
+class GetInformationErrorStateStates extends YourPostStates {
+  final int stateCode;
+  GetInformationErrorStateStates(this.stateCode);
 }

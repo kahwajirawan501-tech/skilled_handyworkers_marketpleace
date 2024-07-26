@@ -5,8 +5,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skilled_handyworkers_marketpleace/Posting/ListOfPostForUser.dart';
 import 'package:skilled_handyworkers_marketpleace/Posting/ListOpenQuestionForUser.dart';
 import 'package:skilled_handyworkers_marketpleace/Posting/cubit/cubit.dart';
+import 'package:skilled_handyworkers_marketpleace/Posting/cubit/informationCustomer.dart';
 import 'package:skilled_handyworkers_marketpleace/Posting/cubit/states.dart';
+import 'package:skilled_handyworkers_marketpleace/Posting/imageView.dart';
 import 'package:skilled_handyworkers_marketpleace/profileScreens/Box.dart';
+import 'package:skilled_handyworkers_marketpleace/profileScreens/profilrTile.dart';
 import 'package:skilled_handyworkers_marketpleace/shared/components/components.dart';
 import 'package:skilled_handyworkers_marketpleace/shared/components/constant.dart';
 import 'package:skilled_handyworkers_marketpleace/shared/styles/colors.dart';
@@ -35,6 +38,22 @@ class TabBarPosting extends StatefulWidget
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        surfaceTintColor:  AppColor.backgroundColor,
+        actions: [
+          TextButton(onPressed:() {
+            navigateTo(context: context,widget: InformationCustomer());
+
+          }, child:Text("See More",style:TextStyle(
+              fontSize: AppFontStyles.descriptionLoginFontSize,
+              fontWeight: AppFontStyles.fontWeightBold,
+              color: AppColor.bottomNavigationBar
+          ) ,))
+
+        ],
+        elevation: 0.0,
+        backgroundColor: AppColor.backgroundColor,
+      ),
       body: BlocConsumer<CubitYourPost,YourPostStates>(
         listener: (context, state) {
          if(state is YourPostPostSucssessfullStateStates){
@@ -53,39 +72,58 @@ class TabBarPosting extends StatefulWidget
 
         },
         builder: (context, state) {
-          return Padding(
-            padding: const EdgeInsets.only(top:60),
-            child: Container(
-              color: AppColor.backgroundColor,
-              width: double.infinity,
-              height:double.infinity ,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      Column(
-
-                        children: [
-                          Container(width: double.infinity,height: 60,color: AppColor.backgroundColor,),
-                          Container(
-                            padding: EdgeInsets.zero,
-                            width: double.infinity,
-                            child: Image.asset(
-                              'assets/images/Group 48.png',
-                              fit: BoxFit.fitWidth,
-                            ),
+          return Container(
+            color: AppColor.backgroundColor,
+            width: double.infinity,
+            height:double.infinity ,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Column(
+                      children: [
+                        Container(width: double.infinity,height: 50,color: AppColor.backgroundColor,),
+                        Container(
+                          padding: EdgeInsets.zero,
+                          width: double.infinity,
+                          child: Image.asset(
+                            'assets/images/Group 48.png',
+                            fit: BoxFit.fitWidth,
                           ),
-                        ],
-                      ),
-                      Positioned(
-                        top:0, // Adjust this value to move the circle image vertically
-                        child: Column(
-                          children: [
-                            ClipOval(
-                              child:imageNetwork!=null?Image.network(api+imageNetwork!, fit: BoxFit.cover,
+                        ),
+                      ],
+                    ),
+                    Positioned(
+                      top:0, // Adjust this value to move the circle image vertically
+                      child: Column(
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              if (imageNetwork != null) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ImageScreen(
+                                      imageUrl: api + imageNetwork!,
+                                    ),
+                                  ),
+                                );
+                              } else if (imageCope != null) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ImageScreen(
+                                      imageUrl: imageCope!,
+                                    ),
+                                  ),
+                                );
+                              }
+                            },
+                            child: ClipOval(
+                              child:imageNetwork!.isNotEmpty?Image.network(api+imageNetwork!, fit: BoxFit.cover,
                                 height: 80,
                                 width: 80,): Image.asset(
                                 imageCope!,
@@ -94,66 +132,49 @@ class TabBarPosting extends StatefulWidget
                                 width: 80,
                               ),
                             ),
-                            SizedBox(height: AppFontStyles.aboutMe,),
+                          ),
+                          SizedBox(height: AppFontStyles.aboutMe,),
+                          Text(
+                            name!.isEmpty?"":name!,
+                            style: TextStyle(
+                              fontSize: AppFontStyles.aboutMe,
+                              color: AppColor.fontColor,
+                              fontWeight: AppFontStyles.fontWeightBold,
+                            ),
+                          ),
+                          SizedBox(height: AppFontStyles.aboutMe,),
+
+                        ],
+                      ),
+                    ),
+                    Positioned(
+                      bottom:0,
+                      left: 0,
+                      right: 0,// Adjust this value to move the circle image vertically
+                      child:Padding(
+                        padding: const EdgeInsets.all(AppFontStyles.padding),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
                             Text(
-                              name!.isEmpty?"":name!,
+                              email!.isEmpty?"":email!,
                               style: TextStyle(
                                 fontSize: AppFontStyles.aboutMe,
                                 color: AppColor.fontColor,
-                                fontWeight: AppFontStyles.fontWeightBold,
                               ),
                             ),
-                            SizedBox(height: AppFontStyles.aboutMe,),
-
                           ],
                         ),
                       ),
-                      Positioned(
-                        bottom:0,
-                        left: 0,
-                        right: 0,// Adjust this value to move the circle image vertically
-                        child:Padding(
-                          padding: const EdgeInsets.all(AppFontStyles.padding),
-                          child: Row(
-                            children: [
-                              Text(
-                                gender!.isEmpty?"":gender!,
-                                style: TextStyle(
-                                  fontSize: AppFontStyles.aboutMe,
-                                  color: AppColor.fontColor,
-                                ),
-                              ),
-                              Text(
-                                " , ",
-                                style: TextStyle(
-                                  fontSize: AppFontStyles.aboutMe,
-                                  color: AppColor.fontColor,
-                                ),
-                              ),
-                              Text(
-                               locationConst!.isEmpty?"":locationConst!,
-                                style: TextStyle(
-                                  fontSize: AppFontStyles.aboutMe,
-                                  color: AppColor.fontColor,
-                                ),
-                              ),
-                              Spacer(),
-                              Text(
-                                numberConst!.isEmpty?"":numberConst!,
-                                style: TextStyle(
-                                  fontSize: AppFontStyles.aboutMe,
-                                  color: AppColor.fontColor,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: AppFontStyles.aboutMe,),
-                  Row(
+                    ),
+                  ],
+                ),
 
+
+                Padding(
+                  padding: const EdgeInsets.only(top: 16,bottom: 8),
+                  child: Row(
                     children: [
                       SizedBox(width: AppFontStyles.aboutMe,),
                       Expanded(
@@ -211,40 +232,41 @@ class TabBarPosting extends StatefulWidget
 
                     ],
                   ),
-                  if(!(clickOpenQuestion||clickPosting))
-                    Expanded(child: Center(child: Image.asset("assets/images/Illustrasi.png"))),
-                  if (clickPosting)
-                    Expanded(
-                      child: ConditionalBuilder(
-                        condition: state is! YourPostPostLoadStateStates ,
-                        builder: (context) => ListOfPostingUser(
-                          post: post,
+                ),
 
-                        ),
-                        fallback: (context) => Center(
-                          child: CircularProgressIndicator(
-                            color: AppColor.orangeColor,
-                          ),
+                if(!(clickOpenQuestion||clickPosting))
+                  Expanded(child: Center(child: Image.asset("assets/images/Illustrasi.png"))),
+                if (clickPosting)
+                  Expanded(
+                    child: ConditionalBuilder(
+                      condition: state is! YourPostPostLoadStateStates ,
+                      builder: (context) => ListOfPostingUser(
+                        post: post,
+
+                      ),
+                      fallback: (context) => Center(
+                        child: CircularProgressIndicator(
+                          color: AppColor.orangeColor,
                         ),
                       ),
                     ),
-                  if (clickOpenQuestion)
-                    Expanded(
-                      child: ConditionalBuilder(
-                        condition:state is !YourOpenQuestionPostLoadStateStates ,
-                        builder: (context) =>ListOfOpenQuestionUser(
-                          openQuestionPost: openQuestion,
+                  ),
+                if (clickOpenQuestion)
+                  Expanded(
+                    child: ConditionalBuilder(
+                      condition:state is !YourOpenQuestionPostLoadStateStates ,
+                      builder: (context) =>ListOfOpenQuestionUser(
+                        openQuestionPost: openQuestion,
 
-                        ),
-                        fallback: (context) => Center(
-                          child: CircularProgressIndicator(
-                            color: AppColor.orangeColor,
-                          ),
+                      ),
+                      fallback: (context) => Center(
+                        child: CircularProgressIndicator(
+                          color: AppColor.orangeColor,
                         ),
                       ),
                     ),
-                ],
-              ),
+                  ),
+              ],
             ),
           );
         },

@@ -87,14 +87,19 @@ class AboutMe extends StatelessWidget {
                           height: 232,
                           widget:Padding(
 
-                            padding: const EdgeInsets.symmetric(horizontal: AppFontStyles.padding),
+                            padding: const EdgeInsets.symmetric(horizontal: AppFontStyles.aboutMe),
                             child: TextFormField(
                               controller: editingController,
                               maxLines: 6,
+                              textInputAction: TextInputAction.newline,// حدد الحد الأقصى لعدد الأسطر
 
+                              style: TextStyle(
+
+                                color: AppColor.grayColorFont,
+                                fontSize: AppFontStyles.descriptionLoginFontSize,
+                              ),
                               // حدد الحد الأقصى لعدد الأسطر
                               decoration:  InputDecoration(
-
                                 hintText:'Tell me about you.',
                                 hintStyle: TextStyle(
                                     color:AppColor.grayColorFont,
@@ -102,6 +107,15 @@ class AboutMe extends StatelessWidget {
 
                                 ),
                                 border: InputBorder.none,
+                                suffixIcon: GestureDetector(
+                                  onTap: () {
+                                    clearTextField(editingController);
+
+                                  },
+                                  child: const Icon(Icons.clear,size: 15,),
+
+                                ),
+
 
                                 // هنا يمكنك تحديد نص التلميح
                               ),
@@ -166,3 +180,6 @@ class AboutMe extends StatelessWidget {
 
 
 
+void clearTextField(TextEditingController controller) {
+  controller.clear();
+}

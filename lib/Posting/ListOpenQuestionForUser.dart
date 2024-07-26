@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skilled_handyworkers_marketpleace/Commint/commintSceren.dart';
 import 'package:skilled_handyworkers_marketpleace/EditPost/EditOpenQuestion.dart';
+import 'package:skilled_handyworkers_marketpleace/InformationCustomerOne/information.dart';
 import 'package:skilled_handyworkers_marketpleace/Posting/OpenQuestionModel.dart';
 import 'package:skilled_handyworkers_marketpleace/Posting/cubit/cubit.dart';
 import 'package:skilled_handyworkers_marketpleace/Posting/cubit/states.dart';
@@ -98,7 +99,11 @@ class _ListOfOpenQuestionUserState extends State<ListOfOpenQuestionUser> {
                         name: widget.openQuestionPost[index]['user']['fullName'],
                         imagePath: widget.openQuestionPost[index]['user']['profileImage'] ?? imageCope,
                         openQuestion: widget.openQuestionPost[index]['text'],
-                        onTapImage: () {},
+                        onTapImage: () {
+                          if( widget.openQuestionPost[index]['user']['_id'] != id) {
+                            navigateTo(context: context,widget: Information(idCustomer: widget.openQuestionPost[index]['user']['_id']));
+                          }
+                        },
                         onPressedForCommit: () {
  navigateTo(context: context, widget: CommitScreen(idPost: widget.openQuestionPost[index]['_id'], typePost: "openQuestion"));
                         },

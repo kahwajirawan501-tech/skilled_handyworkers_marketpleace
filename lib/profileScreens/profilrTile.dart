@@ -9,13 +9,13 @@ class profilrTile extends StatelessWidget {
  final Widget widget;
  final Widget line;
  final Widget text;
- final String addOrEdit;
+  final String addOrEdit;
  final bool trueOrFalse;
   const profilrTile({
     Key? key,
     required this.imagePath,
     required this.title,
-    required this.onTap,  required this.widget, required this.line, required this.text, required this.addOrEdit, required this.trueOrFalse,
+    required this.onTap,  required this.widget, required this.line, required this.text,   required this.trueOrFalse,required this.addOrEdit,
   }) : super(key: key);
 
   @override

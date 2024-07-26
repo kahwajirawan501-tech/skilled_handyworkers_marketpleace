@@ -6,6 +6,7 @@ import 'package:skilled_handyworkers_marketpleace/ButtonNavigation/BottonNavigat
 import 'package:skilled_handyworkers_marketpleace/Commint/commintSceren.dart';
 import 'package:skilled_handyworkers_marketpleace/HomeScreen/HomeScreen.dart';
 import 'package:skilled_handyworkers_marketpleace/Posting/TabBarScreen.dart';
+import 'package:skilled_handyworkers_marketpleace/Posting/cubit/informationCustomer.dart';
 import 'package:skilled_handyworkers_marketpleace/Save/save.dart';
 import 'package:skilled_handyworkers_marketpleace/profileScreens/Language/language.dart';
 import 'package:skilled_handyworkers_marketpleace/profileScreens/Setting/setting.dart';
