@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skilled_handyworkers_marketpleace/ButtonNavigation/cubit/states.dart';
 import 'package:skilled_handyworkers_marketpleace/ButtonNavigation/BottonNavigationBar.dart';
+import 'package:skilled_handyworkers_marketpleace/Chat_Messages/chat_List.dart';
 import 'package:skilled_handyworkers_marketpleace/Commint/commintSceren.dart';
 import 'package:skilled_handyworkers_marketpleace/HomeScreen/HomeScreen.dart';
 import 'package:skilled_handyworkers_marketpleace/Posting/TabBarScreen.dart';
@@ -23,7 +24,7 @@ class HomeCubit extends Cubit<HomeStates>{
      HomeScreen(),
      ProfileScreen(),
      TabBarPosting() ,
-     Save(),
+     ChatList(),
      Save(),
      Save(),
    ];
