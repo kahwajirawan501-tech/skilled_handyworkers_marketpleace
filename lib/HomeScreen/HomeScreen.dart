@@ -23,20 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
         color: Colors.white,
         child: Column(
           children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                ClipOval(
-                  child: Image.asset(
-                    "assets/images/Mask group.png",
-                    fit: BoxFit.cover,
-                    height: 40,
-                    width: 40,
-                  ),
-                ),
-              ],
-            ),
+           SizedBox(height: 34,),
             Row(children: [
               Text("Hello",style: TextStyle(
                 fontSize: AppFontStyles.sizeFontInHome,color: AppColor.fontColor,fontWeight: AppFontStyles.fontWeightBold

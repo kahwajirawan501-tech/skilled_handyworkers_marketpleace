@@ -3,20 +3,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skilled_handyworkers_marketpleace/Chat_Messages/cubit/cubit.dart';
 import 'package:skilled_handyworkers_marketpleace/Chat_Messages/cubit/states.dart';
+import 'package:skilled_handyworkers_marketpleace/Posting/imageView.dart';
 import 'package:skilled_handyworkers_marketpleace/shared/components/components.dart';
 import 'package:skilled_handyworkers_marketpleace/shared/components/constant.dart';
 import 'package:skilled_handyworkers_marketpleace/shared/styles/colors.dart';
 import 'package:skilled_handyworkers_marketpleace/shared/styles/styles.dart';
 
-class Message extends StatefulWidget {
+class MessagePerson extends StatefulWidget {
   final String receiverId ;
-  const Message({Key? key, required this.receiverId}) : super(key: key);
+  final String fullName;
+  final String pathImage;
+  const MessagePerson({Key? key, required this.receiverId, required this.fullName, required this.pathImage}) : super(key: key);
 
   @override
-  State<Message> createState() => _MessageState();
+  State<MessagePerson> createState() => _MessagePersonState();
 }
 
-class _MessageState extends State<Message> {
+class _MessagePersonState extends State<MessagePerson> {
   final _commentController = TextEditingController();
   bool _isReplying = false;
   bool _isEditing = false;
@@ -85,15 +88,15 @@ class _MessageState extends State<Message> {
     setState(() {
       _isEditing = true;
       _editingCommentIndex = commentIndex;
-      _commentController.text = ChatCubit.get(context).messages[commentIndex]['text'];
+      _commentController.text = ChatCubit.get(context).messages[commentIndex]['message'];
     });
   }
 
   @override
   void initState() {
     super.initState();
-    //ChatCubit.get(context).getMessages();
-    // ChatCubit.get(context).initializeSocket();
+    ChatCubit.get(context).getMessages(widget.receiverId);
+    //ChatCubit.get(context).initializeSocket();
   }
 
   @override
@@ -146,17 +149,43 @@ class _MessageState extends State<Message> {
               preferredSize: Size.fromHeight(90.0), // تعديل الارتفاع حسب الحاجة
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: AppFontStyles.aboutMe),
-                child: ListTile(
-                  leading: ClipOval(
-                    child: Image.asset(
-                      imageCope!,
-                      fit: BoxFit.cover,
-                      height: 50,
-                      width: 50,
+                child:
+                ListTile(
+                  leading: GestureDetector(
+                    onTap: () {
+                      if (widget.pathImage.isNotEmpty) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ImageScreen(
+                              imageUrl: api + widget.pathImage,
+                            ),
+                          ),
+                        );
+                      } else if (imageCope! .isNotEmpty) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ImageScreen(
+                              imageUrl: imageCope!,
+                            ),
+                          ),
+                        );
+                      }
+                    },
+                    child: ClipOval(
+                      child:widget.pathImage.isNotEmpty?Image.network(api+widget.pathImage, fit: BoxFit.cover,
+                        height: 50,
+                        width: 50,): Image.asset(
+                        imageCope!,
+                        fit: BoxFit.cover,
+                        height: 50,
+                        width: 50,
+                      ),
                     ),
                   ),
                   title: Text(
-                    name!.isNotEmpty ? name! : "Rawan",
+                   widget.fullName.isNotEmpty ?widget.fullName : "",
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
@@ -165,15 +194,21 @@ class _MessageState extends State<Message> {
                       fontWeight: AppFontStyles.fontWeightBold,
                     ),
                   ),
-                  subtitle: Text(
-                    "Online",
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      fontSize: AppFontStyles.descriptionLoginFontSize,
-                      color: AppColor.fontColorDescription,
-                      fontWeight: AppFontStyles.fontWeightMedium,
-                    ),
+                  subtitle: Row(
+                    children: [
+                      Icon(Icons.circle,color:ChatCubit.get(context) .online?Colors.green:Colors.grey,size: 12,),
+                      SizedBox(width: 4,),
+                      Text(
+                        ChatCubit.get(context).online?"Online":"Offline",
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontSize: AppFontStyles.descriptionLoginFontSize,
+                          color: AppColor.fontColorDescription,
+                          fontWeight: AppFontStyles.fontWeightMedium,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -188,7 +223,7 @@ class _MessageState extends State<Message> {
                 children: [
                   Expanded(
                     child: ConditionalBuilder(
-                      condition: true, // state is! MessageLoadStateStates
+                      condition: state is! MessageLoadStateStates, //
                       builder: (context) => ChatCubit.get(context).messages.isEmpty
                           ? const Center(
                         child: Text(
@@ -200,7 +235,7 @@ class _MessageState extends State<Message> {
                         itemCount: ChatCubit.get(context).messages.length,
                         itemBuilder: (context, index) {
                           final message = ChatCubit.get(context).messages[index];
-                          bool isCurrentUserMessage = message['userId'] == id;
+                          bool isCurrentUserMessage = message['sender_id'] == id;
                           return Align(
                             alignment: isCurrentUserMessage ? Alignment.centerRight : Alignment.centerLeft,
                             child: Column(
@@ -228,7 +263,7 @@ class _MessageState extends State<Message> {
                                             child: Column(
                                               crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
-                                                Text(message['text']),
+                                                Text(message['message']),
                                               ],
                                             ),
                                           ),
@@ -249,10 +284,10 @@ class _MessageState extends State<Message> {
                                 if (isCurrentUserMessage)
                                   GestureDetector(
                                     onLongPress: () {
-                                      if (message['userId'] == id) {
+                                      if (message['sender_id'] == id) {
                                         _showOptions(context, index);
                                         setState(() {
-                                          _messegeId = message['id'];
+                                          _messegeId = message['_id'];
                                         });
                                       }
                                     },
@@ -278,7 +313,7 @@ class _MessageState extends State<Message> {
                                               child: Column(
                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
-                                                  Text(message['text'], style: TextStyle(color: Colors.white)),
+                                                  Text(message['message'], style: TextStyle(color: Colors.white)),
                                                 ],
                                               ),
                                             ),
@@ -290,7 +325,7 @@ class _MessageState extends State<Message> {
                                                   condition: state is! AddMessageLoadStateStates &&
                                                       state is! DeleteMessageLoadStateStates &&
                                                       state is! EditMessageLoadStateStates,
-                                                  builder: (context) => (_error && (_messegeId == message['id'] ||
+                                                  builder: (context) => (_error && (_messegeId == message['_id'] ||
                                                       (index == ChatCubit.get(context).messages.length - 1)))
                                                       ? GestureDetector(
                                                     child: Icon(Icons.refresh_outlined, color: AppColor.orangeColor, size: 20),
@@ -301,9 +336,9 @@ class _MessageState extends State<Message> {
                                                     message['createdAt'], // _formatDate(comment['time'])
                                                     style: TextStyle(color: Colors.grey, fontSize: AppFontStyles.soSmallFontSize),
                                                   ),
-                                                  fallback: (context) => (((_messegeId == message['id']) &&
+                                                  fallback: (context) => (((_messegeId == message['_id']) &&
                                                       (index == ChatCubit.get(context).messages.length - 1)) ||
-                                                      (_messegeId == message['id']) ||
+                                                      (_messegeId == message['_id']) ||
                                                       ((_messegeId == '0') && (index == ChatCubit.get(context).messages.length - 1)))
                                                       ? Container(
                                                     child: CircularProgressIndicator(color: AppColor.orangeColor, strokeWidth: 2),

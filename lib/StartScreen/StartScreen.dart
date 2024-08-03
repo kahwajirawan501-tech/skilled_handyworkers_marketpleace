@@ -1,289 +1,187 @@
-import 'package:flutter/material.dart';
-import 'package:skilled_handyworkers_marketpleace/Posting/TabBarScreen.dart';
-import 'package:skilled_handyworkers_marketpleace/Posting/imageView.dart';
-import 'package:skilled_handyworkers_marketpleace/profileScreens/profilrTile.dart';
-import 'package:skilled_handyworkers_marketpleace/shared/components/components.dart';
-import 'package:skilled_handyworkers_marketpleace/shared/components/constant.dart';
-import 'package:skilled_handyworkers_marketpleace/shared/styles/colors.dart';
-import 'package:skilled_handyworkers_marketpleace/shared/styles/styles.dart';
-
-class InformationCustomer extends StatefulWidget {
-  const InformationCustomer({Key? key}) : super(key: key);
-
-  @override
-  State<InformationCustomer> createState() => _InformationCustomerState();
-}
-
-class _InformationCustomerState extends State<InformationCustomer> {
-  @override
-  Widget build(BuildContext context) {
-    return  Container(
-      color: AppColor.backgroundColor,
-      width: double.infinity,
-      height:double.infinity ,
-      child: SingleChildScrollView(
-
-        physics: BouncingScrollPhysics(),
-
-        child: Padding(
-          padding: const EdgeInsets.only(top: AppFontStyles.sizeBetweenTitleAndSubTitle+12),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Stack(
-                alignment: Alignment.center,
-                children: [
-                  Column(
-
-                    children: [
-                      Container(width: double.infinity,height: 60,color: AppColor.backgroundColor,),
-                      Container(
-                        padding: EdgeInsets.zero,
-                        width: double.infinity,
-                        child: Image.asset(
-                          'assets/images/Group 48.png',
-                          fit: BoxFit.fitWidth,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Positioned(
-                    top:0, // Adjust this value to move the circle image vertically
-                    child: Column(
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            if (imageNetwork != null) {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => ImageScreen(
-                                    imageUrl: api + imageNetwork!,
-                                  ),
-                                ),
-                              );
-                            } else if (imageCope != null) {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => ImageScreen(
-                                    imageUrl: imageCope!,
-                                  ),
-                                ),
-                              );
-                            }
-                          },
-                          child: ClipOval(
-                            child:imageNetwork!=null?Image.network(api+imageNetwork!, fit: BoxFit.cover,
-                              height: 80,
-                              width: 80,): Image.asset(
-                              imageCope!,
-                              fit: BoxFit.cover,
-                              height: 80,
-                              width: 80,
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: AppFontStyles.aboutMe,),
-                        Text(
-                          name!.isEmpty?"":name!,
-                          style: TextStyle(
-                            fontSize: AppFontStyles.aboutMe,
-                            color: AppColor.fontColor,
-                            fontWeight: AppFontStyles.fontWeightBold,
-                          ),
-                        ),
-                        SizedBox(height: AppFontStyles.aboutMe,),
-
-                      ],
-                    ),
-                  ),
-                  Positioned(
-                    bottom:0,
-                    left: 0,
-                    right: 0,// Adjust this value to move the circle image vertically
-                    child:Padding(
-                      padding: const EdgeInsets.all(AppFontStyles.padding),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            email!.isEmpty?"":email!,
-                            style: TextStyle(
-                              fontSize: AppFontStyles.aboutMe,
-                              color: AppColor.fontColor,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: AppFontStyles.aboutMe,),
-              GestureDetector(
-                onTap: () {
-                  navigateTo(context: context,widget:TabBarPosting() );
-                },
-                child: profilrTile(
-                  addOrEdit:"assets/images/Edit1.png" ,
-                  imagePath: "assets/images/Connection.png",
-                  title:"My Post",
-
-                  onTap:(){
-
-                  },
-                  trueOrFalse:false,
-                  widget:const Text("") ,
-                  line: myLineTwo(),
-                  text:Text(""
-                  ),
-
-                ),
-              ),
-              Visibility(
-                visible: aboutMy!.isNotEmpty,
-                child: profilrTile(
-                    addOrEdit:"assets/images/Edit1.png" ,
-                    imagePath: "assets/images/aboutmy.png",
-                    title:"About me",
-
-                    onTap:(){
-                    },
-                    trueOrFalse:aboutMy!.isEmpty?false:true ,
-                    widget:const Text("") ,
-                    line: myLineTwo(),
-                    text:Text(aboutMy!,style: TextStyle(
-                        color: AppColor.fontColorDescription,
-                        fontSize: AppFontStyles.descriptionSplashScreenFontSize
-                    ),)
-
-                ),
-              ),
-              Visibility(
-                visible:numberConst!.isNotEmpty,
-                child: profilrTile(
-                    addOrEdit:"assets/images/Edit1.png" ,
-                    imagePath: "assets/images/Icon Call.png",
-                    title:"Phone Number",
-
-                    onTap:(){
-                    },
-                    trueOrFalse:numberConst!.isEmpty?false:true ,
-                    widget:const Text("") ,
-                    line: myLineTwo(),
-                    text:Text(numberConst!,style: TextStyle(
-                        color: AppColor.fontColorDescription,
-                        fontSize: AppFontStyles.descriptionSplashScreenFontSize
-                    ),)
-
-                ),
-              ),
-              Visibility(
-                visible:gender!.isNotEmpty,
-                child: profilrTile(
-                    addOrEdit:"assets/images/Edit1.png" ,
-                    imagePath: "assets/images/aboutmy.png",
-                    title:"Gender",
-
-                    onTap:(){
-                    },
-                    trueOrFalse:gender!.isEmpty?false:true ,
-                    widget:const Text("") ,
-                    line: myLineTwo(),
-                    text:Text(gender!,style: TextStyle(
-                        color: AppColor.fontColorDescription,
-                        fontSize: AppFontStyles.descriptionSplashScreenFontSize
-                    ),)
-
-                ),
-              ),
-              Visibility(
-                visible: skill!.isNotEmpty,
-                child: profilrTile(
-                    addOrEdit:"assets/images/Edit1.png" ,
-                    imagePath: "assets/images/skill.png",
-                    title:"Skill",
-
-                    onTap:(){
-                    },
-                    trueOrFalse:skill!.isEmpty?false:true ,
-                    widget:const Text("") ,
-                    line: myLineTwo(),
-                    text:Text(skill!,style: TextStyle(
-                        color: AppColor.fontColorDescription,
-                        fontSize: AppFontStyles.descriptionSplashScreenFontSize
-                    ),)
-
-                ),
-              ),
-              Visibility(
-                visible:locationConst!.isNotEmpty,
-                child: profilrTile(
-                    addOrEdit:"assets/images/Edit1.png" ,
-                    imagePath: "assets/images/Icon Location.png",
-                    title:"Location",
-
-                    onTap:(){
-                    },
-                    trueOrFalse:locationConst!.isEmpty?false:true ,
-                    widget:const Text("") ,
-                    line: myLineTwo(),
-                    text:Text(locationConst!,style: TextStyle(
-                        color: AppColor.fontColorDescription,
-                        fontSize: AppFontStyles.descriptionSplashScreenFontSize
-                    ),)
-
-                ),
-              ),
-              Visibility(
-                visible:workTittle!.isNotEmpty||workDescription!.isNotEmpty ,
-                child: profilrTile(
-                  addOrEdit:"assets/images/Edit1.png" ,
-
-                  imagePath: "assets/images/work.png",
-                  title:"Work experience",
-                  onTap:(){
-
-                  },
-                  trueOrFalse:workTittle!.isEmpty&&workDescription!.isEmpty?false:true ,
-                  widget:const Text("")
-                  ,line: myLineTwo(),
-                  text:Text("${workTittle!}\n${workDescription!}",style: TextStyle(
-                      color: AppColor.fontColorDescription,
-                      fontSize: AppFontStyles.descriptionSplashScreenFontSize
-                  ),) ,
-                ),
-              ),
-              Visibility(
-                visible: educationTittle!.isNotEmpty||educationDescription!.isNotEmpty,
-                child: profilrTile(
-                    addOrEdit:"assets/images/Edit1.png" ,
-
-                    imagePath: "assets/images/experience.png",
-                    title:"Education",
-
-                    onTap:(){
-
-                    },
-                    trueOrFalse:educationTittle!.isEmpty&&educationDescription!.isEmpty?false:true ,
-
-                    widget:const Text(""),
-                    line: myLineTwo(),
-                    text:Text("${educationTittle!}\n${educationDescription!}",style: TextStyle(
-                        color: AppColor.fontColorDescription,
-                        fontSize: AppFontStyles.descriptionSplashScreenFontSize
-                    ),)
-                ),
-              ),
-
-
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
+// import 'dart:typed_data';
+//
+// import 'package:dio/dio.dart';
+// import 'package:flutter/cupertino.dart';
+// import 'package:flutter/material.dart';
+// import 'package:flutter_bloc/flutter_bloc.dart';
+// import 'package:intl/date_symbol_data_local.dart';
+// import 'package:skilled_handyworkers_marketpleace/AddPosting/cubit/cubit.dart';
+// import 'package:get/get_navigation/src/root/get_material_app.dart';
+// import 'package:skilled_handyworkers_marketpleace/ButtonNavigation/BottonNavigationBar.dart';
+// import 'package:skilled_handyworkers_marketpleace/ButtonNavigation/cubit/cubit.dart';
+// import 'package:skilled_handyworkers_marketpleace/Chat_Messages/cubit/cubit.dart';
+// import 'package:skilled_handyworkers_marketpleace/Commint/cubit/cubit.dart';
+// import 'package:skilled_handyworkers_marketpleace/EditPost/cubit/cubit.dart';
+// import 'package:skilled_handyworkers_marketpleace/Chat_Messages/Message.dart';
+// import 'package:skilled_handyworkers_marketpleace/Posting/cubit/cubit.dart';
+// import 'package:skilled_handyworkers_marketpleace/Registration/cubitSignUp/cubit.dart';
+// import 'package:skilled_handyworkers_marketpleace/SearchModel/cubitLocation/cubit.dart';
+// import 'package:skilled_handyworkers_marketpleace/SearchModel/cubitService/cubit.dart';
+// import 'package:skilled_handyworkers_marketpleace/SearchScreen/cubit/cubit.dart';
+// import 'package:skilled_handyworkers_marketpleace/profileScreens/Setting/cubit/cubit.dart';
+// import 'package:skilled_handyworkers_marketpleace/profileScreens/cubit/cubit.dart';
+// import 'package:skilled_handyworkers_marketpleace/profileScreens/profileScreen.dart';
+// import 'package:skilled_handyworkers_marketpleace/profileScreens/skill/cubit/cubit.dart';
+// import 'package:skilled_handyworkers_marketpleace/shared/components/constant.dart';
+// import 'package:skilled_handyworkers_marketpleace/shared/network/local/cache_helper.dart';
+// import 'package:skilled_handyworkers_marketpleace/shared/network/local/local.dart';
+// import 'package:skilled_handyworkers_marketpleace/shared/network/local/local_controller.dart';
+// import 'package:skilled_handyworkers_marketpleace/shared/network/remote/dio_helper.dart';
+// import 'package:get/get.dart';
+// import 'Registration/LoginScreen.dart';
+// import 'Registration/cubitConfirmSignUp/cubit.dart';
+// import 'Registration/cubitLogin/cubit.dart';
+// import 'StartScreen/StartScreen.dart';
+// import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+// import 'package:permission_handler/permission_handler.dart';
+//
+//
+// Future<void> main() async {
+//
+//   WidgetsFlutterBinding.ensureInitialized();
+//   await initializeNotifications();
+//   checkAndRequestPermissions();
+//   await initializeDateFormatting('en_US', null);
+//   DioHelper.init();
+//   await CacheHelper.init();
+//   Get.lazyPut<MyLocalController>(() => MyLocalController());
+//   runApp(const MyApp());
+//
+// }
+// final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+//
+// Future<void> initializeNotifications() async {
+//   const AndroidInitializationSettings initializationSettingsAndroid =
+//   AndroidInitializationSettings('@mipmap/ic_launcher');
+//   final InitializationSettings initializationSettings =
+//   InitializationSettings(android: initializationSettingsAndroid);
+//   await flutterLocalNotificationsPlugin.initialize(initializationSettings);
+//
+//   const AndroidNotificationChannel channel = AndroidNotificationChannel(
+//     'unique_channel_id', // معرف القناة الفريد
+//     'Message Notifications',
+//     importance: Importance.high,
+//     playSound: true,
+//   );
+//
+//   await flutterLocalNotificationsPlugin
+//       .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
+//       ?.createNotificationChannel(channel);
+//   debugPrint('Notification channel created successfully');
+// }
+// Future<void> checkAndRequestPermissions() async {
+//   PermissionStatus status = await Permission.notification.status;
+//   if (status.isDenied) {
+//     status = await Permission.notification.request();
+//   }
+//   debugPrint('Notification permission status: ${status.toString()}');
+// }
+//
+// class MyApp extends StatelessWidget {
+//   const MyApp({super.key});
+//
+//   // This widget is the root of your application.
+//   @override
+//   Widget build(BuildContext context) {
+//     MyLocalController controller = MyLocalController();
+//
+//     return MultiBlocProvider(
+//       providers: [
+//         BlocProvider(
+//
+//           create:(context) =>SkillCubit(),
+//
+//
+//         ),
+//         BlocProvider(
+//
+//           create:(context) =>ProfileCubit()..getProfileInformation(),
+//
+//
+//         ),
+//         BlocProvider(
+//
+//           create:(context) =>SettingCubit(),
+//
+//
+//         ),
+//         BlocProvider(
+//
+//           create:(context) =>HomeCubit(),
+//
+//
+//         ),
+//         BlocProvider(
+//
+//           create:(context) =>ServiceCubit()..getService(),
+//
+//
+//         ),
+//         BlocProvider(
+//
+//           create:(context) =>LocationCubit()..getLocation(),
+//
+//
+//         ),
+//         BlocProvider(
+//
+//           create:(context) =>CubitSearch(),
+//
+//
+//         ),
+//         BlocProvider(
+//
+//           create:(context) =>CommitCubit(),
+//
+//
+//         ),
+//         BlocProvider(
+//
+//           create:(context) =>CubitYourPost(),
+//
+//
+//         ),
+//         BlocProvider(
+//
+//           create:(context) =>AddPostCubit(),
+//
+//
+//         ),
+//         BlocProvider(
+//           create: (context) => LoginCubit(),
+//         ),
+//         BlocProvider(
+//           create: (context) => SignUplCubit(),
+//         ),
+//         BlocProvider(
+//           create: (context) => ConfirmSignUpCubit(),
+//         ),
+//         BlocProvider(
+//
+//           create:(context) =>AddPostCubit(),
+//
+//
+//         ),
+//         BlocProvider(
+//
+//           create:(context) =>EditPostCubit(),
+//
+//
+//         ),
+//         BlocProvider(
+//
+//           create:(context) =>ChatCubit()..showSimpleNotification("message", "senderName"),
+//
+//
+//         )
+//       ],
+//       child: GetMaterialApp(
+//         debugShowCheckedModeBanner: false,
+//         title: 'Skilled handyWorker marketplace System',
+//         locale: controller.intiallang,
+//         translations: MyLocal(),
+//         home: BottomNavigationScreen(),
+//       ),
+//     );
+//   }
+// }

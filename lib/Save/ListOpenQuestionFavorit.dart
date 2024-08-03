@@ -12,21 +12,21 @@ import 'package:skilled_handyworkers_marketpleace/shared/components/constant.dar
 import 'package:skilled_handyworkers_marketpleace/shared/styles/colors.dart';
 import 'package:skilled_handyworkers_marketpleace/shared/styles/styles.dart';
 
-class ListOfOpenQuestionUser extends StatefulWidget {
+class ListOfOpenQuestionFavorit extends StatefulWidget {
   final List<Map<String, dynamic>> openQuestionPost;
 
 
-  const ListOfOpenQuestionUser({
+  const ListOfOpenQuestionFavorit({
     Key? key,
     required this.openQuestionPost,
 
   }) : super(key: key);
 
   @override
-  State<ListOfOpenQuestionUser> createState() => _ListOfOpenQuestionUserState();
+  State<ListOfOpenQuestionFavorit> createState() => _ListOfOpenQuestionFavoritState();
 }
 
-class _ListOfOpenQuestionUserState extends State<ListOfOpenQuestionUser> {
+class _ListOfOpenQuestionFavoritState extends State<ListOfOpenQuestionFavorit> {
   @override
   Widget build(BuildContext context) {
     void _showOptions(String id) {
@@ -50,7 +50,7 @@ class _ListOfOpenQuestionUserState extends State<ListOfOpenQuestionUser> {
                   title: Text("Edit", style: TextStyle(color: AppColor.bluColor)),
                   onTap: () {
                     Navigator.pop(context);
-                 navigateTo(widget: EditOpenQuestion(id:id),context: context);
+                    navigateTo(widget: EditOpenQuestion(id:id),context: context);
                   },
                 ),
               ],
@@ -62,26 +62,29 @@ class _ListOfOpenQuestionUserState extends State<ListOfOpenQuestionUser> {
 
     return BlocConsumer<CubitYourPost, YourPostStates>(
       listener: (context, state) {
-      if(state is DeletePostSucssessfullStateStates){
+        if(state is DeletePostSucssessfullStateStates){
 
-        showToast(text:"The post has been delete successfully \n", state: ToastStates.EROOR);
+          showToast(text:"The post has been delete successfully \n", state: ToastStates.EROOR);
 
-      }
-      else if(state is DeletePostErrorStateStates){
-        showToast(text:"The post hasn't been delete successfully \n", state: ToastStates.EROOR);
+        }
+        else if(state is DeletePostErrorStateStates){
+          showToast(text:"The post hasn't been delete successfully \n", state: ToastStates.EROOR);
 
-      }
+        }
 
       },
       builder: (context, state) {
         return ConditionalBuilder(
-            condition: state is !DeletePostLoadStateStates,
+          condition: (state is !DeletePostLoadStateStates
+
+
+          ),
           builder: (context) {
-            if (widget.openQuestionPost.isEmpty &&
-                (state is YourOpenQuestionPostSucssessfullStateStates || state is YourPostPostSucssessfullStateStates  ))
+            if (widget.openQuestionPost.isEmpty
+                )
             {
               return   Center(
-                child: Image.asset("assets/images/Illustrasi.png"),
+                child: Image.asset("assets/images/Illustrationn.png"),
               );
             } else {
               return Container(
@@ -102,7 +105,7 @@ class _ListOfOpenQuestionUserState extends State<ListOfOpenQuestionUser> {
                           }
                         },
                         onPressedForCommit: () {
- navigateTo(context: context, widget: CommitScreen(idPost: widget.openQuestionPost[index]['_id'], typePost: "openQuestion"));
+                          navigateTo(context: context, widget: CommitScreen(idPost: widget.openQuestionPost[index]['_id'], typePost: "openQuestion"));
                         },
                         onPressed: () {
                           _showOptions(widget.openQuestionPost[index]['_id']);
@@ -113,21 +116,14 @@ class _ListOfOpenQuestionUserState extends State<ListOfOpenQuestionUser> {
                             if(widget.openQuestionPost[index]['isSaved']){
                               CubitYourPost.get(context).unSavePost(widget.openQuestionPost[index]['_id']);
                               widget.openQuestionPost[index]['isSaved']=false;
-                              if(state is UnSaveErrorFavoritesDateState){
-                                widget.openQuestionPost[index]['isSaved']=true;
-                              }
                             }
-                            if(!widget.openQuestionPost[index]['isSaved']){
-                              CubitYourPost.get(context).savePost(widget.openQuestionPost[index]['_id']);
-                              widget.openQuestionPost[index]['isSaved']=true;
-                              if(state is SaveErrorFavoritesDateState){
-                                widget.openQuestionPost[index]['isSaved']=false;
-                              }
-                            }
+
                           });
+
                         },
-                        colorsFavorit:Colors.red,//
-                         // widget.openQuestionPost[index]['isSaved']?Colors.red:Colors.grey
+
+                        colorsFavorit:widget.openQuestionPost[index]['isSaved']?Colors.red:Colors.grey,
+                        //widget.openQuestionPost[index]['isSaved']?Colors.red:Colors.grey
                       ),
                       separatorBuilder: (context, index) => SizedBox(height: AppFontStyles.aboutMe,),
                       itemCount: widget.openQuestionPost.length),

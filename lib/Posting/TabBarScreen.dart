@@ -25,14 +25,18 @@ class TabBarPosting extends StatefulWidget
 
  class _TabBarPostingState extends State<TabBarPosting> {
 
-  bool clickPosting=false;
+  bool clickPosting=true;
   bool clickOpenQuestion=false;
   List<Map<String, dynamic>> post = [];
   List<Map<String, dynamic>> openQuestion = [];
 
 
 
-
+  @override
+  void initState() {
+    super.initState();
+      CubitYourPost.get(context).getPost();
+  }
 
 
   @override
@@ -85,7 +89,7 @@ class TabBarPosting extends StatefulWidget
                   children: [
                     Column(
                       children: [
-                        Container(width: double.infinity,height: 50,color: AppColor.backgroundColor,),
+                        Container(width: double.infinity,height: 40,color: AppColor.backgroundColor,),
                         Container(
                           padding: EdgeInsets.zero,
                           width: double.infinity,
@@ -124,12 +128,12 @@ class TabBarPosting extends StatefulWidget
                             },
                             child: ClipOval(
                               child:imageNetwork!.isNotEmpty?Image.network(api+imageNetwork!, fit: BoxFit.cover,
-                                height: 80,
-                                width: 80,): Image.asset(
+                                height: 90,
+                                width: 90,): Image.asset(
                                 imageCope!,
                                 fit: BoxFit.cover,
-                                height: 80,
-                                width: 80,
+                                height: 90,
+                                width: 90,
                               ),
                             ),
                           ),
@@ -147,27 +151,27 @@ class TabBarPosting extends StatefulWidget
                         ],
                       ),
                     ),
-                    Positioned(
-                      bottom:0,
-                      left: 0,
-                      right: 0,// Adjust this value to move the circle image vertically
-                      child:Padding(
-                        padding: const EdgeInsets.all(AppFontStyles.padding),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              email!.isEmpty?"":email!,
-                              style: TextStyle(
-                                fontSize: AppFontStyles.aboutMe,
-                                color: AppColor.fontColor,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
+                    // Positioned(
+                    //   bottom:0,
+                    //   left: 0,
+                    //   right: 0,// Adjust this value to move the circle image vertically
+                    //   child:Padding(
+                    //     padding: const EdgeInsets.all(AppFontStyles.padding),
+                    //     child: Row(
+                    //       crossAxisAlignment: CrossAxisAlignment.center,
+                    //       mainAxisAlignment: MainAxisAlignment.center,
+                    //       children: [
+                    //         Text(
+                    //           email!.isEmpty?"":email!,
+                    //           style: TextStyle(
+                    //             fontSize: AppFontStyles.aboutMe,
+                    //             color: AppColor.fontColor,
+                    //           ),
+                    //         ),
+                    //       ],
+                    //     ),
+                    //   ),
+                    // ),
                   ],
                 ),
 
@@ -234,8 +238,8 @@ class TabBarPosting extends StatefulWidget
                   ),
                 ),
 
-                if(!(clickOpenQuestion||clickPosting))
-                  Expanded(child: Center(child: Image.asset("assets/images/Illustrasi.png"))),
+                // if(!(clickOpenQuestion||clickPosting))
+                //   Expanded(child: Center(child: Image.asset("assets/images/Illustrasi.png"))),
                 if (clickPosting)
                   Expanded(
                     child: ConditionalBuilder(

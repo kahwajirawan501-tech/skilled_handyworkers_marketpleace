@@ -821,17 +821,17 @@ class _AddPostState extends State<AddPost> {
                         ),
                         ListTile(
                           leading: ClipOval(
-                            child: imageNetwork!=null?Image.network(api+imageNetwork!,fit: BoxFit.cover,
-                              height: 50,
-                              width: 50,):Image.asset(
+                            child: imageNetwork!.isNotEmpty?Image.network(api+imageNetwork!,fit: BoxFit.cover,
+                              height: 60,
+                              width: 60,):Image.asset(
                               imageCope!,
                               fit: BoxFit.cover,
-                              height: 50,
-                              width: 50,
+                              height: 60,
+                              width: 60,
                             ),
                           ),
                           title:  Text(
-                            name!=null?name!:"",
+                            name!.isNotEmpty?name!:"",
                             style: TextStyle(
                               fontSize: AppFontStyles.descriptionSplashScreenFontSize,
                               color: AppColor.bluColor,
@@ -839,7 +839,7 @@ class _AddPostState extends State<AddPost> {
                             ),
                           ),
                           subtitle:    Text(
-                            locationConst!=null?locationConst!:"",
+                            locationConst!.isNotEmpty?locationConst!:"",
                             style: TextStyle(
                               fontSize: AppFontStyles.descriptionLoginFontSize,
                               color: AppColor.fontColorDescription,

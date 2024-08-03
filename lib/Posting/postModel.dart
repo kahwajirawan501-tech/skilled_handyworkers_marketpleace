@@ -24,6 +24,7 @@ class PostModel extends StatefulWidget {
   final VoidCallback? onPressed;
   final bool deleteAndEdit;
   final String postText;
+  final Color colorsFavorit;
   const PostModel({
     Key? key,
     this.videoUrl,
@@ -36,7 +37,7 @@ class PostModel extends StatefulWidget {
     required this.numberOfCommit,
     this.onPressedForFavorit,
     this.onPressed,
-    required this.deleteAndEdit, required this.postText,
+    required this.deleteAndEdit, required this.postText, required this.colorsFavorit,
   }) : super(key: key);
 
   @override
@@ -339,7 +340,7 @@ class _PostModelState extends State<PostModel> {
                 Row(
                   children: [
                     IconButton(
-                      icon: Icon(Icons.favorite, color: Colors.red),
+                      icon: Icon(Icons.favorite, color: widget.colorsFavorit),
                       onPressed: widget.onPressedForFavorit,
                     ),
                   ],

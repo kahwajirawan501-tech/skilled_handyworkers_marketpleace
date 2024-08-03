@@ -13,19 +13,19 @@ import 'package:skilled_handyworkers_marketpleace/shared/components/constant.dar
 import 'package:skilled_handyworkers_marketpleace/shared/styles/colors.dart';
 import 'package:skilled_handyworkers_marketpleace/shared/styles/styles.dart';
 
-class ListOfPostingUser extends StatefulWidget {
+class ListOfPostingFavorit extends StatefulWidget {
   final List<Map<String, dynamic>> post;
 
-  const ListOfPostingUser({
+  const ListOfPostingFavorit({
     Key? key,
     required this.post,
   }) : super(key: key);
 
   @override
-  State<ListOfPostingUser> createState() => _ListOfPostingUserState();
+  State<ListOfPostingFavorit> createState() => _ListOfPostingFavoritState();
 }
 
-class _ListOfPostingUserState extends State<ListOfPostingUser> {
+class _ListOfPostingFavoritState extends State<ListOfPostingFavorit> {
   @override
   Widget build(BuildContext context) {
     void _showOptions(String id) {
@@ -74,12 +74,14 @@ class _ListOfPostingUserState extends State<ListOfPostingUser> {
         }
       },
       builder: (context, state) {
-      return ConditionalBuilder(
-          condition: state is !DeletePostLoadStateStates,
+        return ConditionalBuilder(
+          condition: (state is !DeletePostLoadStateStates
+
+       ),
           builder: (context) {
-            if (widget.post.isEmpty && ( state is YourPostPostSucssessfullStateStates ||state is YourOpenQuestionPostSucssessfullStateStates)) {
+            if (widget.post.isEmpty ) {
               return  Center(
-                child:  Image.asset("assets/images/Illustrasi.png"),
+                child: Image.asset("assets/images/Illustrationn.png"),
               );
             } else {
               return Container(
@@ -87,7 +89,9 @@ class _ListOfPostingUserState extends State<ListOfPostingUser> {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: AppFontStyles.aboutMe),
                   child: ListView.separated(
+
                     itemBuilder: (context, index) => PostModel(
+
                       postText: widget.post[index]['text'],
                       imagePaths: widget.post[index]['images'],
                       imagePath: widget.post[index]['user']['profileImage'] ?? imageCope,
@@ -96,22 +100,23 @@ class _ListOfPostingUserState extends State<ListOfPostingUser> {
                       numberOfCommit: "",
                       time: widget.post[index]['publishedAt'],
                       onPressedForCommit: () {
-                      navigateTo(context: context, widget: CommitScreen(idPost: widget.post[index]['_id'], typePost: "post"));
+                        navigateTo(context: context, widget: CommitScreen(idPost: widget.post[index]['_id'], typePost: "post"));
                       },
                       onPressedForFavorit: () {
                         setState(() {
-                          if(widget.post[index]['isFavorite']){
+
+                          if(widget.post[index]['isSaved']){
                             CubitYourPost.get(context).unSavePost(widget.post[index]['_id']);
-                            widget.post[index]['isFavorite']=false;
+                            widget.post[index]['isSaved']=false;
                           }
-                          if(!widget.post[index]['isFavorite']){
-                            CubitYourPost.get(context).savePost(widget.post[index]['_id']);
-                            widget.post[index]['isFavorite']=true;
-                          }
+
                         });
+
                       },
-                      colorsFavorit:widget.post[index]['isFavorite']?Colors.red:Colors.grey,//
-                      // widget.post[index]['isFavorite']?Colors.red:Colors.grey
+
+                      colorsFavorit:widget.post[index]['isSaved']?Colors.red:Colors.grey,
+//widget.post[index]['isSaved']?Colors.red:Colors.grey
+
                       onTapImage: () {
                         if(widget.post[index]['user']['_id'] != id) {
                           navigateTo(context: context,widget: Information(idCustomer: widget.post[index]['user']['_id']));

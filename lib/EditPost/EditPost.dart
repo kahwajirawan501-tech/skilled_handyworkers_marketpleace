@@ -1041,6 +1041,7 @@ class _EditPostState extends State<EditPost> {
           video.clear();
           Navigator.pop(context);
           CubitYourPost.get(context).getPost();
+          CubitYourPost.get(context).getFavorites();
         }
         else if(state is EditPostPostErrorStateStates){
           showToast(text:"The post hasn't been update successfully", state: ToastStates.EROOR);

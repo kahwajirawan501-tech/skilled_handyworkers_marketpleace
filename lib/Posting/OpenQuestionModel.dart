@@ -16,8 +16,9 @@ class OpenQuestionModel extends StatefulWidget {
   final String openQuestion;
   final VoidCallback? onPressed;
   final bool deleteAndEdit;
+  final Color colorsFavorit;
   /////////////////////////////////////
-  const OpenQuestionModel({Key? key, this.onTapImage, required this.imagePath, required this.name, required this.time, this.onPressedForCommit, this.onPressedForFavorit, required this.numberOfCommit, required this.openQuestion, this.onPressed, required this.deleteAndEdit}) : super(key: key);
+  const OpenQuestionModel({Key? key, this.onTapImage, required this.imagePath, required this.name, required this.time, this.onPressedForCommit, this.onPressedForFavorit, required this.numberOfCommit, required this.openQuestion, this.onPressed, required this.deleteAndEdit, required this.colorsFavorit}) : super(key: key);
 
   @override
   State<OpenQuestionModel> createState() => _OpenQuestionModelState();
@@ -108,7 +109,7 @@ class _OpenQuestionModelState extends State<OpenQuestionModel> {
                 Row(
                   children: [
                     IconButton(
-                      icon:  Icon(Icons.favorite, color:Colors.red),
+                      icon:  Icon(Icons.favorite, color:widget.colorsFavorit),
                       onPressed:widget.onPressedForFavorit,
                     ),
                   ],

@@ -20,6 +20,13 @@ class ChatList extends StatefulWidget {
 }
 
 class _ChatListState extends State<ChatList> {
+
+  @override
+  void initState() {
+    super.initState();
+    ChatCubit.get(context).getUsersMessage();
+    //ChatCubit.get(context).initializeSocket();
+  }
   TextEditingController textEditingController=TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -94,13 +101,17 @@ class _ChatListState extends State<ChatList> {
                       style:
                       TextStyle(color: Colors.grey, fontSize: 16),
                     ),
-                  ):ListView.separated(
+                  )
+                      :ListView.separated(
                       physics:BouncingScrollPhysics(),
                       itemBuilder: (context, index) =>GestureDetector(
                           onTap: () {
                             textEditingController.text = users[index]['fullName'];
                             ChatCubit.get(context).searchUsers(users[index]['fullName']);
-                            navigateTo(widget: Message(receiverId:" 0"),context: context);
+                            navigateTo(widget: MessagePerson(receiverId:users[index]['id'],
+                              fullName: users[index]['fullName'],
+                              pathImage: users[index]['profileImage'],
+                            ),context: context);
                           },
                           child: ListChat(context,users[index])) ,
                       separatorBuilder: (context, index) =>SizedBox(height:AppFontStyles.aboutMe) ,
@@ -144,7 +155,7 @@ Widget ListChat(context,var user)=>Column(
         ),
       ),
       subtitle:    Text(
-        user['text'],
+        user['lastMessage'],
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
         style: TextStyle(
@@ -156,7 +167,7 @@ Widget ListChat(context,var user)=>Column(
       ),
 
       trailing: Text(
-        user['createdAt'],
+        user['lastMessageTime'],
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
         style: TextStyle(

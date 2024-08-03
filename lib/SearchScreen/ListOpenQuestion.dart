@@ -13,7 +13,7 @@ import 'package:skilled_handyworkers_marketpleace/shared/components/constant.dar
 import 'package:skilled_handyworkers_marketpleace/shared/styles/colors.dart';
 import 'package:skilled_handyworkers_marketpleace/shared/styles/styles.dart';
 
-class ListOfOpenQuestion extends StatelessWidget {
+class ListOfOpenQuestion extends StatefulWidget {
   final List<Map<String, dynamic>> openQuestionPost;
   final bool serviceAndLocation;
   final bool service;
@@ -33,6 +33,11 @@ class ListOfOpenQuestion extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<ListOfOpenQuestion> createState() => _ListOfOpenQuestionState();
+}
+
+class _ListOfOpenQuestionState extends State<ListOfOpenQuestion> {
+  @override
   Widget build(BuildContext context) {
     return BlocConsumer<CubitSearch, SearchStates>(
       listener: (context, state) {
@@ -40,11 +45,11 @@ class ListOfOpenQuestion extends StatelessWidget {
             state is SearchPostOnlyServiceSucssessfullStateStatesNext ||
             state is SearchPostSucssessfullStateStatesNext) {
           if (state is SearchPostOnlyLocationSucssessfullStateStatesNext) {
-            openQuestionPost.addAll(CubitSearch.get(context).openQuestionPostSearchLocation);
+            widget.openQuestionPost.addAll(CubitSearch.get(context).openQuestionPostSearchLocation);
           } else if (state is SearchPostOnlyServiceSucssessfullStateStatesNext) {
-            openQuestionPost.addAll(CubitSearch.get(context).openQuestionPostSearchService);
+            widget.openQuestionPost.addAll(CubitSearch.get(context).openQuestionPostSearchService);
           } else if (state is SearchPostSucssessfullStateStatesNext) {
-            openQuestionPost.addAll(CubitSearch.get(context).openQuestionPostSearch);
+            widget.openQuestionPost.addAll(CubitSearch.get(context).openQuestionPostSearch);
           }
         }
       },
@@ -70,27 +75,27 @@ class ListOfOpenQuestion extends StatelessWidget {
                 if (isEndOfList &&
                     scrollInfo is ScrollEndNotification &&
                     scrollInfo.metrics.extentAfter == 0) {
-                  if (serviceAndLocation) {
+                  if (widget.serviceAndLocation) {
                     CubitSearch.get(context).getPostForLocationAndServiceNext(
-                        textControllerService.text,
-                        textControllerLocation.text,
+                        widget.textControllerService.text,
+                        widget.textControllerLocation.text,
                         CubitSearch.get(context).currentPage);
-                  } else if (service) {
+                  } else if (widget.service) {
                     CubitSearch.get(context).getPostForServiceNext(
-                        textControllerService.text,
+                        widget.textControllerService.text,
                         CubitSearch.get(context).currentPage);
-                  } else if (location) {
+                  } else if (widget.location) {
                     CubitSearch.get(context).getPostForLocationNext(
-                        textControllerLocation.text,
+                        widget.textControllerLocation.text,
                         CubitSearch.get(context).currentPage);
                   }
                 }
                 return false;
               },
               child: ListView.builder(
-                itemCount: openQuestionPost.length + (isEndOfList ? 1 : 0),
+                itemCount: widget.openQuestionPost.length + (isEndOfList ? 1 : 0),
                 itemBuilder: (context, index) {
-                  if (index == openQuestionPost.length) {
+                  if (index == widget.openQuestionPost.length) {
                     return Center(
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -101,20 +106,33 @@ class ListOfOpenQuestion extends StatelessWidget {
                     );
                   }
                   return OpenQuestionModel(
-                    time: openQuestionPost[index]['publishedAt'],
-                    numberOfCommit: "78",
-                    name: openQuestionPost[index]['user']['fullName'],
-                    imagePath: openQuestionPost[index]['user']['profileImage'] ?? "assets/images/aboutmy.png",
-                    openQuestion: openQuestionPost[index]['text'],
+                    time: widget.openQuestionPost[index]['publishedAt'],
+                    numberOfCommit: "",
+                    name: widget.openQuestionPost[index]['user']['fullName'],
+                    imagePath: widget.openQuestionPost[index]['user']['profileImage'] ?? "assets/images/aboutmy.png",
+                    openQuestion: widget.openQuestionPost[index]['text'],
                     onTapImage: () {
-                      if( openQuestionPost[index]['user']['_id'] != id) {
-                        navigateTo(context: context,widget: Information(idCustomer: openQuestionPost[index]['user']['_id']));
+                      if( widget.openQuestionPost[index]['user']['_id'] != id) {
+                        navigateTo(context: context,widget: Information(idCustomer: widget.openQuestionPost[index]['user']['_id']));
                       }
                     },
                     onPressedForCommit: () {
-                      navigateTo(context: context, widget: CommitScreen(idPost:openQuestionPost[index]['_id'], typePost: "openQuestion"));
+                      navigateTo(context: context, widget: CommitScreen(idPost:widget.openQuestionPost[index]['_id'], typePost: "openQuestion"));
                     },
-                    onPressedForFavorit: () {},
+                    onPressedForFavorit: () {
+                      setState(() {
+                        if(widget.openQuestionPost[index]['isSaved']){
+                          CubitYourPost.get(context).unSavePost(widget.openQuestionPost[index]['_id']);
+                          widget.openQuestionPost[index]['isSaved']=false;
+                        }
+                        if(!widget.openQuestionPost[index]['isSaved']){
+                          CubitYourPost.get(context).savePost(widget.openQuestionPost[index]['_id']);
+                          widget.openQuestionPost[index]['isSaved']=true;
+                        }
+                      });
+                    },
+                    colorsFavorit: Colors.red,//
+                    // widget.openQuestionPost[index]['isSaved']?Colors.red:Colors.grey
                     deleteAndEdit: false, // Decide whether to show delete and edit buttons
                     onPressed: () {},
                   );

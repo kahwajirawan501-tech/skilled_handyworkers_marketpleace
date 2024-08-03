@@ -13,7 +13,7 @@ import 'package:skilled_handyworkers_marketpleace/shared/components/constant.dar
 import 'package:skilled_handyworkers_marketpleace/shared/styles/colors.dart';
 import 'package:skilled_handyworkers_marketpleace/shared/styles/styles.dart';
 
-class ListOfPosting extends StatelessWidget {
+class ListOfPosting extends StatefulWidget {
   final List<Map<String, dynamic>> post;
 
   final bool serviceAndLocation;
@@ -29,6 +29,11 @@ class ListOfPosting extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<ListOfPosting> createState() => _ListOfPostingState();
+}
+
+class _ListOfPostingState extends State<ListOfPosting> {
+  @override
   Widget build(BuildContext context) {
 
 
@@ -39,11 +44,11 @@ class ListOfPosting extends StatelessWidget {
             state is SearchPostOnlyServiceSucssessfullStateStatesNext ||
             state is SearchPostSucssessfullStateStatesNext) {
           if (state is SearchPostOnlyLocationSucssessfullStateStatesNext) {
-            post.addAll(CubitSearch.get(context).postSearchLocation);
+            widget.post.addAll(CubitSearch.get(context).postSearchLocation);
           } else if (state is SearchPostOnlyServiceSucssessfullStateStatesNext) {
-            post.addAll(CubitSearch.get(context).postSearchService);
+            widget.post.addAll(CubitSearch.get(context).postSearchService);
           } else if (state is SearchPostSucssessfullStateStatesNext) {
-            post.addAll(CubitSearch.get(context).postSearch);
+            widget.post.addAll(CubitSearch.get(context).postSearch);
           }
         }
       },
@@ -70,27 +75,27 @@ class ListOfPosting extends StatelessWidget {
                 if (isEndOfList &&
                     scrollInfo is ScrollEndNotification &&
                     scrollInfo.metrics.extentAfter == 0) {
-                  if (serviceAndLocation) {
+                  if (widget.serviceAndLocation) {
                     CubitSearch.get(context).getPostForLocationAndServiceNext(
-                        textControllerService.text,
-                        textControllerLocation.text,
+                        widget.textControllerService.text,
+                        widget.textControllerLocation.text,
                         CubitSearch.get(context).currentPage);
-                  } else if (service) {
+                  } else if (widget.service) {
                     CubitSearch.get(context).getPostForServiceNext(
-                        textControllerService.text,
+                        widget.textControllerService.text,
                         CubitSearch.get(context).currentPage);
-                  } else if (location) {
+                  } else if (widget.location) {
                     CubitSearch.get(context).getPostForLocationNext(
-                        textControllerLocation.text,
+                        widget.textControllerLocation.text,
                         CubitSearch.get(context).currentPage);
                   }
                 }
                 return false;
               },
               child: ListView.builder(
-                itemCount: post.length+ (isEndOfList ? 1 : 0),
+                itemCount: widget.post.length+ (isEndOfList ? 1 : 0),
                 itemBuilder: (context, index) {
-                  if (index == post.length) {
+                  if (index == widget.post.length) {
                     return Center(
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -102,24 +107,37 @@ class ListOfPosting extends StatelessWidget {
                   }
 
                   return  PostModel(
-                    imagePaths: post[index]['images'],
-                    postText: post[index]['text'],
-                    imagePath: post[index]['user']['profileImage'] == "assets/images/aboutmy.png"
+                    imagePaths: widget.post[index]['images'],
+                    postText: widget.post[index]['text'],
+                    imagePath: widget.post[index]['user']['profileImage'] == "assets/images/aboutmy.png"
                         ? "assets/images/aboutmy.png"
-                        : post[index]['user']['profileImage'],
-                    name: post[index]['user']['fullName'],
-                    numberOfCommit: "67",
-                    time: post[index]['publishedAt'],
+                        : widget.post[index]['user']['profileImage'],
+                    name: widget.post[index]['user']['fullName'],
+                    numberOfCommit: "",
+                    time: widget.post[index]['publishedAt'],
                     onPressedForCommit: () {
-                      navigateTo(context: context, widget: CommitScreen(idPost: post[index]['_id'], typePost: "post"));
+                      navigateTo(context: context, widget: CommitScreen(idPost: widget.post[index]['_id'], typePost: "post"));
                     },
-                    onPressedForFavorit: () {},
+                    onPressedForFavorit: () {
+                      setState(() {
+                        if(widget.post[index]['isSaved']){
+                          CubitYourPost.get(context).unSavePost(widget.post[index]['_id']);
+                          widget.post[index]['isSaved']=false;
+                        }
+                        if(!widget.post[index]['isSaved']){
+                          CubitYourPost.get(context).savePost(widget.post[index]['_id']);
+                          widget.post[index]['isSaved']=true;
+                        }
+                      });
+                    },
+                    colorsFavorit:widget.post[index]['isSaved']?Colors.red:Colors.grey,//
+                    // widget.post[index]['isSaved']?Colors.red:Colors.grey
                     onTapImage: () {
-                      if(post[index]['user']['_id'] != id) {
-                        navigateTo(context: context,widget: Information(idCustomer:post[index]['user']['_id']));
+                      if(widget.post[index]['user']['_id'] != id) {
+                        navigateTo(context: context,widget: Information(idCustomer:widget.post[index]['user']['_id']));
                       }
                     },
-                    videoUrl: post[index]['videos'],
+                    videoUrl: widget.post[index]['videos'],
                     onPressed: () {
                     },
                     deleteAndEdit:  false, // post[index]['postAuthor']['id'] == id ? true : false

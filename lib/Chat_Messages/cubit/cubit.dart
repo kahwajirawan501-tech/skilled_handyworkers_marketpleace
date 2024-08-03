@@ -1,5 +1,11 @@
+import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:intl/intl.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:skilled_handyworkers_marketpleace/main.dart';
 import 'package:skilled_handyworkers_marketpleace/shared/components/constant.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:skilled_handyworkers_marketpleace/Chat_Messages/cubit/states.dart';
@@ -11,96 +17,169 @@ class ChatCubit extends Cubit<MessageStates> {
   }
 
   static ChatCubit get(context) => BlocProvider.of(context);
-
+//
   List<Map<String, dynamic>> messages = [
-    { 'id':"889",
-      'userId': id,
-      'text': "كيف حالك ",
-      'createdAt': "8:08",
-    },
-    {
-      'id':"889",
-      'userId': "88h",
-      'text': "الحمد لله انا بخير ",
-      'createdAt': "9:08",
-    },
+
   ];
   late IO.Socket _socket;
-
+ late bool online;
   void initializeSocket() {
-    _socket = IO.io('http://your_backend_url', <String, dynamic>{
+    _socket = IO.io('http://192.168.43.142:3000', <String, dynamic>{
       'transports': ['websocket'],
       'autoConnect': false,
     });
 
     _socket.connect();
+
     _socket.on('connect', (_) {
       print('Connected to socket server');
+      online=true;
     });
+
     _socket.on('disconnect', (_) {
       print('Disconnected from socket server');
+      online=false;
     });
-    _socket.on('message', (data) {
-      messages.add(data);
+
+    _socket.on('newMessage', (data) {
+      //messages.add(data);
+      showNotification("New Message", data['message']);
       emit(RecMessageSucssessfullStateStates(messages));
     });
+
+    _socket.on('connect_error', (error) {
+      print('Connection Error: $error');
+      online=false;
+    });
+
+    _socket.on('error', (error) {
+      print('Socket Error: $error');
+    });
+  }
+  void sendMessage(String content, String receiverId) {
+    emit(AddMessageLoadStateStates());
+    final newMessage = {
+      '_id':"",
+      'sender_id':id,
+      'receiver_id': receiverId,
+      'message': content,
+      'createdAt':DateFormat('h:mm:ss a').format(DateTime.now())
+    };
+    messages.add(newMessage);
+
+    // إرسال الرسالة عبر API كنسخة احتياطية
+    DioHelper.postData(url: '/chat/send', data: {
+      'receiver_id': receiverId,
+      'message': content,
+    },token: accessToken).then((value) {
+      if(value.data!=null){
+        newMessage['_id']=value.data['_id'];
+        newMessage['createdAt']=value.data['createdAt'];
+      }
+
+      // إرسال الرسالة عبر WebSocket
+      _socket.emit('sendMessage', newMessage);
+
+      emit(AddMessageSucssessfullStateStates(messages));
+
+      // مراقبة تأكيد الرسالة من WebSocket
+      _socket.on('sendMessage', (data) {
+        if (data['status'] == 'success') {
+          // emit(AddMessageSucssessfullStateStates(messages));
+        } else {
+          // print("object");
+          // print(data['status']);
+          // messages.remove(newMessage); // إزالة الرسالة من القائمة المحلية
+          //  emit(AddMessageErrorStateStates(data['error']));
+        }
+      });
+
+      // التعامل مع أخطاء WebSocket
+      _socket.on('error', (error) {
+        print("error.toString()");
+        print(error.toString());
+        //    emit(AddMessageErrorStateStates(error));
+      });
+      print("Message sent successfully via API");
+    }).catchError((error) {
+      print("Failed to send message via API: ${error.toString()}");
+    });
+
+
   }
 
   void getMessages(String receiverId) {
     emit(MessageLoadStateStates());
-    DioHelper.getData(url: 'your_api_endpoint?receiverId=$receiverId').then((value) {
+    print("MessageLoadStateStates");
+    DioHelper.getData(url: '/chat/conversation?receiver_id=$receiverId',token: accessToken).then((value) {
       List<Map<String, dynamic>> data = List<Map<String, dynamic>>.from(value.data);
-      data.forEach((message) {
-        message['createdAt'] = _formatTime(message['createdAt']);
-      });
+      // data.forEach((message) {
+      // //  message['createdAt'] = _formatTime(message['createdAt']);
+      // });
       messages = data;
+      print(value.data);
+      print("MessageSucssessfullStateStates");
       emit(MessageSucssessfullStateStates(messages));
     }).catchError((error) {
       int statusCode = error.response?.statusCode ?? -1;
       emit(MessageErrorStateStates(statusCode));
+      print("MessageErrorStateStates");
+
     });
   }
 
-  void sendMessage(String content, String receiverId) {
-    emit(AddMessageLoadStateStates());
-    final newMessage = {
-      'userId': id,
-      'receiverId': receiverId,
-      'text': content,
-      'createdAt': DateTime.now().toIso8601String(),
-    };
 
-    // إضافة الرسالة إلى القائمة محلياً حتى قبل إرسالها إلى الـ Backend
-    messages.add(newMessage);
-
-    // إرسال الرسالة عبر الـ WebSocket
-    _socket.emit('message', newMessage);
-
-    // مراقبة تأكيد الرسالة من الـ WebSocket
-    _socket.on('messageSent', (data) {
-      if (data['status'] == 'success') {
-        // الرسالة أرسلت بنجاح
-        emit(AddMessageSucssessfullStateStates(messages));
-      } else {
-        // حدث خطأ أثناء إرسال الرسالة
-       // messages.remove(newMessage); // إزالة الرسالة من القائمة المحلية
-        emit(AddMessageErrorStateStates(data['error'])); // إظهار رسالة الخطأ
-      }
-    });
-    // التعامل مع الأخطاء الخاصة بالـ WebSocket
-    _socket.on('error', (error) {
-      // حدث خطأ في الاتصال
-      //messages.remove(newMessage); // إزالة الرسالة من القائمة المحلية
-      emit(AddMessageErrorStateStates(error)); // إظهار رسالة الخطأ
+  void editMessage(int messageIndex, String content) {
+    final messageId = messages[messageIndex]['_id'];
+    emit(EditMessageLoadStateStates());
+    DioHelper.putData(url: '/chat/$messageId', data: {
+      'message': content,
+    }).then((_) {
+      messages[messageIndex]['message'] = content;
+      // final editPayload = {
+      //   'messageId': messageId,
+      //   'content': content,
+      // };
+      //
+      // _socket.emit('editMessage', editPayload);
+      //
+      // _socket.on('messageEdited', (updatedMessage) {
+      //   if (updatedMessage['_id'] == messageId) {
+      //     messages[messageIndex]['message'] = content;
+      //     emit(EditMessageSucssessfullStateStates(messages));
+      //   }
+      // });
+      //
+      // _socket.on('error', (error) {
+      //   int statusCode = error['statusCode'] ?? -1;
+      //   emit(EditMessageErrorStateStates(statusCode));
+      // });
+      emit(EditMessageSucssessfullStateStates(messages));
+    }).catchError((error) {
+      int statusCode = error.response?.statusCode ?? -1;
+      emit(EditMessageErrorStateStates(statusCode));
     });
   }
-
 
   void deleteMessage(int messageIndex) {
-    final messageId = messages[messageIndex]['id'];
+    final messageId = messages[messageIndex]['_id'];
     emit(DeleteMessageLoadStateStates());
-    DioHelper.deletePost(url: 'your_api_endpoint/$messageId').then((_) {
+    DioHelper.deletePost(url: '/chat/$messageId').then((_) {
       messages.removeAt(messageIndex);
+
+      // _socket.emit('deleteMessage', {'messageId': messageId});
+      //
+      // _socket.on('messageDeleted', (deletedMessageId) {
+      //   if (deletedMessageId == messageId) {
+      //     messages.removeAt(messageIndex);
+      //     emit(DeleteMessageSucssessfullStateStates(messages));
+      //   }
+      // });
+
+      // _socket.on('error', (error) {
+      //   int statusCode = error['statusCode'] ?? -1;
+      //   emit(DeleteMessageErrorStateStates(statusCode));
+      // });
       emit(DeleteMessageSucssessfullStateStates(messages));
     }).catchError((error) {
       int statusCode = error.response?.statusCode ?? -1;
@@ -108,19 +187,6 @@ class ChatCubit extends Cubit<MessageStates> {
     });
   }
 
-  void editMessage(int messageIndex, String content) {
-    final messageId = messages[messageIndex]['id'];
-    emit(EditMessageLoadStateStates());
-    DioHelper.putData(url: 'your_api_endpoint/$messageId', data: {
-      'text': content,
-    }).then((_) {
-      messages[messageIndex]['text'] = content;
-      emit(EditMessageSucssessfullStateStates(messages));
-    }).catchError((error) {
-      int statusCode = error.response?.statusCode ?? -1;
-      emit(EditMessageErrorStateStates(statusCode));
-    });
-  }
 
   String _formatTime(String postTimeStr) {
     DateTime postTime = DateFormat("yyyy-MM-ddTHH:mm:ssZ", 'en_US').parse(postTimeStr);
@@ -140,6 +206,29 @@ class ChatCubit extends Cubit<MessageStates> {
     }
   }
 
+  Future<void> showNotification(String title, String body) async {
+    var androidPlatformChannelSpecifics = AndroidNotificationDetails(
+      'unique_channel_id',
+      'Message Notifications',
+      importance: Importance.max,
+      priority: Priority.high,
+      ticker: 'ticker',
+    );
+    var platformChannelSpecifics = NotificationDetails(
+        android: androidPlatformChannelSpecifics
+       );
+    await flutterLocalNotificationsPlugin.show(
+      0,
+      title,
+      body,
+      platformChannelSpecifics,
+      payload: 'item x',
+    );
+  }
+
+
+
+
   @override
   Future<void> close() {
     _socket.dispose();
@@ -150,20 +239,7 @@ class ChatCubit extends Cubit<MessageStates> {
 
 
   List<Map<String, dynamic>>users = [
-    {
-      'id': "",
-      'fullName': "Rawan",
-      'profileImage': imageNetwork,
-      'text': "كيف حالك ",
-      'createdAt':"8:00",
-    },
-    {
-      'id': "",
-      'fullName': "Roaa",
-      'profileImage': imageNetwork,
-      'text': "لحمد لله  ",
-      'createdAt':"9:00",
-    }
+
   ];
 
   List<Map<String, dynamic>> filteredUsers = [];
@@ -182,14 +258,22 @@ class ChatCubit extends Cubit<MessageStates> {
   void getUsersMessage() {
     emit(GetUserMessageLoadStateStates());
     print("GetUserMessageLoadStateStates");
-    DioHelper.getData(
-      url: '',
+    DioHelper.getData2(
+      url:'/chat/chatted-persons',
+      token:accessToken
     ).then((value) {
+      print(value.data);
+
       users=List<Map<String, dynamic>>.from(value.data);
       emit(GetUserMessageSucssessfullStateStates());
+      print("GetUserMessageSucssessfullStateStates");
     }).catchError((error) {
-      int statusCode = error.response?.statusCode ?? -1;
-      emit(GetUserMessageErrorStateStates(statusCode));
+      // int statusCode = error.response?.statusCode ?? -1;
+      print(error.toString());
+    //  emit(GetUserMessageErrorStateStates(statusCode));
+
+      print("GetUserMessageErrorStateStates");
+
     });
   }
 }

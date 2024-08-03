@@ -2,6 +2,8 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:skilled_handyworkers_marketpleace/Chat_Messages/Message.dart';
 import 'package:skilled_handyworkers_marketpleace/InformationCustomerOne/seeMore.dart';
 import 'package:skilled_handyworkers_marketpleace/Posting/ListOfPostForUser.dart';
 import 'package:skilled_handyworkers_marketpleace/Posting/ListOpenQuestionForUser.dart';
@@ -142,12 +144,12 @@ class _InformationState extends State<Information> {
                               },
                               child: ClipOval(
                                 child:CubitYourPost.get(context).information['profileImage'].isNotEmpty?Image.network(api+CubitYourPost.get(context).information['profileImage'], fit: BoxFit.cover,
-                                  height: 80,
-                                  width: 80,): Image.asset(
+                                  height: 90,
+                                  width: 90,): Image.asset(
                                   imageCope!,
                                   fit: BoxFit.cover,
-                                  height: 80,
-                                  width: 80,
+                                  height: 90,
+                                  width: 90,
                                 ),
                               ),
                             ),
@@ -165,27 +167,28 @@ class _InformationState extends State<Information> {
                           ],
                         ),
                       ),
-                      // Positioned(
-                      //   bottom:0,
-                      //   left: 0,
-                      //   right: 0,// Adjust this value to move the circle image vertically
-                      //   child:Padding(
-                      //     padding: const EdgeInsets.all(AppFontStyles.padding),
-                      //     child: Row(
-                      //       crossAxisAlignment: CrossAxisAlignment.center,
-                      //       mainAxisAlignment: MainAxisAlignment.center,
-                      //       children: [
-                      //         Text(
-                      //           CubitYourPost.get(context).information['email'].isEmpty?"":CubitYourPost.get(context).information['email'],
-                      //           style: TextStyle(
-                      //             fontSize: AppFontStyles.aboutMe,
-                      //             color: AppColor.fontColor,
-                      //           ),
-                      //         ),
-                      //       ],
-                      //     ),
-                      //   ),
-                      // ),
+                      Positioned(
+                        bottom:0,
+
+                        right: 0,// Adjust this value to move the circle image vertically
+                        child:Padding(
+                          padding: const EdgeInsets.all(AppFontStyles.padding),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                            IconButton(
+                                onPressed: (){
+                                  navigateTo(context: context,widget:
+                                  MessagePerson(receiverId:CubitYourPost.get(context).information['_id'],
+                                    fullName:  CubitYourPost.get(context).information['fullName'],
+                                     pathImage: CubitYourPost.get(context).information['profileImage']
+                                  ));
+                                }, icon: Icon(CupertinoIcons.bubble_left))
+                            ],
+                          ),
+                        ),
+                      ),
                     ],
                   ),
 

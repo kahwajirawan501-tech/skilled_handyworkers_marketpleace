@@ -85,3 +85,49 @@ class GetInformationErrorStateStates extends YourPostStates {
   final int stateCode;
   GetInformationErrorStateStates(this.stateCode);
 }
+/////////////////////////////////////////////////////////////
+class SuccessChangeFavoritesDateState extends YourPostStates{
+
+
+}
+class ErrorChangeFavoritesDateState extends YourPostStates{
+  final int statusCode;
+
+  ErrorChangeFavoritesDateState(this.statusCode);
+}
+class ChangeFavoritesDateState extends YourPostStates{}
+
+
+class SuccessGetFavoritesDateState extends YourPostStates{}
+class LoadingGetFavoritesDateState extends YourPostStates{}
+class ErrorGetFavoritesDateState extends YourPostStates{
+  final int statusCode;
+
+  ErrorGetFavoritesDateState(this.statusCode);
+}
+
+
+class SuccessGetPostDateState extends YourPostStates{}
+class LoadingGetPostDateState extends YourPostStates{}
+class ErrorGetPostDateState extends YourPostStates{
+  final int statusCode;
+
+  ErrorGetPostDateState(this.statusCode);
+}
+
+
+class SaveSuccessFavoritesDateState extends YourPostStates{}
+class SaveLoadingFavoritesDateState extends YourPostStates{}
+class SaveErrorFavoritesDateState extends YourPostStates{
+  final int statusCode;
+
+  SaveErrorFavoritesDateState(this.statusCode);
+}
+
+class UnSaveSuccessFavoritesDateState extends YourPostStates{}
+class UnSaveLoadingFavoritesDateState extends YourPostStates{}
+class UnSaveErrorFavoritesDateState extends YourPostStates{
+  final int statusCode;
+
+  UnSaveErrorFavoritesDateState(this.statusCode);
+}

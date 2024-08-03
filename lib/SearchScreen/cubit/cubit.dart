@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:skilled_handyworkers_marketpleace/SearchScreen/cubit/states.dart';
 import 'package:skilled_handyworkers_marketpleace/shared/network/remote/dio_helper.dart';
 
@@ -52,8 +53,12 @@ class CubitSearch extends Cubit<SearchStates> {
       final List<Map<String, dynamic>> fetchedData = List<Map<String, dynamic>>.from(value.data);
       for (var post in fetchedData) {
         if (post['type'] == 'post') {
+
+       //   post['publishedAt']=formatFacebookTime(post['publishedAt']);
           postSearch.add(post);
         } else if (post['type'] == 'open_question') {
+         // post['publishedAt']=formatFacebookTime(post['publishedAt']);
+
           openQuestionPostSearch.add(post);
         }
       }
@@ -78,8 +83,12 @@ class CubitSearch extends Cubit<SearchStates> {
       final List<Map<String, dynamic>> fetchedData = List<Map<String, dynamic>>.from(value.data);
       for (var post in fetchedData) {
         if (post['type'] == 'post') {
+        //  post['publishedAt']=formatFacebookTime(post['publishedAt']);
+
           postSearchLocation.add(post);
         } else if (post['type'] == 'open_question') {
+       //   post['publishedAt']=formatFacebookTime(post['publishedAt']);
+
           openQuestionPostSearchLocation.add(post);
         }
       }
@@ -105,8 +114,12 @@ class CubitSearch extends Cubit<SearchStates> {
       final List<Map<String, dynamic>> fetchedData = List<Map<String, dynamic>>.from(value.data);
       for (var post in fetchedData) {
         if (post['type'] == 'post') {
+        //  post['publishedAt']=formatFacebookTime(post['publishedAt']);
+
           postSearchService.add(post);
         } else if (post['type'] == 'open_question') {
+      //    post['publishedAt']=formatFacebookTime(post['publishedAt']);
+
           openQuestionPostSearchService.add(post);
         }
       }
@@ -160,6 +173,66 @@ class CubitSearch extends Cubit<SearchStates> {
       print(error.toString());
       emit(DeletePostErrorStateStatesSearch(statusCode));
     });
+  }
+  String formatFacebookTime(String postTimeStr) {
+    if (RegExp(r'^\d{1,2}:\d{2}:\d{2} [APM]{2}$').hasMatch(postTimeStr)) {
+      // إذا كان التنسيق صحيحًا، نعيد الوقت كما هو
+      return postTimeStr;
+    }
+
+
+    // إزالة الجزء الأخير الذي يحتوي على معلومات المنطقة الزمنية بين الأقواس
+    postTimeStr = postTimeStr.split('(')[0].trim();
+
+    // تحويل الوقت المستلم إلى كائن DateTime
+    DateTime postTime = DateFormat("EEE MMM dd yyyy HH:mm:ss 'GMT'Z", 'en_US').parse(postTimeStr);
+    print(postTime);
+    // الحصول على الوقت الحالي (بتوقيت النظام المحلي)
+    DateTime now = DateTime.now();
+
+    print(now);
+    // حساب الفرق بين الوقت الحالي ووقت نشر البوست
+    Duration delta = now.difference(postTime);
+
+    // في حال كان الفرق أقل من دقيقة واحدة
+    if (delta < Duration(minutes: 1)) {
+      return "الآن";
+    }
+    // في حال كان الفرق أقل من ساعة واحدة
+    else if (delta < Duration(hours: 1)) {
+      int minutes = delta.inMinutes;
+      if (minutes == 1) {
+        return "منذ دقيقة واحدة";
+      } else if (minutes == 2) {
+        return "منذ دقيقتين";
+      } else if (minutes <= 10) {
+        return "منذ $minutes دقائق";
+      } else {
+        return "منذ $minutes دقيقة";
+      }
+    }
+    // في حال كان الفرق أقل من يوم واحد
+    else if (delta < Duration(days: 1)) {
+      int hours = delta.inHours;
+      if (hours == 1) {
+        return "منذ ساعة واحدة";
+      } else if (hours == 2) {
+        return "منذ ساعتين";
+      } else if (hours <= 10) {
+        return "منذ $hours ساعات";
+      } else {
+        return "منذ $hours ساعة";
+      }
+    }
+    // في حال كان الفرق بين يوم واحد ويومين
+    else if (delta < Duration(days: 2)) {
+      return "أمس الساعة ${DateFormat('HH:mm', 'ar').format(postTime)}";
+    }
+    // في حال كان الفرق أكثر من يومين
+    else {
+      return DateFormat('dd MMM yyyy الساعة HH:mm', 'ar').format(postTime);
+    }
+
   }
 
 }
