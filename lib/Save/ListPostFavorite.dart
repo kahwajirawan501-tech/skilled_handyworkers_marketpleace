@@ -26,6 +26,7 @@ class ListOfPostingFavorit extends StatefulWidget {
 }
 
 class _ListOfPostingFavoritState extends State<ListOfPostingFavorit> {
+  bool favor=true;
   @override
   Widget build(BuildContext context) {
     void _showOptions(String id) {
@@ -98,23 +99,26 @@ class _ListOfPostingFavoritState extends State<ListOfPostingFavorit> {
 
                       name: widget.post[index]['user']['fullName'],
                       numberOfCommit: "",
-                      time: widget.post[index]['publishedAt'],
+                      time: widget.post[index]['createdAt'],
                       onPressedForCommit: () {
                         navigateTo(context: context, widget: CommitScreen(idPost: widget.post[index]['_id'], typePost: "post"));
                       },
                       onPressedForFavorit: () {
                         setState(() {
 
-                          if(widget.post[index]['isSaved']){
+                          if(favor){
                             CubitYourPost.get(context).unSavePost(widget.post[index]['_id']);
-                            widget.post[index]['isSaved']=false;
+                            if(state is UnSaveErrorFavoritesDateState){
+                              favor=true;
+                            }
+                            favor=false;
                           }
 
                         });
 
                       },
 
-                      colorsFavorit:widget.post[index]['isSaved']?Colors.red:Colors.grey,
+                      colorsFavorit:favor?Colors.red:Colors.grey,
 //widget.post[index]['isSaved']?Colors.red:Colors.grey
 
                       onTapImage: () {

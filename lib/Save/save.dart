@@ -32,7 +32,7 @@ class _SaveState extends State<Save> {
 
     return BlocConsumer<CubitYourPost,YourPostStates>(
       listener: (context, state) {
-        if(state is SuccessGetPostDateState){
+        if(state is SuccessGetFavoritesDateState){
           setState(() {
             post = CubitYourPost.get(context).favoritesPost;
             openQuestion=CubitYourPost.get(context).favoritesOpenQuestion;
@@ -120,7 +120,7 @@ class _SaveState extends State<Save> {
             if (clickPosting)
               Expanded(
                 child: ConditionalBuilder(
-                  condition:true  ,//state is! LoadingGetFavoritesDateState
+                  condition:state is! LoadingGetFavoritesDateState  ,//state is! LoadingGetFavoritesDateState
                   builder: (context) => ListOfPostingFavorit(
                     post: post,
 
@@ -135,7 +135,7 @@ class _SaveState extends State<Save> {
             if (clickOpenQuestion)
               Expanded(
                 child: ConditionalBuilder(
-                  condition: true,//state is !LoadingGetFavoritesDateState
+                  condition: state is !LoadingGetFavoritesDateState,//state is !LoadingGetFavoritesDateState
                   builder: (context) =>ListOfOpenQuestionFavorit(
                     openQuestionPost: openQuestion,
 

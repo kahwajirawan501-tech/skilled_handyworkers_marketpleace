@@ -91,7 +91,7 @@ class _ListOfOpenQuestionUserState extends State<ListOfOpenQuestionUser> {
                   padding: const EdgeInsets.symmetric(horizontal: AppFontStyles.aboutMe),
                   child: ListView.separated(
                       itemBuilder: (context, index) => OpenQuestionModel(
-                        time: widget.openQuestionPost[index]['publishedAt'],
+                        time: widget.openQuestionPost[index]['createdAt'],
                         numberOfCommit: "",
                         name: widget.openQuestionPost[index]['user']['fullName'],
                         imagePath: widget.openQuestionPost[index]['user']['profileImage'] ?? imageCope,
@@ -126,7 +126,7 @@ class _ListOfOpenQuestionUserState extends State<ListOfOpenQuestionUser> {
                             }
                           });
                         },
-                        colorsFavorit:Colors.red,//
+                        colorsFavorit:widget.openQuestionPost[index]['isSaved']?Colors.red:Colors.grey,//
                          // widget.openQuestionPost[index]['isSaved']?Colors.red:Colors.grey
                       ),
                       separatorBuilder: (context, index) => SizedBox(height: AppFontStyles.aboutMe,),

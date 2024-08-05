@@ -106,7 +106,7 @@ class _ListOfOpenQuestionState extends State<ListOfOpenQuestion> {
                     );
                   }
                   return OpenQuestionModel(
-                    time: widget.openQuestionPost[index]['publishedAt'],
+                    time: widget.openQuestionPost[index]['createdAt'],
                     numberOfCommit: "",
                     name: widget.openQuestionPost[index]['user']['fullName'],
                     imagePath: widget.openQuestionPost[index]['user']['profileImage'] ?? "assets/images/aboutmy.png",
@@ -131,7 +131,7 @@ class _ListOfOpenQuestionState extends State<ListOfOpenQuestion> {
                         }
                       });
                     },
-                    colorsFavorit: Colors.red,//
+                    colorsFavorit: widget.openQuestionPost[index]['isSaved']?Colors.red:Colors.grey,//
                     // widget.openQuestionPost[index]['isSaved']?Colors.red:Colors.grey
                     deleteAndEdit: false, // Decide whether to show delete and edit buttons
                     onPressed: () {},

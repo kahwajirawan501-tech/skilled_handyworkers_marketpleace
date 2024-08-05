@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:skilled_handyworkers_marketpleace/SearchScreen/cubit/states.dart';
+import 'package:skilled_handyworkers_marketpleace/shared/components/constant.dart';
 import 'package:skilled_handyworkers_marketpleace/shared/network/remote/dio_helper.dart';
 
 class CubitSearch extends Cubit<SearchStates> {
@@ -49,15 +50,16 @@ class CubitSearch extends Cubit<SearchStates> {
   void _fetchPosts(String service, String location, int page) {
     DioHelper.getData2(
       url: '/post/search?region=$location&skill=$service&page=$page&limit=10',
+      token: accessToken
     ).then((value) {
       final List<Map<String, dynamic>> fetchedData = List<Map<String, dynamic>>.from(value.data);
       for (var post in fetchedData) {
         if (post['type'] == 'post') {
 
-       //   post['publishedAt']=formatFacebookTime(post['publishedAt']);
+          post['createdAt']=formatFacebookTime(post['createdAt']);
           postSearch.add(post);
         } else if (post['type'] == 'open_question') {
-         // post['publishedAt']=formatFacebookTime(post['publishedAt']);
+          post['createdAt']=formatFacebookTime(post['createdAt']);
 
           openQuestionPostSearch.add(post);
         }
@@ -79,15 +81,17 @@ class CubitSearch extends Cubit<SearchStates> {
   void _fetchPostsForLocation(String location, int page) {
     DioHelper.getData2(
       url: 'post/search/region?region=$location&page=$page&limit=10',
+        token: accessToken
+
     ).then((value) {
       final List<Map<String, dynamic>> fetchedData = List<Map<String, dynamic>>.from(value.data);
       for (var post in fetchedData) {
         if (post['type'] == 'post') {
-        //  post['publishedAt']=formatFacebookTime(post['publishedAt']);
+          post['createdAt']=formatFacebookTime(post['createdAt']);
 
           postSearchLocation.add(post);
         } else if (post['type'] == 'open_question') {
-       //   post['publishedAt']=formatFacebookTime(post['publishedAt']);
+          post['createdAt']=formatFacebookTime(post['createdAt']);
 
           openQuestionPostSearchLocation.add(post);
         }
@@ -109,16 +113,18 @@ class CubitSearch extends Cubit<SearchStates> {
   void _fetchPostsForService(String service, int page) {
     DioHelper.getData2(
       url: 'post/search/skill?skill=$service&page=$page&limit=10',
+        token: accessToken
+
     ).then((value) {
       print(value.data);
       final List<Map<String, dynamic>> fetchedData = List<Map<String, dynamic>>.from(value.data);
       for (var post in fetchedData) {
         if (post['type'] == 'post') {
-        //  post['publishedAt']=formatFacebookTime(post['publishedAt']);
+         post['createdAt']=formatFacebookTime(post['createdAt']);
 
           postSearchService.add(post);
         } else if (post['type'] == 'open_question') {
-      //    post['publishedAt']=formatFacebookTime(post['publishedAt']);
+          post['createdAt']=formatFacebookTime(post['createdAt']);
 
           openQuestionPostSearchService.add(post);
         }
@@ -175,22 +181,20 @@ class CubitSearch extends Cubit<SearchStates> {
     });
   }
   String formatFacebookTime(String postTimeStr) {
+    // التحقق من أن التنسيق يتوافق مع HH:mm:ss AM/PM
     if (RegExp(r'^\d{1,2}:\d{2}:\d{2} [APM]{2}$').hasMatch(postTimeStr)) {
-      // إذا كان التنسيق صحيحًا، نعيد الوقت كما هو
       return postTimeStr;
     }
-
 
     // إزالة الجزء الأخير الذي يحتوي على معلومات المنطقة الزمنية بين الأقواس
     postTimeStr = postTimeStr.split('(')[0].trim();
 
-    // تحويل الوقت المستلم إلى كائن DateTime
-    DateTime postTime = DateFormat("EEE MMM dd yyyy HH:mm:ss 'GMT'Z", 'en_US').parse(postTimeStr);
-    print(postTime);
+    // تحويل الوقت المستلم إلى كائن DateTime باستخدام التنسيق المناسب
+    DateTime postTime = DateFormat("EEE, dd MMM yyyy HH:mm:ss 'GMT'", 'en_US').parseUtc(postTimeStr).toLocal();
+
     // الحصول على الوقت الحالي (بتوقيت النظام المحلي)
     DateTime now = DateTime.now();
 
-    print(now);
     // حساب الفرق بين الوقت الحالي ووقت نشر البوست
     Duration delta = now.difference(postTime);
 
@@ -232,7 +236,6 @@ class CubitSearch extends Cubit<SearchStates> {
     else {
       return DateFormat('dd MMM yyyy الساعة HH:mm', 'ar').format(postTime);
     }
-
   }
 
 }

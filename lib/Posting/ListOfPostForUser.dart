@@ -94,7 +94,7 @@ class _ListOfPostingUserState extends State<ListOfPostingUser> {
 
                       name: widget.post[index]['user']['fullName'],
                       numberOfCommit: "",
-                      time: widget.post[index]['publishedAt'],
+                      time: widget.post[index]['createdAt'],
                       onPressedForCommit: () {
                       navigateTo(context: context, widget: CommitScreen(idPost: widget.post[index]['_id'], typePost: "post"));
                       },

@@ -10,38 +10,35 @@ class NoMessage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColor.backgroundColor,
-      body: Center(
-        child: Column(
+    return Center(
+      child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Image.asset("assets/images/NoMessage.png"),
-            SizedBox(height: 36,),
-            Text("No Message",style: TextStyle(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Image.asset("assets/images/NoMessage.png"),
+          SizedBox(height: 36,),
+          Text("No Message",style: TextStyle(
               color: AppColor.bluColor,
               fontWeight: AppFontStyles.fontWeightSemiBold7,
               fontSize: AppFontStyles.aboutMe
-            ),),
-            SizedBox(height: 16,),
-            Text("You currently have no incoming message",style: TextStyle(
+          ),),
+          SizedBox(height: 16,),
+          Text("You currently have no incoming message",style: TextStyle(
+              color: AppColor.fontColorDescription,
+              fontWeight: AppFontStyles.fontWeightSemiBold4,
+              fontSize: AppFontStyles.sizeBetweenBoxAndSubTitle
+          ),),
+          SizedBox(height: 4,),
+          Center(
+            child: Text(" thank you",style: TextStyle(
                 color: AppColor.fontColorDescription,
                 fontWeight: AppFontStyles.fontWeightSemiBold4,
                 fontSize: AppFontStyles.sizeBetweenBoxAndSubTitle
             ),),
-        SizedBox(height: 4,),
-            Center(
-              child: Text(" thank you",style: TextStyle(
-                  color: AppColor.fontColorDescription,
-                  fontWeight: AppFontStyles.fontWeightSemiBold4,
-                  fontSize: AppFontStyles.sizeBetweenBoxAndSubTitle
-              ),),
-            ),
+          ),
 
 
-          ],
-        ),
+        ],
       ),
     );
   }

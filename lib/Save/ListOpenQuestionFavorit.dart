@@ -27,8 +27,10 @@ class ListOfOpenQuestionFavorit extends StatefulWidget {
 }
 
 class _ListOfOpenQuestionFavoritState extends State<ListOfOpenQuestionFavorit> {
+  bool favor=true;
   @override
   Widget build(BuildContext context) {
+
     void _showOptions(String id) {
       showModalBottomSheet(
         backgroundColor: AppColor.backgroundColor,
@@ -80,6 +82,7 @@ class _ListOfOpenQuestionFavoritState extends State<ListOfOpenQuestionFavorit> {
 
           ),
           builder: (context) {
+            print(widget.openQuestionPost);
             if (widget.openQuestionPost.isEmpty
                 )
             {
@@ -94,7 +97,7 @@ class _ListOfOpenQuestionFavoritState extends State<ListOfOpenQuestionFavorit> {
                   padding: const EdgeInsets.symmetric(horizontal: AppFontStyles.aboutMe),
                   child: ListView.separated(
                       itemBuilder: (context, index) => OpenQuestionModel(
-                        time: widget.openQuestionPost[index]['publishedAt'],
+                        time: widget.openQuestionPost[index]['createdAt'],
                         numberOfCommit: "",
                         name: widget.openQuestionPost[index]['user']['fullName'],
                         imagePath: widget.openQuestionPost[index]['user']['profileImage'] ?? imageCope,
@@ -113,16 +116,20 @@ class _ListOfOpenQuestionFavoritState extends State<ListOfOpenQuestionFavorit> {
                         deleteAndEdit: widget.openQuestionPost[index]['user']['_id'] == id ? true : false,
                         onPressedForFavorit: () {
                           setState(() {
-                            if(widget.openQuestionPost[index]['isSaved']){
+
+                            if(favor){
                               CubitYourPost.get(context).unSavePost(widget.openQuestionPost[index]['_id']);
-                              widget.openQuestionPost[index]['isSaved']=false;
+                              if(state is UnSaveErrorFavoritesDateState){
+                                favor=true;
+                              }
+                              favor=false;
                             }
 
                           });
 
                         },
 
-                        colorsFavorit:widget.openQuestionPost[index]['isSaved']?Colors.red:Colors.grey,
+                        colorsFavorit:favor?Colors.red:Colors.grey,
                         //widget.openQuestionPost[index]['isSaved']?Colors.red:Colors.grey
                       ),
                       separatorBuilder: (context, index) => SizedBox(height: AppFontStyles.aboutMe,),

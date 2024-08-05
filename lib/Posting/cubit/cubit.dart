@@ -20,13 +20,14 @@ final List<Map<String,dynamic>>openQuestion=[];
     post.clear();
     DioHelper.getData(
       url:'post/$id/posts',
+        token: accessToken
     ).then((value)
     {
       List<Map<String, dynamic>> data = List<Map<String, dynamic>>.from(value.data);
 
     data.forEach((comment) {
 
-      comment['publishedAt'] = formatFacebookTime(comment['publishedAt']);
+      comment['createdAt'] = formatFacebookTime(comment['createdAt']);
 
     });
       post.addAll(data);
@@ -46,12 +47,14 @@ final List<Map<String,dynamic>>openQuestion=[];
     openQuestion.clear();
     DioHelper.getData(
       url:'post/$id/open-questions',
+      token: accessToken
     ).then((value)
-    {  List<Map<String, dynamic>> data = List<Map<String, dynamic>>.from(value.data);
+    {
+      List<Map<String, dynamic>> data = List<Map<String, dynamic>>.from(value.data);
 
     data.forEach((comment) {
 
-      comment['publishedAt'] = formatFacebookTime(comment['publishedAt']);
+      comment['createdAt'] = formatFacebookTime(comment['createdAt']);
 
     });
     openQuestion.addAll(data);
@@ -61,6 +64,7 @@ final List<Map<String,dynamic>>openQuestion=[];
 
     }
     ).catchError((error){
+      print(error.toString());
       int statusCode = error.response?.statusCode ?? -1;
       print("YourOpenQuestionPostErrorStateStates");
       emit(YourOpenQuestionPostErrorStateStates(statusCode));
@@ -97,13 +101,14 @@ final List<Map<String,dynamic>>openQuestion=[];
     postCustomer.clear();
     DioHelper.getData(
       url:'post/$userId/posts',
+        token: accessToken
     ).then((value)
     {
       List<Map<String, dynamic>> data = List<Map<String, dynamic>>.from(value.data);
 
       data.forEach((comment) {
 
-        comment['publishedAt'] = formatFacebookTime(comment['publishedAt']);
+        comment['createdAt'] = formatFacebookTime(comment['createdAt']);
 
       });
       postCustomer.addAll(data);
@@ -124,13 +129,14 @@ final List<Map<String,dynamic>>openQuestion=[];
     openQuestionCustomer.clear();
     DioHelper.getData(
       url:'post/$userId/open-questions',
+        token: accessToken
     ).then((value)
     {
       List<Map<String, dynamic>> data = List<Map<String, dynamic>>.from(value.data);
 
       data.forEach((comment) {
 
-        comment['publishedAt'] = formatFacebookTime(comment['publishedAt']);
+        comment['createdAt'] = formatFacebookTime(comment['createdAt']);
 
       });
       openQuestionCustomer.addAll(data);
@@ -190,32 +196,40 @@ final List<Map<String,dynamic>>openQuestion=[];
     favoritesPost.clear();
     favoritesOpenQuestion.clear();
     DioHelper.getData(
-      url:'/users/saved-posts',
-      token:accessToken,
+      url:'/favorite-post/all',
+      token: accessToken
     ).then((value)
     {
+       //print(value.data);
       final List<Map<String, dynamic>> fetchedData = List<Map<String, dynamic>>.from(value.data);
       for (var post in fetchedData) {
         if (post['type'] == 'post') {
-          post['publishedAt']=formatFacebookTime( post['publishedAt']);
+          post['createdAt']=formatFacebookTime( post['createdAt']);
           favoritesPost.add(post);
         } else if (post['type'] == 'open_question') {
-          post['publishedAt']=formatFacebookTime( post['publishedAt']);
+          post['createdAt']=formatFacebookTime( post['createdAt']);
           favoritesOpenQuestion.add(post);
         }
-      }       emit(SuccessGetFavoritesDateState());
+      }
+      print(favoritesOpenQuestion);
+      emit(SuccessGetFavoritesDateState());
     }
     ).catchError((error){
       int statusCode = error.response?.statusCode ?? -1;
       emit(ErrorGetFavoritesDateState(statusCode));
+      print("ErrorGetFavoritesDateState");
+      print(error.toString());
     });
   }
   void savePost(String idPost){
     favorite=true;
     emit(SaveLoadingFavoritesDateState());
     print("SaveLoadingFavoritesDateState");
-    DioHelper.getData(
-      url:'/post/save/$idPost',
+    DioHelper.postData(
+      url:'/favorite-post/create',
+      data: {
+        "postId":idPost
+      },
       token: accessToken,
     ).then((value)
     {
@@ -232,8 +246,8 @@ final List<Map<String,dynamic>>openQuestion=[];
     favorite=false;
     emit(UnSaveLoadingFavoritesDateState());
     print("UnSaveLoadingFavoritesDateState");
-    DioHelper.getData(
-      url:'/post/unsave/$idPost',
+    DioHelper.deletePost(
+      url:'/favorite-post/$idPost',
       token: accessToken,
     ).then((value)
     {
@@ -252,22 +266,20 @@ final List<Map<String,dynamic>>openQuestion=[];
 
 
   String formatFacebookTime(String postTimeStr) {
+    // التحقق من أن التنسيق يتوافق مع HH:mm:ss AM/PM
     if (RegExp(r'^\d{1,2}:\d{2}:\d{2} [APM]{2}$').hasMatch(postTimeStr)) {
-      // إذا كان التنسيق صحيحًا، نعيد الوقت كما هو
       return postTimeStr;
     }
-
 
     // إزالة الجزء الأخير الذي يحتوي على معلومات المنطقة الزمنية بين الأقواس
     postTimeStr = postTimeStr.split('(')[0].trim();
 
-    // تحويل الوقت المستلم إلى كائن DateTime
-    DateTime postTime = DateFormat("EEE MMM dd yyyy HH:mm:ss 'GMT'Z", 'en_US').parse(postTimeStr);
-    print(postTime);
+    // تحويل الوقت المستلم إلى كائن DateTime باستخدام التنسيق المناسب
+    DateTime postTime = DateFormat("EEE, dd MMM yyyy HH:mm:ss 'GMT'", 'en_US').parseUtc(postTimeStr).toLocal();
+
     // الحصول على الوقت الحالي (بتوقيت النظام المحلي)
     DateTime now = DateTime.now();
 
-    print(now);
     // حساب الفرق بين الوقت الحالي ووقت نشر البوست
     Duration delta = now.difference(postTime);
 
@@ -309,7 +321,6 @@ final List<Map<String,dynamic>>openQuestion=[];
     else {
       return DateFormat('dd MMM yyyy الساعة HH:mm', 'ar').format(postTime);
     }
-
   }
 
 

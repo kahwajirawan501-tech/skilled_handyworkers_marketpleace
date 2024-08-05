@@ -25,7 +25,7 @@ class _ChatListState extends State<ChatList> {
   void initState() {
     super.initState();
     ChatCubit.get(context).getUsersMessage();
-    //ChatCubit.get(context).initializeSocket();
+   // ChatCubit.get(context).initializeSocket();
   }
   TextEditingController textEditingController=TextEditingController();
   @override
@@ -39,7 +39,7 @@ class _ChatListState extends State<ChatList> {
             ? state.searchResult
             : ChatCubit.get(context).users;
         return ConditionalBuilder(
-          condition: ChatCubit.get(context).users.isNotEmpty,
+          condition: state is !GetUserMessageLoadStateStates,
           builder: (context) => Scaffold(
             appBar: AppBar(
               surfaceTintColor:  AppColor.backgroundColor,
@@ -94,15 +94,8 @@ class _ChatListState extends State<ChatList> {
               child: Padding(
                 padding: const EdgeInsets.only(left:8,right: 8,top: 34),
                 child: ConditionalBuilder(
-                  builder:(context) =>  users.isEmpty?  const Center(
-                    child:
-                    Text(
-                      'There is no users with this name',
-                      style:
-                      TextStyle(color: Colors.grey, fontSize: 16),
-                    ),
-                  )
-                      :ListView.separated(
+                  builder:(context) =>
+                      ListView.separated(
                       physics:BouncingScrollPhysics(),
                       itemBuilder: (context, index) =>GestureDetector(
                           onTap: () {
@@ -116,14 +109,68 @@ class _ChatListState extends State<ChatList> {
                           child: ListChat(context,users[index])) ,
                       separatorBuilder: (context, index) =>SizedBox(height:AppFontStyles.aboutMe) ,
                       itemCount: users.length ),
-                  condition:state is !GetUserMessageLoadStateStates,
-                  fallback: (context) => Center( child: CircularProgressIndicator(color: AppColor.orangeColor,),),
+                  condition:users.isNotEmpty,
+                  fallback: (context) => const Center(
+                    child:
+                    NoMessage(),
+                  ),
 
                 ),
               ),
             ),
           ),
-          fallback: (context) =>NoMessage(),
+          fallback: (context) =>Scaffold(
+              appBar: AppBar(
+                surfaceTintColor:  AppColor.backgroundColor,
+                elevation: 0.0,
+                backgroundColor: AppColor.backgroundColor,
+                centerTitle: true,
+                title: Text("Messages",style: TextStyle(
+                    color: Colors.black,fontSize: AppFontStyles.borderRadius,
+                    fontWeight: AppFontStyles.fontWeightBold
+                ),),
+                bottom: PreferredSize(
+                  preferredSize: Size.fromHeight(90.0), // تعديل الارتفاع حسب الحاجة
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: AppFontStyles.padding),
+                    child: Box(height: 50,widget:TextFormField(
+                      controller: textEditingController,
+                      maxLines: 1,
+                      keyboardType: TextInputType.text,
+                      onChanged: (value) {
+                        ChatCubit.get(context).searchUsers(value);
+                      },
+                      decoration: InputDecoration(
+                        hintText: "Search",
+                        hintStyle: TextStyle(
+                          fontSize: AppFontStyles.descriptionLoginFontSize,
+                          color: AppColor.grayColorFont,
+                        ),
+                        border: InputBorder.none,
+                        prefixIcon: Icon(Icons.search),
+                        suffixIcon: GestureDetector(
+                          onTap: () {
+                            clearTextField(textEditingController);
+                            ChatCubit.get(context).searchUsers('');
+
+                          },
+                          child: Icon(Icons.clear,size: 15,),
+                        ),
+                      ),
+                      cursorColor: AppColor.orangeColor,
+                    ),
+
+                      borderRadius: BorderRadius.circular(15),),
+                  ),
+                ),
+
+
+              ),
+              body: Container(
+                  color: AppColor.backgroundColor,
+                  width: double.infinity,
+                  height: double.infinity,
+                  child: Center( child: CircularProgressIndicator(color: AppColor.orangeColor,),))),
         );
       },
 

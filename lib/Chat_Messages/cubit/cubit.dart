@@ -22,7 +22,7 @@ class ChatCubit extends Cubit<MessageStates> {
 
   ];
   late IO.Socket _socket;
- late bool online;
+ late bool online=false;
   void initializeSocket() {
     _socket = IO.io('http://192.168.43.142:3000', <String, dynamic>{
       'transports': ['websocket'],
@@ -42,10 +42,30 @@ class ChatCubit extends Cubit<MessageStates> {
     });
 
     _socket.on('newMessage', (data) {
-      //messages.add(data);
-      showNotification("New Message", data['message']);
-      emit(RecMessageSucssessfullStateStates(messages));
+
+
+       messages.add(data);
+      //showNotification("New Message", data['message']);
+      emit(AddMessageSucssessfullStateStates(messages));
+     // emit(RecMessageSucssessfullStateStates(messages));
     });
+
+    _socket.on('messageEdited', (updatedMessage) {
+      int index = messages.indexWhere((message) => message['_id'] == updatedMessage['_id']);
+      if (index != -1) {
+        messages[index] = updatedMessage;
+        emit(EditMessageSucssessfullStateStates(messages));
+      }
+    });
+
+    _socket.on('messageDeleted', (deletedMessageId) {
+      int index = messages.indexWhere((message) => message['_id'] == deletedMessageId);
+      if (index != -1) {
+        messages.removeAt(index);
+        emit(DeleteMessageSucssessfullStateStates(messages));
+      }
+    });
+
 
     _socket.on('connect_error', (error) {
       print('Connection Error: $error');
@@ -53,6 +73,7 @@ class ChatCubit extends Cubit<MessageStates> {
     });
 
     _socket.on('error', (error) {
+
       print('Socket Error: $error');
     });
   }
@@ -63,43 +84,23 @@ class ChatCubit extends Cubit<MessageStates> {
       'sender_id':id,
       'receiver_id': receiverId,
       'message': content,
-      'createdAt':DateFormat('h:mm:ss a').format(DateTime.now())
+      'createdAt':""
     };
-    messages.add(newMessage);
-
-    // إرسال الرسالة عبر API كنسخة احتياطية
     DioHelper.postData(url: '/chat/send', data: {
       'receiver_id': receiverId,
       'message': content,
     },token: accessToken).then((value) {
       if(value.data!=null){
+
         newMessage['_id']=value.data['_id'];
         newMessage['createdAt']=value.data['createdAt'];
-      }
 
+      }
       // إرسال الرسالة عبر WebSocket
       _socket.emit('sendMessage', newMessage);
 
-      emit(AddMessageSucssessfullStateStates(messages));
 
-      // مراقبة تأكيد الرسالة من WebSocket
-      _socket.on('sendMessage', (data) {
-        if (data['status'] == 'success') {
-          // emit(AddMessageSucssessfullStateStates(messages));
-        } else {
-          // print("object");
-          // print(data['status']);
-          // messages.remove(newMessage); // إزالة الرسالة من القائمة المحلية
-          //  emit(AddMessageErrorStateStates(data['error']));
-        }
-      });
 
-      // التعامل مع أخطاء WebSocket
-      _socket.on('error', (error) {
-        print("error.toString()");
-        print(error.toString());
-        //    emit(AddMessageErrorStateStates(error));
-      });
       print("Message sent successfully via API");
     }).catchError((error) {
       print("Failed to send message via API: ${error.toString()}");
@@ -107,6 +108,72 @@ class ChatCubit extends Cubit<MessageStates> {
 
 
   }
+  void deleteMessage(int messageIndex) {
+    final messageId = messages[messageIndex]['_id'];
+    emit(DeleteMessageLoadStateStates());
+    DioHelper.deletePost(url: '/chat/$messageId',token: accessToken).then((_) {
+      _socket.emit('deleteMessage', {'messageId': messageId});
+
+      //    messages.removeAt(messageIndex);
+
+      //
+      // _socket.on('messageDeleted', (deletedMessageId) {
+      //   if (deletedMessageId == messageId) {
+      //     messages.removeAt(messageIndex);
+      //     emit(DeleteMessageSucssessfullStateStates(messages));
+      //   }
+      // });
+      //
+      // _socket.on('error', (error) {
+      //   int statusCode = error['statusCode'] ?? -1;
+      //   emit(DeleteMessageErrorStateStates(statusCode));
+      // });
+      //  emit(DeleteMessageSucssessfullStateStates(messages));
+    }).catchError((error) {
+      int statusCode = error.response?.statusCode ?? -1;
+      emit(DeleteMessageErrorStateStates(statusCode));
+      print(error.toString());
+      print("DeleteMessageErrorStateStates");
+    });
+  }
+  void editMessage(int messageIndex, String content) {
+    final messageId = messages[messageIndex]['_id'];
+    emit(EditMessageLoadStateStates());
+    DioHelper.putData(url: '/chat/$messageId', data: {
+      'message': content,
+
+    },token: accessToken).then((_) {
+      messages[messageIndex]['message'] = content;
+      final editPayload = {
+        'messageId': messageId,
+        'content': content,
+      };
+
+      _socket.emit('editMessage', editPayload);
+
+      // _socket.on('messageEdited', (updatedMessage) {
+      //   if (updatedMessage['_id'] == messageId) {
+      //     messages[messageIndex]['message'] = content;
+      //   //  emit(EditMessageSucssessfullStateStates(messages));
+      //   }
+      // });
+      //
+      // _socket.on('error', (error) {
+      //   int statusCode = error['statusCode'] ?? -1;
+      //   //emit(EditMessageErrorStateStates(statusCode));
+      // });
+     // emit(EditMessageSucssessfullStateStates(messages));
+    }).catchError((error) {
+      int statusCode = error.response?.statusCode ?? -1;
+      print(error.toString());
+      emit(EditMessageErrorStateStates(statusCode));
+    });
+  }
+
+
+
+
+
 
   void getMessages(String receiverId) {
     emit(MessageLoadStateStates());
@@ -127,66 +194,6 @@ class ChatCubit extends Cubit<MessageStates> {
 
     });
   }
-
-
-  void editMessage(int messageIndex, String content) {
-    final messageId = messages[messageIndex]['_id'];
-    emit(EditMessageLoadStateStates());
-    DioHelper.putData(url: '/chat/$messageId', data: {
-      'message': content,
-    }).then((_) {
-      messages[messageIndex]['message'] = content;
-      // final editPayload = {
-      //   'messageId': messageId,
-      //   'content': content,
-      // };
-      //
-      // _socket.emit('editMessage', editPayload);
-      //
-      // _socket.on('messageEdited', (updatedMessage) {
-      //   if (updatedMessage['_id'] == messageId) {
-      //     messages[messageIndex]['message'] = content;
-      //     emit(EditMessageSucssessfullStateStates(messages));
-      //   }
-      // });
-      //
-      // _socket.on('error', (error) {
-      //   int statusCode = error['statusCode'] ?? -1;
-      //   emit(EditMessageErrorStateStates(statusCode));
-      // });
-      emit(EditMessageSucssessfullStateStates(messages));
-    }).catchError((error) {
-      int statusCode = error.response?.statusCode ?? -1;
-      emit(EditMessageErrorStateStates(statusCode));
-    });
-  }
-
-  void deleteMessage(int messageIndex) {
-    final messageId = messages[messageIndex]['_id'];
-    emit(DeleteMessageLoadStateStates());
-    DioHelper.deletePost(url: '/chat/$messageId').then((_) {
-      messages.removeAt(messageIndex);
-
-      // _socket.emit('deleteMessage', {'messageId': messageId});
-      //
-      // _socket.on('messageDeleted', (deletedMessageId) {
-      //   if (deletedMessageId == messageId) {
-      //     messages.removeAt(messageIndex);
-      //     emit(DeleteMessageSucssessfullStateStates(messages));
-      //   }
-      // });
-
-      // _socket.on('error', (error) {
-      //   int statusCode = error['statusCode'] ?? -1;
-      //   emit(DeleteMessageErrorStateStates(statusCode));
-      // });
-      emit(DeleteMessageSucssessfullStateStates(messages));
-    }).catchError((error) {
-      int statusCode = error.response?.statusCode ?? -1;
-      emit(DeleteMessageErrorStateStates(statusCode));
-    });
-  }
-
 
   String _formatTime(String postTimeStr) {
     DateTime postTime = DateFormat("yyyy-MM-ddTHH:mm:ssZ", 'en_US').parse(postTimeStr);
@@ -260,7 +267,7 @@ class ChatCubit extends Cubit<MessageStates> {
     print("GetUserMessageLoadStateStates");
     DioHelper.getData2(
       url:'/chat/chatted-persons',
-      token:accessToken
+    token: accessToken
     ).then((value) {
       print(value.data);
 
@@ -268,9 +275,9 @@ class ChatCubit extends Cubit<MessageStates> {
       emit(GetUserMessageSucssessfullStateStates());
       print("GetUserMessageSucssessfullStateStates");
     }).catchError((error) {
-      // int statusCode = error.response?.statusCode ?? -1;
+       int statusCode = error.response?.statusCode ?? -1;
       print(error.toString());
-    //  emit(GetUserMessageErrorStateStates(statusCode));
+     emit(GetUserMessageErrorStateStates(statusCode));
 
       print("GetUserMessageErrorStateStates");
 
