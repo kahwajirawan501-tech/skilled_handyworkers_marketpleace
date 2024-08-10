@@ -124,7 +124,7 @@ class _ListOfPostingState extends State<ListOfPosting> {
                           CubitYourPost.get(context).unSavePost(widget.post[index]['_id']);
                           widget.post[index]['isSaved']=false;
                         }
-                        if(!widget.post[index]['isSaved']){
+                        else if(!widget.post[index]['isSaved']){
                           CubitYourPost.get(context).savePost(widget.post[index]['_id']);
                           widget.post[index]['isSaved']=true;
                         }

@@ -244,30 +244,46 @@ class TabBarPosting extends StatefulWidget
                   Expanded(
                     child: ConditionalBuilder(
                       condition: state is! YourPostPostLoadStateStates ,
-                      builder: (context) => ListOfPostingUser(
+                      builder: (context) =>(state is YourPostPostErrorStateStates)?Center(
+                        child:  GestureDetector(
+                            onTap: () {
+                              CubitYourPost.get(context).getPost();
+                            },
+                            child: Icon(Icons.refresh_outlined,color:AppColor.orangeColor,size: 50,)),
+                      ): ListOfPostingUser(
                         post: post,
 
                       ),
-                      fallback: (context) => Center(
+                      fallback: (context) =>
+
+                      Center(
                         child: CircularProgressIndicator(
                           color: AppColor.orangeColor,
                         ),
-                      ),
+                      )
                     ),
                   ),
                 if (clickOpenQuestion)
                   Expanded(
                     child: ConditionalBuilder(
                       condition:state is !YourOpenQuestionPostLoadStateStates ,
-                      builder: (context) =>ListOfOpenQuestionUser(
+                      builder: (context) =>(state is YourOpenQuestionPostErrorStateStates)?   Center(
+                        child:  GestureDetector(
+                            onTap: () {
+                              CubitYourPost.get(context).getOpenQuestion();
+                            },
+                            child: Icon(Icons.refresh_outlined,color:AppColor.orangeColor,size: 50,)),
+                      ):ListOfOpenQuestionUser(
                         openQuestionPost: openQuestion,
 
                       ),
-                      fallback: (context) => Center(
-                        child: CircularProgressIndicator(
-                          color: AppColor.orangeColor,
+                        fallback: (context) =>
+
+                        Center(
+                          child: CircularProgressIndicator(
+                            color: AppColor.orangeColor,
+                          ),
                         ),
-                      ),
                     ),
                   ),
               ],

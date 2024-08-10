@@ -51,8 +51,8 @@ class AddMessageSucssessfullStateStates extends MessageStates {
 
 }
 class AddMessageErrorStateStates extends MessageStates {
-  final int statusCode;
-  AddMessageErrorStateStates(this.statusCode);
+  //final int statusCode;
+  AddMessageErrorStateStates();
 }
 
 
@@ -97,4 +97,12 @@ class GetUserMessageSucssessfullStateStates extends MessageStates {
 class GetUserMessageErrorStateStates extends MessageStates {
   final int statusCode;
   GetUserMessageErrorStateStates(this.statusCode);
+}
+
+class UserStatusUpdatedState extends MessageStates{
+  final bool online;
+  final String id;
+
+  UserStatusUpdatedState(this.online, this.id);
+
 }

@@ -29,7 +29,7 @@ class Information extends StatefulWidget
 
 class _InformationState extends State<Information> {
 
-  bool clickPosting=false;
+  bool clickPosting=true;
   bool clickOpenQuestion=false;
   List<Map<String, dynamic>> post = [];
   List<Map<String, dynamic>> openQuestion = [];
@@ -41,6 +41,7 @@ class _InformationState extends State<Information> {
   void initState() {
     super.initState();
     CubitYourPost.get(context).getProfileInformationCustomer(widget.idCustomer);
+
   }
 
   @override
@@ -86,7 +87,10 @@ class _InformationState extends State<Information> {
             });
 
           }
+if(state is GetInformationSucssessfullStateStates){
+  CubitYourPost.get(context).getPostCustomer(widget.idCustomer);
 
+}
 
         },
         builder: (context, state) {
@@ -96,7 +100,13 @@ class _InformationState extends State<Information> {
             height:double.infinity ,
             child: ConditionalBuilder(
               condition:state is !GetInformationStatesLoadingStateStates ,
-              builder: (context) =>  Column(
+              builder: (context) => (state is GetInformationErrorStateStates)? Center(
+                child:  GestureDetector(
+                    onTap: () {
+                      CubitYourPost.get(context).getProfileInformationCustomer(widget.idCustomer);
+                    },
+                    child: Icon(Icons.refresh_outlined,color:AppColor.orangeColor,size: 20,)),
+              ) :Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
@@ -257,17 +267,26 @@ class _InformationState extends State<Information> {
                     ),
                   ),
 
-                  if(!(clickOpenQuestion||clickPosting))
-                    Expanded(child: Center(child: Image.asset("assets/images/Illustrasi.png"))),
+
                   if (clickPosting)
                     Expanded(
                       child: ConditionalBuilder(
-                        condition: state is! YourPostPostLoadStateStates ,
-                        builder: (context) => ListOfPostingUser(
+                        condition: state is! CustomerPostPostLoadStateStates ,
+                        builder: (context) =>
+                        (state is CustomerPostPostErrorStateStates)?
+                        Center(
+                          child:  GestureDetector(
+                              onTap: () {
+                                CubitYourPost.get(context).getPost();
+                              },
+                              child: Icon(Icons.refresh_outlined,color:AppColor.orangeColor,size: 20,)),
+                        ):ListOfPostingUser(
                           post: post,
 
                         ),
-                        fallback: (context) => Center(
+                        fallback: (context) =>
+
+                        Center(
                           child: CircularProgressIndicator(
                             color: AppColor.orangeColor,
                           ),
@@ -277,12 +296,20 @@ class _InformationState extends State<Information> {
                   if (clickOpenQuestion)
                     Expanded(
                       child: ConditionalBuilder(
-                        condition:state is !YourOpenQuestionPostLoadStateStates ,
-                        builder: (context) =>ListOfOpenQuestionUser(
+                        condition:state is !CustomerOpenQuestionPostLoadStateStates ,
+                        builder: (context) =>(state is CustomerOpenQuestionPostErrorStateStates)? Center(
+                          child:  GestureDetector(
+                              onTap: () {
+                                CubitYourPost.get(context).getPost();
+                              },
+                              child: Icon(Icons.refresh_outlined,color:AppColor.orangeColor,size: 20,)),
+                        ):ListOfOpenQuestionUser(
                           openQuestionPost: openQuestion,
 
                         ),
-                        fallback: (context) => Center(
+                        fallback: (context) =>
+
+                        Center(
                           child: CircularProgressIndicator(
                             color: AppColor.orangeColor,
                           ),
@@ -291,7 +318,13 @@ class _InformationState extends State<Information> {
                     ),
                 ],
               ),
-              fallback:(context) => Center(child: CircularProgressIndicator(color:  AppColor.orangeColor,)),
+              fallback:(context) =>
+
+              Center(
+                child: CircularProgressIndicator(
+                  color: AppColor.orangeColor,
+                ),
+              ),
 
 
             ),

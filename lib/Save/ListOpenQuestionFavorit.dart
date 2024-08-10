@@ -87,7 +87,15 @@ class _ListOfOpenQuestionFavoritState extends State<ListOfOpenQuestionFavorit> {
                 )
             {
               return   Center(
-                child: Image.asset("assets/images/Illustrationn.png"),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset("assets/images/Illustrationn.png"),
+                    SizedBox(height: 24,),
+                    Text("Not openQuestion Yet",style: TextStyle(color: AppColor.posting),)
+                  ],
+                ),
               );
             } else {
               return Container(

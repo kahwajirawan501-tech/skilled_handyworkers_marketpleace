@@ -10,8 +10,8 @@ class YourPostPostSucssessfullStateStates extends YourPostStates {
   YourPostPostSucssessfullStateStates();
 }
 class YourPostPostErrorStateStates extends YourPostStates {
-  final int statusCode;
-  YourPostPostErrorStateStates(this.statusCode);
+
+  YourPostPostErrorStateStates();
 }
 
 class DeletePostLoadStateStates extends YourPostStates {
@@ -35,8 +35,8 @@ class CustomerPostPostSucssessfullStateStates extends YourPostStates {
   CustomerPostPostSucssessfullStateStates();
 }
 class CustomerPostPostErrorStateStates extends YourPostStates {
-  final int statusCode;
-  CustomerPostPostErrorStateStates(this.statusCode);
+
+  CustomerPostPostErrorStateStates();
 }
 
 class YourOpenQuestionPostLoadStateStates extends YourPostStates {
@@ -47,8 +47,8 @@ class YourOpenQuestionPostSucssessfullStateStates extends YourPostStates {
   YourOpenQuestionPostSucssessfullStateStates();
 }
 class YourOpenQuestionPostErrorStateStates extends YourPostStates {
-  final int statusCode;
-  YourOpenQuestionPostErrorStateStates(this.statusCode);
+
+  YourOpenQuestionPostErrorStateStates();
 }
 
 class CustomerOpenQuestionPostLoadStateStates extends YourPostStates {
@@ -59,8 +59,8 @@ class CustomerOpenQuestionPostSucssessfullStateStates extends YourPostStates {
   CustomerOpenQuestionPostSucssessfullStateStates();
 }
 class CustomerOpenQuestionPostErrorStateStates extends YourPostStates {
-  final int statusCode;
-  CustomerOpenQuestionPostErrorStateStates(this.statusCode);
+ // final int statusCode;
+  CustomerOpenQuestionPostErrorStateStates();
 }
 
 
@@ -82,8 +82,7 @@ class GetInformationSucssessfullStateStates extends YourPostStates {
   GetInformationSucssessfullStateStates();
 }
 class GetInformationErrorStateStates extends YourPostStates {
-  final int stateCode;
-  GetInformationErrorStateStates(this.stateCode);
+  GetInformationErrorStateStates();
 }
 /////////////////////////////////////////////////////////////
 class SuccessChangeFavoritesDateState extends YourPostStates{
@@ -101,9 +100,9 @@ class ChangeFavoritesDateState extends YourPostStates{}
 class SuccessGetFavoritesDateState extends YourPostStates{}
 class LoadingGetFavoritesDateState extends YourPostStates{}
 class ErrorGetFavoritesDateState extends YourPostStates{
-  final int statusCode;
 
-  ErrorGetFavoritesDateState(this.statusCode);
+
+  ErrorGetFavoritesDateState();
 }
 
 

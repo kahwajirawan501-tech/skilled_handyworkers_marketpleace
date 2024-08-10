@@ -70,10 +70,12 @@ class EditPostCubit extends Cubit<EditPostStates> {
 
    Map<String,dynamic> postInformation= {};
   void getInformationForPost(String id){
+    print(id);
     emit(GetInformationPostLoadStateStates());
     print("GetInformationPostLoadStateStates");
     DioHelper.getData2(
       url:'post/$id',
+       token: accessToken
     ).then((value)
     {
       postInformation=Map<String,dynamic>.from(value.data);
@@ -83,6 +85,7 @@ class EditPostCubit extends Cubit<EditPostStates> {
 
     }
     ).catchError((error){
+      print(error.toString());
       int statusCode = error.response?.statusCode ?? -1;
       print("GetInformationPostErrorStateStates");
       emit(GetInformationPostErrorStateStates(statusCode));

@@ -439,14 +439,11 @@ class _CommitScreenState extends State<CommitScreen> {
                                             color: AppColor.orangeColor
                                                 .withOpacity(0.1),
                                             borderRadius:
-                                            const BorderRadius.only(
-                                              topLeft:
-                                              Radius.circular(30),
-                                              topRight:
-                                              Radius.circular(30),
-                                              bottomRight:
-                                              Radius.circular(30),
-                                            ),
+                                             const BorderRadiusDirectional.only(
+                          topStart: Radius.circular(15),
+                          topEnd: Radius.circular(15),
+                          bottomEnd: Radius.circular(15),
+                          ),
                                           ),
                                           child: Column(
                                             crossAxisAlignment:
@@ -610,18 +607,10 @@ class _CommitScreenState extends State<CommitScreen> {
                                                                 .navyBlueColor
                                                                 .withOpacity(
                                                                 0.1),
-                                                            borderRadius:
-                                                            const BorderRadius
-                                                                .only(
-                                                              topLeft: Radius
-                                                                  .circular(
-                                                                  30),
-                                                              topRight: Radius
-                                                                  .circular(
-                                                                  30),
-                                                              bottomRight:
-                                                              Radius.circular(
-                                                                  30),
+                                                            borderRadius: const BorderRadiusDirectional.only(
+                                                              topStart: Radius.circular(15),
+                                                              topEnd: Radius.circular(15),
+                                                              bottomStart: Radius.circular(15),
                                                             ),
                                                           ),
                                                           child: Column(

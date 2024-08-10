@@ -25,7 +25,8 @@ class _SaveState extends State<Save> {
   @override
   void initState() {
     super.initState();
-  //  CubitYourPost.get(context).getFavorites();
+
+     CubitYourPost.get(context).getFavorites();
   }
   @override
   Widget build(BuildContext context) {
@@ -121,7 +122,12 @@ class _SaveState extends State<Save> {
               Expanded(
                 child: ConditionalBuilder(
                   condition:state is! LoadingGetFavoritesDateState  ,//state is! LoadingGetFavoritesDateState
-                  builder: (context) => ListOfPostingFavorit(
+                  builder: (context) =>state is ErrorGetFavoritesDateState?Center(child:
+                  GestureDetector(
+                      onTap: () {
+                        CubitYourPost.get(context).getFavorites();
+                      },
+                      child: Icon(Icons.refresh_outlined,color:AppColor.orangeColor,size: 50,)),): ListOfPostingFavorit(
                     post: post,
 
                   ),
@@ -136,10 +142,15 @@ class _SaveState extends State<Save> {
               Expanded(
                 child: ConditionalBuilder(
                   condition: state is !LoadingGetFavoritesDateState,//state is !LoadingGetFavoritesDateState
-                  builder: (context) =>ListOfOpenQuestionFavorit(
-                    openQuestionPost: openQuestion,
+                  builder: (context) =>state is ErrorGetFavoritesDateState?Center(child:
+                  GestureDetector(
+                      onTap: () {
+                        CubitYourPost.get(context).getFavorites();
+                      },
+                      child: Icon(Icons.refresh_outlined,color:AppColor.orangeColor,size: 50,)),):ListOfOpenQuestionFavorit(
+                  openQuestionPost: openQuestion,
 
-                  ),
+                ),
                   fallback: (context) => Center(
                     child: CircularProgressIndicator(
                       color: AppColor.orangeColor,

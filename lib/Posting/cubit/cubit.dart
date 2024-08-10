@@ -23,6 +23,7 @@ final List<Map<String,dynamic>>openQuestion=[];
         token: accessToken
     ).then((value)
     {
+      print(value.data);
       List<Map<String, dynamic>> data = List<Map<String, dynamic>>.from(value.data);
 
     data.forEach((comment) {
@@ -36,9 +37,10 @@ final List<Map<String,dynamic>>openQuestion=[];
 
     }
     ).catchError((error){
-      int statusCode = error.response?.statusCode ?? -1;
+     // int statusCode = error.response?.statusCode ?? -1;
       print("YourPostPostErrorStateStates");
-      emit(YourPostPostErrorStateStates(statusCode));
+      print(error.toString());
+      emit(YourPostPostErrorStateStates());
     });
   }
  void getOpenQuestion(){
@@ -50,24 +52,20 @@ final List<Map<String,dynamic>>openQuestion=[];
       token: accessToken
     ).then((value)
     {
+      print(value.data);
       List<Map<String, dynamic>> data = List<Map<String, dynamic>>.from(value.data);
-
     data.forEach((comment) {
-
       comment['createdAt'] = formatFacebookTime(comment['createdAt']);
-
     });
     openQuestion.addAll(data);
-
       print("YourOpenQuestionPostSucssessfullStateStates");
       emit(YourOpenQuestionPostSucssessfullStateStates());
-
     }
     ).catchError((error){
       print(error.toString());
-      int statusCode = error.response?.statusCode ?? -1;
+     // int statusCode = error.response?.statusCode ?? -1;
       print("YourOpenQuestionPostErrorStateStates");
-      emit(YourOpenQuestionPostErrorStateStates(statusCode));
+      emit(YourOpenQuestionPostErrorStateStates());
     });
   }
   void deletePost(String id){
@@ -118,9 +116,9 @@ final List<Map<String,dynamic>>openQuestion=[];
 
     }
     ).catchError((error){
-      int statusCode = error.response?.statusCode ?? -1;
+     // int statusCode = error.response?.statusCode ?? -1;
       print("CustomerPostPostErrorStateStates");
-      emit(CustomerPostPostErrorStateStates(statusCode));
+      emit(CustomerPostPostErrorStateStates());
     });
   }
   void getOpenQuestionCustomer(String userId){
@@ -145,9 +143,9 @@ final List<Map<String,dynamic>>openQuestion=[];
 
     }
     ).catchError((error){
-      int statusCode = error.response?.statusCode ?? -1;
+     // int statusCode = error.response?.statusCode ?? -1;
       print("CustomerOpenQuestionPostErrorStateStates");
-      emit(CustomerOpenQuestionPostErrorStateStates(statusCode));
+      emit(CustomerOpenQuestionPostErrorStateStates());
     });
   }
   Map<String,dynamic>information={};
@@ -168,17 +166,17 @@ final List<Map<String,dynamic>>openQuestion=[];
         emit(GetInformationSucssessfullStateStates());
       } else {
         print("GetInformationErrorStateStates");
-        emit(GetInformationErrorStateStates(0));
+        emit(GetInformationErrorStateStates());
       }
 
 
     }
     ).catchError((error){
-      int statusCode = error.response?.statusCode ?? -1;
+     // int statusCode = error.response?.statusCode ?? -1;
       print(error.toString());
 
       print("GetInformationErrorStateStates");
-      emit(GetInformationErrorStateStates(statusCode));
+      emit(GetInformationErrorStateStates());
     });
   }
 
@@ -215,8 +213,8 @@ final List<Map<String,dynamic>>openQuestion=[];
       emit(SuccessGetFavoritesDateState());
     }
     ).catchError((error){
-      int statusCode = error.response?.statusCode ?? -1;
-      emit(ErrorGetFavoritesDateState(statusCode));
+   //   int statusCode = error.response?.statusCode ?? -1;
+      emit(ErrorGetFavoritesDateState());
       print("ErrorGetFavoritesDateState");
       print(error.toString());
     });

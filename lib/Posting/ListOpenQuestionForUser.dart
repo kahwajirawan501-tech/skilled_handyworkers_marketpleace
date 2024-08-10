@@ -78,10 +78,21 @@ class _ListOfOpenQuestionUserState extends State<ListOfOpenQuestionUser> {
             condition: state is !DeletePostLoadStateStates,
           builder: (context) {
             if (widget.openQuestionPost.isEmpty &&
-                (state is YourOpenQuestionPostSucssessfullStateStates || state is YourPostPostSucssessfullStateStates  ))
+                (state is YourOpenQuestionPostSucssessfullStateStates || state is YourPostPostSucssessfullStateStates
+                    ||state is CustomerPostPostSucssessfullStateStates || state is CustomerOpenQuestionPostSucssessfullStateStates
+
+                ))
             {
               return   Center(
-                child: Image.asset("assets/images/Illustrasi.png"),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Image.asset("assets/images/Illustrasi.png"),
+                    SizedBox(height: 24,),
+                    Text("Not openQuestion Yet",style: TextStyle(color: AppColor.posting),)
+                  ],
+                ),
               );
             } else {
               return Container(
@@ -117,7 +128,7 @@ class _ListOfOpenQuestionUserState extends State<ListOfOpenQuestionUser> {
                                 widget.openQuestionPost[index]['isSaved']=true;
                               }
                             }
-                            if(!widget.openQuestionPost[index]['isSaved']){
+                            else if(!widget.openQuestionPost[index]['isSaved']){
                               CubitYourPost.get(context).savePost(widget.openQuestionPost[index]['_id']);
                               widget.openQuestionPost[index]['isSaved']=true;
                               if(state is SaveErrorFavoritesDateState){

@@ -77,9 +77,20 @@ class _ListOfPostingUserState extends State<ListOfPostingUser> {
       return ConditionalBuilder(
           condition: state is !DeletePostLoadStateStates,
           builder: (context) {
-            if (widget.post.isEmpty && ( state is YourPostPostSucssessfullStateStates ||state is YourOpenQuestionPostSucssessfullStateStates)) {
+            if (widget.post.isEmpty &&
+                ( state is YourPostPostSucssessfullStateStates ||state is YourOpenQuestionPostSucssessfullStateStates
+                    ||state is CustomerPostPostSucssessfullStateStates || state is CustomerOpenQuestionPostSucssessfullStateStates
+                )) {
               return  Center(
-                child:  Image.asset("assets/images/Illustrasi.png"),
+                child:  Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset("assets/images/Illustrasi.png"),
+                    SizedBox(height: 24,),
+                    Text("Not Post Yet",style: TextStyle(color: AppColor.posting),)
+                  ],
+                ),
               );
             } else {
               return Container(
@@ -100,17 +111,23 @@ class _ListOfPostingUserState extends State<ListOfPostingUser> {
                       },
                       onPressedForFavorit: () {
                         setState(() {
-                          if(widget.post[index]['isFavorite']){
+                          if(widget.post[index]['isSaved']){
                             CubitYourPost.get(context).unSavePost(widget.post[index]['_id']);
-                            widget.post[index]['isFavorite']=false;
+                            widget.post[index]['isSaved']=false;
+                            if(state is UnSaveErrorFavoritesDateState){
+                              widget.post[index]['isSaved']=true;
+                            }
                           }
-                          if(!widget.post[index]['isFavorite']){
+                         else if(!widget.post[index]['isSaved']){
                             CubitYourPost.get(context).savePost(widget.post[index]['_id']);
-                            widget.post[index]['isFavorite']=true;
+                            widget.post[index]['isSaved']=true;
+                            if(state is SaveErrorFavoritesDateState){
+                              widget.post[index]['isSaved']=false;
+                            }
                           }
                         });
                       },
-                      colorsFavorit:widget.post[index]['isFavorite']?Colors.red:Colors.grey,//
+                      colorsFavorit:widget.post[index]['isSaved']?Colors.red:Colors.grey,//
                       // widget.post[index]['isFavorite']?Colors.red:Colors.grey
                       onTapImage: () {
                         if(widget.post[index]['user']['_id'] != id) {

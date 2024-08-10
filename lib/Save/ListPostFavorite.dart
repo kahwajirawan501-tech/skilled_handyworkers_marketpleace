@@ -82,7 +82,15 @@ class _ListOfPostingFavoritState extends State<ListOfPostingFavorit> {
           builder: (context) {
             if (widget.post.isEmpty ) {
               return  Center(
-                child: Image.asset("assets/images/Illustrationn.png"),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Image.asset("assets/images/Illustrationn.png"),
+                    SizedBox(height: 24,),
+                    Text("Not post Yet",style: TextStyle(color: AppColor.posting),)
+                  ],
+                ),
               );
             } else {
               return Container(

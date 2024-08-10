@@ -14,47 +14,51 @@ import 'package:skilled_handyworkers_marketpleace/shared/network/remote/dio_help
 class ChatCubit extends Cubit<MessageStates> {
   ChatCubit() : super(MessageStatesInitialStateStates()) {
     initializeSocket();
+ //   initializeNotifications();
   }
 
   static ChatCubit get(context) => BlocProvider.of(context);
 //
-  List<Map<String, dynamic>> messages = [
-
-  ];
+  List<Map<String, dynamic>> messages = [];
+  late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
   late IO.Socket _socket;
- late bool online=false;
+
   void initializeSocket() {
     _socket = IO.io('http://192.168.43.142:3000', <String, dynamic>{
       'transports': ['websocket'],
       'autoConnect': false,
+      'query': {'userId': id}, // إرسال معرف المستخدم عند الاتصال
     });
 
     _socket.connect();
 
     _socket.on('connect', (_) {
       print('Connected to socket server');
-      online=true;
+
     });
 
     _socket.on('disconnect', (_) {
       print('Disconnected from socket server');
-      online=false;
+
     });
 
     _socket.on('newMessage', (data) {
 
-
        messages.add(data);
-      //showNotification("New Message", data['message']);
       emit(AddMessageSucssessfullStateStates(messages));
-     // emit(RecMessageSucssessfullStateStates(messages));
+       getUsersMessage();
+   //    showNotification(data['message']);
     });
-
+    _socket.on('newNotification', (data) {
+      // إظهار الإشعار بناءً على البيانات المستلمة
+    //  showNotification(data['message']);
+    });
     _socket.on('messageEdited', (updatedMessage) {
       int index = messages.indexWhere((message) => message['_id'] == updatedMessage['_id']);
       if (index != -1) {
         messages[index] = updatedMessage;
         emit(EditMessageSucssessfullStateStates(messages));
+        getUsersMessage();
       }
     });
 
@@ -63,13 +67,20 @@ class ChatCubit extends Cubit<MessageStates> {
       if (index != -1) {
         messages.removeAt(index);
         emit(DeleteMessageSucssessfullStateStates(messages));
+        getUsersMessage();
       }
     });
 
+    _socket.on('userStatus', (data) {
+      bool isOnline = data['isOnline'];
+      String userId = data['userId'];
+      // قم بتحديث حالة المستخدم في واجهة المستخدم أو الحالة المناسبة
+      emit(UserStatusUpdatedState(isOnline,userId));
+    });
 
     _socket.on('connect_error', (error) {
       print('Connection Error: $error');
-      online=false;
+
     });
 
     _socket.on('error', (error) {
@@ -80,100 +91,76 @@ class ChatCubit extends Cubit<MessageStates> {
   void sendMessage(String content, String receiverId) {
     emit(AddMessageLoadStateStates());
     final newMessage = {
-      '_id':"",
       'sender_id':id,
       'receiver_id': receiverId,
       'message': content,
-      'createdAt':""
+
     };
-    DioHelper.postData(url: '/chat/send', data: {
-      'receiver_id': receiverId,
-      'message': content,
-    },token: accessToken).then((value) {
-      if(value.data!=null){
-
-        newMessage['_id']=value.data['_id'];
-        newMessage['createdAt']=value.data['createdAt'];
-
-      }
-      // إرسال الرسالة عبر WebSocket
-      _socket.emit('sendMessage', newMessage);
 
 
+    // إرسال الرسالة عبر WebSocket
+    _socket.emit('sendMessage', newMessage);
 
-      print("Message sent successfully via API");
-    }).catchError((error) {
-      print("Failed to send message via API: ${error.toString()}");
+    _socket.on('error', (error) {
+   emit(AddMessageErrorStateStates());
+      print('Socket Error: $error');
     });
-
 
   }
   void deleteMessage(int messageIndex) {
     final messageId = messages[messageIndex]['_id'];
     emit(DeleteMessageLoadStateStates());
-    DioHelper.deletePost(url: '/chat/$messageId',token: accessToken).then((_) {
-      _socket.emit('deleteMessage', {'messageId': messageId});
+    _socket.emit('deleteMessage', {'messageId': messageId});
 
-      //    messages.removeAt(messageIndex);
-
-      //
-      // _socket.on('messageDeleted', (deletedMessageId) {
-      //   if (deletedMessageId == messageId) {
-      //     messages.removeAt(messageIndex);
-      //     emit(DeleteMessageSucssessfullStateStates(messages));
-      //   }
-      // });
-      //
-      // _socket.on('error', (error) {
-      //   int statusCode = error['statusCode'] ?? -1;
-      //   emit(DeleteMessageErrorStateStates(statusCode));
-      // });
-      //  emit(DeleteMessageSucssessfullStateStates(messages));
-    }).catchError((error) {
-      int statusCode = error.response?.statusCode ?? -1;
-      emit(DeleteMessageErrorStateStates(statusCode));
-      print(error.toString());
-      print("DeleteMessageErrorStateStates");
-    });
   }
   void editMessage(int messageIndex, String content) {
     final messageId = messages[messageIndex]['_id'];
     emit(EditMessageLoadStateStates());
-    DioHelper.putData(url: '/chat/$messageId', data: {
-      'message': content,
+    messages[messageIndex]['message'] = content;
+    final editPayload = {
+      'messageId': messageId,
+      'content': content,
+    };
 
-    },token: accessToken).then((_) {
-      messages[messageIndex]['message'] = content;
-      final editPayload = {
-        'messageId': messageId,
-        'content': content,
-      };
+    _socket.emit('editMessage', editPayload);
 
-      _socket.emit('editMessage', editPayload);
+      _socket.on('error', (error) {
+        int statusCode = error['statusCode'] ?? -1;
+        emit(EditMessageErrorStateStates(statusCode));
+      });
 
-      // _socket.on('messageEdited', (updatedMessage) {
-      //   if (updatedMessage['_id'] == messageId) {
-      //     messages[messageIndex]['message'] = content;
-      //   //  emit(EditMessageSucssessfullStateStates(messages));
-      //   }
-      // });
-      //
-      // _socket.on('error', (error) {
-      //   int statusCode = error['statusCode'] ?? -1;
-      //   //emit(EditMessageErrorStateStates(statusCode));
-      // });
-     // emit(EditMessageSucssessfullStateStates(messages));
-    }).catchError((error) {
-      int statusCode = error.response?.statusCode ?? -1;
-      print(error.toString());
-      emit(EditMessageErrorStateStates(statusCode));
-    });
   }
 
+  void initializeNotifications() {
+    flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
+    var initializationSettingsAndroid = AndroidInitializationSettings('@mipmap/ic_launcher');
+    var initializationSettings = InitializationSettings(
+      android: initializationSettingsAndroid,
+    );
 
+    flutterLocalNotificationsPlugin.initialize(initializationSettings);
+  }
 
+  void showNotification(String message) async {
+    var androidDetails = AndroidNotificationDetails(
+      'channelId', // Channel ID
+      'channelName', // Channel Name
+      channelDescription: 'channelDescription', // Channel Description as a named argument
+      importance: Importance.max,
+      priority: Priority.high,
+    );
 
+    var generalNotificationDetails = NotificationDetails(
+      android: androidDetails,
+    );
+    await flutterLocalNotificationsPlugin.show(
+      0, // Notification ID
+      'New Message', // Notification Title
+      message, // Notification Body
+      generalNotificationDetails,
+    );
+  }
 
   void getMessages(String receiverId) {
     emit(MessageLoadStateStates());
@@ -195,43 +182,8 @@ class ChatCubit extends Cubit<MessageStates> {
     });
   }
 
-  String _formatTime(String postTimeStr) {
-    DateTime postTime = DateFormat("yyyy-MM-ddTHH:mm:ssZ", 'en_US').parse(postTimeStr);
-    DateTime now = DateTime.now();
-    Duration delta = now.difference(postTime);
 
-    if (delta < Duration(minutes: 1)) {
-      return "الآن";
-    } else if (delta < Duration(hours: 1)) {
-      return "منذ ${delta.inMinutes} دقائق";
-    } else if (delta < Duration(days: 1)) {
-      return "منذ ${delta.inHours} ساعات";
-    } else if (delta < Duration(days: 2)) {
-      return "أمس الساعة ${DateFormat('HH:mm', 'ar').format(postTime)}";
-    } else {
-      return DateFormat('dd MMM yyyy الساعة HH:mm', 'ar').format(postTime);
-    }
-  }
 
-  Future<void> showNotification(String title, String body) async {
-    var androidPlatformChannelSpecifics = AndroidNotificationDetails(
-      'unique_channel_id',
-      'Message Notifications',
-      importance: Importance.max,
-      priority: Priority.high,
-      ticker: 'ticker',
-    );
-    var platformChannelSpecifics = NotificationDetails(
-        android: androidPlatformChannelSpecifics
-       );
-    await flutterLocalNotificationsPlugin.show(
-      0,
-      title,
-      body,
-      platformChannelSpecifics,
-      payload: 'item x',
-    );
-  }
 
 
 

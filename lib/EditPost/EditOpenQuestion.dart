@@ -119,7 +119,7 @@ class _EditOpenQuestionState extends State<EditOpenQuestion> {
                       ),
                     ListTile(
                       leading: ClipOval(
-                        child: imageNetwork!=null?Image.network(imageNetwork!,fit: BoxFit.cover,
+                        child: imageNetwork!.isNotEmpty?Image.network(api+imageNetwork!,fit: BoxFit.cover,
                           height: 50,
                           width: 50,):Image.asset(
                           imageCope!,
@@ -129,7 +129,7 @@ class _EditOpenQuestionState extends State<EditOpenQuestion> {
                         ),
                       ),
                       title:  Text(
-                        name!=null?name!:"",
+                        name!.isNotEmpty?name!:"",
                         style: TextStyle(
                           fontSize: AppFontStyles.descriptionSplashScreenFontSize,
                           color: AppColor.bluColor,
@@ -137,7 +137,7 @@ class _EditOpenQuestionState extends State<EditOpenQuestion> {
                         ),
                       ),
                       subtitle:    Text(
-                        locationConst!=null?locationConst!:"",
+                        locationConst!.isNotEmpty?locationConst!:"",
                         style: TextStyle(
                           fontSize: AppFontStyles.descriptionLoginFontSize,
                           color: AppColor.fontColorDescription,

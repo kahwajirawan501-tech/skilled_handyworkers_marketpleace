@@ -70,7 +70,7 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
                     showCustomModal(
                         context,
                         title: "What would you like to add?",
-                        description: "Would you like to publish a post or an open question?",
+                        description: "publish a post or an open question?",
                         titleButton1: "Post",
                         titleButton2: "Open Question",
                         onPressed1: () {

@@ -125,7 +125,7 @@ class _ListOfOpenQuestionState extends State<ListOfOpenQuestion> {
                           CubitYourPost.get(context).unSavePost(widget.openQuestionPost[index]['_id']);
                           widget.openQuestionPost[index]['isSaved']=false;
                         }
-                        if(!widget.openQuestionPost[index]['isSaved']){
+                       else if(!widget.openQuestionPost[index]['isSaved']){
                           CubitYourPost.get(context).savePost(widget.openQuestionPost[index]['_id']);
                           widget.openQuestionPost[index]['isSaved']=true;
                         }

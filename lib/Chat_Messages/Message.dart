@@ -95,8 +95,9 @@ class _MessagePersonState extends State<MessagePerson> {
   @override
   void initState() {
     super.initState();
+
     ChatCubit.get(context).getMessages(widget.receiverId);
-    //ChatCubit.get(context).initializeSocket();
+
   }
 
   @override
@@ -196,10 +197,10 @@ class _MessagePersonState extends State<MessagePerson> {
                   ),
                   subtitle: Row(
                     children: [
-                      Icon(Icons.circle,color:ChatCubit.get(context) .online?Colors.green:Colors.grey,size: 12,),
+                      Icon(Icons.circle,color: Colors.grey,size: 12,),
                       SizedBox(width: 4,),
                       Text(
-                        ChatCubit.get(context).online?"Online":"Offline",
+                      "Online",
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
@@ -254,11 +255,12 @@ class _MessagePersonState extends State<MessagePerson> {
                                             padding: const EdgeInsets.symmetric(horizontal: AppFontStyles.aboutMe, vertical: 12),
                                             decoration: BoxDecoration(
                                               color: AppColor.orangeColor.withOpacity(0.1),
-                                              borderRadius: const BorderRadius.only(
-                                                topLeft: Radius.circular(15),
-                                                topRight: Radius.circular(15),
-                                                bottomRight: Radius.circular(15),
+                                              borderRadius: const BorderRadiusDirectional.only(
+                                                topStart: Radius.circular(15),
+                                                topEnd: Radius.circular(15),
+                                                bottomEnd: Radius.circular(15),
                                               ),
+
                                             ),
                                             child: Column(
                                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -304,10 +306,10 @@ class _MessagePersonState extends State<MessagePerson> {
                                               padding: const EdgeInsets.symmetric(horizontal: AppFontStyles.aboutMe, vertical: 12),
                                               decoration: BoxDecoration(
                                                 color: AppColor.navyBlueColor,
-                                                borderRadius: const BorderRadius.only(
-                                                  topLeft: Radius.circular(15),
-                                                  topRight: Radius.circular(15),
-                                                  bottomLeft: Radius.circular(15),
+                                                borderRadius: const BorderRadiusDirectional.only(
+                                                  topStart: Radius.circular(15),
+                                                  topEnd: Radius.circular(15),
+                                                  bottomStart: Radius.circular(15),
                                                 ),
                                               ),
                                               child: Column(
