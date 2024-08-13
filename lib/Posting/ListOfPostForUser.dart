@@ -79,7 +79,7 @@ class _ListOfPostingUserState extends State<ListOfPostingUser> {
           builder: (context) {
             if (widget.post.isEmpty &&
                 ( state is YourPostPostSucssessfullStateStates ||state is YourOpenQuestionPostSucssessfullStateStates
-                    ||state is CustomerPostPostSucssessfullStateStates || state is CustomerOpenQuestionPostSucssessfullStateStates
+                    ||(state is CustomerPostPostSucssessfullStateStates || state is CustomerOpenQuestionPostSucssessfullStateStates)
                 )) {
               return  Center(
                 child:  Column(

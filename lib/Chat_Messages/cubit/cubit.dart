@@ -46,7 +46,7 @@ class ChatCubit extends Cubit<MessageStates> {
 
        messages.add(data);
       emit(AddMessageSucssessfullStateStates(messages));
-       getUsersMessage();
+     //  getUsersMessage();
    //    showNotification(data['message']);
     });
     _socket.on('newNotification', (data) {
@@ -58,7 +58,7 @@ class ChatCubit extends Cubit<MessageStates> {
       if (index != -1) {
         messages[index] = updatedMessage;
         emit(EditMessageSucssessfullStateStates(messages));
-        getUsersMessage();
+        //getUsersMessage();
       }
     });
 
@@ -67,13 +67,14 @@ class ChatCubit extends Cubit<MessageStates> {
       if (index != -1) {
         messages.removeAt(index);
         emit(DeleteMessageSucssessfullStateStates(messages));
-        getUsersMessage();
+       // getUsersMessage();
       }
     });
 
     _socket.on('userStatus', (data) {
       bool isOnline = data['isOnline'];
       String userId = data['userId'];
+
       // قم بتحديث حالة المستخدم في واجهة المستخدم أو الحالة المناسبة
       emit(UserStatusUpdatedState(isOnline,userId));
     });

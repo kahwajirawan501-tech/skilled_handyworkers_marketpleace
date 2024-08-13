@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:skilled_handyworkers_marketpleace/Dashboard/Location_DashBord.dart';
 import 'package:skilled_handyworkers_marketpleace/Dashboard/config/size_config.dart';
+import 'package:skilled_handyworkers_marketpleace/Dashboard/cubit/cubit.dart';
+import 'package:skilled_handyworkers_marketpleace/shared/components/components.dart';
 
 import 'Component/AppBarActionItem.dart';
 import 'Component/header.dart';
@@ -11,8 +14,9 @@ import 'config/responsive.dart';
 
 
 class Dashboard extends StatelessWidget {
-  GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
 
+  GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
+TextEditingController textEditingController=TextEditingController();
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -96,10 +100,15 @@ class Dashboard extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 PrimaryText(
+                                  onTap: () {
+                                    navigateTo(widget: LocationDashboard(),context: context
+                                    );
+                                    DashBoardCubit.get(context).getLocation();
+                                  },
                                   text: 'Balance',
                                   size: 16,
                                   fontWeight: FontWeight.w400,
-                                  color: Colors.white,
+                                  color: Colors.yellow,
                                 ),
                                 PrimaryText(
                                     text: '\$1500',
@@ -143,7 +152,7 @@ class Dashboard extends StatelessWidget {
                         SizedBox(
                           height: SizeConfig.blockSizeVertical * 3,
                         ),
-                       // HistoryTable(),
+                       Container(),
                         if (!Responsive.isDesktop(context)) PaymentDetailList()
                       ],
                     ),

@@ -65,9 +65,10 @@ class AppBarProfile extends StatelessWidget implements PreferredSizeWidget {
               Visibility(
                 visible: visibilitySetting,
                 child: Padding(
-                  padding: const EdgeInsetsDirectional.only(end: 20, top: 43),
+                  padding: const EdgeInsetsDirectional.only(end: 20, top: 43,start: 20),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
+
                     children: [
                       GestureDetector(
                           onTap: onTapShared,
@@ -83,13 +84,14 @@ class AppBarProfile extends StatelessWidget implements PreferredSizeWidget {
               Visibility(
                 visible: arrBackVisibility,
                 child: Padding(
-                  padding: const EdgeInsetsDirectional.only(end: 20, top: 43),
+                  padding: const EdgeInsetsDirectional.only(end: 20, top: 43,start: 20),
                   child: GestureDetector(
                     onTap: onTabArrBack,
-                    child: Image.asset("assets/images/Icon Shared.png"),
+                    child: Icon(CupertinoIcons.arrow_left,color: Colors.white,),
                   ),
                 ),
               ),
+              SizedBox(height: 10,),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

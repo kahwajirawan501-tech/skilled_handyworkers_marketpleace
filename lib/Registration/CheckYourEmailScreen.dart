@@ -2,7 +2,6 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:get/get.dart';
 import 'package:skilled_handyworkers_marketpleace/Registration/LoginScreen.dart';
 import 'package:skilled_handyworkers_marketpleace/Registration/cubitLogin/cubit.dart';

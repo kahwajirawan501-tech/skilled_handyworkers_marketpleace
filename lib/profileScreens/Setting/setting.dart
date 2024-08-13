@@ -7,6 +7,7 @@ import 'package:skilled_handyworkers_marketpleace/profileScreens/Box.dart';
 import 'package:skilled_handyworkers_marketpleace/profileScreens/Setting/password.dart';
 import 'package:skilled_handyworkers_marketpleace/profileScreens/profileScreen.dart';
 import 'package:skilled_handyworkers_marketpleace/shared/components/components.dart';
+import 'package:skilled_handyworkers_marketpleace/shared/components/constant.dart';
 import 'package:skilled_handyworkers_marketpleace/shared/styles/colors.dart';
 import 'package:skilled_handyworkers_marketpleace/shared/styles/styles.dart';
 
@@ -204,7 +205,7 @@ class _SettingState extends State<Setting> {
                             Spacer(),
                             IconButton(
 
-    onPressed:(){
+                           onPressed:(){
     showCustomModal(
     context,
     title: "Log out",
@@ -212,7 +213,10 @@ class _SettingState extends State<Setting> {
     titleButton1: "Yes",
     titleButton2: "Cancel",
     onPressed1:() {
+     String message= signOut(context);
+     showToast(text: message, state: ToastStates.SUCCESS);
     Navigator.pop(context); // إغلاق القائمة السفلية
+    //
     },
     onPressed2: () {
     Navigator.pop(context); // إغلاق القائمة السفلية

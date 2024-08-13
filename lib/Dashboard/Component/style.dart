@@ -12,25 +12,28 @@ class PrimaryText extends StatelessWidget {
   final Color color;
   final String text;
   final double height;
-
+  final GestureTapCallback? onTap;
 
 
   const PrimaryText({super.key,
     this.size = 20,
     this.fontWeight =FontWeight.w400,
-    this.color =Colors.white,
+    this.color =Colors.red,
     required this.text,
-    this.height =1.3});
+    this.height =1.3, this.onTap});
 
   @override
   Widget build(BuildContext context) {
-    return  Text(text,
-      style: TextStyle(
-          color: color,
-          height: height,
-          fontSize: size,
-          fontWeight: fontWeight
-      ),);
+    return  GestureDetector(
+      onTap:onTap ,
+      child: Text(text,
+        style: TextStyle(
+            color: color,
+            height: height,
+            fontSize: size,
+            fontWeight: fontWeight
+        ),),
+    );
   }
 }
 

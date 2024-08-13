@@ -28,6 +28,7 @@ class _ChatListState extends State<ChatList> {
    // ChatCubit.get(context).initializeSocket();
   }
   TextEditingController textEditingController=TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<ChatCubit,MessageStates>(
@@ -213,16 +214,41 @@ Widget ListChat(context,var user)=>Column(
         ),
       ),
 
-      trailing: Text(
-        user['lastMessageTime'],
-        maxLines: 1,
-        overflow: TextOverflow.ellipsis,
-        style: TextStyle(
-          fontSize: AppFontStyles.soSmallFontSize,
-          color: AppColor.grayColorFont,
-          fontWeight: AppFontStyles.fontWeightMedium,
-        ),
+      trailing: Column(
+        children: [
+          Text(
+            user['lastMessageTime'],
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+              fontSize: AppFontStyles.soSmallFontSize,
+              color: AppColor.grayColorFont,
+              fontWeight: AppFontStyles.fontWeightMedium,
+            ),
+          ),
+      SizedBox(height:10 ,),
+      Visibility(
+        visible: user['unreadCount']!=0,
+        child: Container(
+          width: 20.0,
+          height: 20.0,
+          decoration: BoxDecoration(
+            color:AppColor.orangeColor, // لون الدائرة
+            shape: BoxShape.circle, // يجعل الشكل دائرياً
+          ),
+          alignment: Alignment.center, // يجعل النص في مركز الدائرة
+          child: Text(
+           user['unreadCount'].toString(),
+            style: TextStyle(
+              color: Colors.white, // لون الرقم
+              fontSize: 11.0, // حجم الرقم
+              fontWeight: FontWeight.bold, // نمط الخط
+            ),
+          ),),
+      )
+        ],
       ),
+
     ),
 
   ],

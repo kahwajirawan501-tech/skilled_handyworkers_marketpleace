@@ -91,7 +91,9 @@ class _MessagePersonState extends State<MessagePerson> {
       _commentController.text = ChatCubit.get(context).messages[commentIndex]['message'];
     });
   }
-
+  String idResive="";
+  bool online=false;
+  Map<String, bool> userStatus = {};
   @override
   void initState() {
     super.initState();
@@ -131,7 +133,14 @@ class _MessagePersonState extends State<MessagePerson> {
            _editingCommentIndex= -1;
            _isEditing = false;
          }
+         if(state is UserStatusUpdatedState){
+          setState(() {
+            idResive=  state.id;
+            online=state.online;
 
+          });
+
+         }
       },
       builder: (context, state) {
         return Scaffold(
@@ -143,6 +152,7 @@ class _MessagePersonState extends State<MessagePerson> {
               icon: Icon(Icons.arrow_back, color: AppColor.arrowBackColor),
               onPressed: () {
                 Navigator.pop(context);
+                //ChatCubit.get(context).getUsersMessage();
                 // navigateAndFinish(widget: const ProfileScreen(), context: context);
               },
             ),
@@ -197,10 +207,10 @@ class _MessagePersonState extends State<MessagePerson> {
                   ),
                   subtitle: Row(
                     children: [
-                      Icon(Icons.circle,color: Colors.grey,size: 12,),
+                      Icon(Icons.circle,color:(online)?Colors.green: Colors.grey,size: 12,),
                       SizedBox(width: 4,),
                       Text(
-                      "Online",
+                        (online)?"Online":"Offline",
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(

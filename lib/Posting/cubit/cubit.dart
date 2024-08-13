@@ -22,7 +22,7 @@ final List<Map<String,dynamic>>openQuestion=[];
       url:'post/$id/posts',
         token: accessToken
     ).then((value)
-    {
+    {print("value.data");
       print(value.data);
       List<Map<String, dynamic>> data = List<Map<String, dynamic>>.from(value.data);
 
@@ -73,6 +73,7 @@ final List<Map<String,dynamic>>openQuestion=[];
     print("DeletePostLoadStateStates");
     DioHelper.deletePost(
       url:'post/$id',
+      token: accessToken
     ).then((value)
     {
 

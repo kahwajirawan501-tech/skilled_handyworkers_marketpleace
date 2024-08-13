@@ -83,7 +83,8 @@ class AddPostCubit extends Cubit<AddPostStates>{
   Future<void> postFile(List<XFile> images, List<XFile> videos) async {
     emit(PostFileLoadStateStates());
     print("PostFileLoadStateStates");
-
+    ima.clear();
+    video.clear();
     List<MultipartFile> allFiles = [];
 
     for (var image in images) {

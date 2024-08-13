@@ -31,7 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),)
             ],),
             Row(children: [
-              Text("Orlando Diggs .",style: TextStyle(
+              Text("Jana .",style: TextStyle(
                   fontSize: AppFontStyles.sizeFontInHome,color: AppColor.fontColor,fontWeight: AppFontStyles.fontWeightBold
 
               ),)

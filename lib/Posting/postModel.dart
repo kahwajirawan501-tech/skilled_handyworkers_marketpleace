@@ -5,6 +5,7 @@ import 'dart:typed_data';
 import 'package:flutter/services.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:path/path.dart' as p;
+import 'package:permission_handler/permission_handler.dart';
 import 'package:skilled_handyworkers_marketpleace/shared/components/constant.dart';
 import 'package:skilled_handyworkers_marketpleace/shared/styles/colors.dart';
 import 'package:skilled_handyworkers_marketpleace/shared/styles/styles.dart';
@@ -169,90 +170,270 @@ class _PostModelState extends State<PostModel> {
     );
   }
 
+  // void _openVideoDialog(String videoUrl) {
+  //     VideoPlayerController _videoPlayerController = VideoPlayerController.network(videoUrl);
+  //
+  //     _videoPlayerController.initialize().then((_) {
+  //       setState(() {
+  //         _videoPlayerController.play(); // Autoplay when dialog opens
+  //       });
+  //     });
+  //
+  //     showGeneralDialog(
+  //       context: context,
+  //       barrierDismissible: false, // prevent closing on tap outside
+  //       barrierLabel: "video Preview",
+  //       barrierColor: Colors.white,
+  //       transitionDuration: const Duration(milliseconds: 200),
+  //       pageBuilder: (context, animation, secondaryAnimation) {
+  //         return Dialog(
+  //           insetPadding: EdgeInsets.zero,
+  //           backgroundColor: Colors.transparent,
+  //           child: Padding(
+  //             padding: const EdgeInsets.symmetric(vertical: 16.0),
+  //             child: AspectRatio(
+  //               aspectRatio: _videoPlayerController.value.aspectRatio,
+  //               child: GestureDetector(
+  //                 onTap: () {
+  //                   setState(() {
+  //                     if (_videoPlayerController.value.isPlaying) {
+  //                       _videoPlayerController.pause();
+  //                     } else {
+  //                       _videoPlayerController.play();
+  //                     }
+  //                   });
+  //                 },
+  //                 child: VideoPlayer(_videoPlayerController),
+  //               ),
+  //             ),
+  //           ),
+  //         );
+  //       },
+  //     ).then((_) {
+  //       _videoPlayerController.pause(); // Pause video when dialog is dismissed
+  //       _videoPlayerController.dispose(); // Dispose the controller to release resources
+  //     });
+  //   }
+  // void _openVideoDialog(String videoUrl) {
+  //   VideoPlayerController _videoPlayerController = VideoPlayerController.network(videoUrl);
+  //
+  //   _videoPlayerController.initialize().then((_) {
+  //     setState(() {
+  //       _videoPlayerController.play(); // Autoplay when dialog opens
+  //     });
+  //   });
+  //
+  //   showGeneralDialog(
+  //     context: context,
+  //     barrierDismissible: false, // prevent closing on tap outside
+  //     barrierLabel: "video Preview",
+  //     barrierColor: Colors.white,
+  //     transitionDuration: const Duration(milliseconds: 200),
+  //     pageBuilder: (context, animation, secondaryAnimation) {
+  //       return Dialog(
+  //         insetPadding: EdgeInsets.zero,
+  //         backgroundColor: Colors.transparent,
+  //         child: Padding(
+  //           padding: const EdgeInsets.symmetric(vertical: 16.0),
+  //           child: AspectRatio(
+  //             aspectRatio: _videoPlayerController.value.aspectRatio,
+  //             child: Chewie(
+  //
+  //               controller: ChewieController(
+  //                 videoPlayerController: _videoPlayerController,
+  //                 autoPlay: true,
+  //                 looping: false,
+  //
+  //                 // يمكنك إضافة المزيد من الخيارات هنا للتحكم في مشغل الفيديو
+  //                 aspectRatio: _videoPlayerController.value.aspectRatio,
+  //                 allowFullScreen: true,
+  //                 materialProgressColors: ChewieProgressColors(
+  //                   playedColor: AppColor.orangeColor, // لون الشريط الذي تم تشغيله
+  //                   handleColor: AppColor.orangeColor, // لون مقبض التشغيل
+  //                   backgroundColor: Colors.grey, // لون الخلفية للشريط الزمني
+  //                   bufferedColor: Colors.grey,
+  //
+  //                   // لون الجزء الموقّت (buffered)
+  //                 ),
+  //
+  //
+  //               ),
+  //
+  //             ),
+  //           ),
+  //         ),
+  //       );
+  //     },
+  //   ).then((_) {
+  //     _videoPlayerController.pause(); // Pause video when dialog is dismissed
+  //     _videoPlayerController.dispose(); // Dispose the controller to release resources
+  //   });
+  // }
   void _openVideoDialog(String videoUrl) {
-      VideoPlayerController _videoPlayerController = VideoPlayerController.network(videoUrl);
+    VideoPlayerController _videoPlayerController = VideoPlayerController.network(videoUrl);
 
-      _videoPlayerController.initialize().then((_) {
-        setState(() {
-          _videoPlayerController.play(); // Autoplay when dialog opens
-        });
+    _videoPlayerController.initialize().then((_) {
+      setState(() {
+        _videoPlayerController.play(); // Autoplay when dialog opens
       });
+    });
 
-      showGeneralDialog(
-        context: context,
-        barrierDismissible: false, // prevent closing on tap outside
-        barrierLabel: "video Preview",
-        barrierColor: Colors.white,
-        transitionDuration: const Duration(milliseconds: 200),
-        pageBuilder: (context, animation, secondaryAnimation) {
-          return Dialog(
-            insetPadding: EdgeInsets.zero,
-            backgroundColor: Colors.transparent,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16.0),
-              child: AspectRatio(
-                aspectRatio: _videoPlayerController.value.aspectRatio,
-                child: GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      if (_videoPlayerController.value.isPlaying) {
-                        _videoPlayerController.pause();
-                      } else {
-                        _videoPlayerController.play();
-                      }
-                    });
-                  },
-                  child: VideoPlayer(_videoPlayerController),
+    showGeneralDialog(
+      context: context,
+      barrierDismissible: false, // prevent closing on tap outside
+      barrierLabel: "video Preview",
+      barrierColor: Colors.white,
+      transitionDuration: const Duration(milliseconds: 200),
+      pageBuilder: (context, animation, secondaryAnimation) {
+        return Dialog(
+          insetPadding: EdgeInsets.zero,
+          backgroundColor: Colors.transparent,
+          child: Column(
+            mainAxisSize: MainAxisSize.min, // Adjust size of the column to its content
+            mainAxisAlignment: MainAxisAlignment.center,            children: [
+              Flexible(
+
+                child: AspectRatio(
+                  aspectRatio: _videoPlayerController.value.aspectRatio,
+                  child: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          if (_videoPlayerController.value.isPlaying) {
+                            _videoPlayerController.pause();
+                          } else {
+                            _videoPlayerController.play();
+                          }
+                        });
+                      },
+                      child: VideoPlayer(_videoPlayerController)),
                 ),
               ),
-            ),
-          );
-        },
-      ).then((_) {
-        _videoPlayerController.pause(); // Pause video when dialog is dismissed
-        _videoPlayerController.dispose(); // Dispose the controller to release resources
-      });
-    }
+              VideoProgressIndicator(
+                _videoPlayerController,
+                allowScrubbing: true,
+                padding: EdgeInsets.symmetric(horizontal: 12,vertical: 12),
+
+                colors: VideoProgressColors(
+                  playedColor: AppColor.orangeColor,
+                  bufferedColor: Colors.grey,
+                  backgroundColor: Colors.grey,
+
+
+                ),
+
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                child: ValueListenableBuilder(
+                  valueListenable: _videoPlayerController,
+                  builder: (context, VideoPlayerValue value, child) {
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          _formatDuration(value.position),
+                          style: TextStyle(color: AppColor.orangeColor),
+                        ),
+                        IconButton(
+                          icon: Icon(CupertinoIcons.backward_fill , color: AppColor.orangeColor),
+                          onPressed: () {
+                            final currentPosition = _videoPlayerController.value.position;
+                            final rewindPosition = Duration(seconds: currentPosition.inSeconds - 10);
+                            _videoPlayerController.seekTo(rewindPosition);
+                          },
+                        ),
+                        IconButton(
+                          icon: Icon(
+                            value.isPlaying ? Icons.pause : Icons.play_arrow,
+                            color: AppColor.orangeColor,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              if (value.isPlaying) {
+                                _videoPlayerController.pause();
+                              } else {
+                                _videoPlayerController.play();
+                              }
+                            });
+                          },
+                        ),
+                        IconButton(
+                          icon: Icon(CupertinoIcons.forward_fill, color: AppColor.orangeColor),
+                          onPressed: () {
+                            final currentPosition = _videoPlayerController.value.position;
+                            final forwardPosition = Duration(seconds: currentPosition.inSeconds + 10);
+                            _videoPlayerController.seekTo(forwardPosition);
+                          },
+                        ),
+                        Text(
+                          _formatDuration(value.duration),
+                          style: TextStyle(color: AppColor.orangeColor),
+                        ),
+                      ],
+                    );
+                  },
+                ),
+              ),
+
+
+            ],
+          ),
+        );
+      },
+    ).then((_) {
+      _videoPlayerController.pause(); // Pause video when dialog is dismissed
+      _videoPlayerController.dispose(); // Dispose the controller to release resources
+    });
+  }
+
+  String _formatDuration(Duration duration) {
+    String twoDigits(int n) => n.toString().padLeft(2, '0');
+    final minutes = twoDigits(duration.inMinutes.remainder(60));
+    final seconds = twoDigits(duration.inSeconds.remainder(60));
+    return "${twoDigits(duration.inHours)}:$minutes:$seconds";
+  }
   Future<void> _saveImageToDevice(String imagePath) async {
     try {
-      final response = await http.get(Uri.parse("$api$imagePath"));
-      final Uint8List list = response.bodyBytes;
-      final result = await ImageGallerySaver.saveImage(list);
+      // طلب الأذونات
+      if (await Permission.storage.request().isGranted) {
+        final response = await http.get(Uri.parse(imagePath));
+        final Uint8List list = response.bodyBytes;
 
-      showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: Text('Saved Successfully', style: TextStyle(color: Colors.blue)),
-          content: Text('Image saved to gallery.', style: TextStyle(color: Colors.grey)),
-          actions: [
-            TextButton(
-              child: Text('OK', style: TextStyle(color: Colors.orange)),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        ),
-      );
+        // حفظ الصورة
+        final result = await ImageGallerySaver.saveImage(list);
+
+        // تحقق من النتيجة وعرض رسالة
+        if (result['isSuccess']) {
+          _showDialog('Saved Successfully', 'Image saved to gallery.');
+        } else {
+          _showDialog('Error', 'Failed to save image.');
+        }
+      } else {
+        _showDialog('Error', 'Permission denied.');
+      }
     } catch (e) {
-      showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: Text('Error', style: TextStyle(color: Colors.blue)),
-          content: Text('Failed to save image.', style: TextStyle(color: Colors.grey)),
-          actions: [
-            TextButton(
-              child: Text('OK', style: TextStyle(color: Colors.orange)),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        ),
-      );
+      print(e);
+      _showDialog('Error', 'Failed to save image.');
     }
   }
 
+  void _showDialog(String title, String content) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(title, style: TextStyle(color: AppColor.orangeColor)),
+        content: Text(content, style: TextStyle(color: Colors.grey)),
+        actions: [
+          TextButton(
+            child: Text('OK', style: TextStyle(color: AppColor.orangeColor)),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      ),
+    );
+  }
   @override
   Widget build(BuildContext context) {
     return Card(
