@@ -57,7 +57,9 @@ class SignUplCubit extends Cubit<SignUpStates> {
       print("UserSuccessState");
     }).catchError((error) {
       int statusCode = error.response?.statusCode ?? -1;
-      print(error.response.toString());
+      print("object");
+      print(error.response.toString()+"asdfghjk");
+      print(error.toString);
       emit(SignUpSkilledErrorState(statusCode));
 
       print(statusCode);

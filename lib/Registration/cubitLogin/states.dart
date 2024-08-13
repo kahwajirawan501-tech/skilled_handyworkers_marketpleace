@@ -28,3 +28,49 @@ class LoginCreateStates extends LoginStates {
   LoginCreateStates(this.isFilterActive);
 }
 class ChangePassWordVisibilityState extends LoginStates{}
+/////////////////////////////////////////////////////////////////////////////////
+class ForgotPassInitialStateStates extends LoginStates {}
+class ForgotPassSkilledLoadingState extends LoginStates {}
+class ForgotPassSkilledSuccessState extends LoginStates {
+
+  var value;
+  ForgotPassSkilledSuccessState(this.value);
+
+
+}
+class ForgotPassSkilledErrorState extends LoginStates {
+  var error;
+
+  ForgotPassSkilledErrorState(this.error);
+}
+////////////////////////////////////////////////////////////////////////////////
+class ChangePassInitialStateStates extends LoginStates {}
+class ChangePassSkilledLoadingState extends LoginStates {}
+class ChangePassSkilledSuccessState extends LoginStates {
+
+  var value;
+  ChangePassSkilledSuccessState(this.value);
+
+
+}
+class ChangePassSkilledErrorState extends LoginStates {
+  var error;
+
+  ChangePassSkilledErrorState(this.error);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+class EmailConfirmInitialStateStates extends LoginStates {}
+class EmailConfirmSkilledLoadingState extends LoginStates {}
+class EmailConfirmSkilledSuccessState extends LoginStates {
+
+  var value;
+  EmailConfirmSkilledSuccessState(this.value);
+
+
+}
+class EmailConfirmSkilledErrorState extends LoginStates {
+  var error;
+
+  EmailConfirmSkilledErrorState(this.error);
+}

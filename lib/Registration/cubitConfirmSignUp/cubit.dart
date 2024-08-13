@@ -1,5 +1,4 @@
 
-
 import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skilled_handyworkers_marketpleace/Registration/cubitConfirmSignUp/states.dart';
@@ -13,13 +12,14 @@ class ConfirmSignUpCubit extends Cubit<ConfirmSignUpStates> {
 
   void sendCode({
     required String email,
+    //required String code,
    // required String code,
   }) {
     emit(ConfirmSignUpSkilledLoadingState());
 
     DioHelper.postData(url: 'auth/signup_confiramtion', data: {
       'email': email,
-    //  'code': code,
+      //'code': code,
     }).then((value) {
       print("send email succ");
       print(value.data);

@@ -16,7 +16,6 @@ import 'cubitConfirmSignUp/cubit.dart';
 import 'cubitConfirmSignUp/states.dart';
 
 class SignUpScreen extends StatelessWidget {
-
   var formKey = GlobalKey<FormState>();
 
   var emailController = TextEditingController();
@@ -36,11 +35,9 @@ class SignUpScreen extends StatelessWidget {
           if (state is SignUpSkilledSuccessState) {
             if (state.value == 201) {
               // بعد نجاح التسجيل، استدعاء API تأكيد التسجيل
-
               ConfirmSignUpCubit.get(context).sendCode(
                 email: emailController.text,
               );
-
             }
           }
 

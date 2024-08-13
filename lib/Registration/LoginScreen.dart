@@ -9,7 +9,6 @@ import 'package:skilled_handyworkers_marketpleace/shared/components/constant.dar
 import '../profileScreens/profileScreen.dart';
 import '../shared/components/components.dart';
 import '../shared/network/local/cache_helper.dart';
-import '../shared/network/local/local_controller.dart';
 import '../shared/styles/colors.dart';
 import '../shared/styles/styles.dart';
 import 'ForgotPasswordScreen.dart';

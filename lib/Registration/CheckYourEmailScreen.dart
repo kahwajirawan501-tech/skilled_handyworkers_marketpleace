@@ -1,29 +1,72 @@
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:get/get.dart';
 import 'package:skilled_handyworkers_marketpleace/Registration/LoginScreen.dart';
 import 'package:skilled_handyworkers_marketpleace/Registration/cubitLogin/cubit.dart';
 import 'package:skilled_handyworkers_marketpleace/Registration/cubitLogin/states.dart';
 import 'package:skilled_handyworkers_marketpleace/Registration/registertTitle.dart';
+import 'package:skilled_handyworkers_marketpleace/shared/network/local/cache_helper.dart';
 
 import '../shared/components/components.dart';
 import '../shared/styles/colors.dart';
 import '../shared/styles/styles.dart';
-import 'ChangePasswordScreen.dart';
+import '../Registration/ChangePasswordScreen.dart';
 
 
 class CheckYourEmailScreen extends StatelessWidget {
+ // final String email;
+ // var data = Get.arguments;
+  var codeController = TextEditingController();
   var emailController = TextEditingController();
+
+   //CheckYourEmailScreen({super.key,  required this.email});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (BuildContext content) => LoginCubit(),
       child: BlocConsumer<LoginCubit, LoginStates>(
-        listener: (context, state) {},
+        listener: (context, state) {
+          if (state is ChangePassSkilledSuccessState) {
+            if (state.value == 201) {
+
+              // CacheHelper.saveData(
+              //     key: 'accessToken', value: state.loginModel.token)
+              //     .then(
+              //       (value) {
+              //     accessToken = state.loginModel.token;
+              //   },
+              // );
+              // Get.to(() => LoginScreen(), arguments: [
+              //   data[0],
+              // ]);
+              navigateTo(context: context, widget: LoginScreen());
+            }
+          }
+          if (state is ChangePassSkilledErrorState) {
+            if (state.error == 400) {
+              showToast(
+                text: "The code not correct",
+                state: ToastStates.EROOR,
+              );
+            } else {
+              showToast(
+                text: "error".toString(),
+                state: ToastStates.EROOR,
+              );
+            }
+
+            // تسجيل تفاصيل الخطأ لمزيد من التحقق
+            print("رمز الخطأ: ${state.error}");
+            // print("رسالة الخطأ: ${state.errorMessage}");
+          }
+        },
         builder: (context, state) {
           return Scaffold(
+
               backgroundColor: AppColor.backgroundColor,
               body: SingleChildScrollView(
                 physics: BouncingScrollPhysics(),
@@ -34,102 +77,117 @@ class CheckYourEmailScreen extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        RegisterTitle(
-                          title1: "19".tr,
-                          title2: "20".tr,
-                          pathImage: "assets/images/checkEmail.png",
-                        ),
-                        Text(
-                          "24".tr,
-                          style: TextStyle(
-                              fontWeight: AppFontStyles.fontWeightSemiBold7,
-                              fontSize: AppFontStyles.descriptionLoginFontSize,
-                              color: AppColor.fontColor),
-                        ),
-                        SizedBox(
-                          height: 16,
-                        ),
-                        defaultTextFieldLog(
-                          controller: emailController,
-                          validate: (String? value) {
-                            if (value!.isEmpty) {
-                              return "email must not be empty";
-                            }
-                            return null;
-                          },
-                          type: TextInputType.emailAddress,
-                        ),
-
-                        SizedBox(
-                          height: 56,
-                        ),
                         Center(
-                          child: button(
-                            text: '21'.toUpperCase().tr,
-                            color: Colors.white,
-                            fontSize:
-                            AppFontStyles.descriptionSplashScreenFontSize,
-                            fontWeight: AppFontStyles.fontWeightSemiBold7,
-                            height: 60,
-                            width: 320,
-                            onPressed: () {
-                              navigateTo(
-                                context: context,
-                                widget: ChangePasswordScreen(),
-                              );
-                            },
-                            colorBackground: AppColor.navyBlueColor,
-                          ),
-                        ),
-                        SizedBox(
-                          height: 24,
-                        ),
-                        Center(
-                          child: button(
-                            text: '17'.toUpperCase().tr,
-                            color: Colors.white,
-                            fontSize:
-                            AppFontStyles.descriptionSplashScreenFontSize,
-                            fontWeight: AppFontStyles.fontWeightSemiBold7,
-                            height: 60,
-                            width: 320,
-                            onPressed: () {
-                              navigateTo(
-                                context: context,
-                                widget: LoginScreen(),
-                              );
-                            },
-                            colorBackground: AppColor.googleColor,
-                          ),
-                        ),
-                        SizedBox(
-                          height: 8,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 32.0),
-                          child: Row(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text("22".tr,style: TextStyle(
-
-                                  fontWeight: AppFontStyles.fontWeightSemiBold4,
-                                  fontSize: AppFontStyles.descriptionSplashScreenFontSize,
-                                  color:AppColor.fontColor
-                              ),),
-                              //  SizedBox(width: 24,),
-                              defaultTextButton(
-
-                                  text: "23".tr,
-                                  function: (){
-
-                                  },
-                                  fontWeight: AppFontStyles.fontWeightSemiBold4,
-                                  fontSize: AppFontStyles.descriptionSplashScreenFontSize,
-                                  color:AppColor.orangeColor
+                              RegisterTitle(
+                                title1: "19".tr,
+                                title2: "20".tr,
+                                pathImage: "assets/images/successfully.png",
                               ),
+
+                              Text(
+                                "codeController".tr,
+                                style: TextStyle(
+                                    fontWeight: AppFontStyles
+                                        .fontWeightSemiBold7,
+                                    fontSize: AppFontStyles
+                                        .descriptionLoginFontSize,
+                                    color: AppColor.fontColor),
+                              ),
+                              SizedBox(
+                                height: 16,
+                              ),
+                              defaultTextFieldLog(
+                                controller: emailController,
+                                validate: (String? value) {
+                                  if (value!.isEmpty) {
+                                    return "code must not be empty";
+                                  }
+                                  return null;
+                                },
+                                type: TextInputType.emailAddress,
+                              ),
+                              SizedBox(
+                                height: 16,
+                              ),
+                              defaultTextFieldLog(
+                                controller: codeController,
+                                validate: (String? value) {
+                                  if (value!.isEmpty) {
+                                    return "code must not be empty";
+                                  }
+                                  return null;
+                                },
+                                type: TextInputType.number,
+                              ),
+                              SizedBox(
+                                height: 16,
+                              ),
+
+                              Center(
+                                child: ConditionalBuilder(
+
+                                  condition: state is! EmailConfirmSkilledLoadingState,
+                                  builder: (context) =>
+                                      button(
+                                        text: '21'
+                                            .toUpperCase()
+                                            .tr,
+                                        color: Colors.white,
+                                        fontSize:
+                                        AppFontStyles
+                                            .descriptionSplashScreenFontSize,
+                                        fontWeight: AppFontStyles
+                                            .fontWeightSemiBold7,
+                                        height: 60,
+                                        width: 320,
+                                        onPressed: () {
+                                          LoginCubit.get(context).sendEmailConfirm(email: emailController.text, code: codeController.text);
+
+                                        //  print(data[0]);
+                                          print(codeController.text);
+
+                                        },
+                                        colorBackground: AppColor.navyBlueColor,
+                                      ),
+                                  fallback: (context) =>
+                                  const Center(
+                                      child: CircularProgressIndicator()),
+
+
+                                ),
+
+                              ),
+                              SizedBox(
+                                height: 24,
+                              ),
+                              Center(
+                                child: button(
+                                  text: '17'
+                                      .toUpperCase()
+                                      .tr,
+                                  color: Colors.white,
+                                  fontSize:
+                                  AppFontStyles.descriptionSplashScreenFontSize,
+                                  fontWeight: AppFontStyles.fontWeightSemiBold7,
+                                  height: 60,
+                                  width: 320,
+                                  onPressed: () {
+                                    navigateTo(
+                                      context: context,
+                                      widget: LoginScreen(),
+                                    );
+                                  },
+                                  colorBackground: AppColor.googleColor,
+                                ),
+                              ),
+
+
                             ],
                           ),
                         ),
-
                       ],
                     ),
                   ),

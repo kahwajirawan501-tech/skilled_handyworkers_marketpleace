@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skilled_handyworkers_marketpleace/Registration/cubitLogin/states.dart';
 
-
 import '../../Model/LoginModel.dart';
 import '../../shared/network/remote/dio_helper.dart';
 
@@ -60,4 +59,72 @@ class LoginCubit extends Cubit<LoginStates> {
       print(statusCode);
     });
   }
-}
+
+////////////////////////////////////////////////////////////////////////////////////
+  Future<void> sendEmailForget({
+    required String email,
+  }) async {
+    emit(ForgotPassSkilledLoadingState());
+
+    DioHelper.postData(url: 'auth/forgot-password', data: {
+      'email': email,
+    }).then((value) {
+      print("send email succ");
+
+      emit(ForgotPassSkilledSuccessState(value.statusCode));
+    }).catchError((error) {
+      int statusCode = error.response?.statusCode ?? -1;
+
+      emit(ForgotPassSkilledErrorState(statusCode));
+
+      print(statusCode);
+    });
+  }
+
+///////////////////////////
+  void ResetPassword({
+    required String email,
+    required String token,
+    required String newPassword,
+  }) {
+    emit(ChangePassSkilledLoadingState());
+
+    DioHelper.postData(url: 'auth/reset-password', data: {
+      'email': email,
+      'token': token,
+      'newPassword': newPassword,
+    }).then((value) {
+      emit(ChangePassSkilledSuccessState(value.statusCode));
+      print("object");
+    }).catchError((error) {
+      int statusCode = error.response?.statusCode ?? -1;
+
+      emit(ChangePassSkilledErrorState(statusCode));
+      print("roaa");
+      print(statusCode);
+    });
+  }
+  //////////////////////////////////////////////////////////////////////////
+  Future<void> sendEmailConfirm({
+    required String email,
+    required String code ,
+  }) async {
+    emit(EmailConfirmSkilledLoadingState());
+
+    DioHelper.postData(url: 'auth/signup_confiramtion', data: {
+      'email': email,
+      'code' :code,
+    }).then((value) {
+      print("send email succ");
+
+      emit(EmailConfirmSkilledSuccessState(value.statusCode));
+    }).catchError((error) {
+      int statusCode = error.response?.statusCode ?? -1;
+
+      emit(EmailConfirmSkilledErrorState(statusCode));
+
+      print(statusCode);
+    });
+  }
+
+  }
