@@ -11,6 +11,8 @@ import 'package:skilled_handyworkers_marketpleace/ButtonNavigation/BottonNavigat
 import 'package:skilled_handyworkers_marketpleace/ButtonNavigation/cubit/cubit.dart';
 import 'package:skilled_handyworkers_marketpleace/Chat_Messages/cubit/cubit.dart';
 import 'package:skilled_handyworkers_marketpleace/Commint/cubit/cubit.dart';
+import 'package:skilled_handyworkers_marketpleace/Dashboard/cubit/cubit.dart';
+import 'package:skilled_handyworkers_marketpleace/Dashboard/dashboard.dart';
 import 'package:skilled_handyworkers_marketpleace/EditPost/cubit/cubit.dart';
 import 'package:skilled_handyworkers_marketpleace/Chat_Messages/Message.dart';
 import 'package:skilled_handyworkers_marketpleace/Posting/cubit/cubit.dart';
@@ -39,43 +41,12 @@ import 'package:permission_handler/permission_handler.dart';
 Future<void> main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
-  await initializeNotifications();
-  checkAndRequestPermissions();
   await initializeDateFormatting('en_US', null);
   DioHelper.init();
   await CacheHelper.init();
   Get.lazyPut<MyLocalController>(() => MyLocalController());
   runApp(const MyApp());
 
-}
-final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
-
-Future<void> initializeNotifications() async {
-  const AndroidInitializationSettings initializationSettingsAndroid =
-  AndroidInitializationSettings('@mipmap/ic_launcher');
-  final InitializationSettings initializationSettings =
-  InitializationSettings(android: initializationSettingsAndroid);
-  await flutterLocalNotificationsPlugin.initialize(initializationSettings);
-
-  const AndroidNotificationChannel channel = AndroidNotificationChannel(
-    'unique_channel_id', // معرف القناة الفريد
-    'Message Notifications',
-    importance: Importance.high,
-    playSound: true,
-  );
-
-  await flutterLocalNotificationsPlugin
-      .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
-      ?.createNotificationChannel(channel);
-  debugPrint('Notification channel created successfully');
-}
-
-Future<void> checkAndRequestPermissions() async {
-  PermissionStatus status = await Permission.notification.status;
-  if (status.isDenied) {
-    status = await Permission.notification.request();
-  }
-  debugPrint('Notification permission status: ${status.toString()}');
 }
 
 class MyApp extends StatelessWidget {
@@ -176,13 +147,20 @@ class MyApp extends StatelessWidget {
 
 
         )
+        ,
+        BlocProvider(
+
+          create:(context) =>DashBoardCubit(),
+
+
+        )
       ],
       child: GetMaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Skilled handyWorker marketplace System',
         locale: controller.intiallang,
         translations: MyLocal(),
-        home: BottomNavigationScreen(),
+        home: Dashboard(),
       ),
     );
   }

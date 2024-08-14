@@ -64,7 +64,10 @@ void showToast({
    padding: const EdgeInsets.symmetric(vertical: 8.0),
    child: Container(width:double.infinity ,height: 1,color:Colors.grey,),
  );
-
+Widget myLineTwo()=>Padding(
+  padding: const EdgeInsets.symmetric(vertical: 8.0),
+  child: Container(width:double.infinity ,height: 1,color:Colors.grey.withOpacity(0.2),),
+);
 Widget button({
   required VoidCallback? onPressed ,
   required String text,
@@ -101,10 +104,6 @@ void showCustomModal(BuildContext context,{
   required String titleButton2,
   required VoidCallback? onPressed1 ,
   required VoidCallback? onPressed2 ,
-
-
-
-
 
 }) {
   showModalBottomSheet(
@@ -285,12 +284,17 @@ Widget defaultTextField({
           validator: validate,
           cursorColor: AppColor.grayColorFont,
           cursorWidth: 0.5,
+          style: TextStyle(
+
+            color: AppColor.grayColorFont,
+            fontSize: AppFontStyles.descriptionLoginFontSize,
+          ),
           decoration: InputDecoration(
             hintText: hint,
         hintStyle: TextStyle(
 
     color: AppColor.grayColorFont,
-    fontSize: AppFontStyles.descriptionLoginFontSize,
+    fontSize: AppFontStyles.soSmallFontSize,
 ),
               suffixIconConstraints: BoxConstraints(maxWidth: 24),
 

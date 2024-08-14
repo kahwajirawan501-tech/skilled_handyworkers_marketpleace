@@ -10,10 +10,15 @@ import 'package:skilled_handyworkers_marketpleace/shared/components/components.d
 import 'package:skilled_handyworkers_marketpleace/shared/styles/colors.dart';
 import 'package:skilled_handyworkers_marketpleace/shared/styles/styles.dart';
 
-class AddLocation extends StatelessWidget {
+class AddLocation extends StatefulWidget {
   AddLocation({Key? key}) : super(key: key);
-  var reginController=TextEditingController();
 
+  @override
+  State<AddLocation> createState() => _AddLocationState();
+}
+
+class _AddLocationState extends State<AddLocation> {
+  var reginController=TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -24,9 +29,7 @@ class AddLocation extends StatelessWidget {
           Navigator.pop(context);
           DashBoardCubit.get(context).getLocation();
         }
-        if(state is ChangeErrorPassWord){
-          showToast(text:"error", state: ToastStates.EROOR);
-        }
+
       },
       builder: (context, state) {
         return  Scaffold(

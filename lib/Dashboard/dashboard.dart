@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:skilled_handyworkers_marketpleace/Dashboard/Location_DashBord.dart';
+import 'package:skilled_handyworkers_marketpleace/Dashboard/DashboardLocation/Location_DashBord.dart';
+import 'package:skilled_handyworkers_marketpleace/Dashboard/DashboardPost/ListPost.dart';
+import 'package:skilled_handyworkers_marketpleace/Dashboard/DashbordServices/Service_DashBord.dart';
+import 'package:skilled_handyworkers_marketpleace/Dashboard/GetUser/ListUser.dart';
 import 'package:skilled_handyworkers_marketpleace/Dashboard/config/size_config.dart';
 import 'package:skilled_handyworkers_marketpleace/Dashboard/cubit/cubit.dart';
 import 'package:skilled_handyworkers_marketpleace/shared/components/components.dart';
@@ -111,16 +114,26 @@ TextEditingController textEditingController=TextEditingController();
                                   color: Colors.yellow,
                                 ),
                                 PrimaryText(
+                                  onTap: () {
+                                    navigateTo(widget: DashBoardPost(),context: context);
+                                    DashBoardCubit.get(context).getPostForLocationAndService(DashBoardCubit.get(context).currentPage);
+                                  },
                                     text: '\$1500',
                                     size: 30,
+                                    color: Colors.black,
                                     fontWeight: FontWeight.w800),
                               ],
                             ),
                             PrimaryText(
+                              onTap: () {
+                                navigateTo(widget: ServiceDashboard(),context: context);
+                                DashBoardCubit.get(context).getService();
+
+                              },
                               text: 'Past 30 DAYS',
                               size: 16,
                               fontWeight: FontWeight.w400,
-                              color: Colors.white,
+                              color: Colors.orange,
                             ),
                           ],
                         ),
@@ -138,6 +151,10 @@ TextEditingController textEditingController=TextEditingController();
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             PrimaryText(
+                              onTap: () {
+                                navigateTo(context: context,widget: ListUser());
+                              },
+                                color: Colors.blue,
                                 text: 'History',
                                 size: 30,
                                 fontWeight: FontWeight.w800),
