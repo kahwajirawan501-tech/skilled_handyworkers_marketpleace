@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import 'package:skilled_handyworkers_marketpleace/profileScreens/profilrTile.dart';
 import 'package:skilled_handyworkers_marketpleace/shared/components/components.dart';
@@ -60,7 +61,7 @@ class _SeeMoreState extends State<SeeMore> {
                 child: profilrTile(
                     addOrEdit:"assets/images/Edit1.png" ,
                     imagePath: "assets/images/aboutmy.png",
-                    title:"Full Name",
+                    title:"105".tr,
 
                     onTap:(){
                     },
@@ -79,7 +80,7 @@ class _SeeMoreState extends State<SeeMore> {
                 child: profilrTile(
                     addOrEdit:"assets/images/Edit1.png" ,
                     imagePath: "assets/images/aboutmy.png",
-                    title:"About me",
+                    title:"106".tr,
 
                     onTap:(){
                     },
@@ -98,7 +99,7 @@ class _SeeMoreState extends State<SeeMore> {
                 child: profilrTile(
                     addOrEdit:"assets/images/Edit1.png" ,
                     imagePath: "assets/images/Icon Call.png",
-                    title:"Phone Number",
+                    title:"107".tr,
 
                     onTap:(){
                     },
@@ -117,7 +118,7 @@ class _SeeMoreState extends State<SeeMore> {
                 child: profilrTile(
                     addOrEdit:"assets/images/Edit1.png" ,
                     imagePath: "assets/images/aboutmy.png",
-                    title:"Gender",
+                    title:"108".tr,
 
                     onTap:(){
                     },
@@ -136,7 +137,7 @@ class _SeeMoreState extends State<SeeMore> {
                 child: profilrTile(
                     addOrEdit:"assets/images/Edit1.png" ,
                     imagePath: "assets/images/skill.png",
-                    title:"Skill",
+                    title:"109".tr,
 
                     onTap:(){
                     },
@@ -155,7 +156,7 @@ class _SeeMoreState extends State<SeeMore> {
                 child: profilrTile(
                     addOrEdit:"assets/images/Edit1.png" ,
                     imagePath: "assets/images/Icon Location.png",
-                    title:"Location",
+                    title:"110".tr,
 
                     onTap:(){
                     },
@@ -175,7 +176,7 @@ class _SeeMoreState extends State<SeeMore> {
                   addOrEdit:"assets/images/Edit1.png" ,
 
                   imagePath: "assets/images/work.png",
-                  title:"Work experience",
+                  title:"111".tr,
                   onTap:(){
 
                   },
@@ -194,7 +195,7 @@ class _SeeMoreState extends State<SeeMore> {
                     addOrEdit:"assets/images/Edit1.png" ,
 
                     imagePath: "assets/images/experience.png",
-                    title:"Education",
+                    title:"112".tr,
 
                     onTap:(){
 

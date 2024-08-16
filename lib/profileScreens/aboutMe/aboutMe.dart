@@ -5,6 +5,7 @@ import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:get/get.dart';
 import 'package:skilled_handyworkers_marketpleace/profileScreens/Box.dart';
 import 'package:skilled_handyworkers_marketpleace/profileScreens/cubit/cubit.dart';
 import 'package:skilled_handyworkers_marketpleace/profileScreens/cubit/states.dart';
@@ -24,19 +25,19 @@ class AboutMe extends StatelessWidget {
     return BlocConsumer<ProfileCubit,ProfileStates>(
       listener:(context, state) {
         if(state is AboutMeSucssessfullStateStates){
-          showToast(text:"Adding successfully", state: ToastStates.EROOR);
+          showToast(text:"117".tr, state: ToastStates.EROOR);
           Navigator.pop(context);
         }
         else if(state is AboutMeErrorStateStates){
-          showToast(text:"Adding not successfully \n", state: ToastStates.EROOR);
+          showToast(text:"118\n".tr, state: ToastStates.EROOR);
 
         }
         if(state is EditAboutMeSucssessfullStateStates){
-          showToast(text:"Editing successfully", state: ToastStates.EROOR);
+          showToast(text:"119".tr, state: ToastStates.EROOR);
           Navigator.pop(context);
         }
         else if(state is EditAboutMeErrorStateStates){
-          showToast(text:"Editing not successfully \n", state: ToastStates.EROOR);
+          showToast(text:"120\n".tr, state: ToastStates.EROOR);
 
         }
       },
@@ -76,7 +77,7 @@ class AboutMe extends StatelessWidget {
                           builder: (context) => const SizedBox(),
                           fallback:(context) => LinearProgressIndicator(color: AppColor.orangeColor,minHeight: 1.0,),),
                         SizedBox(height:AppFontStyles.aboutMe,),
-                        Text("About me",style: TextStyle(
+                        Text("121".tr,style: TextStyle(
                             fontSize:AppFontStyles.aboutMe,
                             fontWeight:   AppFontStyles.fontWeightSemiBold,
                             color: AppColor.bluColor
@@ -100,7 +101,7 @@ class AboutMe extends StatelessWidget {
                               ),
                               // حدد الحد الأقصى لعدد الأسطر
                               decoration:  InputDecoration(
-                                hintText:'Tell me about you.',
+                                hintText:'122'.tr,
                                 hintStyle: TextStyle(
                                     color:AppColor.grayColorFont,
                                     fontSize: AppFontStyles.descriptionLoginFontSize
@@ -143,10 +144,10 @@ class AboutMe extends StatelessWidget {
                   onPressed:(){
                     showCustomModal(
                       context,
-                      title: "Undo Changes ?",
-                      description: "Are you sure you want to change what you entered?",
-                      titleButton1: "Continue Filling",
-                      titleButton2: "Undo Changes",
+                      title: "123".tr,
+                      description: "124".tr,
+                      titleButton1: "125".tr,
+                      titleButton2: "126".tr,
                       onPressed1:() {
                         aboutMy!.isEmpty?ProfileCubit.get(context).addAboutMy(editingController.text):
                         ProfileCubit.get(context).editAboutMy(editingController.text);
@@ -157,7 +158,7 @@ class AboutMe extends StatelessWidget {
                       },
                     );
                   },
-                  text:"Save",
+                  text:"127".tr,
                   height: 50,
                   width: 213,
                   fontSize: AppFontStyles.descriptionSplashScreenFontSize,

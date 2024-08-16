@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:skilled_handyworkers_marketpleace/SearchScreen/cubit/states.dart';
 import 'package:skilled_handyworkers_marketpleace/shared/components/constant.dart';
@@ -198,39 +199,40 @@ class CubitSearch extends Cubit<SearchStates> {
     // حساب الفرق بين الوقت الحالي ووقت نشر البوست
     Duration delta = now.difference(postTime);
 
+
     // في حال كان الفرق أقل من دقيقة واحدة
     if (delta < Duration(minutes: 1)) {
-      return "الآن";
+      return "336".tr;
     }
     // في حال كان الفرق أقل من ساعة واحدة
     else if (delta < Duration(hours: 1)) {
       int minutes = delta.inMinutes;
       if (minutes == 1) {
-        return "منذ دقيقة واحدة";
+        return "337".tr;
       } else if (minutes == 2) {
-        return "منذ دقيقتين";
+        return "338".tr;
       } else if (minutes <= 10) {
-        return "منذ $minutes دقائق";
+        return "${"340".tr} $minutes ${"339".tr}";
       } else {
-        return "منذ $minutes دقيقة";
+        return "${"340".tr} $minutes ${"341".tr}";
       }
     }
     // في حال كان الفرق أقل من يوم واحد
     else if (delta < Duration(days: 1)) {
       int hours = delta.inHours;
       if (hours == 1) {
-        return "منذ ساعة واحدة";
+        return "342".tr;
       } else if (hours == 2) {
-        return "منذ ساعتين";
+        return "343".tr;
       } else if (hours <= 10) {
-        return "منذ $hours ساعات";
+        return "${"340".tr} $hours ${"344".tr}";
       } else {
-        return "منذ $hours ساعة";
+        return "${"340".tr} $hours ${"345".tr}";
       }
     }
     // في حال كان الفرق بين يوم واحد ويومين
     else if (delta < Duration(days: 2)) {
-      return "أمس الساعة ${DateFormat('HH:mm', 'ar').format(postTime)}";
+      return "${"346".tr}${DateFormat('HH:mm', 'ar').format(postTime)}";
     }
     // في حال كان الفرق أكثر من يومين
     else {

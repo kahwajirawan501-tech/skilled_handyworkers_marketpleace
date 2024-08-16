@@ -5,9 +5,9 @@ abstract class LoginStates {}
 class LoginInitialStateStates extends LoginStates {}
 class LoginSkilledLoadingState extends LoginStates {}
 class LoginSkilledSuccessState extends LoginStates {
-  final LoginModel loginModel;
+ final String token;
   var value;
-  LoginSkilledSuccessState(this.loginModel,this.value);
+  LoginSkilledSuccessState(this.token,this.value);
 
 
 }
@@ -63,9 +63,9 @@ class ChangePassSkilledErrorState extends LoginStates {
 class EmailConfirmInitialStateStates extends LoginStates {}
 class EmailConfirmSkilledLoadingState extends LoginStates {}
 class EmailConfirmSkilledSuccessState extends LoginStates {
-
+  final String token;
   var value;
-  EmailConfirmSkilledSuccessState(this.value);
+  EmailConfirmSkilledSuccessState(this.value, this.token);
 
 
 }
@@ -74,3 +74,4 @@ class EmailConfirmSkilledErrorState extends LoginStates {
 
   EmailConfirmSkilledErrorState(this.error);
 }
+

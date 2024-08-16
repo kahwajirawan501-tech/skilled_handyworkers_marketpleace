@@ -1,6 +1,7 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:skilled_handyworkers_marketpleace/Commint/commintSceren.dart';
 import 'package:skilled_handyworkers_marketpleace/EditPost/EditOpenQuestion.dart';
 import 'package:skilled_handyworkers_marketpleace/InformationCustomerOne/information.dart';
@@ -64,11 +65,11 @@ class _ListOfOpenQuestionUserState extends State<ListOfOpenQuestionUser> {
       listener: (context, state) {
       if(state is DeletePostSucssessfullStateStates){
 
-        showToast(text:"The post has been delete successfully \n", state: ToastStates.EROOR);
+        showToast(text:"114\n".tr, state: ToastStates.EROOR);
 
       }
       else if(state is DeletePostErrorStateStates){
-        showToast(text:"The post hasn't been delete successfully \n", state: ToastStates.EROOR);
+        showToast(text:"115\n".tr, state: ToastStates.EROOR);
 
       }
 
@@ -90,7 +91,7 @@ class _ListOfOpenQuestionUserState extends State<ListOfOpenQuestionUser> {
                   children: [
                     Image.asset("assets/images/Illustrasi.png"),
                     SizedBox(height: 24,),
-                    Text("Not openQuestion Yet",style: TextStyle(color: AppColor.posting),)
+                    Text("116".tr,style: TextStyle(color: AppColor.posting),)
                   ],
                 ),
               );

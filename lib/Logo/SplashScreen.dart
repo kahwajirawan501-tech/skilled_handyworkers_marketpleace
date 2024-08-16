@@ -12,11 +12,10 @@ class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
       body: SingleChildScrollView(
         physics: BouncingScrollPhysics(),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 32.0),
+          padding: const EdgeInsets.symmetric(horizontal: 32.0,vertical: 60),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -32,7 +31,7 @@ class SplashScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(height: 100,),
+              SizedBox(height: 50,),
               Center(child: Image.asset("assets/images/SplashScreen.png")),
               SizedBox(height: 80,),
               Text("1".toUpperCase().tr,style: TextStyle(
@@ -76,7 +75,7 @@ class SplashScreen extends StatelessWidget {
                   FloatingActionButton(
 
                     onPressed: (){
-                      navigateTo(
+                      navigateAndFinish(
                         context: context,
                         widget: LoginScreen(),
                       );

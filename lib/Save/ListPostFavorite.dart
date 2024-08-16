@@ -1,6 +1,7 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:skilled_handyworkers_marketpleace/Commint/commintSceren.dart';
 import 'package:skilled_handyworkers_marketpleace/EditPost/EditPost.dart';
 import 'package:skilled_handyworkers_marketpleace/EditPost/cubit/cubit.dart';
@@ -39,7 +40,7 @@ class _ListOfPostingFavoritState extends State<ListOfPostingFavorit> {
               children: <Widget>[
                 ListTile(
                   leading: Icon(Icons.delete, color: AppColor.orangeColor),
-                  title: Text("Delete", style: TextStyle(color: AppColor.bluColor)),
+                  title: Text("70".tr, style: TextStyle(color: AppColor.bluColor)),
                   onTap: () {
                     Navigator.pop(context);
                     CubitYourPost.get(context).deletePost(id);
@@ -47,7 +48,7 @@ class _ListOfPostingFavoritState extends State<ListOfPostingFavorit> {
                 ),
                 ListTile(
                   leading: Icon(Icons.edit, color: AppColor.orangeColor),
-                  title: Text("Edit", style: TextStyle(color: AppColor.bluColor)),
+                  title: Text("71".tr, style: TextStyle(color: AppColor.bluColor)),
                   onTap: () {
                     Navigator.pop(context);
                     navigateTo(widget: EditPost(id:id),context: context);
@@ -66,11 +67,11 @@ class _ListOfPostingFavoritState extends State<ListOfPostingFavorit> {
       listener: (context, state) {
         if(state is DeletePostSucssessfullStateStates){
 
-          showToast(text:"The post has been delete successfully \n", state: ToastStates.EROOR);
+          showToast(text:"114\n".tr, state: ToastStates.EROOR);
 
         }
         else if(state is DeletePostErrorStateStates){
-          showToast(text:"The post hasn't been delete successfully \n", state: ToastStates.EROOR);
+          showToast(text:"115\n".tr, state: ToastStates.EROOR);
 
         }
       },
@@ -88,7 +89,7 @@ class _ListOfPostingFavoritState extends State<ListOfPostingFavorit> {
                   children: [
                     Image.asset("assets/images/Illustrationn.png"),
                     SizedBox(height: 24,),
-                    Text("Not post Yet",style: TextStyle(color: AppColor.posting),)
+                    Text("113".tr,style: TextStyle(color: AppColor.posting),)
                   ],
                 ),
               );

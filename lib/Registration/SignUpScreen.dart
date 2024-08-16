@@ -34,17 +34,8 @@ class SignUpScreen extends StatelessWidget {
         listener: (context, state) {
           if (state is SignUpSkilledSuccessState) {
             if (state.value == 201) {
-              // بعد نجاح التسجيل، استدعاء API تأكيد التسجيل
-              ConfirmSignUpCubit.get(context).sendCode(
-                email: emailController.text,
-              );
-            }
-          }
-
-          if (state is SignUpSkilledSuccessState) {
-            if (state.value == 201) {
               // الانتقال إلى الشاشة التالية أو عرض رسالة النجاح
-              navigateTo(context: context, widget: ProfileScreen());
+              navigateTo(context: context, widget: CheckYourEmailScreen(email: emailController.text,));
             }
             if (state.signUpModel.status == 400) {
               showToast(
@@ -165,7 +156,7 @@ class SignUpScreen extends StatelessWidget {
                             type: TextInputType.name,
                           ),
                           SizedBox(
-                            height: 30,
+                            height: 20,
                           ),
                           Text(
                             "5".tr,
@@ -259,12 +250,7 @@ class SignUpScreen extends StatelessWidget {
                                       email: emailController.text,
                                       password: passwordController.text,
                                     );
-                                    // print("roaa");
-                                    //
-                                    // ConfirmSignUpCubit.get(context).sendCode(
-                                    //   email: emailController.text,
-                                    // code: '123456'
-                                    // );
+
                                   }
                                 },
                                 colorBackground: AppColor.navyBlueColor,
@@ -300,36 +286,36 @@ class SignUpScreen extends StatelessWidget {
                               ],
                             ),
                           ),
-                          Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 24.0),
-                            child: Row(
-                              children: [
-                                Text(
-                                  "10".tr,
-                                  style: TextStyle(
-                                      fontWeight:
-                                          AppFontStyles.fontWeightSemiBold4,
-                                      fontSize: AppFontStyles
-                                          .descriptionSplashScreenFontSize,
-                                      color: AppColor.fontColor),
-                                ),
-                                defaultTextButton(
-                                    text: "11".tr,
-                                    function: () {
-                                      navigateTo(
-                                        context: context,
-                                        widget: SignUpScreen(),
-                                      );
-                                    },
-                                    fontWeight:
-                                        AppFontStyles.fontWeightSemiBold4,
-                                    fontSize: AppFontStyles
-                                        .descriptionSplashScreenFontSize,
-                                    color: AppColor.orangeColor),
-                              ],
-                            ),
-                          )
+                          // Padding(
+                          //   padding:
+                          //       const EdgeInsets.symmetric(horizontal: 24.0),
+                          //   child: Row(
+                          //     children: [
+                          //       Text(
+                          //         "10".tr,
+                          //         style: TextStyle(
+                          //             fontWeight:
+                          //                 AppFontStyles.fontWeightSemiBold4,
+                          //             fontSize: AppFontStyles
+                          //                 .descriptionSplashScreenFontSize,
+                          //             color: AppColor.fontColor),
+                          //       ),
+                          //       defaultTextButton(
+                          //           text: "11".tr,
+                          //           function: () {
+                          //             navigateTo(
+                          //               context: context,
+                          //               widget: SignUpScreen(),
+                          //             );
+                          //           },
+                          //           fontWeight:
+                          //               AppFontStyles.fontWeightSemiBold4,
+                          //           fontSize: AppFontStyles
+                          //               .descriptionSplashScreenFontSize,
+                          //           color: AppColor.orangeColor),
+                          //     ],
+                          //   ),
+                          // )
                         ],
                       ),
                     ),

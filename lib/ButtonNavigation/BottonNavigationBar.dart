@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:skilled_handyworkers_marketpleace/ButtonNavigation/cubit/cubit.dart';
 import 'package:skilled_handyworkers_marketpleace/ButtonNavigation/cubit/states.dart';
 import 'package:skilled_handyworkers_marketpleace/AddPosting/addOpenQuestion.dart';
@@ -42,17 +43,17 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
                     });
                   },
                 ),
-                Spacer(),
-                IconButton(
-                  icon: Icon(Icons.perm_identity_outlined, size: 24),
-                  color: cubit.selectedIndex == 1 ? AppColor.bottomNavigationBar : AppColor.unSelectItemBottomBar,
-                  onPressed: () {
-                    setState(() {
-                      cubit.onItemTappedForBottomNavigationBar(1);
-
-                    });
-                  },
-                ),
+                // Spacer(),
+                // IconButton(
+                //   icon: Icon(Icons.perm_identity_outlined, size: 24),
+                //   color: cubit.selectedIndex == 1 ? AppColor.bottomNavigationBar : AppColor.unSelectItemBottomBar,
+                //   onPressed: () {
+                //     setState(() {
+                //       cubit.onItemTappedForBottomNavigationBar(1);
+                //
+                //     });
+                //   },
+                // ),
                 Spacer(),
                 IconButton(
                   icon: Icon(Icons.group_work_outlined, size: 24),
@@ -69,10 +70,10 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
                   onPressed: () {
                     showCustomModal(
                         context,
-                        title: "What would you like to add?",
-                        description: "publish a post or an open question?",
-                        titleButton1: "Post",
-                        titleButton2: "Open Question",
+                        title: "64".tr,
+                        description: "65".tr,
+                        titleButton1: "66".tr,
+                        titleButton2: "67".tr,
                         onPressed1: () {
                           Navigator.pop(context);
 
@@ -102,17 +103,17 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
                     });
                   },
                 ),
-                Spacer(),
-                IconButton(
-                  icon: Icon(Icons.notifications_none_outlined, size: 24),
-                  color: cubit.selectedIndex == 4? AppColor.bottomNavigationBar : AppColor.unSelectItemBottomBar,
-                  onPressed: () {
-                    setState(() {
-                      cubit.onItemTappedForBottomNavigationBar(4);
-
-                    });
-                  },
-                ),
+                // Spacer(),
+                // IconButton(
+                //   icon: Icon(Icons.notifications_none_outlined, size: 24),
+                //   color: cubit.selectedIndex == 4? AppColor.bottomNavigationBar : AppColor.unSelectItemBottomBar,
+                //   onPressed: () {
+                //     setState(() {
+                //       cubit.onItemTappedForBottomNavigationBar(4);
+                //
+                //     });
+                //   },
+                // ),
                 Spacer(),
 
                 IconButton(

@@ -2,6 +2,7 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:skilled_handyworkers_marketpleace/Posting/ListOfPostForUser.dart';
 import 'package:skilled_handyworkers_marketpleace/Posting/ListOpenQuestionForUser.dart';
 import 'package:skilled_handyworkers_marketpleace/Posting/cubit/cubit.dart';
@@ -48,7 +49,7 @@ class TabBarPosting extends StatefulWidget
           TextButton(onPressed:() {
             navigateTo(context: context,widget: InformationCustomer());
 
-          }, child:Text("See More",style:TextStyle(
+          }, child:Text("102".tr,style:TextStyle(
               fontSize: AppFontStyles.descriptionLoginFontSize,
               fontWeight: AppFontStyles.fontWeightBold,
               color: AppColor.bottomNavigationBar
@@ -201,7 +202,7 @@ class TabBarPosting extends StatefulWidget
                                 color: clickPosting?AppColor.orangeColor:Colors.white,
                               ),
                               alignment: Alignment.center,
-                              child: Text("posting",style: TextStyle(color:clickPosting?Colors.white:AppColor.bluColor ),)
+                              child: Text("103".tr,style: TextStyle(color:clickPosting?Colors.white:AppColor.bluColor ),)
                           ),
                         ), height: 40, borderRadius: BorderRadius.circular(10)),
                       ),
@@ -229,11 +230,11 @@ class TabBarPosting extends StatefulWidget
                               decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),
                                 color:clickOpenQuestion?AppColor.orangeColor:Colors.white,
                               ),
-                              child: Text("open question",style: TextStyle(color:clickOpenQuestion?Colors.white:AppColor.bluColor ))
+                              child: Text("104".tr,style: TextStyle(color:clickOpenQuestion?Colors.white:AppColor.bluColor ))
                           ),
                         ), height: 40, borderRadius: BorderRadius.circular(10)),
                       ),
-
+                      SizedBox(width: AppFontStyles.aboutMe,),
                     ],
                   ),
                 ),

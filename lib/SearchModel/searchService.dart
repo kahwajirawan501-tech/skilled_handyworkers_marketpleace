@@ -3,6 +3,7 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:skilled_handyworkers_marketpleace/SearchModel/cubitService/cubit.dart';
 import 'package:skilled_handyworkers_marketpleace/SearchModel/cubitService/states.dart';
 import 'package:skilled_handyworkers_marketpleace/profileScreens/Box.dart';
@@ -43,7 +44,7 @@ class Service extends StatelessWidget {
               TextButton(onPressed:() {
         Navigator.pop(context, textController.text);
 
-        }, child:Text("Done",style:TextStyle(
+        }, child:Text("332".tr,style:TextStyle(
                   fontSize: AppFontStyles.descriptionLoginFontSize,
                   fontWeight: AppFontStyles.fontWeightBold,
                   color: AppColor.bottomNavigationBar
@@ -107,10 +108,10 @@ class Service extends StatelessWidget {
                   Expanded(
                     child:ConditionalBuilder(
                       condition:state is !ServiceLoadingStateStates ,
-                      builder: (context) =>  services.isEmpty?  const Center(
+                      builder: (context) =>  services.isEmpty?   Center(
                         child:
                         Text(
-                          'There is no service with this name',
+                          '333'.tr,
                           style:
                           TextStyle(color: Colors.grey, fontSize: 16),
                         ),

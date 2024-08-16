@@ -1,6 +1,7 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:skilled_handyworkers_marketpleace/Posting/cubit/cubit.dart';
 import 'package:skilled_handyworkers_marketpleace/Posting/cubit/states.dart';
 import 'package:skilled_handyworkers_marketpleace/Save/ListOpenQuestionFavorit.dart';
@@ -46,7 +47,7 @@ class _SaveState extends State<Save> {
           appBar: AppBar(
             surfaceTintColor: AppColor.backgroundColor,
             backgroundColor: AppColor.backgroundColor,
-            title: Text("Save Post",style: TextStyle
+            title: Text("328".tr,style: TextStyle
               (fontSize:AppFontStyles.borderRadius ,fontWeight: AppFontStyles.fontWeightBold,color: AppColor.bluColor),),
             centerTitle: true,
 
@@ -82,7 +83,7 @@ class _SaveState extends State<Save> {
                           color: clickPosting?AppColor.orangeColor:Colors.white,
                         ),
                         alignment: Alignment.center,
-                        child: Text("posting",style: TextStyle(color:clickPosting?Colors.white:AppColor.bluColor ),)
+                        child: Text("103".tr,style: TextStyle(color:clickPosting?Colors.white:AppColor.bluColor ),)
                     ),
                   ), height: 40, borderRadius: BorderRadius.circular(10)),
                 ),
@@ -110,10 +111,11 @@ class _SaveState extends State<Save> {
                         decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),
                           color:clickOpenQuestion?AppColor.orangeColor:Colors.white,
                         ),
-                        child: Text("open question",style: TextStyle(color:clickOpenQuestion?Colors.white:AppColor.bluColor ))
+                        child: Text("104".tr,style: TextStyle(color:clickOpenQuestion?Colors.white:AppColor.bluColor ))
                     ),
                   ), height: 40, borderRadius: BorderRadius.circular(10)),
                 ),
+                SizedBox(width: AppFontStyles.aboutMe,),
 
               ],
             ),

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
 import 'package:skilled_handyworkers_marketpleace/SearchModel/searchLocation.dart';
 import 'package:skilled_handyworkers_marketpleace/SearchModel/searchService.dart';
 import 'package:skilled_handyworkers_marketpleace/SearchScreen/Search.dart';
@@ -70,8 +71,8 @@ class _AppBarSearchState extends State<AppBarSearch> {
                       MaterialPageRoute(
                         builder: (context) => Service(
                           textController: widget.textControllerService,
-                          title: "Add Service",
-                          titleSearch: "Search",
+                          title: "334".tr,
+                          titleSearch: "69".tr,
                           widget: const Search(),
                         ),
                       ),
@@ -90,7 +91,7 @@ class _AppBarSearchState extends State<AppBarSearch> {
                         Icon(Icons.search_rounded,color:AppColor.grayColorFont ,),
                         SizedBox(width: 10,),
                         Text(
-                          widget.textControllerService.text.isEmpty ? "Select service" :widget.textControllerService.text,
+                          widget.textControllerService.text.isEmpty ? "39".tr :widget.textControllerService.text,
                           style: TextStyle(
                             color: AppColor.grayColorFont,
                             fontSize: AppFontStyles.descriptionLoginFontSize,
@@ -133,7 +134,7 @@ class _AppBarSearchState extends State<AppBarSearch> {
                         Icon(Icons.location_on_outlined,color:AppColor.orangeColor ,),
                         SizedBox(width: 10,),
                         Text(
-                          widget.textControllerLocation.text.isEmpty ? "Select location" : widget.textControllerLocation.text,
+                          widget.textControllerLocation.text.isEmpty ? "41".tr : widget.textControllerLocation.text,
                           style: TextStyle(
                             color: AppColor.grayColorFont,
                             fontSize: AppFontStyles.descriptionLoginFontSize,

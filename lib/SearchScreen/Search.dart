@@ -1,6 +1,7 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 
 import 'package:skilled_handyworkers_marketpleace/SearchScreen/ListOfPosting.dart';
 import 'package:skilled_handyworkers_marketpleace/SearchScreen/ListOpenQuestion.dart';
@@ -84,7 +85,7 @@ class _SearchState extends  State<Search> {
                                       backgroundColor: AppColor.backgroundColor,
                                       content: Center(
                                           child: Text(
-                                              'Please select service or location first',
+                                              '335'.tr,
                                               style: TextStyle(
                                                   color: AppColor.grayColorFont))),
                                       duration: Duration(seconds: 2),
@@ -146,7 +147,7 @@ class _SearchState extends  State<Search> {
                                   ),
                                   alignment: Alignment.center,
                                   child: Text(
-                                    "posting",
+                                    "103".tr,
                                     style: TextStyle(
                                         color: clickPosting
                                             ? Colors.white
@@ -170,7 +171,7 @@ class _SearchState extends  State<Search> {
                                       backgroundColor: AppColor.backgroundColor,
                                       content: Center(
                                           child: Text(
-                                              'Please select service and location first',
+                                              '335'.tr,
                                               style: TextStyle(
                                                   color: AppColor.grayColorFont))),
                                       duration: Duration(seconds: 2),
@@ -228,7 +229,7 @@ class _SearchState extends  State<Search> {
                                         : AppColor.comment,
                                   ),
                                   child: Text(
-                                    "open question",
+                                    "104".tr,
                                     style: TextStyle(
                                         color: clickOpenQuestion
                                             ? Colors.white
@@ -253,7 +254,7 @@ class _SearchState extends  State<Search> {
                       builder: (context) =>  post.isEmpty?
                       Center(
                         child: Text(
-                          'No open questions yet.',
+                          '113'.tr,
                           style: TextStyle(color: Colors.grey, fontSize: 16),
                         ),
                       )
@@ -282,7 +283,7 @@ class _SearchState extends  State<Search> {
                       openQuestion.isEmpty?
                       Center(
                         child: Text(
-                          'No open questions yet.',
+                          '116'.tr,
                           style: TextStyle(color: Colors.grey, fontSize: 16),
                         ),
                       )

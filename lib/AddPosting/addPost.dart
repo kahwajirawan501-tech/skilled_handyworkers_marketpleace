@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:skilled_handyworkers_marketpleace/AddPosting/cubit/cubit.dart';
 import 'package:skilled_handyworkers_marketpleace/AddPosting/cubit/states.dart';
 import 'package:skilled_handyworkers_marketpleace/Posting/cubit/cubit.dart';
@@ -62,17 +63,17 @@ class _AddPostState extends State<AddPost> {
             context: context,
             builder: (BuildContext context) => AlertDialog(
               title: Text(
-                "Limit Exceeded",
+                "44".tr,
                 style: TextStyle(color: AppColor.bluColor),
               ),
               content: Text(
-                "You can select up to ${10 - _selectedImages.length} more images.",
+                "${"45".tr}${10 - _selectedImages.length}${"46".tr}",
                 style: TextStyle(color: AppColor.grayColorFont),
               ),
               actions: [
                 TextButton(
                   child: Text(
-                    "OK",
+                    "47".tr,
                     style: TextStyle(color: AppColor.orangeColor),
                   ),
                   onPressed: () {
@@ -134,7 +135,7 @@ class _AddPostState extends State<AddPost> {
             children: <Widget>[
               ListTile(
                 leading: Icon(Icons.photo_library,color: AppColor.orangeColor,),
-                title: Text("Choose from Gallery",style: TextStyle(color: AppColor.bluColor)),
+                title: Text("48".tr,style: TextStyle(color: AppColor.bluColor)),
                 onTap: () {
                   Navigator.pop(context);
                   _pickImagesFromGallery();
@@ -142,7 +143,7 @@ class _AddPostState extends State<AddPost> {
               ),
               ListTile(
                 leading: Icon(Icons.camera_alt,color: AppColor.orangeColor),
-                title: Text("Take Photo",style: TextStyle(color: AppColor.bluColor),),
+                title: Text("49".tr,style: TextStyle(color: AppColor.bluColor),),
                 onTap: () {
                   Navigator.pop(context);
                   _pickImageFromCamera();
@@ -161,7 +162,7 @@ class _AddPostState extends State<AddPost> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "Image :",
+          "50".tr,
           style: TextStyle(
             fontWeight: AppFontStyles.fontWeightSemiBold,
             fontSize: AppFontStyles.descriptionLoginFontSize,
@@ -391,7 +392,7 @@ class _AddPostState extends State<AddPost> {
             children: <Widget>[
               ListTile(
                 leading: Icon(Icons.video_library, color: AppColor.orangeColor),
-                title: const Text("Choose from Gallery"),
+                title:  Text("48".tr),
                 onTap: () {
                   Navigator.pop(context);
                   _pickVideosFromGallery();
@@ -399,7 +400,7 @@ class _AddPostState extends State<AddPost> {
               ),
               ListTile(
                 leading: Icon(Icons.videocam,color:  AppColor.orangeColor),
-                title: const Text("Record Video"),
+                title:  Text("51".tr),
                 onTap: () {
                   Navigator.pop(context);
                   _pickVideoFromCamera();
@@ -416,11 +417,11 @@ class _AddPostState extends State<AddPost> {
     showDialog(
       context: context,
       builder: (BuildContext context) => AlertDialog(
-        title: Text("Limit Exceeded",style: TextStyle(color: AppColor.bluColor),),
-        content: Text("You can select up to $remainingCount more videos.",style: TextStyle(color: AppColor.grayColorFont)),
+        title: Text("44".tr,style: TextStyle(color: AppColor.bluColor),),
+        content: Text("${"45".tr}$remainingCount${"52".tr}",style: TextStyle(color: AppColor.grayColorFont)),
         actions: [
           TextButton(
-            child: Text("OK",style: TextStyle(color: AppColor.orangeColor)),
+            child: Text("47".tr,style: TextStyle(color: AppColor.orangeColor)),
             onPressed: () {
               Navigator.of(context).pop();
             },
@@ -575,7 +576,7 @@ class _AddPostState extends State<AddPost> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "Video :",
+          "53".tr,
           style: TextStyle(
             fontWeight: AppFontStyles.fontWeightSemiBold,
             fontSize: AppFontStyles.descriptionLoginFontSize,
@@ -690,16 +691,16 @@ class _AddPostState extends State<AddPost> {
 
         }
         else if(state is PostFileErrorStateStates){
-           showToast(text:"error !! , when upload image and video \n"+state.message, state: ToastStates.EROOR);
+           showToast(text:"54\n".tr+state.message, state: ToastStates.EROOR);
         }
 
         if(state is AddPostSucssessfullStateStates){
-          showToast(text:"The post has been published successfully", state: ToastStates.EROOR);
+          showToast(text:"31".tr, state: ToastStates.EROOR);
           Navigator.pop(context);
           CubitYourPost.get(context).getPost();
         }
         else if(state is AddPostErrorStateStates){
-          showToast(text:"The post hasn't been published successfully \n"+state.message, state: ToastStates.EROOR);
+          showToast(text:"32\n".tr+state.message, state: ToastStates.EROOR);
 
         }
 
@@ -726,7 +727,7 @@ class _AddPostState extends State<AddPost> {
                     SnackBar(
 
                       backgroundColor: AppColor.backgroundColor,
-                      content: Center(child: Text('You must fill in the service field and the location field and  choose the videos or photos that you want to publish',style: TextStyle(color: AppColor.grayColorFont),)),
+                      content: Center(child: Text('55'.tr,style: TextStyle(color: AppColor.grayColorFont),)),
                       duration: const Duration(seconds: 2),
                     ),
                   );
@@ -737,7 +738,7 @@ class _AddPostState extends State<AddPost> {
                     SnackBar(
 
                       backgroundColor: AppColor.backgroundColor,
-                      content: Center(child: Text('You must fill in the service field  and  choose the videos or photos that you want to publish',style: TextStyle(color: AppColor.grayColorFont),)),
+                      content: Center(child: Text('56'.tr,style: TextStyle(color: AppColor.grayColorFont),)),
                       duration: const Duration(seconds: 2),
                     ),
                   );
@@ -749,7 +750,7 @@ class _AddPostState extends State<AddPost> {
                     SnackBar(
 
                       backgroundColor: AppColor.backgroundColor,
-                      content: Center(child: Text('You must fill in the location field  and  choose the videos or photos that you want to publish',style: TextStyle(color: AppColor.grayColorFont),)),
+                      content: Center(child: Text('57'.tr,style: TextStyle(color: AppColor.grayColorFont),)),
                       duration: const Duration(seconds: 2),
                     ),
                   );
@@ -761,7 +762,7 @@ class _AddPostState extends State<AddPost> {
                     SnackBar(
 
                       backgroundColor: AppColor.backgroundColor,
-                      content: Center(child: Text('choose the videos or photos that you want to publish',
+                      content: Center(child: Text('58'.tr,
                         style: TextStyle(color: AppColor.grayColorFont),)),
                       duration: const Duration(seconds: 2),
                     ),
@@ -771,7 +772,7 @@ class _AddPostState extends State<AddPost> {
                   AddPostCubit.get(context).postFile(_selectedImages, _selectedVideos);
                 }
 
-              }, child:Text("post",style:TextStyle(
+              }, child:Text("348".tr,style:TextStyle(
                   fontSize: AppFontStyles.descriptionLoginFontSize,
                   fontWeight: AppFontStyles.fontWeightBold,
                   color: AppColor.bottomNavigationBar
@@ -849,7 +850,7 @@ class _AddPostState extends State<AddPost> {
                         ),
                         const SizedBox(height: AppFontStyles.sizeBetweenTitleAndSubTitle),
                         Text(
-                          " Service Type",
+                          "36".tr,
                           style: TextStyle(
                             fontWeight: AppFontStyles.fontWeightSemiBold,
                             fontSize: AppFontStyles.descriptionLoginFontSize,
@@ -868,8 +869,8 @@ class _AddPostState extends State<AddPost> {
                                   MaterialPageRoute(
                                     builder: (context) => Service(
                                       textController: _textControllerService,
-                                      title: "Add Service",
-                                      titleSearch: "Search",
+                                      title: "37".tr,
+                                      titleSearch: "38".tr,
                                       widget: const AddPost(),
                                     ),
                                   ),
@@ -884,7 +885,7 @@ class _AddPostState extends State<AddPost> {
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(horizontal: AppFontStyles.padding, vertical: 8),
                                 child: Text(
-                                  _textControllerService.text.isEmpty ? "Select service" : _textControllerService.text,
+                                  _textControllerService.text.isEmpty ? "39".tr : _textControllerService.text,
                                   style: TextStyle(
                                     color: AppColor.grayColorFont,
                                     fontSize: AppFontStyles.descriptionLoginFontSize,
@@ -898,7 +899,7 @@ class _AddPostState extends State<AddPost> {
                         ),
                         const SizedBox(height: AppFontStyles.sizeBetweenBoxAndSubTitle),
                         Text(
-                          " Location",
+                          "40".tr,
                           style: TextStyle(
                             fontWeight: AppFontStyles.fontWeightSemiBold,
                             fontSize: AppFontStyles.descriptionLoginFontSize,
@@ -931,7 +932,7 @@ class _AddPostState extends State<AddPost> {
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(horizontal: AppFontStyles.padding, vertical: 8),
                                 child: Text(
-                                  _textControllerLocation.text.isEmpty ? "Select location" : _textControllerLocation.text,
+                                  _textControllerLocation.text.isEmpty ? "41".tr : _textControllerLocation.text,
                                   style: TextStyle(
                                     color: AppColor.grayColorFont,
                                     fontSize: AppFontStyles.descriptionLoginFontSize,
@@ -945,7 +946,7 @@ class _AddPostState extends State<AddPost> {
                         ),
                         const SizedBox(height: AppFontStyles.sizeBetweenBoxAndSubTitle),
                         Text(
-                          " Add Description ",
+                          "60".tr,
                           style: TextStyle(
                             fontWeight: AppFontStyles.fontWeightSemiBold,
                             fontSize: AppFontStyles.descriptionLoginFontSize,
@@ -966,7 +967,7 @@ class _AddPostState extends State<AddPost> {
                               maxLines: 20, // حدد الحد الأقصى لعدد الأسطر
                               decoration:  InputDecoration(
 
-                                hintText:'add your description ..',
+                                hintText:'61'.tr,
                                 hintStyle: TextStyle(
 
                                   color: AppColor.grayColorFont,
@@ -1011,7 +1012,7 @@ class _AddPostState extends State<AddPost> {
                           SnackBar(
                             backgroundColor: AppColor.backgroundColor,
 
-                            content: Center(child: Text('Please select service and location first',style: TextStyle(color: AppColor.grayColorFont))),
+                            content: Center(child: Text('62'.tr,style: TextStyle(color: AppColor.grayColorFont))),
                             duration: const Duration(seconds: 2),
                           ),
                         );
@@ -1030,7 +1031,7 @@ class _AddPostState extends State<AddPost> {
                           SnackBar(
 
                             backgroundColor: AppColor.backgroundColor,
-                            content: Center(child: Text('Please select service and location first',style: TextStyle(color: AppColor.grayColorFont),)),
+                            content: Center(child: Text('62'.tr,style: TextStyle(color: AppColor.grayColorFont),)),
                             duration: const Duration(seconds: 2),
                           ),
                         );
@@ -1041,7 +1042,7 @@ class _AddPostState extends State<AddPost> {
                   ),
                   const Spacer(),
                   Text(
-                    " Add Image or Video ",
+                    "63".tr,
                     style: TextStyle(
                       fontWeight: AppFontStyles.fontWeightSemiBold,
                       fontSize: AppFontStyles.descriptionLoginFontSize,

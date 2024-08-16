@@ -1,6 +1,7 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:skilled_handyworkers_marketpleace/AddPosting/addOpenQuestion.dart';
 import 'package:skilled_handyworkers_marketpleace/ButtonNavigation/BottonNavigationBar.dart';
 import 'package:skilled_handyworkers_marketpleace/EditPost/cubit/cubit.dart';
@@ -42,16 +43,16 @@ class _EditOpenQuestionState extends State<EditOpenQuestion> {
 
         }
         else if(state is GetInformationPostErrorStateStates){
-          showToast(text:"Error!", state: ToastStates.EROOR);
+          showToast(text:"88".tr, state: ToastStates.EROOR);
       Navigator.pop(context);
         }
         if(state is EditOpenQuestionPostSucssessfullStateStates){
-          showToast(text:"The post has been update successfully", state: ToastStates.SUCCESS);
+          showToast(text:"89".tr, state: ToastStates.SUCCESS);
           Navigator.pop(context);
           CubitYourPost.get(context).getOpenQuestion();
         }
         else if(state is EditOpenQuestionPostErrorStateStates){
-          showToast(text:"The post hasn't been update successfully", state: ToastStates.EROOR);
+          showToast(text:"90".tr, state: ToastStates.EROOR);
 
         }
 
@@ -75,7 +76,7 @@ class _EditOpenQuestionState extends State<EditOpenQuestion> {
                EditPostCubit.get(context).editOpenQuestion(widget.id,_textControllerDescription.text);
                 },
                 child: Text(
-                  "update",
+                  "91".tr,
                   style: TextStyle(
                     fontSize: AppFontStyles.descriptionLoginFontSize,
                     fontWeight: AppFontStyles.fontWeightBold,
@@ -107,7 +108,7 @@ class _EditOpenQuestionState extends State<EditOpenQuestion> {
                         fallback:(context) => LinearProgressIndicator(color: AppColor.orangeColor,minHeight: 1.0,),),
                       SizedBox(height:AppFontStyles.aboutMe,),
                       Text(
-                        "Edit Post",
+                        "92".tr,
                         style: TextStyle(
                           fontSize: AppFontStyles.aboutMe,
                           fontWeight: AppFontStyles.fontWeightSemiBold,
@@ -147,7 +148,7 @@ class _EditOpenQuestionState extends State<EditOpenQuestion> {
                     ),
                       const SizedBox(height: AppFontStyles.sizeBetweenBoxAndSubTitle),
                       Text(
-                        " Edit Question ",
+                        "93".tr,
                         style: TextStyle(
                           fontWeight: AppFontStyles.fontWeightSemiBold,
                           fontSize: AppFontStyles.descriptionLoginFontSize,
@@ -165,7 +166,7 @@ class _EditOpenQuestionState extends State<EditOpenQuestion> {
                             keyboardType: TextInputType.text,
                             maxLines: 30,
                             decoration: InputDecoration(
-                              hintText: 'Edit your question ...',
+                              hintText: '94'.tr,
                               hintStyle: TextStyle(
                                 color: AppColor.grayColorFont,
                                 fontSize: AppFontStyles.descriptionLoginFontSize,

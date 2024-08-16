@@ -15,6 +15,7 @@ import 'package:skilled_handyworkers_marketpleace/Dashboard/cubit/cubit.dart';
 import 'package:skilled_handyworkers_marketpleace/Dashboard/dashboard.dart';
 import 'package:skilled_handyworkers_marketpleace/EditPost/cubit/cubit.dart';
 import 'package:skilled_handyworkers_marketpleace/Chat_Messages/Message.dart';
+import 'package:skilled_handyworkers_marketpleace/Logo/Logo.dart';
 import 'package:skilled_handyworkers_marketpleace/Posting/cubit/cubit.dart';
 import 'package:skilled_handyworkers_marketpleace/Registration/cubitSignUp/cubit.dart';
 import 'package:skilled_handyworkers_marketpleace/SearchModel/cubitLocation/cubit.dart';
@@ -68,7 +69,7 @@ class MyApp extends StatelessWidget {
 
         BlocProvider(
 
-          create:(context) =>ProfileCubit()..getProfileInformation(),
+          create:(context) =>ProfileCubit(),
 
 
         ),
@@ -158,9 +159,9 @@ class MyApp extends StatelessWidget {
       child: GetMaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Skilled handyWorker marketplace System',
-        locale: controller.intiallang,
+        locale:controller.intiallang,
         translations: MyLocal(),
-        home: Dashboard(),
+        home: LogoScreen(),
       ),
     );
   }

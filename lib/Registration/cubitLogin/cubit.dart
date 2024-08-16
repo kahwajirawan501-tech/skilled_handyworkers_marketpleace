@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skilled_handyworkers_marketpleace/Registration/cubitLogin/states.dart';
+import 'package:skilled_handyworkers_marketpleace/shared/components/constant.dart';
 
 import '../../Model/LoginModel.dart';
 import '../../shared/network/remote/dio_helper.dart';
@@ -27,7 +28,6 @@ class LoginCubit extends Cubit<LoginStates> {
     emit(LoginIsPasswordStateStates(isFilterActive));
   }
 
-  late LoginModel loginModel;
 
   Future<void> login({
     required String email,
@@ -46,10 +46,8 @@ class LoginCubit extends Cubit<LoginStates> {
 
         ).then((value) {
       print("data");
-
-      loginModel = LoginModel.fromJson(value.data);
-      print(loginModel);
-      emit(LoginSkilledSuccessState(loginModel, value.statusCode));
+      print(value.data);
+      emit(LoginSkilledSuccessState(value.data['token'], value.statusCode));
       print("UserSuccessState");
     }).catchError((error) {
       int statusCode = error.response?.statusCode ?? -1;
@@ -116,8 +114,8 @@ class LoginCubit extends Cubit<LoginStates> {
       'code' :code,
     }).then((value) {
       print("send email succ");
-
-      emit(EmailConfirmSkilledSuccessState(value.statusCode));
+      print(value.data);
+      emit(EmailConfirmSkilledSuccessState(value.statusCode,value.data['token']));
     }).catchError((error) {
       int statusCode = error.response?.statusCode ?? -1;
 
@@ -127,4 +125,5 @@ class LoginCubit extends Cubit<LoginStates> {
     });
   }
 
-  }
+
+}

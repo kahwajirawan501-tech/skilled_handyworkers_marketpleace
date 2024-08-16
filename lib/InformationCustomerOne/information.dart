@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:get/get.dart';
 import 'package:skilled_handyworkers_marketpleace/Chat_Messages/Message.dart';
 import 'package:skilled_handyworkers_marketpleace/InformationCustomerOne/seeMore.dart';
 import 'package:skilled_handyworkers_marketpleace/Posting/ListOfPostForUser.dart';
@@ -63,7 +64,7 @@ class _InformationState extends State<Information> {
                 educationCustomer: CubitYourPost.get(context).information['institutionName']??"",
                 educationDescriptionCustomer: CubitYourPost.get(context).information['institutionDescription']??""));
 
-          }, child:Text("See More",style:TextStyle(
+          }, child:Text("102".tr,style:TextStyle(
               fontSize: AppFontStyles.descriptionLoginFontSize,
               fontWeight: AppFontStyles.fontWeightBold,
               color: AppColor.bottomNavigationBar
@@ -229,7 +230,7 @@ if(state is GetInformationSucssessfullStateStates){
                                   color: clickPosting?AppColor.orangeColor:Colors.white,
                                 ),
                                 alignment: Alignment.center,
-                                child: Text("posting",style: TextStyle(color:clickPosting?Colors.white:AppColor.bluColor ),)
+                                child: Text("103".tr,style: TextStyle(color:clickPosting?Colors.white:AppColor.bluColor ),)
                             ),
                           ), height: 40, borderRadius: BorderRadius.circular(10)),
                         ),
@@ -258,7 +259,7 @@ if(state is GetInformationSucssessfullStateStates){
                                 decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),
                                   color:clickOpenQuestion?AppColor.orangeColor:Colors.white,
                                 ),
-                                child: Text("open question",style: TextStyle(color:clickOpenQuestion?Colors.white:AppColor.bluColor ))
+                                child: Text("104".tr,style: TextStyle(color:clickOpenQuestion?Colors.white:AppColor.bluColor ))
                             ),
                           ), height: 40, borderRadius: BorderRadius.circular(10)),
                         ),

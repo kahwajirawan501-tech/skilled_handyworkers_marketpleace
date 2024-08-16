@@ -1,6 +1,7 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:skilled_handyworkers_marketpleace/profileScreens/Box.dart';
 import 'package:skilled_handyworkers_marketpleace/profileScreens/Setting/cubit/cubit.dart';
 import 'package:skilled_handyworkers_marketpleace/profileScreens/Setting/cubit/states.dart';
@@ -22,10 +23,12 @@ class PassWord extends StatelessWidget {
     return BlocConsumer<SettingCubit,SettingStates>(
       listener:  (context, state) {
         if(state is ChangeSucsessfulPassWord){
+          showToast(text:"349".tr, state: ToastStates.EROOR);
+
           Navigator.pop(context);
         }
         if(state is ChangeErrorPassWord){
-          showToast(text:"error", state: ToastStates.EROOR);
+          showToast(text:"202".tr, state: ToastStates.EROOR);
         }
       },
       builder: (context, state) {
@@ -62,13 +65,13 @@ class PassWord extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("Update Password",style: TextStyle(
+                          Text("203".tr,style: TextStyle(
                               fontSize:AppFontStyles.aboutMe,
                               fontWeight:   AppFontStyles.fontWeightSemiBold,
                               color: AppColor.bluColor
                           ),),
                           const SizedBox(height: AppFontStyles.sizeBetweenTitleAndSubTitle,),
-                          Text("Old Password",style: TextStyle(
+                          Text("300".tr,style: TextStyle(
                               fontWeight:AppFontStyles.fontWeightBold ,
                               fontSize: AppFontStyles.descriptionLoginFontSize,
                               color: AppColor.navyBlueColor
@@ -100,7 +103,7 @@ class PassWord extends StatelessWidget {
 
                             ),),
                           SizedBox(height: AppFontStyles.sizeBetweenBoxAndSubTitle,),
-                          Text("New Password",style: TextStyle(
+                          Text("301".tr,style: TextStyle(
                               fontWeight:AppFontStyles.fontWeightBold ,
                               fontSize: AppFontStyles.descriptionLoginFontSize,
                               color: AppColor.navyBlueColor
@@ -185,14 +188,14 @@ class PassWord extends StatelessWidget {
                       if(email!.isEmpty||oldPasswordController.text.isEmpty||newPasswordController.text.isEmpty){
                         String messge=email.toString().isNotEmpty?
                         email.toString():oldPasswordController.text.isNotEmpty?oldPasswordController.text:newPasswordController.text;
-                        showToast(text:"please enter the $messge ", state: ToastStates.EROOR);
+                        showToast(text:"${"302".tr}$messge ", state: ToastStates.EROOR);
                       }
                       if(email!.isNotEmpty&&oldPasswordController.text.isNotEmpty&&newPasswordController.text.isNotEmpty){
      SettingCubit.get(context).changePassword(email.toString(),oldPasswordController.text, newPasswordController.text);
 
                       }
                     },
-                    text:"Update",
+                    text:"303".tr,
                     height: 50,
                     width: 213,
                     fontSize: AppFontStyles.descriptionSplashScreenFontSize,

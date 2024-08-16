@@ -2,6 +2,7 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:skilled_handyworkers_marketpleace/Commint/cubit/cubit.dart';
 import 'package:skilled_handyworkers_marketpleace/Commint/cubit/states.dart';
 import 'package:skilled_handyworkers_marketpleace/InformationCustomerOne/information.dart';
@@ -84,7 +85,7 @@ class _CommitScreenState extends State<CommitScreen> {
       _isReplying = true;
       _replyIndex = index;
       _commitId=commentId;
-      _commentController.text = "Replying to : ${CommitCubit.get(context).comments[index]["fullName"]}\t \t \t \n  ";
+      _commentController.text = "${"80".tr}${CommitCubit.get(context).comments[index]["fullName"]}\t \t \t \n ";
     });
   }
 
@@ -100,7 +101,7 @@ class _CommitScreenState extends State<CommitScreen> {
               ListTile(
                 leading: Icon(Icons.delete, color: AppColor.orangeColor),
                 title:
-                    Text("Delete", style: TextStyle(color: AppColor.bluColor)),
+                    Text("70".tr, style: TextStyle(color: AppColor.bluColor)),
                 onTap: () {
                   Navigator.pop(context);
                   _deleteComment(commentIndex,
@@ -109,7 +110,7 @@ class _CommitScreenState extends State<CommitScreen> {
               ),
               ListTile(
                 leading: Icon(Icons.edit, color: AppColor.orangeColor),
-                title: Text("Edit", style: TextStyle(color: AppColor.bluColor)),
+                title: Text("71".tr, style: TextStyle(color: AppColor.bluColor)),
                 onTap: () {
                   Navigator.pop(context);
                   _editComment(commentIndex,
@@ -209,7 +210,7 @@ class _CommitScreenState extends State<CommitScreen> {
             _commitIndexDelete=-1;
           }
           else if (state is DeleteCommitErrorStateStates){
-            showToast(text:"The commit hasn't been delete successfully \n", state: ToastStates.EROOR);
+            showToast(text:"81\n".tr, state: ToastStates.EROOR);
             _commitId="0";
             _replyId="0";
             _commitIndexDelete=-1;
@@ -233,7 +234,7 @@ class _CommitScreenState extends State<CommitScreen> {
             _commitIndexDelete=-1;
           }
           else if (state is DeleteReplyErrorStateStates){
-            showToast(text:"The commit hasn't been delete successfully \n", state: ToastStates.EROOR);
+            showToast(text:"81\n".tr, state: ToastStates.EROOR);
 
             _commitId="0";
             _replyId="0";
@@ -260,7 +261,7 @@ class _CommitScreenState extends State<CommitScreen> {
             _commitIndexDelete=-1;
           }
           else if (state is EditCommitErrorStateStates){
-            showToast(text:"The commit hasn't been edit successfully \n", state: ToastStates.EROOR);
+            showToast(text:"82\n".tr, state: ToastStates.EROOR);
             _commitId="0";
             _replyId="0";
             _commitIndexDelete=-1;
@@ -286,7 +287,7 @@ class _CommitScreenState extends State<CommitScreen> {
             _commitIndexDelete=-1;
           }
           else if (state is EditReplyErrorStateStates){
-            showToast(text:"The commit hasn't been edit successfully \n", state: ToastStates.EROOR);
+            showToast(text:"82\n".tr, state: ToastStates.EROOR);
             _replyId="0";
             _commitIndexDelete=-1;
             _replyIndexDelete=-1;
@@ -310,7 +311,7 @@ class _CommitScreenState extends State<CommitScreen> {
             _commitIndexDelete=-1;
           }
           else if (state is AddCommitErrorStateStates){
-            showToast(text:"The commit hasn't been add successfully \n", state: ToastStates.EROOR);
+            showToast(text:"83\n".tr, state: ToastStates.EROOR);
             _error=true;
             _commitId="0";
             _replyId="0";
@@ -337,7 +338,7 @@ class _CommitScreenState extends State<CommitScreen> {
             _commitIndexDelete=-1;
           }
           else if (state is AddReplyErrorStateStates){
-            showToast(text:"The commit hasn't been add successfully \n", state: ToastStates.EROOR);
+            showToast(text:"83\n".tr, state: ToastStates.EROOR);
             _errorRyply=true;
 
             _commitId="0";
@@ -367,9 +368,9 @@ class _CommitScreenState extends State<CommitScreen> {
                       builder: (context) => CommitCubit.get(context)
                           .comments
                           .isEmpty
-                          ? const Center(
+                          ?  Center(
                         child: Text(
-                          'No comments yet. Be the first to comment!',
+                          '84'.tr,
                           style:
                           TextStyle(color: Colors.grey, fontSize: 16),
                         ),
@@ -521,7 +522,7 @@ class _CommitScreenState extends State<CommitScreen> {
                                                     index, comment['id']);
                                               },
                                               child: Text(
-                                                'Reply',
+                                                '85'.tr,
                                                 style: TextStyle(
                                                     color: AppColor
                                                         .orangeColor,
@@ -745,8 +746,8 @@ class _CommitScreenState extends State<CommitScreen> {
                               fontSize: AppFontStyles.descriptionLoginFontSize,
                             ),
                             hintText: _isReplying
-                                ? 'Write your reply...'
-                                : 'Write your message...',
+                                ? '86'.tr
+                                : '87'.tr,
                             filled: true,
                             fillColor: Colors.white,
 

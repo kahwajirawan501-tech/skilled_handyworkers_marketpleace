@@ -4,9 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
+import 'package:skilled_handyworkers_marketpleace/ButtonNavigation/BottonNavigationBar.dart';
+import 'package:skilled_handyworkers_marketpleace/ButtonNavigation/cubit/cubit.dart';
 import 'package:skilled_handyworkers_marketpleace/Registration/SignUpScreen.dart';
 import 'package:skilled_handyworkers_marketpleace/shared/components/constant.dart';
-import '../profileScreens/profileScreen.dart';
 import '../shared/components/components.dart';
 import '../shared/network/local/cache_helper.dart';
 import '../shared/styles/colors.dart';
@@ -15,11 +16,18 @@ import 'ForgotPasswordScreen.dart';
 import 'cubitLogin/cubit.dart';
 import 'cubitLogin/states.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
   var formKey = GlobalKey<FormState>();
+
   var emailController = TextEditingController();
 
   var passwordController = TextEditingController();
+
   var isPassword = true;
 
   @override
@@ -31,14 +39,21 @@ class LoginScreen extends StatelessWidget {
 
           if (state.value == 201) {
             CacheHelper.saveData(
-                    key: 'accessToken', value: state.loginModel.token)
+                    key: 'accessToken', value: state.token)
                 .then(
               (value) {
-                accessToken = state.loginModel.token;
+                setState(() {
+                  accessToken = state.token;
+
+                });
+
               },
             );
-            print("object");
-            navigateTo(context: context, widget: ProfileScreen());
+            HomeCubit.get(context).getProfileId();
+            navigateAndFinish(context: context, widget: BottomNavigationScreen());
+
+
+
           }
         }
         if (state is LoginSkilledErrorState) {
@@ -223,6 +238,7 @@ class LoginScreen extends StatelessWidget {
                             ],
                           ),
                         ),
+                        SizedBox(height: 10,),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 32.0),
                           child: Row(
@@ -236,13 +252,14 @@ class LoginScreen extends StatelessWidget {
                                         .descriptionSplashScreenFontSize,
                                     color: AppColor.fontColor),
                               ),
-                              defaultTextButton(
-                                  text: "11".tr,
-                                  function: () {
+                              GestureDetector(
+                                  onTap: () {
                                     navigateTo(
                                         widget: SignUpScreen(),
                                         context: context);
-                                  }),
+                                  },
+                                  child: Text( "11".tr,style: TextStyle(color: AppColor.orangeColor,fontSize: AppFontStyles.descriptionLoginFontSize),))
+
                             ],
                           ),
                         )

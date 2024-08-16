@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:skilled_handyworkers_marketpleace/SearchModel/cubitLocation/cubit.dart';
 import 'package:skilled_handyworkers_marketpleace/SearchModel/cubitLocation/states.dart';
 import 'package:skilled_handyworkers_marketpleace/profileScreens/Box.dart';
@@ -42,7 +43,7 @@ final VoidCallback? onPressed;
               TextButton(onPressed:() {
                 Navigator.pop(context, textController.text);
 
-              }, child:Text("Done",style:TextStyle(
+              }, child:Text("332".tr,style:TextStyle(
                 fontSize: AppFontStyles.descriptionLoginFontSize,
                 fontWeight: AppFontStyles.fontWeightBold,
                 color: AppColor.bottomNavigationBar
@@ -62,7 +63,7 @@ final VoidCallback? onPressed;
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Add Location",
+                    "331".tr,
                     style: TextStyle(
                       fontSize: AppFontStyles.aboutMe,
                       fontWeight: AppFontStyles.fontWeightSemiBold,
@@ -84,7 +85,7 @@ final VoidCallback? onPressed;
                         },
                         decoration: InputDecoration(
 
-                          hintText: "Search location",
+                          hintText: "329".tr,
                           hintStyle: TextStyle(
                             fontSize: AppFontStyles.descriptionLoginFontSize,
                             color: AppColor.grayColorFont,
@@ -109,10 +110,10 @@ final VoidCallback? onPressed;
                     child:ConditionalBuilder(
                       condition:state is !LocationLoadingStatesStateStates ,
                       builder: (context) => location.isEmpty?
-                      const Center(
+                       Center(
                         child:
                         Text(
-                          'There is no area with this name',
+                          '330'.tr,
                           style:
                           TextStyle(color: Colors.grey, fontSize: 16),
                         ),

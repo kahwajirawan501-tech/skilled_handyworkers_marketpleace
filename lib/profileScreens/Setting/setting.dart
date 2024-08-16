@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:skilled_handyworkers_marketpleace/Registration/LoginScreen.dart';
 import 'package:skilled_handyworkers_marketpleace/profileScreens/Box.dart';
 import 'package:skilled_handyworkers_marketpleace/profileScreens/Setting/password.dart';
 import 'package:skilled_handyworkers_marketpleace/profileScreens/profileScreen.dart';
@@ -54,7 +55,7 @@ class _SettingState extends State<Setting> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("Settings",style: TextStyle(
+                    Text("304".tr,style: TextStyle(
                         fontSize:AppFontStyles.aboutMe,
                         fontWeight:   AppFontStyles.fontWeightSemiBold,
                         color: AppColor.bluColor
@@ -69,7 +70,7 @@ class _SettingState extends State<Setting> {
                           children: [
                             Image.asset("assets/images/notification.png"),
                             const SizedBox(width: 12,),
-                            Text("Notification",style: TextStyle(
+                            Text("305".tr,style: TextStyle(
                                 fontSize: AppFontStyles.descriptionLoginFontSize,
                                 color:AppColor.navyBlueColor
                             ),),
@@ -121,7 +122,7 @@ class _SettingState extends State<Setting> {
                           children: [
                             Image.asset("assets/images/Subtract.png"),
                             const SizedBox(width: 12,),
-                            Text("Dark mode",style: TextStyle(
+                            Text("306".tr,style: TextStyle(
                                 fontSize: AppFontStyles.descriptionLoginFontSize,
                                 color:AppColor.navyBlueColor
                             ),),
@@ -174,7 +175,7 @@ class _SettingState extends State<Setting> {
                           children: [
                             Image.asset("assets/images/IconDartLight.png"),
                             const SizedBox(width: 12,),
-                            Text("Password",style: TextStyle(
+                            Text("307".tr,style: TextStyle(
                                 fontSize: AppFontStyles.descriptionLoginFontSize,
                                 color:AppColor.navyBlueColor
                             ),),
@@ -198,7 +199,7 @@ class _SettingState extends State<Setting> {
                           children: [
                             Image.asset("assets/images/Iconlogout.png"),
                             const SizedBox(width: 12,),
-                            Text("Logout",style: TextStyle(
+                            Text("308".tr,style: TextStyle(
                                 fontSize: AppFontStyles.descriptionLoginFontSize,
                                 color:AppColor.navyBlueColor
                             ),),
@@ -208,14 +209,15 @@ class _SettingState extends State<Setting> {
                            onPressed:(){
     showCustomModal(
     context,
-    title: "Log out",
-    description: "Are you sure you want to leave?",
-    titleButton1: "Yes",
-    titleButton2: "Cancel",
+    title: "308".tr,
+    description: "309".tr,
+    titleButton1: "311".tr,
+    titleButton2: "312".tr,
     onPressed1:() {
      String message= signOut(context);
      showToast(text: message, state: ToastStates.SUCCESS);
     Navigator.pop(context); // إغلاق القائمة السفلية
+      navigateAndFinish(widget: LoginScreen(),context: context);
     //
     },
     onPressed2: () {
@@ -244,7 +246,7 @@ class _SettingState extends State<Setting> {
                 onPressed:(){
 
                 },
-                text:"Save",
+                text:"132".tr,
                 height: 50,
                 width: 213,
                 fontSize: AppFontStyles.descriptionSplashScreenFontSize,

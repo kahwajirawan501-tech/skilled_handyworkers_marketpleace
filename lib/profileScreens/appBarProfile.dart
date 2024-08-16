@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:skilled_handyworkers_marketpleace/Posting/imageView.dart';
 import 'package:skilled_handyworkers_marketpleace/shared/components/constant.dart';
 import 'package:skilled_handyworkers_marketpleace/shared/styles/styles.dart';
@@ -87,7 +88,7 @@ class AppBarProfile extends StatelessWidget implements PreferredSizeWidget {
                   padding: const EdgeInsetsDirectional.only(end: 20, top: 43,start: 20),
                   child: GestureDetector(
                     onTap: onTabArrBack,
-                    child: Icon(CupertinoIcons.arrow_left,color: Colors.white,),
+                    child: Icon("347".tr=="E"?CupertinoIcons.arrow_left:CupertinoIcons.arrow_turn_up_right,color: Colors.white,),
                   ),
                 ),
               ),
@@ -177,11 +178,15 @@ class AppBarProfile extends StatelessWidget implements PreferredSizeWidget {
                 ],
               ),
               Padding(
-                padding: EdgeInsetsDirectional.only(start: left, top: top ),
+                padding: EdgeInsetsDirectional.only(start: left, top: top, ),
                 child: GestureDetector(
                   onTap: onTapEditorChange,
                   child: Container(
-                    width: 130,
+                    constraints:
+                    const BoxConstraints(
+                        maxWidth: 150,
+                        minWidth: 100),
+                    //width: 150,
                     height: 30,
                     decoration: BoxDecoration(
                       borderRadius: const BorderRadius.all(Radius.circular(6)),
@@ -190,6 +195,7 @@ class AppBarProfile extends StatelessWidget implements PreferredSizeWidget {
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 15.0),
                       child: Row(
+                        mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(

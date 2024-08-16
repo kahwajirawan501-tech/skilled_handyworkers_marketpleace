@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:skilled_handyworkers_marketpleace/profileScreens/Education/addEducation.dart';
 import 'package:skilled_handyworkers_marketpleace/profileScreens/Language/language.dart';
 import 'package:skilled_handyworkers_marketpleace/profileScreens/Setting/setting.dart';
@@ -36,7 +37,7 @@ class ProfileScreen extends StatelessWidget {
             name: name!,pathImage:imageNetwork!.isEmpty?imageCope!:imageNetwork!,
             onTapSetting: () {
               navigateTo(context: context,widget: const Setting());//AddWorkExperience
-            }, textButton: 'Edit Profile', visibility: true, left: 255, top: 30,
+            }, textButton: '315'.tr, visibility: true, left: 270, top: 30,
 
             onTapEditorChange: () {
               navigateTo(widget: EditProfile(),context: context);
@@ -55,7 +56,7 @@ class ProfileScreen extends StatelessWidget {
                   const SizedBox(height: AppFontStyles.sizeBetweenTitleAndSubTitle,),
                   profilrTile(
                       imagePath: "assets/images/aboutmy.png",
-                      title:"About me",
+                      title:"106".tr,
                       addOrEdit:aboutMy!.isEmpty?"assets/images/Add.png":"assets/images/Edit.png",
                       onTap:(){
                         navigateTo(context: context,widget: const AboutMe());//AddWorkExperience
@@ -71,7 +72,7 @@ class ProfileScreen extends StatelessWidget {
                   ),
                   profilrTile(
                     imagePath: "assets/images/work.png",
-                    title:"Work experience",
+                    title:"111".tr,
                     onTap:(){
                       navigateTo(context: context,widget: const AddWorkExperience());//AddEducation
 
@@ -87,7 +88,7 @@ class ProfileScreen extends StatelessWidget {
                   ),
                   profilrTile(
                       imagePath: "assets/images/experience.png",
-                      title:"Education",
+                      title:"112".tr,
                       onTap:(){
                         navigateTo(context: context,widget: const AddEducation());//AddEducation
 
@@ -103,7 +104,7 @@ class ProfileScreen extends StatelessWidget {
                       ),)
                   ),
 
-                  profilrTile(imagePath: "assets/images/language.png", title:"Language", onTap:(){
+                  profilrTile(imagePath: "assets/images/language.png", title:"133".tr, onTap:(){
                     navigateTo(context: context,widget: const Language());//AddEducation
 
                   },

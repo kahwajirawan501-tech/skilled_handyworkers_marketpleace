@@ -1,6 +1,7 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:skilled_handyworkers_marketpleace/Chat_Messages/cubit/cubit.dart';
 import 'package:skilled_handyworkers_marketpleace/Chat_Messages/cubit/states.dart';
 import 'package:skilled_handyworkers_marketpleace/Posting/imageView.dart';
@@ -56,7 +57,7 @@ class _MessagePersonState extends State<MessagePerson> {
             children: <Widget>[
               ListTile(
                 leading: Icon(Icons.delete, color: AppColor.orangeColor),
-                title: Text("Delete", style: TextStyle(color: AppColor.bluColor)),
+                title: Text("70".tr, style: TextStyle(color: AppColor.bluColor)),
                 onTap: () {
                   Navigator.pop(context);
                   _deleteMessage(commentIndex);
@@ -64,7 +65,7 @@ class _MessagePersonState extends State<MessagePerson> {
               ),
               ListTile(
                 leading: Icon(Icons.edit, color: AppColor.orangeColor),
-                title: Text("Edit", style: TextStyle(color: AppColor.bluColor)),
+                title: Text("71".tr, style: TextStyle(color: AppColor.bluColor)),
                 onTap: () {
                   Navigator.pop(context);
                   _editMessage(commentIndex);
@@ -111,7 +112,7 @@ class _MessagePersonState extends State<MessagePerson> {
            _textAddCommit="";
          }
          else if(state is AddMessageErrorStateStates){
-           showToast(text:"The message hasn't been send successfully \n", state: ToastStates.EROOR);
+           showToast(text:"72\n".tr, state: ToastStates.EROOR);
            _error=true;
 
          }
@@ -120,7 +121,7 @@ class _MessagePersonState extends State<MessagePerson> {
            _commitIndexDelete=-1;
          }
          else if(state is DeleteMessageErrorStateStates){
-           showToast(text:"The message hasn't been send successfully \n", state: ToastStates.EROOR);
+           showToast(text:"72\n".tr, state: ToastStates.EROOR);
            _commitIndexDelete= -1;
 
          }
@@ -129,7 +130,7 @@ class _MessagePersonState extends State<MessagePerson> {
            _isEditing = false;
          }
          else if(state is EditMessageErrorStateStates){
-           showToast(text:"The message hasn't been edit successfully \n", state: ToastStates.EROOR);
+           showToast(text:"73\n".tr, state: ToastStates.EROOR);
            _editingCommentIndex= -1;
            _isEditing = false;
          }
@@ -210,7 +211,7 @@ class _MessagePersonState extends State<MessagePerson> {
                       Icon(Icons.circle,color:(online)?Colors.green: Colors.grey,size: 12,),
                       SizedBox(width: 4,),
                       Text(
-                        (online)?"Online":"Offline",
+                        (online)?"74".tr:"75".tr,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
@@ -236,9 +237,9 @@ class _MessagePersonState extends State<MessagePerson> {
                     child: ConditionalBuilder(
                       condition: state is! MessageLoadStateStates, //
                       builder: (context) => ChatCubit.get(context).messages.isEmpty
-                          ? const Center(
+                          ?  Center(
                         child: Text(
-                          'No messages',
+                          '76'.tr,
                           style: TextStyle(color: Colors.grey, fontSize: 16),
                         ),
                       )
@@ -397,7 +398,7 @@ class _MessagePersonState extends State<MessagePerson> {
                             ),
                             hintText:
 
-                                'Write your message...',
+                                '77'.tr,
                             filled: true,
                             fillColor: Colors.white,
                             border: OutlineInputBorder(

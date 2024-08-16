@@ -2,6 +2,7 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:skilled_handyworkers_marketpleace/Chat_Messages/NoMessage.dart';
 import 'package:skilled_handyworkers_marketpleace/Chat_Messages/cubit/cubit.dart';
 import 'package:skilled_handyworkers_marketpleace/Chat_Messages/cubit/states.dart';
@@ -47,7 +48,7 @@ class _ChatListState extends State<ChatList> {
               elevation: 0.0,
               backgroundColor: AppColor.backgroundColor,
               centerTitle: true,
-              title: Text("Messages",style: TextStyle(
+              title: Text("68".tr,style: TextStyle(
                   color: Colors.black,fontSize: AppFontStyles.borderRadius,
                   fontWeight: AppFontStyles.fontWeightBold
               ),),
@@ -63,7 +64,7 @@ class _ChatListState extends State<ChatList> {
                       ChatCubit.get(context).searchUsers(value);
                     },
                     decoration: InputDecoration(
-                      hintText: "Search",
+                      hintText: "69".tr,
                       hintStyle: TextStyle(
                         fontSize: AppFontStyles.descriptionLoginFontSize,
                         color: AppColor.grayColorFont,
@@ -126,7 +127,7 @@ class _ChatListState extends State<ChatList> {
                 elevation: 0.0,
                 backgroundColor: AppColor.backgroundColor,
                 centerTitle: true,
-                title: Text("Messages",style: TextStyle(
+                title: Text("68".tr,style: TextStyle(
                     color: Colors.black,fontSize: AppFontStyles.borderRadius,
                     fontWeight: AppFontStyles.fontWeightBold
                 ),),
@@ -142,7 +143,7 @@ class _ChatListState extends State<ChatList> {
                         ChatCubit.get(context).searchUsers(value);
                       },
                       decoration: InputDecoration(
-                        hintText: "Search",
+                        hintText: "69".tr,
                         hintStyle: TextStyle(
                           fontSize: AppFontStyles.descriptionLoginFontSize,
                           color: AppColor.grayColorFont,

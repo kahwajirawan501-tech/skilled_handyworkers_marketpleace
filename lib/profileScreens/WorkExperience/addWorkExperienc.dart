@@ -1,6 +1,7 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:skilled_handyworkers_marketpleace/profileScreens/WorkExperience/work.dart';
 import 'package:skilled_handyworkers_marketpleace/profileScreens/cubit/cubit.dart';
 import 'package:skilled_handyworkers_marketpleace/profileScreens/cubit/states.dart';
@@ -23,24 +24,24 @@ class AddWorkExperience extends StatelessWidget {
     return BlocConsumer<ProfileCubit,ProfileStates>(
       listener: (context, state) {
         if(state is WorkExperienceSucssessfullStateStates){
-          showToast(text:"Adding successfully", state: ToastStates.EROOR);
+          showToast(text:"117".tr, state: ToastStates.EROOR);
 
           Navigator.pop(context);
 
         }
         else if(state is WorkExperienceErrorStateStates){
-          showToast(text:"Adding not successfully \n", state: ToastStates.EROOR);
+          showToast(text:"118\n".tr, state: ToastStates.EROOR);
 
         }
         if(state is EditWorkExperienceSucssessfullStateStates){
-          showToast(text:"Editing successfully", state: ToastStates.EROOR);
+          showToast(text:"119".tr, state: ToastStates.EROOR);
 
           Navigator.pop(context);
 
 
         }
         else if(state is EditWorkExperienceErrorStateStates){
-          showToast(text:"Editing not successfully \n", state: ToastStates.EROOR);
+          showToast(text:"120\n".tr, state: ToastStates.EROOR);
 
         }
       },
@@ -53,11 +54,11 @@ class AddWorkExperience extends StatelessWidget {
           descriptionJob: descriptionJob,
           jobTitle: jobTitle,
           buttonTF: true,
-          title: "Add work experience",
-          field1: "Job title",
-          field2: "Description",
-          description: "Write additional information here",
-          titleButton1:"Save",
+          title: "313".tr,
+          field1: "314".tr,
+          field2: "130".tr,
+          description: "131".tr,
+          titleButton1:"132".tr,
           titleButton2: "",
           onPressed1: () {
             // if(jobTitle.text.isEmpty&&descriptionJob.text.isEmpty){
@@ -105,10 +106,10 @@ class AddWorkExperience extends StatelessWidget {
          //   print(descriptionJob.text);
               showCustomModal(
                 context,
-                title: "Undo Changes ?",
-                description: "Are you sure you want to change what you entered?",
-                titleButton1: "Continue Filling",
-                titleButton2: "Undo Changes",
+                title: "123".tr,
+                description: "124".tr,
+                titleButton1: "125".tr,
+                titleButton2: "126".tr,
                 onPressed1:() {
                   (workTittle!.isNotEmpty||workDescription!.isNotEmpty)?
                   ProfileCubit.get(context).editWorkExperience(jobTitle.text, descriptionJob.text):

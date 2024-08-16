@@ -101,51 +101,6 @@ class ProfileCubit extends Cubit<ProfileStates> {
   }
 
 
-  Future<void>getProfileInformation()async{
-     emit(GetInformationStatesLoadingStateStates());
-     print("GetInformationStatesLoadingStateStates");
-     await  DioHelper.getData2(
-         url:'/users/$id',
-
-     ).then((value)
-     {
-       print("Response received");
-       print("Data: ${value.data}");
-       // Check if the response contains the expected data
-       if (value.data != null ) {
-         imageNetwork=value.data['profileImage'] ?? "";
-         name=value.data['fullName'] ?? "";
-         email=value.data['email'] ?? "";
-         dateOfBirthh=value.data['dateOfBirth'] ?? "";
-         gender=value.data['gender'] ?? "";
-         locationConst=value.data['location'] ?? "";
-         numberConst=value.data['phoneNumber'] ?? "";
-         aboutMy=value.data['aboutMe'] ?? "";
-         workTittle=value.data['jobTitle'] ?? "";
-         workDescription=value.data['jobDescription'] ?? "";
-         educationTittle=value.data['institutionName'] ?? "";
-         educationDescription=value.data['institutionDescription'] ?? "";
-         skill=value.data['skills'] ?? "";
-         print("GetInformationSucssessfullStateStates");
-         emit(GetInformationSucssessfullStateStates());
-         print(imageNetwork);
-
-       } else {
-         print("GetInformationErrorStateStates");
-         emit(GetInformationErrorStateStates(0));
-       }
-
-
-     }
-     ).catchError((error){
-       int statusCode = error.response?.statusCode ?? -1;
-       print(error.toString());
-
-       print("GetInformationErrorStateStates");
-       emit(GetInformationErrorStateStates(statusCode));
-     });
-}
-
 
 
   Map<String,dynamic>aboutMyMap={};

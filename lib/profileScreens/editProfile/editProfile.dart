@@ -5,7 +5,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:skilled_handyworkers_marketpleace/ButtonNavigation/cubit/cubit.dart';
+import 'package:skilled_handyworkers_marketpleace/Registration/cubitLogin/cubit.dart';
 import 'package:skilled_handyworkers_marketpleace/SearchModel/searchLocation.dart';
 import 'package:skilled_handyworkers_marketpleace/SearchModel/searchService.dart';
 import 'package:skilled_handyworkers_marketpleace/profileScreens/Box.dart';
@@ -80,17 +83,17 @@ class _EditProfileState extends State<EditProfile> {
 
         }
         else if(state is PostFileErrorStateStates){
-          showToast(text:"Adding image profile not successfully \n", state: ToastStates.EROOR);
+          showToast(text:"316\n".tr, state: ToastStates.EROOR);
 
         }
         if(state is EditProfileSucssessfullStateStates){
-          showToast(text:"Editing successfully", state: ToastStates.EROOR);
-
+          showToast(text:"317".tr, state: ToastStates.EROOR);
+          HomeCubit.get(context).getProfileInformation();
 
 
         }
         else if(state is EditProfileErrorStateStates){
-          showToast(text:"Editing not successfully \n", state: ToastStates.EROOR);
+          showToast(text:"318\n".tr, state: ToastStates.EROOR);
 
         }
       },
@@ -106,7 +109,7 @@ class _EditProfileState extends State<EditProfile> {
             email:email!,
             name: name!,
             pathImage:  imageNetwork!.isEmpty ? imageCope! : imageNetwork!,
-            textButton: 'Change image', visibility: false, left: 255, top: 30,
+            textButton: '319'.tr, visibility: false, left: 255, top: 30,
             onTapEditorChange: () {
               bottomSheet(context);
             },
@@ -127,7 +130,7 @@ class _EditProfileState extends State<EditProfile> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const SizedBox(height: AppFontStyles.sizeBetweenBoxAndSubTitle+4,),
-                      Text("Full name",style: TextStyle(
+                      Text("320".tr,style: TextStyle(
                           fontWeight:AppFontStyles.fontWeightBold ,
                           fontSize: AppFontStyles.descriptionLoginFontSize,
                           color: AppColor.navyBlueColor
@@ -151,7 +154,7 @@ class _EditProfileState extends State<EditProfile> {
 
                         ),),
                       const SizedBox(height: AppFontStyles.sizeBetweenBoxAndSubTitle-4,),
-                      Text("Date of birth",style: TextStyle(
+                      Text("321".tr,style: TextStyle(
                           fontWeight:AppFontStyles.fontWeightBold ,
                           fontSize: AppFontStyles.descriptionLoginFontSize,
                           color: AppColor.navyBlueColor
@@ -172,7 +175,7 @@ class _EditProfileState extends State<EditProfile> {
 
                         ),),
                       const SizedBox(height: AppFontStyles.sizeBetweenBoxAndSubTitle-4,),
-                      Text("Gender",style: TextStyle(
+                      Text("108".tr,style: TextStyle(
                           fontWeight:AppFontStyles.fontWeightBold ,
                           fontSize: AppFontStyles.descriptionLoginFontSize,
                           color: AppColor.navyBlueColor
@@ -197,7 +200,7 @@ class _EditProfileState extends State<EditProfile> {
                                     },
                                   ),
                                   Text(
-                                    "Male",
+                                    "322".tr,
                                     style: TextStyle(
                                       fontSize: AppFontStyles.descriptionLoginFontSize,
                                       color: AppColor.navyBlueColor,
@@ -225,7 +228,7 @@ class _EditProfileState extends State<EditProfile> {
                                     },
                                   ),
                                   Text(
-                                    "Female",
+                                    "323".tr,
                                     style: TextStyle(
                                       fontSize: AppFontStyles.descriptionLoginFontSize,
                                       color: AppColor.navyBlueColor,
@@ -238,7 +241,7 @@ class _EditProfileState extends State<EditProfile> {
                         ],
                       ),
                       const SizedBox(height: AppFontStyles.sizeBetweenBoxAndSubTitle-4,),
-                      Text("Email address",style: TextStyle(
+                      Text("324".tr,style: TextStyle(
                           fontWeight:AppFontStyles.fontWeightBold ,
                           fontSize: AppFontStyles.descriptionLoginFontSize,
                           color: AppColor.navyBlueColor
@@ -258,7 +261,7 @@ class _EditProfileState extends State<EditProfile> {
 
                         ),),
                       const SizedBox(height: AppFontStyles.sizeBetweenBoxAndSubTitle-4,),
-                      Text("Phone number",style: TextStyle(
+                      Text("107".tr,style: TextStyle(
                           fontWeight:AppFontStyles.fontWeightBold ,
                           fontSize: AppFontStyles.descriptionLoginFontSize,
                           color: AppColor.navyBlueColor
@@ -279,7 +282,7 @@ class _EditProfileState extends State<EditProfile> {
                         ),),
 
                       const SizedBox(height: AppFontStyles.sizeBetweenBoxAndSubTitle-4,),
-                      Text("Skill",style: TextStyle(
+                      Text("109".tr,style: TextStyle(
                           fontWeight:AppFontStyles.fontWeightBold ,
                           fontSize: AppFontStyles.descriptionLoginFontSize,
                           color: AppColor.navyBlueColor
@@ -295,8 +298,8 @@ class _EditProfileState extends State<EditProfile> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => Service(
-                                    title: "Add Service",
-                                    titleSearch: "Search",
+                                    title: "37".tr,
+                                    titleSearch: "38".tr,
                                     textController: service,
                                     widget:  EditProfile(),
                                   ),
@@ -311,7 +314,7 @@ class _EditProfileState extends State<EditProfile> {
                             child: Padding(
                               padding: const EdgeInsets.symmetric(horizontal: AppFontStyles.padding, vertical: 8),
                               child: Text(
-                                service.text.isEmpty ? "Select service" : service.text,
+                                service.text.isEmpty ? "39".tr : service.text,
                                 style: TextStyle(
                                   color: AppColor.grayColorFont,
                                   fontSize: AppFontStyles.descriptionLoginFontSize,
@@ -325,7 +328,7 @@ class _EditProfileState extends State<EditProfile> {
                       ),
                       const SizedBox(height: AppFontStyles.sizeBetweenBoxAndSubTitle-4,),
 
-                      Text("Location",style: TextStyle(
+                      Text("40".tr,style: TextStyle(
                           fontWeight:AppFontStyles.fontWeightBold ,
                           fontSize: AppFontStyles.descriptionLoginFontSize,
                           color: AppColor.navyBlueColor
@@ -357,7 +360,7 @@ class _EditProfileState extends State<EditProfile> {
                             child: Padding(
                               padding: const EdgeInsets.symmetric(horizontal: AppFontStyles.padding, vertical: 8),
                               child: Text(
-                                location.text.isEmpty ? "Select location" : location.text,
+                                location.text.isEmpty ? "41".tr : location.text,
                                 style: TextStyle(
                                   color: AppColor.grayColorFont,
                                   fontSize: AppFontStyles.descriptionLoginFontSize,
@@ -388,7 +391,7 @@ class _EditProfileState extends State<EditProfile> {
 
 
                             },
-                            text:"Save",
+                            text:"127".tr,
                             height: 50,
                             width: 213,
                             fontSize: AppFontStyles.descriptionSplashScreenFontSize,
@@ -411,10 +414,10 @@ class _EditProfileState extends State<EditProfile> {
   void bottomSheet(context) {
     return  showCustomModal(
       context,
-      title:"Change Image",
-      description:" choose the picture from the Gallery or Camera ? ",
-      titleButton1: "From Gallery",
-      titleButton2: "From Camera",
+      title:"319".tr,
+      description:"325".tr,
+      titleButton1: "326".tr,
+      titleButton2: "327".tr,
       onPressed1: () {
         _getFromGallery();
         Navigator.pop(context);

@@ -3,10 +3,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
+import 'package:skilled_handyworkers_marketpleace/ButtonNavigation/BottonNavigationBar.dart';
+import 'package:skilled_handyworkers_marketpleace/ButtonNavigation/cubit/cubit.dart';
 import 'package:skilled_handyworkers_marketpleace/Registration/LoginScreen.dart';
 import 'package:skilled_handyworkers_marketpleace/Registration/cubitLogin/cubit.dart';
 import 'package:skilled_handyworkers_marketpleace/Registration/cubitLogin/states.dart';
 import 'package:skilled_handyworkers_marketpleace/Registration/registertTitle.dart';
+import 'package:skilled_handyworkers_marketpleace/profileScreens/cubit/cubit.dart';
+import 'package:skilled_handyworkers_marketpleace/shared/components/constant.dart';
 import 'package:skilled_handyworkers_marketpleace/shared/network/local/cache_helper.dart';
 
 import '../shared/components/components.dart';
@@ -15,37 +19,46 @@ import '../shared/styles/styles.dart';
 import '../Registration/ChangePasswordScreen.dart';
 
 
-class CheckYourEmailScreen extends StatelessWidget {
+class CheckYourEmailScreen extends StatefulWidget {
+  final String email;
+  CheckYourEmailScreen({super.key, required this.email});
+
+  @override
+  State<CheckYourEmailScreen> createState() => _CheckYourEmailScreenState();
+}
+
+class _CheckYourEmailScreenState extends State<CheckYourEmailScreen> {
  // final String email;
- // var data = Get.arguments;
   var codeController = TextEditingController();
-  var emailController = TextEditingController();
+
+  //var emailController = TextEditingController();
 
    //CheckYourEmailScreen({super.key,  required this.email});
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (BuildContext content) => LoginCubit(),
       child: BlocConsumer<LoginCubit, LoginStates>(
         listener: (context, state) {
-          if (state is ChangePassSkilledSuccessState) {
+          if (state is EmailConfirmSkilledSuccessState) {
             if (state.value == 201) {
+              CacheHelper.saveData(
+                  key: 'accessToken', value: state.token)
+                  .then(
+                    (value) {
+                  accessToken = state.value['token'];
+                },
+              ); HomeCubit.get(context).getProfileId();
 
-              // CacheHelper.saveData(
-              //     key: 'accessToken', value: state.loginModel.token)
-              //     .then(
-              //       (value) {
-              //     accessToken = state.loginModel.token;
-              //   },
-              // );
-              // Get.to(() => LoginScreen(), arguments: [
-              //   data[0],
-              // ]);
-              navigateTo(context: context, widget: LoginScreen());
+                navigateAndFinish(context: context, widget: BottomNavigationScreen());
+
+
+
+
+
             }
           }
-          if (state is ChangePassSkilledErrorState) {
+          if (state is EmailConfirmSkilledErrorState) {
             if (state.error == 400) {
               showToast(
                 text: "The code not correct",
@@ -98,19 +111,19 @@ class CheckYourEmailScreen extends StatelessWidget {
                               SizedBox(
                                 height: 16,
                               ),
-                              defaultTextFieldLog(
-                                controller: emailController,
-                                validate: (String? value) {
-                                  if (value!.isEmpty) {
-                                    return "code must not be empty";
-                                  }
-                                  return null;
-                                },
-                                type: TextInputType.emailAddress,
-                              ),
-                              SizedBox(
-                                height: 16,
-                              ),
+                              // defaultTextFieldLog(
+                              //   controller: emailController,
+                              //   validate: (String? value) {
+                              //     if (value!.isEmpty) {
+                              //       return "code must not be empty";
+                              //     }
+                              //     return null;
+                              //   },
+                              //   type: TextInputType.emailAddress,
+                              // ),
+                              // SizedBox(
+                              //   height: 16,
+                              // ),
                               defaultTextFieldLog(
                                 controller: codeController,
                                 validate: (String? value) {
@@ -122,7 +135,7 @@ class CheckYourEmailScreen extends StatelessWidget {
                                 type: TextInputType.number,
                               ),
                               SizedBox(
-                                height: 16,
+                                height: 30,
                               ),
 
                               Center(
@@ -143,7 +156,7 @@ class CheckYourEmailScreen extends StatelessWidget {
                                         height: 60,
                                         width: 320,
                                         onPressed: () {
-                                          LoginCubit.get(context).sendEmailConfirm(email: emailController.text, code: codeController.text);
+                                          LoginCubit.get(context).sendEmailConfirm(email:widget.email, code: codeController.text);
 
                                         //  print(data[0]);
                                           print(codeController.text);
@@ -174,7 +187,7 @@ class CheckYourEmailScreen extends StatelessWidget {
                                   height: 60,
                                   width: 320,
                                   onPressed: () {
-                                    navigateTo(
+                                    navigateAndFinish(
                                       context: context,
                                       widget: LoginScreen(),
                                     );
@@ -196,5 +209,4 @@ class CheckYourEmailScreen extends StatelessWidget {
       ),
     );
   }
-
 }

@@ -1,6 +1,7 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:skilled_handyworkers_marketpleace/Commint/commintSceren.dart';
 import 'package:skilled_handyworkers_marketpleace/EditPost/EditPost.dart';
 import 'package:skilled_handyworkers_marketpleace/EditPost/cubit/cubit.dart';
@@ -65,11 +66,11 @@ class _ListOfPostingUserState extends State<ListOfPostingUser> {
       listener: (context, state) {
         if(state is DeletePostSucssessfullStateStates){
 
-          showToast(text:"The post has been delete successfully \n", state: ToastStates.EROOR);
+          showToast(text:"114\n".tr, state: ToastStates.EROOR);
 
         }
         else if(state is DeletePostErrorStateStates){
-          showToast(text:"The post hasn't been delete successfully \n", state: ToastStates.EROOR);
+          showToast(text:"115\n".tr, state: ToastStates.EROOR);
 
         }
       },
@@ -88,7 +89,7 @@ class _ListOfPostingUserState extends State<ListOfPostingUser> {
                   children: [
                     Image.asset("assets/images/Illustrasi.png"),
                     SizedBox(height: 24,),
-                    Text("Not Post Yet",style: TextStyle(color: AppColor.posting),)
+                    Text("113".tr,style: TextStyle(color: AppColor.posting),)
                   ],
                 ),
               );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:skilled_handyworkers_marketpleace/EditPost/cubit/cubit.dart';
 import 'package:skilled_handyworkers_marketpleace/EditPost/cubit/states.dart';
 import 'dart:io';
@@ -81,17 +82,17 @@ class _EditPostState extends State<EditPost> {
             context: context,
             builder: (BuildContext context) => AlertDialog(
               title: Text(
-                "Limit Exceeded",
+                "44".tr,
                 style: TextStyle(color: AppColor.bluColor),
               ),
               content: Text(
-                "You can select up to ${10 - (_selectedImages.length+image.length)} more images.",
+                "${"45".tr}${10 - (_selectedImages.length+image.length)}${"46".tr}",
                 style: TextStyle(color: AppColor.grayColorFont),
               ),
               actions: [
                 TextButton(
                   child: Text(
-                    "OK",
+                    "47".tr,
                     style: TextStyle(color: AppColor.orangeColor),
                   ),
                   onPressed: () {
@@ -154,7 +155,7 @@ class _EditPostState extends State<EditPost> {
             children: <Widget>[
               ListTile(
                 leading: Icon(Icons.photo_library,color: AppColor.orangeColor,),
-                title: Text("Choose from Gallery",style: TextStyle(color: AppColor.bluColor)),
+                title: Text("48".tr,style: TextStyle(color: AppColor.bluColor)),
                 onTap: () {
                   Navigator.pop(context);
                   _pickImagesFromGallery();
@@ -162,7 +163,7 @@ class _EditPostState extends State<EditPost> {
               ),
               ListTile(
                 leading: Icon(Icons.camera_alt,color: AppColor.orangeColor),
-                title: Text("Take Photo",style: TextStyle(color: AppColor.bluColor),),
+                title: Text("49".tr,style: TextStyle(color: AppColor.bluColor),),
                 onTap: () {
                   Navigator.pop(context);
                   _pickImageFromCamera();
@@ -181,7 +182,7 @@ class _EditPostState extends State<EditPost> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "Image :",
+          "50".tr,
           style: TextStyle(
             fontWeight: AppFontStyles.fontWeightSemiBold,
             fontSize: AppFontStyles.descriptionLoginFontSize,
@@ -402,7 +403,7 @@ class _EditPostState extends State<EditPost> {
             children: <Widget>[
               ListTile(
                 leading: Icon(Icons.video_library, color: AppColor.orangeColor),
-                title: const Text("Choose from Gallery"),
+                title:  Text("48".tr),
                 onTap: () {
                   Navigator.pop(context);
                   _pickVideosFromGallery();
@@ -410,7 +411,7 @@ class _EditPostState extends State<EditPost> {
               ),
               ListTile(
                 leading: Icon(Icons.videocam,color:  AppColor.orangeColor),
-                title: const Text("Record Video"),
+                title:  Text("51".tr),
                 onTap: () {
                   Navigator.pop(context);
                   _pickVideoFromCamera();
@@ -427,11 +428,11 @@ class _EditPostState extends State<EditPost> {
     showDialog(
       context: context,
       builder: (BuildContext context) => AlertDialog(
-        title: Text("Limit Exceeded",style: TextStyle(color: AppColor.bluColor),),
-        content: Text("You can select up to $remainingCount more videos.",style: TextStyle(color: AppColor.grayColorFont)),
+        title: Text("44".tr,style: TextStyle(color: AppColor.bluColor),),
+        content: Text("${"45".tr}$remainingCount ${"52".tr}",style: TextStyle(color: AppColor.grayColorFont)),
         actions: [
           TextButton(
-            child: Text("OK",style: TextStyle(color: AppColor.orangeColor)),
+            child: Text("47".tr,style: TextStyle(color: AppColor.orangeColor)),
             onPressed: () {
               Navigator.of(context).pop();
             },
@@ -586,7 +587,7 @@ class _EditPostState extends State<EditPost> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "Video :",
+          "53".tr,
           style: TextStyle(
             fontWeight: AppFontStyles.fontWeightSemiBold,
             fontSize: AppFontStyles.descriptionLoginFontSize,
@@ -1036,7 +1037,7 @@ class _EditPostState extends State<EditPost> {
           Navigator.pop(context);
         }
         if(state is EditPostPostSucssessfullStateStates){
-          showToast(text:"The post has been update successfully", state: ToastStates.SUCCESS);
+          showToast(text:"89".tr, state: ToastStates.SUCCESS);
           image.clear();
           video.clear();
           Navigator.pop(context);
@@ -1044,7 +1045,7 @@ class _EditPostState extends State<EditPost> {
           CubitYourPost.get(context).getFavorites();
         }
         else if(state is EditPostPostErrorStateStates){
-          showToast(text:"The post hasn't been update successfully", state: ToastStates.EROOR);
+          showToast(text:"90".tr, state: ToastStates.EROOR);
 
         }
         if(state is PostFileSucssessfullStateStates){
@@ -1054,7 +1055,7 @@ class _EditPostState extends State<EditPost> {
 
         }
         else if(state is PostFileErrorStateStates){
-          showToast(text:"error !! , when upload image and video \n"+state.message, state: ToastStates.EROOR);
+          showToast(text:"54\n".tr+state.message, state: ToastStates.EROOR);
         }
       },
       builder: (context, state) {
@@ -1074,7 +1075,7 @@ class _EditPostState extends State<EditPost> {
               TextButton(onPressed:() {
                 EditPostCubit.get(context).postFile(_selectedImages, _selectedVideos,image,video);
 
-              }, child:Text("update",style:TextStyle(
+              }, child:Text("91".tr,style:TextStyle(
                   fontSize: AppFontStyles.descriptionLoginFontSize,
                   fontWeight: AppFontStyles.fontWeightBold,
                   color: AppColor.bottomNavigationBar
@@ -1107,7 +1108,7 @@ class _EditPostState extends State<EditPost> {
                       ),
                       SizedBox(height:AppFontStyles.aboutMe,),
                       Text(
-                        "Edit Post",
+                        "92".tr,
                         style: TextStyle(
                           fontSize: AppFontStyles.aboutMe,
                           fontWeight: AppFontStyles.fontWeightSemiBold,
@@ -1148,7 +1149,7 @@ class _EditPostState extends State<EditPost> {
 
                       const SizedBox(height: AppFontStyles.sizeBetweenBoxAndSubTitle),
                       Text(
-                        " Edit Description ",
+                        "95".tr,
                         style: TextStyle(
                           fontWeight: AppFontStyles.fontWeightSemiBold,
                           fontSize: AppFontStyles.descriptionLoginFontSize,
@@ -1168,7 +1169,7 @@ class _EditPostState extends State<EditPost> {
                             maxLines: 20, // حدد الحد الأقصى لعدد الأسطر
                             decoration:  InputDecoration(
 
-                              hintText:'Edit your description ..',
+                              hintText:'96'.tr,
                               hintStyle: TextStyle(
 
                                 color: AppColor.grayColorFont,
@@ -1230,7 +1231,7 @@ class _EditPostState extends State<EditPost> {
                   ),
                   const Spacer(),
                   Text(
-                    " Add Image or Video ",
+                    "97".tr,
                     style: TextStyle(
                       fontWeight: AppFontStyles.fontWeightSemiBold,
                       fontSize: AppFontStyles.descriptionLoginFontSize,

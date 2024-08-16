@@ -51,7 +51,7 @@ class _LanguageState extends State<Language> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("Language",style: TextStyle(
+                    Text("133".tr,style: TextStyle(
                         fontSize:AppFontStyles.aboutMe,
                         fontWeight:   AppFontStyles.fontWeightSemiBold,
                         color: AppColor.bluColor
@@ -66,7 +66,7 @@ class _LanguageState extends State<Language> {
                           children: [
                             Image.asset("assets/images/Arabic.png"),
                             const SizedBox(width: 12,),
-                            Text("Arabic",style: TextStyle(
+                            Text("200".tr,style: TextStyle(
                               fontSize: AppFontStyles.descriptionLoginFontSize,
                               color:AppColor.navyBlueColor
                             ),),
@@ -97,7 +97,7 @@ class _LanguageState extends State<Language> {
                           children: [
                             Image.asset("assets/images/English.png"),
                             const SizedBox(width: 12,),
-                            Text("English",style: TextStyle(
+                            Text("201".tr,style: TextStyle(
                                 fontSize: AppFontStyles.descriptionLoginFontSize,
                                 color:AppColor.navyBlueColor
                             ),),
@@ -132,13 +132,15 @@ class _LanguageState extends State<Language> {
               child:  button(
                   colorBackground: AppColor.navyBlueColor,
                   onPressed:(){
+                  setState(() {
                     if (_value == 1) {
                       controllerLang.changeLang("ar");
                     } else {
                       controllerLang.changeLang("en");
                     }
+                  });
                   },
-                  text:"Save",
+                  text:"132".tr,
                   height: 50,
                   width: 213,
                   fontSize: AppFontStyles.descriptionSplashScreenFontSize,

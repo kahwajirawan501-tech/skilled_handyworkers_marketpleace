@@ -1,6 +1,7 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:skilled_handyworkers_marketpleace/AddPosting/cubit/cubit.dart';
 import 'package:skilled_handyworkers_marketpleace/AddPosting/cubit/states.dart';
 import 'package:skilled_handyworkers_marketpleace/ButtonNavigation/BottonNavigationBar.dart';
@@ -32,12 +33,12 @@ class _AddOpenQuestionState extends State<AddOpenQuestion> {
     return BlocConsumer<AddPostCubit,AddPostStates>(
       listener: (context, state) {
         if(state is AddOpenQuestionSucssessfullStateStates){
-          showToast(text:"The post has been published successfully", state: ToastStates.EROOR);
+          showToast(text:"31".tr, state: ToastStates.EROOR);
           Navigator.pop(context);
           CubitYourPost.get(context).getOpenQuestion();
         }
         else if(state is AddOpenQuestionErrorStateStates){
-          showToast(text:"The post hasn't been published successfully \n"+state.message, state: ToastStates.EROOR);
+          showToast(text:"32\n".tr+state.message, state: ToastStates.EROOR);
 
         }
       },
@@ -64,7 +65,7 @@ class _AddOpenQuestionState extends State<AddOpenQuestion> {
                     SnackBar(
 
                       backgroundColor: AppColor.backgroundColor,
-                      content: Center(child: Text('You must fill in the service field and the location field and the description file '
+                      content: Center(child: Text('33'.tr
                         ,style: TextStyle(color: AppColor.grayColorFont),)),
                       duration: const Duration(seconds: 2),
                     ),
@@ -76,7 +77,7 @@ class _AddOpenQuestionState extends State<AddOpenQuestion> {
                 }
 
 
-              }, child:Text("post",style:TextStyle(
+              }, child:Text("348".tr,style:TextStyle(
                   fontSize: AppFontStyles.descriptionLoginFontSize,
                   fontWeight: AppFontStyles.fontWeightBold,
                   color: AppColor.bottomNavigationBar
@@ -104,7 +105,7 @@ class _AddOpenQuestionState extends State<AddOpenQuestion> {
                       fallback:(context) => LinearProgressIndicator(color: AppColor.orangeColor,minHeight: 1.0,),),
                     SizedBox(height:AppFontStyles.aboutMe,),
                     Text(
-                      "Add Post",
+                      "35".tr,
                       style: TextStyle(
                         fontSize: AppFontStyles.aboutMe,
                         fontWeight: AppFontStyles.fontWeightSemiBold,
@@ -144,7 +145,7 @@ class _AddOpenQuestionState extends State<AddOpenQuestion> {
                     ),
                     const SizedBox(height: AppFontStyles.sizeBetweenTitleAndSubTitle),
                     Text(
-                      " Service Type",
+                      "36".tr,
                       style: TextStyle(
                         fontWeight: AppFontStyles.fontWeightSemiBold,
                         fontSize: AppFontStyles.descriptionLoginFontSize,
@@ -163,8 +164,8 @@ class _AddOpenQuestionState extends State<AddOpenQuestion> {
                               MaterialPageRoute(
                                 builder: (context) => Service(
                                   textController: _textControllerService,
-                                  title: "Add Service",
-                                  titleSearch: "Search",
+                                  title: "37".tr,
+                                  titleSearch: "38".tr,
                                   widget: const AddOpenQuestion(),
                                 ),
                               ),
@@ -178,7 +179,7 @@ class _AddOpenQuestionState extends State<AddOpenQuestion> {
                           child: Padding(
                             padding: const EdgeInsets.symmetric(horizontal: AppFontStyles.padding, vertical: 8),
                             child: Text(
-                              _textControllerService.text.isEmpty ? "Select service" : _textControllerService.text,
+                              _textControllerService.text.isEmpty ? "39".tr : _textControllerService.text,
                               style: TextStyle(
                                 color: AppColor.grayColorFont,
                                 fontSize: AppFontStyles.descriptionLoginFontSize,
@@ -192,7 +193,7 @@ class _AddOpenQuestionState extends State<AddOpenQuestion> {
                     ),
                     const SizedBox(height: AppFontStyles.sizeBetweenBoxAndSubTitle),
                     Text(
-                      " Location",
+                      "40".tr,
                       style: TextStyle(
                         fontWeight: AppFontStyles.fontWeightSemiBold,
                         fontSize: AppFontStyles.descriptionLoginFontSize,
@@ -224,7 +225,7 @@ class _AddOpenQuestionState extends State<AddOpenQuestion> {
                           child: Padding(
                             padding: const EdgeInsets.symmetric(horizontal: AppFontStyles.padding, vertical: 8),
                             child: Text(
-                              _textControllerLocation.text.isEmpty ? "Select location" : _textControllerLocation.text,
+                              _textControllerLocation.text.isEmpty ? "41".tr : _textControllerLocation.text,
                               style: TextStyle(
                                 color: AppColor.grayColorFont,
                                 fontSize: AppFontStyles.descriptionLoginFontSize,
@@ -238,7 +239,7 @@ class _AddOpenQuestionState extends State<AddOpenQuestion> {
                     ),
                     const SizedBox(height: AppFontStyles.sizeBetweenBoxAndSubTitle),
                     Text(
-                      " Add Question ",
+                      "42".tr,
                       style: TextStyle(
                         fontWeight: AppFontStyles.fontWeightSemiBold,
                         fontSize: AppFontStyles.descriptionLoginFontSize,
@@ -259,7 +260,7 @@ class _AddOpenQuestionState extends State<AddOpenQuestion> {
                           maxLines: 30, // حدد الحد الأقصى لعدد الأسطر
                           decoration:  InputDecoration(
 
-                            hintText:'add your question ...',
+                            hintText:'43'.tr,
                             hintStyle: TextStyle(
 
                               color: AppColor.grayColorFont,

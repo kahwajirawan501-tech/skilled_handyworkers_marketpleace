@@ -18,7 +18,7 @@ class MyLocal implements Translations {
       "8": " تسجيل الدخول",
       "9": "  تسجيل الدخول عن طريق غوغل ",
       "10": "ليس لديك حساب حتى الآن؟ ",
-      "11": " التسجيل  ",
+      "11": " التسجيل ",
       "12": "اهلا بك مجددا",
       //sign up
       "13": "إنشاء حساب ",
@@ -43,209 +43,179 @@ class MyLocal implements Translations {
       //
       "29": "كلمة مرور جديدة",
       "30": "تأكيد كلمة المرور",
-      // OnBoarding
-      "31": "مرحبًا بك في تطبيق الصيدلية لدينا",
-      "32": "مرحبًا بك كصيدلاني ، نحن نقدر تجربتك و"
-          "المعرفة نتطلع للعمل معكم لتقديم أفضل الخدمات"
-          "لعملائنا",
-      "33": "مرحبًا بكم كمدير مستودع للمستحضرات الصيدلانية"
-          "، نتطلع إلى العمل معكم لتقديم أفضل المنتجات لعملائنا",
-      "34": "نرحب بك كمستخدم ، ونأمل أن يكون تطبيق الصيدلية لدينا هو"
-          "المكان المثالي لتلبية جميع احتياجاتك",
-      "35": "المستخدم",
-      "36": "المستودع",
-      "37": "الصيدلي",
-      //register user
-      "38": "الاسم الأول",
-      "39": "اسم العائلة",
-      "40": "عنوان البريد الإلكتروني",
-      "41": "رقم الهاتف",
-      "42": "كلمة المرور",
-      "43": "البيانات",
-      "44": "ذكر",
-      "45": "أنثى",
-      "46": "دمشق",
-      "47": " ريف دمشق",
-      "48": "حلب",
-      "49": "الرقة",
-      "50": "السويداء",
-      "51": "درعا",
-      "52": "دير الزور",
-      "53": "حماة",
-      "54": "الحسكة",
-      "55": "حمص",
-      "56": "إدلب",
-      "57": "اللاذقية",
-      "58": "القنيطرة",
-      "59": "طرطوس",
-      "60": "عمرك",
-      "61": "منطقتك",
-      "62": "موقعك",
-      "63": "تسجيل",
-      // war
-      "64": "اسم المستودع",
-      "65": "رقم المستودع",
-      //pharmacy
-      "66": "اسم الصيدلية",
-      "67": "رقم الصيدلية",
-      "69": " خط الطول",
-      "70": "خط العرض",
-      "71": " إضافة صيدلية ",
-      //
-      "68": "تذكير بموعد الدواء",
-      "72": "لا دواء",
-      "73": "إضافة جديد",
-      "74": "اسم الطب",
-      "75": "الرجاء إدخال دوائك",
-      "76": "الجرعة بالملغ",
-      "77": "الرجاء إدخال الجرعة",
-      "78": "نوع الدواء",
-      "79": "حبة",
-      "80": "زجاجة",
-      "81": "جهاز لوحي",
-      "82": "حقنة",
-      "83": "تأكيد",
-      "84": "الرجاء إدخال اسم الدواء",
-      "85": "اسم الطب موجود بالفعل",
-      "86": "الرجاء إدخال الجرعة المطلوبة",
-      "87": "الرجاء تحديد فترة التذكير",
-      "88": "الرجاء تحديد وقت بدء التذكير",
-      "89": "تذكير:",
-      "90": "حان وقت أخذك",
-      "91": "حسب الجدول الزمني",
-      "92": "حان وقت تناول دوائك حسب الجدول الزمني",
-      "93": "وقت البدء",
-      "94": "تذكيري كل",
-      "95": "حدد فاصل زمني",
-      "96": "ساعة",
-      "97": "ساعات",
-      "98": "كل",
-      "99": "تفاصيل",
-      "100": "حذف",
-      "101": "حذف هذا التذكير؟",
-      "102": "إلغاء",
-      "103": "حسنًا",
-      "104": "اسم الطب",
-      "105": "الجرعة",
-      "106": "غير محدد",
-      "107": "ملغ",
-      "108": "نوع الدواء",
-      "109": "لا شيء",
-      "110": "غير محدد",
-      "111": "فاصل الجرعة",
-      "112": "ساعة |",
-      "113": "ساعات |",
-      "114": "مرة واحدة في اليوم",
-      "115": "وقت في اليوم",
-      "116": "وقت البدء",
-      "117": "مليسه",
-      "118": "البابونج",
-      "119": "زهور",
-      "120": "حمى",
-      "121": "نعنع",
-      "122": "قرفة",
-      "123": "شاي",
-      "124": "لافاندر",
-      "125": "باسل",
-      "126": "الزنجبيل",
-      "127": "الزعفران",
-      "128": "حلبة",
-      "129": "باسل",
-      "130": "عرق السوس",
-      "131": "كركم",
-      "132": "أشواغاندا",
-      "133": "ليمون",
-      "200": "اضافه موظف",
-      "201": "اضافه موزع",
-      "202": "ايميل الموظف",
-      "203": "ايميل موزع",
-      '300': 'صيدلياتي',
-      "301": 'في انتظار التحقق',
-      '302': 'محقق',
-      '303': 'اسم الصيدلية',
-      '304': 'الرقم',
-      '305': 'انشاء طلبية',
-      '306': 'من أي مستودع',
-      '307': 'أدويتي',
-      '308': 'من أجل البحث أو التحديث',
-      '309': 'اظهار المستودعات',
-      '311': 'اظهار المستودعات التي بالتطبيق',
-      '312': 'صيدلية',
-      '313': 'اسم المستودع',
-      '314': 'تاريخ الطلبية',
-      '315': 'التالي',
-      '316': 'طلبية الادوية',
-      '317': 'من أدوية المستودع',
-      '318': 'اختار نوع الطلبية',
-      //drawer
-      '319': 'الرئيسية',
-      '320': 'طلبياتي',
-      '321': 'وصفتي الطبية',
-      '322': 'تذكير بموعد الدواء',
-      '323': 'صيدلياتي',
-      '324': 'مستودعاتي',
-      '325': 'اللغة',
-      '326': 'إضافة صيدلية',
-      '327': 'إضافة مستودع',
-      '328': 'تسجيل خروج',
-      //InvoicesDetails
-      '329': 'تأكيد الدفع',
-      '330': 'اسم الدواء',
-      '331': 'السعر الكلية',
-      '332': 'الكمية',
-      '333': 'الوصف بالانكليزي',
-      '334': "الوصف بالعربي",
-      '335': 'السعر التجاري',
-      '336': 'السعر الصافي',
-      //InvoicesOrder
-      '337': 'فواتيري',
-      '338': 'لا يةجد فواتير',
-      '339': 'صيدلية',
-      '340': 'رقم',
-      '341':'تاريخ الطلبية',
-      '342':'تفاصيل الطلبية',
-      //mid
-      '343':'طلبياتي',
-      '344':'التالي',
-      '345':'اسم الشركة',
-      '346':'السعر الصافي',
-      '347':'السعر التجاري',
-      '348':'الحد الأقصى للكمية',
-      '349':'الكمية',
-      '350':'العرض',
-      '351':'الكمية المطلوبة',
-      '352':'الكمية المجانية',
-      "353":'الدواء',
-      //search
-      '354':'البحث',
-      '355':'البحث عن دواء',
-      '356':'الذهاب للتحديث',
-      //show order
-      '357':'إرسال',
-      '358':'مجاني',
-      '359':'تحميل',
-      '360':'إزالة',
-      '361':'تحديث',
-      //warehouse button
-      '362':'إضافة موظف',
-      '363':'أدخل الايميل الخاص بك',
-      '364':'إضافة',
-      '365':'إضافة موظف أو موزع',
-      '367':'للبحث والتحديث',
-      '368':'عرض الطلبات وإنشاء فاتورة',
-      '369':'اختار الموزع',
-      '370':'إنشاء فاتورة',
-      '371':'لوحة تحكم',
-      '372':'اضافي',
-      '373':'إضافة طلب',
-      '374':'حذف طلب',
-      '375':'الاسم',
-      '376':'الوصف',
-      '377':'انشاء qr',
-      '378':'التحقق من وصول الطلب',
-      '379':'اضافة مستودع جديد',
-      "380":'اذن لفتح صيدلية',
-      '381':'اضافة مستودع'
+      // Add Posting`
+      "31": " تم نشر المنشور بنجاح ",
+      "32": "لم يتم نشر المنشور بنجاح",
+      "33": "يجب عليك ملأ حقل الخدمة وحقل المنطقة و حقل الوصف",//You must fill in the service field and the location field and the description file
+      "34": "منشور",//post
+      "35": "إضافة منشور",//Add post
+      "36": " نوع الخدمة ",// Service Type
+      "37": "إضافة خدمة",//Add Service
+      "38": "البحث",//Search
+      "39": "إختيار خدمة",//Select service
+      "40": "المنطقة ",// Location
+      "41": "أختيار منطقة ",//Select location
+      "42": " إضافة سؤال ",// Add Question
+      "43": "أضف سؤالك ... ",//add your question ...
+      "44": "تم تجاوز الحد",//Limit Exceeded
+      "45": "مكنك أختيار ما يصل إلى ",//You can select up to
+      "46": "صور أخرى",// more images.
+      "47": " نعم ",//OK
+      "48": "أختيار من المعرض",//Choose from Gallery
+      "49": " أخذ صور ",//Take Photo
+      "50": "صور :",//Image :
+      "51": "تسجيل فيديو",//Record Video
+      "52": "فيديو أخر",// more videos.
+      "53": "فيديو :",//Video :
+      "54": "خطأ !! ,عند تحميل الفيديو و الصور",//error !! , when upload image and video
+      "55": "يجب عليك ملأ حقل الخدمة و حقل المنطقة و أختيار الفيديوهات او الصور الذي تريد نشره",
+//You must fill in the service field and the location field and choose the videos or photos that you want to publish
+      "56": "يجب عليك ملأ حقل الخدمة و أختيار الفيديوهات او الصور الذي تريد نشره ",
+//You must fill in the service field  and  choose the videos or photos that you want to publish
+      "57": "يجب عليك ملأ حقل المنطقة و أختيار الفيديوهات او الصور الذي تريد نشره",
+//You must fill in the location field  and  choose the videos or photos that you want to publish
+      "58": "أختيار الفيديوهات او الصور الذي تريد نشره",
+//choose the videos or photos that you want to publish
+      "59": "منشور",//post
+      "60": "إضافة الوصف ",//Add Description
+      "61": "إضافة وصفك .. ",//add your description ..
+      "62": "من فضلك أختر الخدمة و المنطقة أولا ",//Please select service and location first
+      "63": "إضافة صور و فيديو",// Add Image or Video
+      // BottomNavigationScreen
+      "64": "ما الذي تود أن تضيفه ؟",//What would you like to add?
+      "65": "نشر منشور أو إضافة سؤال ؟",//publish a post or an open question?
+      "66": "منشور",//Post
+      "67": "سؤال مفتوح",//Open Question
+      //ChatList
+      "68": "رسائل",//Messages
+      "69": "البحث",//Search
+      //Messages
+      "70": "حذف",//Delete
+      "71": "تعديل",//Edit
+      "72": "الرسالة لم ترسل بنجاح",//The message hasn't been send successfully
+      "73": "الرسالة لم تعدل بنجاح",//The message hasn't been edit successfully
+      "74": "متصل",//Online
+      "75": "غير متصل",//Offline
+      "76": "لا يوجد رسائل",//No messages
+      "77": "أكتب رسالتك ... ",//Write your message...
+      //No Messages
+      "78": "ليس لديك حاليا أي رسالة واردة",//You currently have no incoming message
+      "79": "شكرا لك ",// thank you
+      //CommitScreen
+      "80": "الرد على",//Replying to :
+      "81": "التعليق لم يحذف بنجاح",//The commit hasn't been delete successfully
+      "82": "التعليق لم يعدل بنجاح",//The commit hasn't been edit successfully
+      "83": "لتعليق لم يضاف بنجاح",//The commit hasn't been add successfully
+      "84": "لا يوجد تعليق بعد .كن أول المعلقين ",//No comments yet. Be the first to comment!
+      "85": "الرد",//Reply
+      "86": "أكتب ردك ... ",//Write your reply...
+      "87": "أكتب رسالتك ... ",//Write your message...
+      //EditPost
+      "88": "لخطأ!",//Error!
+      "89": "المنشور حدث بنجاح :",//The post has been update successfully
+      "90": "المنشور لم يحدث بنجاح",//The post hasn't been update successfully
+      "91": "تحديث",//update
+      "92": "تعديل المنشور",//Edit Post
+      "93": "تعديل السؤال ",// Edit Question
+      "94": "تعديل سؤالك ... ",//Edit your question ...
+      "95": "تعديل الوصف ",// Edit Description
+      "96": "تعديل وصفك .. ",//Edit your description ..
+      "97": "ساعات",// Add Image or Video
+      //HomeScreen
+      "98": "مرحبا",//Hello
+      "99": "إيجاد خدمة ",//Find the Servic
+      "100": "التي تريد",
+      "101": "أبحث الأن ",//Search Now
+      //information
+      "102": "رؤية المزيد",//See More
+      "103": "منشورات",//posting
+      "104": "أسئلة مفتوحة",//open question
+      "105": "الاسم كامل",//Full Name
+      "106": "حولي",//About me
+      "107": "رقم الهاتف",//Phone Number
+      "108": "الجنس",//Gender
+      "109": "المهارة ",//Skill
+      "110": "الموقع",//Location
+      "111": "خبرات العمل",//Work experience
+      "112": "تعليم",//Education
+      //posting
+      "113": "لا يوجد منشور بعد",//Not Post Yet
+      "114": "تم حذف المنشور بنجاح",//The post has been delete successfully
+      "115": "لم يتم حذف المنشور بنجاح",//The post hasn't been delete successfully
+      "116": "لم يتم نشر سؤال المفتوح بعد",//Not openQuestion Yet
+      //profile
+      "117": "م الاضافة بنجاح",//Adding successfully
+      "118": "لم يتم الاضافة بنجاح",//Adding not successfully
+      "119": "تم تعديل بنجاح",//Editing successfully
+      "120": "لم يتم التعديل بنجاح",//Editing not successfully
+      "121": "حولي",//About me
+      "122": "أخبرنا عنك ",//Tell me about you.
+      "123": "التراجع عن التغيير ؟",//Undo Changes ?
+      "124": "هل انت متأكد التغيير ألى الذي أدخلته؟",//Are you sure you want to change what you entered?
+      "125": "الاستمرار بالمدخل",//Continue Filling
+      "126": "التراجع عن التغيير",//Undo Changes
+      "127": "حفظ",//Save
+      "128": "إضافة تعليم ",//Add Education
+      "129": "اسم الدراسة",//Institution name
+      "130": " الوصف",//Description
+      "131": "إكتب معلومات إضافية هنا",//Write additional information here
+      "132": "حفظ",//Save
+      "133": "اللغة",//Language
+      "200": "عربي",//Arabic
+      "201": "انكليزي",//English
+      "202": "خطأ",//error
+      "203": "تحديث كلمة السر",//Update Password
+      '300': 'كلمة السر القديمة',//Old Password"
+      "301": 'كلمة سر الجديدة',//New Password
+      '302': 'من فضلك ادخل',//please enter the
+      '303': 'تحديث',//Update
+      '304': 'الضبط',//Settings
+      '305': 'أشعارات',//Notification
+      '306': 'وضع الدارك',//Dark mode
+      '307': 'كلمة السر',//Password
+      '308': 'تسجيل خروج',//Logout
+      '309': 'هل انت متأكد أنك تريد المغادرة ؟',//Are you sure you want to leave?
+      '311': 'نعم',//Yes
+      '312': 'إلغاء',//Cancel
+      '313': 'إضافة خبرات العمل',//Add work experience
+      '314': 'عنوان العمل',//Job title
+      '315': 'تعديل ملف شخصي',//Edit Profile
+      '316': ' أضافة الصورة الشخصية لم تتم بنجاح',//Adding image profile not successfully
+      '317': 'تم التعديل بنجاح',//Editing successfully
+      '318': 'لم يتم الإضافة بنجاح',//Editing not successfully
+      '319': 'تغيير الصورة',//Change image
+      '320': 'الأسم كامل',//Full name
+      '321': 'تاريخ الميلاد ',//Date of birth
+      '322': 'ذكر',//Male
+      '323': 'أنثى',//Female
+      '324': 'البريد الألكتروني',//Email address
+      '325': 'أختيار الصورة من المعرض أم ألتقاط صورة ؟',// choose the picture from the Gallery or Camera ?
+      '326': 'من المعرض',//From Gallery
+      '327': 'من الكميرا',//From Camera
+      '328': ' المنشورات المحفوظة',//Save Post
+      //Search Model
+      '329': ' البحث عن منطقة',//Search location
+      '330': 'لايوجد منطقة بهذا الاسم',//There is no area with this name
+      '331': 'إضافة منطقة ',//Add Location
+      '332': 'تم',//Done
+      '333': 'لايوجد خدمة بهذا الاسم',//There is no service with this name
+      '334': " إضافة خدمة",//Add Service
+      '335': 'من فضلك أختر منطقة او الخدمة أولا',//Please select service or location first
+      '336': 'الآن',//now
+      '337': 'منذ دقيقة واحدة',//1 minute ago
+      '338': 'منذ دقيقتين',
+      '339': 'دقائق',
+      '340': 'منذ',
+      '341':'دقيقة',
+      '342':'منذ ساعة واحدة ',
+      '343':'منذ ساعتين',
+      '344':'ساعات',
+      '345':'ساعة',
+      '346':'أمس الساعة',
+      '347':'ع',
+      '348':'نشر',
+      '349':'تم تغيير كلمة السر بنجاح'
+
 
     },
     "en": {
@@ -286,210 +256,175 @@ class MyLocal implements Translations {
       //
       "29": "New password",
       "30": "Confirm password",
-      //OnBoarding
-      "31": "Welcome to our pharmacy app",
-      "32": "welcome as pharmacist,we value your experience and"
-          " knowledge we look forward to working with you to provide the best services"
-          " to our customers",
-      "33": "welcome as a warehouse manager for pharmaceuticals"
-          ",we look forward to working with you to provide the best products to our customers",
-      "34":
-      "welcome you as a user ,We hope that our pharmacy app will be the "
-          "perfect place to meet all your needs",
-      "35": "User           ",
-      "36": "Warehouse",
-      "37": "Pharmacy",
-      // register user
-      "38": "First Name",
-      "39": "Last Name",
-      "40": "Email Address",
-      "41": "Phone Number",
-      "42": "password",
-      "43": "data",
-      "44": "Male",
-      "45": "Female",
-      "46": "Damascus",
-      "47": "Rif Dimashq",
-      "48": "Aleppo",
-      "49": "Raqqa",
-      "50": "Al-Suwayda",
-      "51": "Daraa",
-      "52": "Deir ez-Zor",
-      "53": "Hama",
-      "54": "Al-Hasakah",
-      "55": "Homs",
-      "56": "Idlib",
-      "57": "Latakia",
-      "58": "Quneitra",
-      "59": "Tartus",
-      "60": "Your Age",
-      "61": "Your Area",
-      "62": "Your Location",
-      "63": "register",
-      //warehous
-      "64": "Warehouse Name",
-      "65": "Warehouse Number",
-      //pharmacy
-      "66": "pharmacy Name",
-      "67": "pharmacy Number",
-      "69": "longitude",
-      "70": "latitude",
-      "71": "Add Pharmacy",
-      // pill reminder
-      "68": "Pill Reminder",
-      "72": "No Medicine",
-      "73": "Add New",
-      "74": "Medicine Name",
-      "75": "Please enter your medicine",
-      "76": "Dosage in mg",
-      "77": "Please enter the dosage",
-      "78": " Medicine Type",
-      "79": "pill",
-      "80": "bottle",
-      "81": "tablet",
-      "82": "syringe",
-      "83": "Confirm",
-      "84": "please enter the medicine name",
-      "85": "Medicine name already exists",
-      "86": "please enter the dosage required",
-      "87": "please select the reminder interval",
-      "88": "please select the reminder starting time",
-      "89": "Reminder:",
-      "90": "It is time to take your ",
-      "91": ",according to schedule",
-      "92": "It is time to take your medicine, according to schedule",
-      "93": " Starting Time",
-      "94": "Remind me every",
-      "95": "Select an Interval",
-      "96": "hour",
-      "97": "hours",
-      "98": "Every",
-      "99": "Details",
-      "100": "Delete",
-      "101": "Delete This Reminder ?",
-      "102": "Cancel",
-      "103": "Ok",
-      "104": "Medicine Name",
-      "105": "Dosage",
-      "106": "No Specified",
-      "107": "mg",
-      "108": "Medicine Type",
-      "109": "none",
-      "110": "Not Specified",
-      "111": "Dose Interval",
-      "112": " hour | ",
-      "113": " hours |",
-      "114": "One time a day",
-      "115": "time a day",
-      "116": "Start Time",
-      "117": "Malisa",
-      "118": "Chamomile",
-      "119": "Flowers",
-      "120": "Fever",
-      "121": "Mint",
-      "122": "Cinnamon",
-      "123": "Tea",
-      "124": "Lavander",
-      "125": "Basil",
-      "126": "Ginger",
-      "127": "Saffron",
-      "128": "Fenugreek",
-      "129": "Basil",
-      "130": "Liquorice",
-      "131": "Curcum",
-      "132": "Ashwagandha",
-      "133": "Lemon",
-      "200": "Add Employee",
-      "201": "Add Dispenser",
-      "202": "Employee Email",
-      "203": "Dispenser Email",
-      "300": 'My Pharmacy',
-      '301': 'Waiting for verification',
-      '302': 'validated',
-      '303': 'Pharmacy',
-      '304': 'Number',
-      '305': 'Make Order',
-      '306': 'From any warehouse',
-      '307': 'My Medicine',
-      '308': 'for searsh or update',
-      '309': 'Show warehouse',
-      '311': 'show order and create invoices',
-      '312': 'Pharmacy',
-      '313': 'Warehouse Name',
-      '314': 'Order Date',
-      '315': 'Next',
-      '316': 'Order medicine',
-      '317': 'from warehouse medicine',
-      '318': 'Choose the type of order',
-      //drawer
-      '319': 'Home',
-      '320': 'My Order',
-      '321': 'My Prescription',
-      '322': 'Pill Reminder',
-      '323': 'My Pharmacy',
-      '324': 'My Warehouse',
-      '325': 'Language',
-      '326': 'Add Pharmacy',
-      '327': 'Add warehouse',
-      '328': 'Logout',
-      //InvoicesDetails
-      '329': 'ConfirmPayment',
-      '330': 'Medicine Name',
-      '331': 'Total Price',
-      '332': 'Quantity',
-      '333': 'Description_en',
-      '334': 'Description_ar',
-      '335': 'Commercial price',
-      '336': 'Net price',
-      //InvoicesOrdershow
-      '337': 'My Invoices',
-      '338': 'There are no Invoices',
-      '339': 'Pharmacy',
-      '340': 'Number',
-      '341':'Order Date',
-      '342':'Invoices details',
-      //mid
-      '343':'My Order',
-      '344':'next',
-      '345':'Company name',
-      '346':'Net Price',
-      '347':'Commercial Price',
-      '348':'Max Quantity',
-      '349':'Quantity',
-      '350':'Offers',
-      '351':'DemandQuantity',
-      '352':'FreeQuantity',
-      "353":'Medicine',
-      //search
-      '354':'Search',
-      '355':'Search for medicine',
-      '356':'Go to update',
-      //show order
-      '357':'send',
-      '358':'free',
-      '359':'load',
-      '360':'remove',
-      '361':'update',
-      //warehouse button
-      '362':'Add Employee',
-      '363':'Enter the email',
-      '364':'Add',
-      '365':'add employee or dispenser',
-      '367':'for search or update',
-      '368':'show order and create invoices',
-      '369':'Choose the Dispensers',
-      '370':'create Invoices',
-      '371':'Dashboard',
-      "372":'Additional',
-      '373':'add order',
-      '374':'remove order',
-      '375':'Name',
-      '376':'Description',
-      '377':'Create Qr',
-      '378':'in order to check the arrival of order',
-      '379':'Add New Warehouse',
-      '380':'Permission to open the pharmacy',
-      '381':'Add Warehouse'
+      //Add Post
+      "31": "The post has been published successfully",
+      "32": "The post hasn't been published successfully",
+      "33": "You must fill in the service field and the location field and the description file ",
+      "34": "post",
+      "35": "Add Post",
+      "36": "Service Type",
+      "37": "Add Service",
+      "38": "Search",
+      "39": "Select service",
+      "40": " Location",
+      "41": "Select location",
+      "42": " Add Question ",
+      "43": "add your question ...",
+      "44": "Limit Exceeded",
+      "45": "You can select up to ",
+      "46": " more images.",
+      "47": "Ok",
+      "48": "Choose from Gallery",
+      "49": "Take Photo",
+      "50": "Image :",
+      "51": "Record Video",
+      "52": "more videos.",
+      "53": "Video :",
+      "54": "error !! , when upload image and video ",
+      "55": "You must fill in the service field and the location field and choose the videos or photos that you want to publish",
+      "56": "You must fill in the service field  and  choose the videos or photos that you want to publish",
+      "57": "You must fill in the location field  and  choose the videos or photos that you want to publish",
+      "58": "choose the videos or photos that you want to publish",
+      "59": "post",
+      "60": "Add Description",
+      "61": "add your description ..",
+      "62": "Please select service and location first",
+      "63": "Add Image or Video ",
+  ///////////////////////////////////////////////////////////////////////////////////
+      //BottomNavigationScreen
+      "64": "What would you like to add?",
+      "65": "publish a post or an open question?",
+      "66": "Post",
+      "67": "Open Question",
+      //ChatList
+      "68": "Messages",
+      "69": "Search",
+      //Messages
+      "70": "Delete",
+      "71": "Edit",
+      "72": "The message hasn't been send successfully ",
+      "73": "The message hasn't been edit successfully ",
+      "74": "Online",
+      "75": "Offline",
+      "76": "No messages",
+      "77": "Write your message...",
+      //No Messages
+      "78": "You currently have no incoming message",
+      "79": " thank you",
+      //CommitScreen
+      "80": "Replying to :",
+      "81": "The commit hasn't been delete successfully ",
+      "82": "The commit hasn't been edit successfully ",
+      "83": "The commit hasn't been add successfully ",
+      "84": "No comments yet. Be the first to comment!",
+      "85": "Reply",
+      "86": "Write your reply...",
+      "87": "Write your message...",
+      //EditPost
+      "88": "Error!",
+      "89": "The post has been update successfully",
+      "90": "The post hasn't been update successfully",
+      "91": "update",
+      "92": "Edit Post",
+      "93": " Edit Question ",
+      "94": "Edit your question ...",
+      "95": " Edit Description ",
+      "96": "Edit your description ..",
+      "97": " Add Image or Video ",
+      //HomeScreen
+      "98": "Hello",
+      "99": "Find the Service ",
+      "100": "you need",
+      "101": "Search Now",
+      //information
+      "102": "See More",
+      "103": "posting",
+      "104": "open question",
+      "105": "Full Name",
+      "106": "About me",
+      "107": "Phone Number",
+      "108": "Gender",
+      "109": "Skill",
+      "110": "Location",
+      "111": "Work experience",
+      "112": "Education",
+     // Education
+      "113": "Not Post Yet",
+      "114": "The post has been delete successfully ",
+      "115": "The post hasn't been delete successfully ",
+      "116": "Not openQuestion Yet",
+      //profile
+      "117": "Adding successfully",
+      "118": "Adding not successfully",
+      "119": "Editing successfully",
+      "120": "Editing not successfully ",
+      "121": "About me",
+      "122": "Tell me about you.",
+      "123": "Undo Changes ?",
+      "124": "Are you sure you want to change what you entered?",
+      "125": "Continue Filling",
+      "126": "Undo Changes",
+      "127": "Save",
+      "128": "Add Education",
+      "129": "Institution name",
+      "130": "Description",
+      "131": "Write additional information here",
+      "132": "Save",
+      "133": "Language",
+      "200": "Arabic",
+      "201": "English",
+      "202": "error",
+      "203": "Update Password",
+      "300": 'Old Password',
+      '301': 'New Password',
+      '302': 'please enter the ',
+      '303': 'Update',
+      '304': 'Settings',
+      '305': 'Notification',
+      '306': 'Dark mode',
+      '307': 'Password',
+      '308': 'Logout',
+      '309': 'Are you sure you want to leave?',
+      '311': 'Yes',
+      '312': 'Cancel',
+      '313': 'Add work experience',
+      '314': 'Job title',
+      '315': 'Edit Profile',
+      '316': 'Adding image profile not successfully ',
+      '317': 'Editing successfully',
+      '318': 'Editing not successfully ',
+      '319': 'Change image',
+      '320': 'Full name',
+      '321': 'Date of birth',
+      '322': 'Male',
+      '323': 'Female',
+      '324': 'Email address',
+      '325': ' choose the picture from the Gallery or Camera ? ',
+      '326': 'From Gallery',
+      '327': 'From Camera',
+      '328': 'Save Post',
+      //Search Model
+      '329': 'Search location',
+      '330': 'There is no area with this name',
+      '331': 'Add Location',
+      '332': 'Done',
+      '333': 'There is no service with this name',
+      '334': 'Add Service',
+      '335': 'Please select service or location first',
+      '336': 'now',
+      '337': '1 minute ago',
+      '338': '2 minute ago',
+      '339': 'minutes',
+      '340': 'ago',
+      '341':'minute',
+      '342':'1 hour ago',
+      '343':'2 hour ago',
+      '344':'hours',
+      '345':'hour',
+      '346':'yesterday hour',
+      '347':'E',
+      '348':'post',
+       '349':'the password editing sucsessful'
 
 
     }
