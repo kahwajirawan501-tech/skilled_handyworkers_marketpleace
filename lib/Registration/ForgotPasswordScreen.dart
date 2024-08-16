@@ -74,6 +74,9 @@ class ForgotPasswordScreen extends StatelessWidget {
                             if (value!.isEmpty) {
                               return "email must not be empty !";
                             }
+                            if (!value.endsWith('@gmail.com')) {
+                              return "email must end with @gmail.com";
+                            }
                             return null;
                           },
                           type: TextInputType.emailAddress,
