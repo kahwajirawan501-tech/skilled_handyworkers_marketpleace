@@ -92,6 +92,8 @@ class HomeCubit extends Cubit<HomeStates>{
         token: accessToken
     ).then((value)
     {
+      print(" mmmmmmmmmmmmmmmm");
+      print(value.data);
 
       print("Data: ${value.data}");
       // Check if the response contains the expected data

@@ -50,6 +50,9 @@ Future<void> main() async {
   } catch (e) {
     print("Error initializing Firebase: $e");
   }
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  requestNotificationPermission();
+  await initializeNotifications();
   await initializeDateFormatting('en_US', null);
   DioHelper.init();
   await CacheHelper.init();
@@ -57,7 +60,28 @@ Future<void> main() async {
   runApp(const MyApp());
 
 }
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  print('Handling a background message: ${message.messageId}');
+  // يمكنك هنا التعامل مع الإشعار مثل حفظ البيانات في قاعدة البيانات أو تنفيذ أي عملية أخرى
+}
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+Future<void> initializeNotifications() async {
+  const AndroidInitializationSettings initializationSettingsAndroid =
+  AndroidInitializationSettings('@mipmap/ic_launcher');
+  final InitializationSettings initializationSettings = InitializationSettings(
+    android: initializationSettingsAndroid,
+  );
+  await flutterLocalNotificationsPlugin.initialize(initializationSettings);
+}
 
+Future<void> requestNotificationPermission() async {
+  final status = await Permission.notification.request();
+  if (status.isGranted) {
+    print("Notification permission granted");
+  } else {
+    print("Notification permission denied");
+  }
+}
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -65,6 +89,24 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     MyLocalController controller = MyLocalController();
+
+
+    // إعداد استماع للإشعارات عند وصولها في المقدمة
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      print('On Message: ${message.messageId}');
+      if (message.notification != null) {
+        print('Notification Title: ${message.notification!.title}');
+        print('Notification Body: ${message.notification!.body}');
+        // هنا يمكنك استخدام FlutterLocalNotificationsPlugin لإظهار إشعار محلي عند تلقي إشعار من Firebase
+        _showForegroundNotification(message);
+      }
+    });
+
+    // إعداد استماع للإشعارات عند فتح التطبيق من إشعار
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      print('On Message Opened App: ${message.messageId}');
+      // التعامل مع الإشعار عندما يفتح المستخدم التطبيق من إشعار
+    });
 
     return MultiBlocProvider(
       providers: [
@@ -173,4 +215,27 @@ class MyApp extends StatelessWidget {
       ),
     );
   }
+  void _showForegroundNotification(RemoteMessage message) {
+    const AndroidNotificationDetails androidPlatformChannelSpecifics =
+    AndroidNotificationDetails(
+      'your_channel_id',
+      'your_channel_name',
+      channelDescription: 'your_channel_description',
+      importance: Importance.max,
+      priority: Priority.high,
+      playSound: true,
+    );
+    const NotificationDetails platformChannelSpecifics =
+    NotificationDetails(android: androidPlatformChannelSpecifics);
+
+    flutterLocalNotificationsPlugin.show(
+      message.hashCode,
+      message.notification?.title,
+      message.notification?.body,
+      platformChannelSpecifics,
+      payload: message.data['payload'],
+    );
+  }
+
+
 }

@@ -49,13 +49,24 @@ dependencies:
   video_player:
   archive:
   image_picker:
-  get:
-  socket_io_client:
-  #image_gallery_saver:
-
-dev_dependencies:
+  image_cropper:
   file_picker:
   video_thumbnail:
+  get:
+  socket_io_client:
+  timezone:
+  flutter_downloader:
+  flutter_local_notifications: ^17.2.1+2
+  photo_view:
+  permission_handler:
+  flutter_svg:
+  firebase_core:
+  firebase_messaging:
+  google_sign_in:
+#image_gallery_saver:
+
+
+
   flutter_test:
     sdk: flutter
 
@@ -64,7 +75,7 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^3.0.0
+  flutter_lints: ^4.0.0
 
 
 # For information on the generic Dart part of this file, see the

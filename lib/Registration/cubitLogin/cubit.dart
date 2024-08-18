@@ -1,5 +1,7 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:skilled_handyworkers_marketpleace/Registration/cubitLogin/states.dart';
 import 'package:skilled_handyworkers_marketpleace/shared/components/constant.dart';
 
@@ -36,12 +38,14 @@ class LoginCubit extends Cubit<LoginStates> {
     //هل لح اكتبن بايدي طبعا لا لح اخدن من اليوزر
     emit(LoginSkilledLoadingState());
     print("UserLoadingState");
+    String? token = await FirebaseMessaging.instance.getToken();
 
     print("respons");
 
     await DioHelper.postData(url: "auth/signin", data: {
       'email': email,
       'password': password,
+      'fcmToken':token
     } //post=>body=>from_data
 
         ).then((value) {
@@ -124,6 +128,38 @@ class LoginCubit extends Cubit<LoginStates> {
       print(statusCode);
     });
   }
+  Map<String, dynamic> usert={};
+  Future<void> loginWithGoogle() async {
+    final GoogleSignIn googleSignIn = GoogleSignIn(
+      scopes: ['email'],
+    );
 
+    await googleSignIn
+        .signOut(); // تسجيل الخروج إذا كان هناك مستخدم مسجل مسبقًا
+    final user = await googleSignIn.signIn();
+    if (user != null) {
+      final googleSignInAuthentication = await user.authentication;
+      final String token = googleSignInAuthentication.accessToken!;
+      final String email = user.email;
 
+      DioHelper.postData(url: "auth/google-login", data: {
+        'email': email,
+        'token': token,
+      }).then((value) {
+        print("send email succ");
+        print(user.email);
+        print(value.data);
+        usert=Map<String, dynamic>.from(value.data);
+        emit(LoginGoogleSkilledSuccessState(usert,value.statusCode));
+      }).catchError((error) {
+        int statusCode = error.response?.statusCode ?? -1;
+
+        emit(LoginGoogleSkilledErrorState(statusCode));
+
+        print(statusCode);
+      });
+    }
+  }
 }
+
+

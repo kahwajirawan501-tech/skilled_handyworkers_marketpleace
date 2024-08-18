@@ -37,7 +37,7 @@ class Header extends StatelessWidget {
             child: TextField(
               decoration: InputDecoration(
                   filled: true,
-                  fillColor: Colors.green,
+                  fillColor: Colors.grey,
                   contentPadding:
                   EdgeInsets.only(left: 40.0, right: 5),
                   enabledBorder: OutlineInputBorder(

@@ -74,4 +74,18 @@ class EmailConfirmSkilledErrorState extends LoginStates {
 
   EmailConfirmSkilledErrorState(this.error);
 }
+class LoginGoogleInitialStateStates extends LoginStates {}
+class LoginGoogleSkilledLoadingState extends LoginStates {}
+class LoginGoogleSkilledSuccessState extends LoginStates {
+  final Map<String,dynamic>data;
+  var value;
+  LoginGoogleSkilledSuccessState(this.data,this.value);
+
+
+}
+class LoginGoogleSkilledErrorState extends LoginStates {
+  var error;
+
+  LoginGoogleSkilledErrorState(this.error);
+}
 

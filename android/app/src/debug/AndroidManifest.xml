@@ -10,7 +10,13 @@
     <application
         android:label="skilled_handyworkers_marketpleace"
         android:icon="@mipmap/ic_launcher">
-
+        <receiver
+            android:name="com.google.firebase.messaging.FirebaseMessagingReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </receiver>
         <service
             android:name=".MyFirebaseMessagingService"
             android:exported="true"

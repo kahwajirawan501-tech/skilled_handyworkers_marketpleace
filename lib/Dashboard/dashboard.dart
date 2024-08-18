@@ -88,7 +88,7 @@ TextEditingController textEditingController=TextEditingController();
                                   icon: Icons.add_location_alt_outlined,
                                   label: 'Region',
                                   amount: '\$1200',
-                                  color:HexColor("#FFD6AD").withOpacity(0.5)),
+                                  color:HexColor("#BEAFFE").withOpacity(0.4)),
                               InfoCard(
                                   icon: Icons.add_card_outlined,
                                   label: 'Services',
