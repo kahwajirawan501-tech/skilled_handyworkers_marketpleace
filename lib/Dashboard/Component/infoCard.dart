@@ -7,11 +7,12 @@ import '../config/responsive.dart';
 import '../config/size_config.dart';
 
 class InfoCard extends StatelessWidget {
-  final String icon;
+  final IconData icon;
   final String label;
   final String amount;
+  final Color color;
 
-  InfoCard({required this.icon, required this.label, required this.amount});
+  InfoCard({required this.icon, required this.label, required this.amount, required this.color});
 
   @override
   Widget build(BuildContext context) {
@@ -26,8 +27,7 @@ class InfoCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SvgPicture.asset(icon,
-              width: 35),
+          Icon(icon),
           SizedBox(
             height: SizeConfig.blockSizeVertical * 2,
           ),

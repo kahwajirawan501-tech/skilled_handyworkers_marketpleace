@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:skilled_handyworkers_marketpleace/Dashboard/DashboardLocation/Location_DashBord.dart';
 import 'package:skilled_handyworkers_marketpleace/Dashboard/DashboardPost/ListPost.dart';
 import 'package:skilled_handyworkers_marketpleace/Dashboard/DashbordServices/Service_DashBord.dart';
@@ -74,21 +75,25 @@ TextEditingController textEditingController=TextEditingController();
                             alignment: WrapAlignment.spaceBetween,
                             children: [
                               InfoCard(
-                                  icon: 'assets/credit-card.svg',
-                                  label: 'Transafer via \nCard number',
-                                  amount: '\$1200'),
+                                  icon: Icons.post_add_outlined,
+                                  label: 'Posts',
+                                  amount: '\$1200',
+                              color:HexColor("#FFD6AD").withOpacity(0.5)),
                               InfoCard(
-                                  icon: 'assets/transfer.svg',
-                                  label: 'Transafer via \nOnline Banks',
-                                  amount: '\$150'),
+                                  icon: Icons.account_circle_outlined,
+                                  label: 'User',
+                                  amount: '\$1200',
+                                  color:HexColor("#FFD6AD").withOpacity(0.5)),
                               InfoCard(
-                                  icon: 'assets/bank.svg',
-                                  label: 'Transafer \nSame Bank',
-                                  amount: '\$1500'),
+                                  icon: Icons.add_location_alt_outlined,
+                                  label: 'Region',
+                                  amount: '\$1200',
+                                  color:HexColor("#FFD6AD").withOpacity(0.5)),
                               InfoCard(
-                                  icon: 'assets/invoice.svg',
-                                  label: 'Transafer to \nOther Bank',
-                                  amount: '\$1500'),
+                                  icon: Icons.add_card_outlined,
+                                  label: 'Services',
+                                  amount: '\$1200',
+                                  color:HexColor("#FFD6AD").withOpacity(0.5)),
                             ],
                           ),
                         ),

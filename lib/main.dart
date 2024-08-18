@@ -169,7 +169,7 @@ class MyApp extends StatelessWidget {
         title: 'Skilled handyWorker marketplace System',
         locale:controller.intiallang,
         translations: MyLocal(),
-        home: HomeS(),
+        home: Dashboard(),
       ),
     );
   }
