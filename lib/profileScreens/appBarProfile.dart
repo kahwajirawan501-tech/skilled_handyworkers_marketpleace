@@ -184,7 +184,7 @@ class AppBarProfile extends StatelessWidget implements PreferredSizeWidget {
                   child: Container(
                     constraints:
                     const BoxConstraints(
-                        maxWidth: 150,
+                        maxWidth: 155,
                         minWidth: 100),
                     //width: 150,
                     height: 30,

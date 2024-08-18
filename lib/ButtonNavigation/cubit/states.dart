@@ -29,3 +29,22 @@ class GetInformationIdErrorStateStates extends HomeStates {
   final int stateCode;
   GetInformationIdErrorStateStates(this.stateCode);
 }
+
+class GetUserSearchStatesLoadingStateStates extends HomeStates {}
+class GetUserSearchSucssessfullStateStates extends HomeStates {
+
+  GetUserSearchSucssessfullStateStates();
+}
+class GetUserSearchErrorStateStates extends HomeStates {
+  final int stateCode;
+  GetUserSearchErrorStateStates(this.stateCode);
+}//OpenQuestion
+class PostLoadStateStates extends HomeStates{}
+class PostSucssessfullStateStates extends HomeStates{}
+class PostErrorStateStates extends HomeStates{}
+class PostLoadStateStatesNext extends HomeStates{}
+
+class PostLoadStateStatesOpenQuestion extends HomeStates{}
+class PostSucssessfullStateStatesOpenQuestion extends HomeStates{}
+class PostErrorStateStatesOpenQuestion extends HomeStates{}
+class PostLoadStateStatesNextOpenQuestion extends HomeStates{}

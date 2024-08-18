@@ -14,7 +14,7 @@ class MessagePerson extends StatefulWidget {
   final String receiverId ;
   final String fullName;
   final String pathImage;
-  const MessagePerson({Key? key, required this.receiverId, required this.fullName, required this.pathImage}) : super(key: key);
+  const MessagePerson({Key? key, required this.receiverId, required this.fullName, required this.pathImage }) : super(key: key);
 
   @override
   State<MessagePerson> createState() => _MessagePersonState();
@@ -39,6 +39,7 @@ class _MessagePersonState extends State<MessagePerson> {
         ChatCubit.get(context).sendMessage(_commentController.text,widget.receiverId);
         _textAddCommit = _commentController.text;
         _commentController.clear();
+
       }
 
       setState(() {
@@ -93,15 +94,18 @@ class _MessagePersonState extends State<MessagePerson> {
     });
   }
   String idResive="";
-  bool online=false;
+  bool onlinee=false;
+  bool my=false;
   Map<String, bool> userStatus = {};
   @override
   void initState() {
     super.initState();
 
     ChatCubit.get(context).getMessages(widget.receiverId);
+     ChatCubit.get(context).openConversation(widget.receiverId);
 
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -110,6 +114,8 @@ class _MessagePersonState extends State<MessagePerson> {
          if(state is AddMessageSucssessfullStateStates){
            _error=false;
            _textAddCommit="";
+           ChatCubit.get(context).openConversation(widget.receiverId);
+
          }
          else if(state is AddMessageErrorStateStates){
            showToast(text:"72\n".tr, state: ToastStates.EROOR);
@@ -119,6 +125,8 @@ class _MessagePersonState extends State<MessagePerson> {
 
          if(state is DeleteMessageSucssessfullStateStates){
            _commitIndexDelete=-1;
+           ChatCubit.get(context).leaveConversation(widget.receiverId);
+
          }
          else if(state is DeleteMessageErrorStateStates){
            showToast(text:"72\n".tr, state: ToastStates.EROOR);
@@ -128,19 +136,26 @@ class _MessagePersonState extends State<MessagePerson> {
          if(state is EditMessageSucssessfullStateStates){
            _editingCommentIndex=-1;
            _isEditing = false;
+           ChatCubit.get(context).leaveConversation(widget.receiverId);
+
          }
          else if(state is EditMessageErrorStateStates){
            showToast(text:"73\n".tr, state: ToastStates.EROOR);
            _editingCommentIndex= -1;
            _isEditing = false;
          }
-         if(state is UserStatusUpdatedState){
-          setState(() {
-            idResive=  state.id;
-            online=state.online;
+         if (state is UserStatusUpdatedState) {
+           setState(() {
+             if (state.id == widget.receiverId) {
+               onlinee = state.online;
+             }
+             if(state.id==id){
+               onlinee = state.online;
 
-          });
+             }
+             onlinee = state.online;
 
+           });
          }
       },
       builder: (context, state) {
@@ -152,7 +167,11 @@ class _MessagePersonState extends State<MessagePerson> {
             leading: IconButton(
               icon: Icon(Icons.arrow_back, color: AppColor.arrowBackColor),
               onPressed: () {
+
                 Navigator.pop(context);
+
+               ChatCubit.get(context).leaveConversation(widget.receiverId);
+
                 //ChatCubit.get(context).getUsersMessage();
                 // navigateAndFinish(widget: const ProfileScreen(), context: context);
               },
@@ -186,7 +205,7 @@ class _MessagePersonState extends State<MessagePerson> {
                       }
                     },
                     child: ClipOval(
-                      child:widget.pathImage.isNotEmpty?Image.network(api+widget.pathImage, fit: BoxFit.cover,
+                      child:(widget.pathImage.isNotEmpty)?Image.network(api+widget.pathImage, fit: BoxFit.cover,
                         height: 50,
                         width: 50,): Image.asset(
                         imageCope!,
@@ -208,10 +227,10 @@ class _MessagePersonState extends State<MessagePerson> {
                   ),
                   subtitle: Row(
                     children: [
-                      Icon(Icons.circle,color:(online)?Colors.green: Colors.grey,size: 12,),
+                      Icon(Icons.circle,color:(onlinee)?Colors.green: Colors.grey,size: 12,),
                       SizedBox(width: 4,),
                       Text(
-                        (online)?"74".tr:"75".tr,
+                        (onlinee)?"74".tr:"75".tr,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(

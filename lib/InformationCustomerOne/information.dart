@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:skilled_handyworkers_marketpleace/Chat_Messages/Message.dart';
+import 'package:skilled_handyworkers_marketpleace/Chat_Messages/cubit/cubit.dart';
 import 'package:skilled_handyworkers_marketpleace/InformationCustomerOne/seeMore.dart';
 import 'package:skilled_handyworkers_marketpleace/Posting/ListOfPostForUser.dart';
 import 'package:skilled_handyworkers_marketpleace/Posting/ListOpenQuestionForUser.dart';
@@ -154,7 +155,7 @@ if(state is GetInformationSucssessfullStateStates){
                                 }
                               },
                               child: ClipOval(
-                                child:CubitYourPost.get(context).information['profileImage'].isNotEmpty?Image.network(api+CubitYourPost.get(context).information['profileImage'], fit: BoxFit.cover,
+                                child:(CubitYourPost.get(context).information['profileImage']!=null&&CubitYourPost.get(context).information['profileImage'].isNotEmpty)?Image.network(api+CubitYourPost.get(context).information['profileImage'], fit: BoxFit.cover,
                                   height: 90,
                                   width: 90,): Image.asset(
                                   imageCope!,
@@ -190,10 +191,12 @@ if(state is GetInformationSucssessfullStateStates){
                             children: [
                             IconButton(
                                 onPressed: (){
+
                                   navigateTo(context: context,widget:
                                   MessagePerson(receiverId:CubitYourPost.get(context).information['_id'],
                                     fullName:  CubitYourPost.get(context).information['fullName'],
-                                     pathImage: CubitYourPost.get(context).information['profileImage']
+                                     pathImage: CubitYourPost.get(context).information['profileImage']??"",
+
                                   ));
                                 }, icon: Icon(CupertinoIcons.bubble_left))
                             ],

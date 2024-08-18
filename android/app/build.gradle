@@ -2,6 +2,7 @@ plugins {
  id "com.android.application"
  id "kotlin-android"
  id "dev.flutter.flutter-gradle-plugin"
+ id "com.google.gms.google-services"
 }
 
 def localProperties = new Properties()
@@ -62,14 +63,21 @@ android {
  }
 }
 
+
+
 flutter {
  source '../..'
 }
+dependencies {
+ implementation 'com.google.firebase:firebase-core:21.1.1'
+ implementation 'com.google.firebase:firebase-messaging:24.0.0'
+ // أضف أي تبعيات Firebase أخرى تحتاج إليها
+}
 
-dependencies {}
 android {
  defaultConfig {
 
   multiDexEnabled true
  }
+
 }

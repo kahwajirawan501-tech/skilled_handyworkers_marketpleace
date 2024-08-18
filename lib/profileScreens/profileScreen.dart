@@ -37,7 +37,7 @@ class ProfileScreen extends StatelessWidget {
             name: name!,pathImage:imageNetwork!.isEmpty?imageCope!:imageNetwork!,
             onTapSetting: () {
               navigateTo(context: context,widget: const Setting());//AddWorkExperience
-            }, textButton: '315'.tr, visibility: true, left: 270, top: 30,
+            }, textButton: '315'.tr, visibility: true, left: 260, top: 30,
 
             onTapEditorChange: () {
               navigateTo(widget: EditProfile(),context: context);

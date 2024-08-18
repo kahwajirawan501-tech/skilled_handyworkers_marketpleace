@@ -214,9 +214,13 @@ class MyLocal implements Translations {
       '346':'أمس الساعة',
       '347':'ع',
       '348':'نشر',
-      '349':'تم تغيير كلمة السر بنجاح'
-
-
+      '349':'تم تغيير كلمة السر بنجاح',
+  '350':'رؤية المزيد',
+      '351':'إيجاد شخص',
+      '352':'كل الاسئلة المفتوحة ',
+        '353':'كل المنشورات',
+      '354':'إيجاد شخص',
+      '355':'لا يوجد مستخدم'
     },
     "en": {
   //splash
@@ -424,8 +428,13 @@ class MyLocal implements Translations {
       '346':'yesterday hour',
       '347':'E',
       '348':'post',
-       '349':'the password editing sucsessful'
-
+       '349':'the password editing sucsessful',
+  '350':'Find More',
+      '351':'Find Person',
+      '352':'All Open Question',
+        '353':'All Post',
+      '354':'Find User',
+      '355':'Not Found User.'
 
     }
   };

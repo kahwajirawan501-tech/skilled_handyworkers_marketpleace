@@ -247,6 +247,10 @@ class DashBoardCubit extends Cubit<DashBoardStates> {
     emit(PostLoadStateStatesNext());
     _fetchPosts(page);
   }
+
+
+
+
   void deletePost(String id){
 
     emit(DeletePostLoadStateStatesSearch());

@@ -25,21 +25,37 @@ class _ChatListState extends State<ChatList> {
   @override
   void initState() {
     super.initState();
-    ChatCubit.get(context).getUsersMessage();
-   // ChatCubit.get(context).initializeSocket();
   }
   TextEditingController textEditingController=TextEditingController();
-
+  var users=[];
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<ChatCubit,MessageStates>(
       listener: (context, state) {
+        if(state is GetUserMessageSucssessfullStateStates){
+          setState(() {
+            users=state.users;
+            print("userssssssssssssssssssssssss");
+            print(users);
+          });
+        }
+        else if(state is GetUserMessageSearchResultState){
+          print("searchResult");
 
+          users=state.searchResult;
+          print(users);
+        }
+        else{
+          print("else");
+
+          users=ChatCubit.get(context).users;
+          print(users);
+        }
       },
       builder: (context, state) {
-        var users = state is GetUserMessageSearchResultState
-            ? state.searchResult
-            : ChatCubit.get(context).users;
+
+
+
         return ConditionalBuilder(
           condition: state is !GetUserMessageLoadStateStates,
           builder: (context) => Scaffold(
@@ -98,19 +114,21 @@ class _ChatListState extends State<ChatList> {
                 child: ConditionalBuilder(
                   builder:(context) =>
                       ListView.separated(
-                      physics:BouncingScrollPhysics(),
-                      itemBuilder: (context, index) =>GestureDetector(
-                          onTap: () {
-                            textEditingController.text = users[index]['fullName'];
-                            ChatCubit.get(context).searchUsers(users[index]['fullName']);
-                            navigateTo(widget: MessagePerson(receiverId:users[index]['id'],
-                              fullName: users[index]['fullName'],
-                              pathImage: users[index]['profileImage'],
-                            ),context: context);
-                          },
-                          child: ListChat(context,users[index])) ,
-                      separatorBuilder: (context, index) =>SizedBox(height:AppFontStyles.aboutMe) ,
-                      itemCount: users.length ),
+                          physics:BouncingScrollPhysics(),
+                          itemBuilder: (context, index) =>GestureDetector(
+                              onTap: () {
+                                textEditingController.text = users[index]['fullName'];
+                                ChatCubit.get(context).searchUsers(users[index]['fullName']);
+                                navigateTo(widget: MessagePerson(receiverId:users[index]['id'],
+                                  fullName: users[index]['fullName'],
+                                  pathImage: users[index]['profileImage']??"",
+                                ),context: context);
+
+
+                              },
+                              child: ListChat(context,users[index])) ,
+                          separatorBuilder: (context, index) =>SizedBox(height:AppFontStyles.aboutMe) ,
+                          itemCount: users.length ),
                   condition:users.isNotEmpty,
                   fallback: (context) => const Center(
                     child:
@@ -184,7 +202,7 @@ Widget ListChat(context,var user)=>Column(
   children: [
     ListTile(
       leading: ClipOval(
-        child: user['profileImage']!.isNotEmpty?Image.network(api+user['profileImage'],fit: BoxFit.cover,
+        child: (user['profileImage']!=null&&user['profileImage']!.isNotEmpty)?Image.network(api+user['profileImage'],fit: BoxFit.cover,
           height: 70,
           width: 60,):Image.asset(
           imageCope!,
@@ -227,26 +245,26 @@ Widget ListChat(context,var user)=>Column(
               fontWeight: AppFontStyles.fontWeightMedium,
             ),
           ),
-      SizedBox(height:10 ,),
-      Visibility(
-        visible: user['unreadCount']!=0,
-        child: Container(
-          width: 20.0,
-          height: 20.0,
-          decoration: BoxDecoration(
-            color:AppColor.orangeColor, // لون الدائرة
-            shape: BoxShape.circle, // يجعل الشكل دائرياً
-          ),
-          alignment: Alignment.center, // يجعل النص في مركز الدائرة
-          child: Text(
-           user['unreadCount'].toString(),
-            style: TextStyle(
-              color: Colors.white, // لون الرقم
-              fontSize: 11.0, // حجم الرقم
-              fontWeight: FontWeight.bold, // نمط الخط
-            ),
-          ),),
-      )
+          SizedBox(height:10 ,),
+          Visibility(
+            visible: user['unreadCount']!=0,
+            child: Container(
+              width: 20.0,
+              height: 20.0,
+              decoration: BoxDecoration(
+                color:AppColor.orangeColor, // لون الدائرة
+                shape: BoxShape.circle, // يجعل الشكل دائرياً
+              ),
+              alignment: Alignment.center, // يجعل النص في مركز الدائرة
+              child: Text(
+                user['unreadCount'].toString(),
+                style: TextStyle(
+                  color: Colors.white, // لون الرقم
+                  fontSize: 11.0, // حجم الرقم
+                  fontWeight: FontWeight.bold, // نمط الخط
+                ),
+              ),),
+          )
         ],
       ),
 

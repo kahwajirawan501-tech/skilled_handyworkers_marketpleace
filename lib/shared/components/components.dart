@@ -286,14 +286,14 @@ Widget defaultTextField({
           cursorWidth: 0.5,
           style: TextStyle(
 
-            color: AppColor.grayColorFont,
+            color: AppColor.bluColor,
             fontSize: AppFontStyles.descriptionLoginFontSize,
           ),
           decoration: InputDecoration(
             hintText: hint,
         hintStyle: TextStyle(
 
-    color: AppColor.grayColorFont,
+    color: AppColor.bluColor,
     fontSize: AppFontStyles.soSmallFontSize,
 ),
               suffixIconConstraints: BoxConstraints(maxWidth: 24),
@@ -305,7 +305,7 @@ Widget defaultTextField({
                 borderSide: BorderSide.none,
 
               ) ,
-              suffixIcon: IconButton(icon: Icon(suffix,color:Colors.white), onPressed:suffixPressed)
+              suffixIcon: IconButton(icon: Icon(suffix,color:AppColor.bluColor), onPressed:suffixPressed)
           )),
 
     );

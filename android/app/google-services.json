@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "852057425066",
+    "project_id": "project2-96224",
+    "storage_bucket": "project2-96224.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:852057425066:android:1c388a74cb35fd06703cd3",
+        "android_client_info": {
+          "package_name": "com.example.skilled_handyworkers_marketpleace"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCHK4DUgZRN-_gaPKvUHFkxdXKHbInkRPQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,6 +1,8 @@
 import 'dart:typed_data';
-
+import 'firebase_options.dart';
 import 'package:dio/dio.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,6 +17,7 @@ import 'package:skilled_handyworkers_marketpleace/Dashboard/cubit/cubit.dart';
 import 'package:skilled_handyworkers_marketpleace/Dashboard/dashboard.dart';
 import 'package:skilled_handyworkers_marketpleace/EditPost/cubit/cubit.dart';
 import 'package:skilled_handyworkers_marketpleace/Chat_Messages/Message.dart';
+import 'package:skilled_handyworkers_marketpleace/FirebaseNotification.dart';
 import 'package:skilled_handyworkers_marketpleace/Logo/Logo.dart';
 import 'package:skilled_handyworkers_marketpleace/Posting/cubit/cubit.dart';
 import 'package:skilled_handyworkers_marketpleace/Registration/cubitSignUp/cubit.dart';
@@ -38,10 +41,15 @@ import 'StartScreen/StartScreen.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-
 Future<void> main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
+  try {
+    await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+  } catch (e) {
+    print("Error initializing Firebase: $e");
+  }
   await initializeDateFormatting('en_US', null);
   DioHelper.init();
   await CacheHelper.init();
@@ -161,7 +169,7 @@ class MyApp extends StatelessWidget {
         title: 'Skilled handyWorker marketplace System',
         locale:controller.intiallang,
         translations: MyLocal(),
-        home: LogoScreen(),
+        home: HomeS(),
       ),
     );
   }

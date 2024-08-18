@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http; // Add this import
 import 'dart:typed_data';
 import 'package:flutter/services.dart';
-import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:path/path.dart' as p;
 import 'package:permission_handler/permission_handler.dart';
 import 'package:skilled_handyworkers_marketpleace/shared/components/constant.dart';
@@ -400,14 +399,14 @@ class _PostModelState extends State<PostModel> {
         final Uint8List list = response.bodyBytes;
 
         // حفظ الصورة
-        final result = await ImageGallerySaver.saveImage(list);
-
-        // تحقق من النتيجة وعرض رسالة
-        if (result['isSuccess']) {
-          _showDialog('Saved Successfully', 'Image saved to gallery.');
-        } else {
-          _showDialog('Error', 'Failed to save image.');
-        }
+        // final result = await ImageGallerySaver.saveImage(list);
+        //
+        // // تحقق من النتيجة وعرض رسالة
+        // if (result['isSuccess']) {
+        //   _showDialog('Saved Successfully', 'Image saved to gallery.');
+        // } else {
+        //   _showDialog('Error', 'Failed to save image.');
+        // }
       } else {
         _showDialog('Error', 'Permission denied.');
       }

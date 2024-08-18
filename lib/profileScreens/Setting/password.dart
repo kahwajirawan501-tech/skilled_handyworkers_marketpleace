@@ -90,7 +90,8 @@ class PassWord extends StatelessWidget {
                                   suffixPressed: () {
                                     SettingCubit.get(context).changeOldPasswordVisibility();
                                   },
-                                  suffix:SettingCubit.get(context).oldSuffix,
+                                  suffix: SettingCubit.get(context).oldSuffix,
+
                                   validate:(value){
                                     if (value!.isEmpty) {
                                       return "Your password must not be empty";

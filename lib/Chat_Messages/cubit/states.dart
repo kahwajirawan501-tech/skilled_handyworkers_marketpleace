@@ -90,8 +90,8 @@ class GetUserMessageLoadStateStates extends MessageStates {
 
 }
 class GetUserMessageSucssessfullStateStates extends MessageStates {
-
-  GetUserMessageSucssessfullStateStates();
+ final List<Map<String, dynamic>> users;
+  GetUserMessageSucssessfullStateStates(this.users);
 
 }
 class GetUserMessageErrorStateStates extends MessageStates {
@@ -105,4 +105,9 @@ class UserStatusUpdatedState extends MessageStates{
 
   UserStatusUpdatedState(this.online, this.id);
 
+}
+class MarkAsReadLoadStateStates extends MessageStates{}
+class MarkAsReadErrorStateStates extends MessageStates {
+  final int statusCode;
+  MarkAsReadErrorStateStates(this.statusCode);
 }
