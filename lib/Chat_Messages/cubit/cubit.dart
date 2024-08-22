@@ -14,7 +14,6 @@ import 'package:skilled_handyworkers_marketpleace/shared/network/remote/dio_help
 class ChatCubit extends Cubit<MessageStates> {
   ChatCubit() : super(MessageStatesInitialStateStates()) {
     initializeSocket();
-    //   initializeNotifications();
     getUsersMessage();
   }
 
@@ -45,11 +44,11 @@ class ChatCubit extends Cubit<MessageStates> {
     _socket.on('newMessage', (data) {
       messages.add(data);
       emit(AddMessageSucssessfullStateStates(messages));
-      //    showNotification(data['message']);
+      showNotification(data['message']);
     });
     _socket.on('newNotification', (data) {
       // إظهار الإشعار بناءً على البيانات المستلمة
-      //  showNotification(data['message']);
+        showNotification(data['message']);
     });
     _socket.on('messageEdited', (updatedMessage) {
       int index = messages.indexWhere((message) =>
@@ -137,17 +136,6 @@ class ChatCubit extends Cubit<MessageStates> {
     });
   }
 
-  void initializeNotifications() {
-    flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
-
-    var initializationSettingsAndroid = AndroidInitializationSettings(
-        '@mipmap/ic_launcher');
-    var initializationSettings = InitializationSettings(
-      android: initializationSettingsAndroid,
-    );
-
-    flutterLocalNotificationsPlugin.initialize(initializationSettings);
-  }
 
   void showNotification(String message) async {
     var androidDetails = AndroidNotificationDetails(
@@ -157,6 +145,7 @@ class ChatCubit extends Cubit<MessageStates> {
       // Channel Description as a named argument
       importance: Importance.max,
       priority: Priority.high,
+      playSound: true,
     );
 
     var generalNotificationDetails = NotificationDetails(

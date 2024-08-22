@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:skilled_handyworkers_marketpleace/Dashboard/Component/style.dart';
 
 import 'package:skilled_handyworkers_marketpleace/Dashboard/config/responsive.dart';
@@ -17,9 +18,9 @@ class Header extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   PrimaryText(
-                      text: 'Dashboard',
-                      size: 30,
-                      fontWeight: FontWeight.w800,
+                    text: 'Dashboard',
+                    size: 30,
+                    fontWeight: FontWeight.w800,
                     color: AppColor.navyBlueColor,),
                   PrimaryText(
                     text: 'Payments updates',
@@ -32,28 +33,7 @@ class Header extends StatelessWidget {
           Spacer(
             flex: 1,
           ),
-          Expanded(
-            flex: Responsive.isDesktop(context) ? 1 : 3,
-            child: TextField(
-              decoration: InputDecoration(
-                  filled: true,
-                  fillColor: Colors.grey,
-                  contentPadding:
-                  EdgeInsets.only(left: 40.0, right: 5),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30),
-                    borderSide: BorderSide(color:Colors.white),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30),
-                    borderSide: BorderSide(color: Colors.black),
-                  ),
-                  prefixIcon: Icon(Icons.search, color: Colors.black),
-                  hintText: 'Search',
-                  hintStyle: TextStyle(color: Colors.black, fontSize: 14)
-              ),
-            ),
-          ),
+
         ]);
   }
 }

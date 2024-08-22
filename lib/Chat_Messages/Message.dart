@@ -114,7 +114,7 @@ class _MessagePersonState extends State<MessagePerson> {
          if(state is AddMessageSucssessfullStateStates){
            _error=false;
            _textAddCommit="";
-           ChatCubit.get(context).openConversation(widget.receiverId);
+          ChatCubit.get(context).openConversation(widget.receiverId);
 
          }
          else if(state is AddMessageErrorStateStates){

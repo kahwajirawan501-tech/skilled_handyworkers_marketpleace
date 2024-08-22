@@ -69,23 +69,42 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
                 Spacer(),
                 IconButton(
                   onPressed: () {
-                    showCustomModal(
-                        context,
-                        title: "64".tr,
-                        description: "65".tr,
-                        titleButton1: "66".tr,
-                        titleButton2: "67".tr,
-                        onPressed1: () {
-                          Navigator.pop(context);
+                   if(role==null){
+      showToast(text:"356".tr, state: ToastStates.SUCCESS)   ;
+                   }
+                   else if(role=="service_provider"){
+                     showCustomModal(
+                       context,
+                       title: "64".tr,
+                       description: "65".tr,
+                       titleButton1: "66".tr,
+                       titleButton2: "67".tr,
+                       onPressed1: () {
+                         Navigator.pop(context);
 
-                          navigateTo(context: context,widget: AddPost());
-                        },
-                        onPressed2: () {
-                          Navigator.pop(context);
+                         navigateTo(context: context,widget: AddPost());
+                       },
+                       onPressed2: () {
+                         Navigator.pop(context);
 
-                          navigateTo(context: context,widget: AddOpenQuestion());
+                         navigateTo(context: context,widget: AddOpenQuestion());
 
-                        },);
+                       },);
+                   }
+                   else if(role=="customer"){
+                     showCustomModalCustomer(
+                       context,
+                       title: "64".tr,
+                       description: "357".tr,
+                       titleButton2: "67".tr,
+
+                       onPressed2: () {
+                         Navigator.pop(context);
+
+                         navigateTo(context: context,widget: AddOpenQuestion());
+
+                       },);
+                   }
                   },
                   icon: Icon(
                     Icons.add_circle,
@@ -100,7 +119,7 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
                   onPressed: () {
                     setState(() {
                       cubit.onItemTappedForBottomNavigationBar(3);
-
+                //    ChatCubit.get(context).getUsersMessage();
                     });
                   },
                 ),

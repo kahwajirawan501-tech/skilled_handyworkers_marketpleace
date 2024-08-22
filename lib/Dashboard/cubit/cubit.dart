@@ -45,7 +45,7 @@ class DashBoardCubit extends Cubit<DashBoardStates> {
     print("DeletedLocationLoadStateStates");
     DioHelper.deletePost(
       url: '/regions/$regin',
-      token:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjU2YWI2NjBlN2FjNGU0NjhjNDI1ZDA5OSIsImZ1bGxOYW1lIjoiYWRtaW4gYWRtaW4iLCJlbWFpbCI6ImFkbWluQGFkbWluLmNvbSIsImlhdCI6MTcyMzU1MzUyMSwiZXhwIjoxNzIzODEyNzIxfQ.mKutgbYx7DhIuvQ2FOKzLz64WjivoeWIBzZ05dV9EBg"
+      token:tokenDashbord
     ).then((value) {
      emit(DeletedLocationSucssessfullStateStates());
      print("DeletedLocationSucssessfullStateStates");
@@ -65,7 +65,7 @@ class DashBoardCubit extends Cubit<DashBoardStates> {
           "name":regin ,
           "type": "محافظة"
         },
-        token:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjU2YWI2NjBlN2FjNGU0NjhjNDI1ZDA5OSIsImZ1bGxOYW1lIjoiYWRtaW4gYWRtaW4iLCJlbWFpbCI6ImFkbWluQGFkbWluLmNvbSIsImlhdCI6MTcyMzU1MzUyMSwiZXhwIjoxNzIzODEyNzIxfQ.mKutgbYx7DhIuvQ2FOKzLz64WjivoeWIBzZ05dV9EBg"
+        token:tokenDashbord
     ).then((value) {
       emit(ADDLocationSucssessfullStateStates());
       print("ADDLocationSucssessfullStateStates");
@@ -133,7 +133,7 @@ class DashBoardCubit extends Cubit<DashBoardStates> {
         data: {
           "name":services
         },
-        token:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjU2YWI2NjBlN2FjNGU0NjhjNDI1ZDA5OSIsImZ1bGxOYW1lIjoiYWRtaW4gYWRtaW4iLCJlbWFpbCI6ImFkbWluQGFkbWluLmNvbSIsImlhdCI6MTcyMzYyMDc5OSwiZXhwIjoxNzIzODc5OTk5fQ.6ySLkc4qvUTwfajeuxCgRQuY7Sx5ck3eF1RQajX81vo"
+        token:tokenDashbord
     ).then((value) {
       emit(ADDServiceSucssessfullStateStates());
       print("ADDServiceSucssessfullStateStates");
@@ -149,6 +149,7 @@ class DashBoardCubit extends Cubit<DashBoardStates> {
   final List<Map<String, dynamic>> openQuestionPost = [];
   final List<Map<String, dynamic>> postList = [];
   void getPostForLocationAndService( int page) {
+    print("PostLoadStateStates");
     emit(PostLoadStateStates());
     postList.clear();
     openQuestionPost.clear();
@@ -159,8 +160,9 @@ class DashBoardCubit extends Cubit<DashBoardStates> {
   void _fetchPosts(int page) {
     DioHelper.getData2(
         url: '/post?page=$page&limit=10',
-        token: accessToken
+        token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2YzJlNjA0OWNjYjU3ZDFlYWI2MWZkMiIsImZ1bGxOYW1lIjoiYWRtaW4gYWRtaW4iLCJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsImlhdCI6MTcyNDA1MjA0MCwiZXhwIjoxNzI0MzExMjQwfQ.BfG_XEGLnWnrFu_eb6WsyIB1BYr-MuUL0Fro3B3iEG0"
     ).then((value) {
+        print(value);
       final List<Map<String, dynamic>> fetchedData = List<Map<String, dynamic>>.from(value.data);
       for (var post in fetchedData) {
         if (post['type'] == 'post') {
@@ -173,6 +175,8 @@ class DashBoardCubit extends Cubit<DashBoardStates> {
           openQuestionPost.add(post);
         }
       }
+      print(postList);
+      print(openQuestionPost);
 
       if (fetchedData.length < 10) {
         hasMoreData = false;
@@ -258,7 +262,7 @@ class DashBoardCubit extends Cubit<DashBoardStates> {
     DioHelper.deletePost(
 
       url:'/post/$id',
-        token:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjU2YWI2NjBlN2FjNGU0NjhjNDI1ZDA5OSIsImZ1bGxOYW1lIjoiYWRtaW4gYWRtaW4iLCJlbWFpbCI6ImFkbWluQGFkbWluLmNvbSIsImlhdCI6MTcyMzYyMDc5OSwiZXhwIjoxNzIzODc5OTk5fQ.6ySLkc4qvUTwfajeuxCgRQuY7Sx5ck3eF1RQajX81vo"
+        token:tokenDashbord
 
     ).then((value)
     {
@@ -296,7 +300,7 @@ class DashBoardCubit extends Cubit<DashBoardStates> {
     print("GetUsersLoadStateStatesSearch");
     DioHelper.getData(
       url: '/users',
-        token:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjU2YWI2NjBlN2FjNGU0NjhjNDI1ZDA5OSIsImZ1bGxOYW1lIjoiYWRtaW4gYWRtaW4iLCJlbWFpbCI6ImFkbWluQGFkbWluLmNvbSIsImlhdCI6MTcyMzYyMDc5OSwiZXhwIjoxNzIzODc5OTk5fQ.6ySLkc4qvUTwfajeuxCgRQuY7Sx5ck3eF1RQajX81vo"
+        token:tokenDashbord
 
     ).then((value) {
       users=List<Map<String, dynamic>>.from(value.data);
@@ -317,7 +321,7 @@ class DashBoardCubit extends Cubit<DashBoardStates> {
     "id": id,
     "isBlocked": isBlocked
     },
-        token:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjU2YWI2NjBlN2FjNGU0NjhjNDI1ZDA5OSIsImZ1bGxOYW1lIjoiYWRtaW4gYWRtaW4iLCJlbWFpbCI6ImFkbWluQGFkbWluLmNvbSIsImlhdCI6MTcyMzYyMDc5OSwiZXhwIjoxNzIzODc5OTk5fQ.6ySLkc4qvUTwfajeuxCgRQuY7Sx5ck3eF1RQajX81vo"
+        token:tokenDashbord
     ).then((value) {
       emit(DeletedUsersSucssessfullStateStatesSearch());
       print("DeletedUsersSucssessfullStateStatesSearch");

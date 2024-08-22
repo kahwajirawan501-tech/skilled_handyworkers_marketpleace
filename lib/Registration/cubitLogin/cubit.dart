@@ -112,10 +112,11 @@ class LoginCubit extends Cubit<LoginStates> {
     required String code ,
   }) async {
     emit(EmailConfirmSkilledLoadingState());
-
+    String? token = await FirebaseMessaging.instance.getToken();
     DioHelper.postData(url: 'auth/signup_confiramtion', data: {
       'email': email,
       'code' :code,
+      'fcmToken':token
     }).then((value) {
       print("send email succ");
       print(value.data);
@@ -141,10 +142,11 @@ class LoginCubit extends Cubit<LoginStates> {
       final googleSignInAuthentication = await user.authentication;
       final String token = googleSignInAuthentication.accessToken!;
       final String email = user.email;
-
-      DioHelper.postData(url: "auth/google-login", data: {
+      String? tokenfcm = await FirebaseMessaging.instance.getToken();
+     await DioHelper.postData(url: "auth/google-login", data: {
         'email': email,
         'token': token,
+        'fcmToken':tokenfcm
       }).then((value) {
         print("send email succ");
         print(user.email);

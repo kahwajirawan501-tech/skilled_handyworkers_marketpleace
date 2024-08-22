@@ -20,7 +20,7 @@ else{
 String? accessToken=CacheHelper.getData(key: "accessToken");
 
 String? id="";
-
+String ?tokenDashbord="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2YzJlNjA0OWNjYjU3ZDFlYWI2MWZkMiIsImZ1bGxOYW1lIjoiYWRtaW4gYWRtaW4iLCJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsImlhdCI6MTcyNDA1MjA0MCwiZXhwIjoxNzI0MzExMjQwfQ.BfG_XEGLnWnrFu_eb6WsyIB1BYr-MuUL0Fro3B3iEG0";
 String? imageNetwork="";
 String? imageCope="assets/images/downloadp.jpg";
 String? name="";
@@ -38,3 +38,4 @@ String?dateOfBirthh="";
  String?educationDescription="";
  String?skill="";
  File ?imageFiles;
+ String? role;

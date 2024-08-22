@@ -220,7 +220,12 @@ class MyLocal implements Translations {
       '352':'كل الاسئلة المفتوحة ',
         '353':'كل المنشورات',
       '354':'إيجاد شخص',
-      '355':'لا يوجد مستخدم'
+      '355':'لا يوجد مستخدم',
+      '356':'من اجل الاستفادة من إضافة منشور يجب عليك الذهاب إلى الملف الشخصي وأختيار الدور ',
+  "357": "نشر  سؤال ؟",//publish a post or an open question?
+      '358':"Role",
+      '359':"customer",
+      '360':"service provider"
     },
     "en": {
   //splash
@@ -434,7 +439,12 @@ class MyLocal implements Translations {
       '352':'All Open Question',
         '353':'All Post',
       '354':'Find User',
-      '355':'Not Found User.'
+      '355':'Not Found User.',
+      '356':'In order to benefit from adding a post, you must go to the profile and choose the role',
+      "357": "publish an open question?",//publish a post or an open question?
+      '358':"Role",
+      '359':"customer",
+      '360':"service provider"
 
     }
   };

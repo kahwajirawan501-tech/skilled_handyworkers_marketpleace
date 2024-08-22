@@ -16,7 +16,7 @@ class ProfileCubit extends Cubit<ProfileStates> {
   static ProfileCubit get(context) => BlocProvider.of(context);
 
   void editProfile(String imagee,String fullName,String dataOfBirth,String genderr,
-      String email,String number,String location,String service){
+      String email,String number,String location,String service,String role){
     emit(EditProfileStatesLoadingStateStates());
     print("EditProfileStatesLoadingStateStates");
     print(genderr);
@@ -29,7 +29,7 @@ class ProfileCubit extends Cubit<ProfileStates> {
    if (location.isNotEmpty) data['location'] = location;
     if (number.isNotEmpty) data['phoneNumber'] = number;
    if (service.isNotEmpty) data['skills'] = service;
-
+    if (role.isNotEmpty) data['role'] = role;
     DioHelper.putData(
         url:'/users',
         token:accessToken,
@@ -52,6 +52,7 @@ class ProfileCubit extends Cubit<ProfileStates> {
       educationTittle=value.data['institutionName'] ?? "";
       educationDescription=value.data['institutionDescription'] ?? "";
       skill=value.data['skills'] ?? "";
+      role=value.data['role'];
       print("EditProfileSucssessfullStateStates");
       emit(EditProfileSucssessfullStateStates());
 

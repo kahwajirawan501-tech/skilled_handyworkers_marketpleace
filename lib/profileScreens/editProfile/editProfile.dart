@@ -42,7 +42,7 @@ class _EditProfileState extends State<EditProfile> {
   var service=TextEditingController();
 
   int valueR=2;
-
+  int valueRole=0;
   File? image;
   String? imageFile;
 
@@ -54,6 +54,7 @@ class _EditProfileState extends State<EditProfile> {
         fullName.text = name ?? "";
         dateOfBirth.text = dateOfBirthh ?? "";
         valueR = (gender?.isEmpty ?? true) ? valueR : (gender == "male" ? 1 : 2);
+        valueRole=(role==null)?valueRole=0:role=="customer"?valueRole=1:valueRole=2;
         emailAddress.text = email ?? "";
         number.text = numberConst ?? "";
         service.text = skill ?? "";
@@ -79,6 +80,7 @@ class _EditProfileState extends State<EditProfile> {
             number.text,
             location.text,
             service.text,
+            valueRole==2?"service_provider":"customer"
           );
 
         }
@@ -241,6 +243,73 @@ class _EditProfileState extends State<EditProfile> {
                         ],
                       ),
                       const SizedBox(height: AppFontStyles.sizeBetweenBoxAndSubTitle-4,),
+                      Text("358".tr,style: TextStyle(
+                          fontWeight:AppFontStyles.fontWeightBold ,
+                          fontSize: AppFontStyles.descriptionLoginFontSize,
+                          color: AppColor.navyBlueColor
+                      ),),
+                      const SizedBox(height: AppFontStyles.sizeBetweenBoxAndSubTitle-4,),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Box(
+                              borderRadius: BorderRadius.circular(AppFontStyles.borderRadiusTextField),
+                              height: 40,
+                              widget: Row(
+                                children: [
+                                  Radio(
+                                    activeColor: AppColor.orangeColor,
+                                    value: 1,
+                                    groupValue: valueRole,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        valueRole = value as int;
+                                      });
+                                    },
+                                  ),
+                                  Text(
+                                    "359".tr,
+                                    style: TextStyle(
+                                      fontSize: AppFontStyles.descriptionLoginFontSize,
+                                      color: AppColor.navyBlueColor,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: AppFontStyles.sizeBetweenBoxAndSubTitle + 8),
+                          Expanded(
+                            child: Box(
+                              borderRadius: BorderRadius.circular(AppFontStyles.borderRadiusTextField),
+                              height: 40,
+                              widget: Row(
+                                children: [
+                                  Radio(
+                                    activeColor: AppColor.orangeColor,
+                                    value: 2,
+                                    groupValue: valueRole,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        valueRole = value as int;
+                                      });
+                                    },
+                                  ),
+                                  Text(
+                                    "360".tr,
+                                    style: TextStyle(
+                                      fontSize: AppFontStyles.descriptionLoginFontSize,
+                                      color: AppColor.navyBlueColor,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: AppFontStyles.sizeBetweenBoxAndSubTitle-4,),
+
                       Text("324".tr,style: TextStyle(
                           fontWeight:AppFontStyles.fontWeightBold ,
                           fontSize: AppFontStyles.descriptionLoginFontSize,
@@ -386,7 +455,7 @@ class _EditProfileState extends State<EditProfile> {
                                 print(image);
                                 ProfileCubit.get(context).editProfile
                                   ("", fullName.text, dateOfBirth.text,valueR==2?"female":"male",
-                                    emailAddress.text, number.text, location.text, service.text);
+                                    emailAddress.text, number.text, location.text, service.text,valueRole==2?"service_provider":"customer");
                               }
 
 

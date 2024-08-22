@@ -15,7 +15,9 @@
         android:name="${applicationName}"
         android:usesCleartextTraffic="true"
         android:icon="@mipmap/ic_launcher">
-
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="Default_Channel" />
         <receiver
             android:name="com.google.firebase.messaging.FirebaseMessagingReceiver"
             android:exported="true"

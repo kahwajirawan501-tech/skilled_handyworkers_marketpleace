@@ -63,6 +63,7 @@ class HomeCubit extends Cubit<HomeStates>{
         educationTittle=value.data['institutionName'] ?? "";
         educationDescription=value.data['institutionDescription'] ?? "";
         skill=value.data['skills'] ?? "";
+        role=value.data['role'];
         print("GetInformationSucssessfullStateStates");
         emit(GetInformationSucssessfullStateStates());
         print(imageNetwork);
@@ -92,7 +93,7 @@ class HomeCubit extends Cubit<HomeStates>{
         token: accessToken
     ).then((value)
     {
-      print(" mmmmmmmmmmmmmmmm");
+      print(" 79029");
       print(value.data);
 
       print("Data: ${value.data}");

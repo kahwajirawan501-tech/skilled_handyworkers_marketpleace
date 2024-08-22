@@ -259,22 +259,26 @@ print(value.data);
 
 
   String formatFacebookTime(String postTimeStr) {
+    // التحقق من صحة التنسيق الحالي للوقت
     if (RegExp(r'^\d{1,2}:\d{2}:\d{2} [APM]{2}$').hasMatch(postTimeStr)) {
-      // إذا كان التنسيق صحيحًا، نعيد الوقت كما هو
       return postTimeStr;
     }
-
 
     // إزالة الجزء الأخير الذي يحتوي على معلومات المنطقة الزمنية بين الأقواس
     postTimeStr = postTimeStr.split('(')[0].trim();
 
-    // تحويل الوقت المستلم إلى كائن DateTime
-    DateTime postTime = DateFormat("EEE MMM dd yyyy HH:mm:ss 'GMT'Z", 'en_US').parse(postTimeStr);
-    print(postTime);
+    // تحويل الوقت المستلم إلى كائن DateTime بتنسيق عربي
+    DateTime postTime;
+    try {
+      postTime = DateFormat('h:mm:ss a', 'ar').parse(postTimeStr);
+    } catch (e) {
+      print('Error parsing time: $e');
+      return 'Error parsing time';
+    }
+
     // الحصول على الوقت الحالي (بتوقيت النظام المحلي)
     DateTime now = DateTime.now();
 
-    print(now);
     // حساب الفرق بين الوقت الحالي ووقت نشر البوست
     Duration delta = now.difference(postTime);
 
@@ -316,6 +320,4 @@ print(value.data);
     else {
       return DateFormat('dd MMM yyyy الساعة HH:mm', 'ar').format(postTime);
     }
-
-  }
-}
+  }}

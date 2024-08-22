@@ -218,8 +218,8 @@ class MyApp extends StatelessWidget {
   void _showForegroundNotification(RemoteMessage message) {
     const AndroidNotificationDetails androidPlatformChannelSpecifics =
     AndroidNotificationDetails(
-      'your_channel_id',
-      'your_channel_name',
+      'Default_Channel',
+      'Channel_home',
       channelDescription: 'your_channel_description',
       importance: Importance.max,
       priority: Priority.high,

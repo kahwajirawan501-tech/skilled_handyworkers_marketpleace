@@ -9,42 +9,42 @@ import '../config/size_config.dart';
 class InfoCard extends StatelessWidget {
   final IconData icon;
   final String label;
-  final String amount;
-  final Color color;
 
-  InfoCard({required this.icon, required this.label, required this.amount, required this.color});
+  final Color color;
+  //final Function function;
+
+  InfoCard(
+      {required this.icon,
+        required this.label,
+        required this.color,
+        // required this.function
+      });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      constraints: BoxConstraints(minWidth: Responsive.isDesktop(context) ? 200 : SizeConfig.screenWidth/2 - 40),
+      constraints: BoxConstraints(
+          minWidth: SizeConfig.screenWidth / 2 - 80
+      ),
       padding: EdgeInsets.only(
-          top: 20, bottom: 20, left: 20, right: Responsive.isMobile(context) ? 20 : 40),
+          top: 20,
+          bottom: 20,
+          left: 20,
+          right: 20),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         color: AppColor.backgroundColor,
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Icon(icon),
+          Icon(icon,color:AppColor.orangeColor),
           SizedBox(
-            height: SizeConfig.blockSizeVertical * 2,
+            height: SizeConfig.blockSizeVertical * 4,
           ),
-          PrimaryText(
-              text: label,
-              color: Colors.black,
-              size: 16),
-          SizedBox(
-            height: SizeConfig.blockSizeVertical * 2,
-          ),
-          PrimaryText(
-            text: amount,
-            size: 18,
-            fontWeight: FontWeight.w700,
-            color:AppColor.orangeColor ,
-          )
+          PrimaryText(text: label, color: AppColor.bluColor, size: 16),
         ],
-      ),);
+      ),
+    );
   }
 }

@@ -194,7 +194,7 @@ Widget ListChat(context,var user)=>Column(
         ),
       ),
       title:  Text(
-        user['fullName'].isNotEmpty ?user['fullName']:"",
+        (user['fullName']!=null&&user['fullName'].isNotEmpty) ?user['fullName']:"",
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
         style: TextStyle(

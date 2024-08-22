@@ -56,10 +56,10 @@ class _LoginScreenState extends State<LoginScreen> {
           {
         if (state.value == 201) {
 
-              CacheHelper.saveData(key: 'accessToken', value: state.data['user']['googleToken'])
+              CacheHelper.saveData(key: 'accessToken', value: state.data['token'])
                   .then((_) {
                 setState(() {
-                  accessToken = state.data['user']['googleToken'];
+                  accessToken = state.data['token'];
                 });
               });
             }

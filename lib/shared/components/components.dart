@@ -181,6 +181,78 @@ void showCustomModal(BuildContext context,{
     },
   );
 }
+
+
+void showCustomModalCustomer(BuildContext context,{
+  required String title,
+  required String  description,
+  required String titleButton2,
+  required VoidCallback? onPressed2 ,
+
+}) {
+  showModalBottomSheet(
+    context: context,
+    builder: (BuildContext context) {
+      return Container(
+        height: 300,
+        width: double.infinity,
+        decoration: const BoxDecoration(
+          color: Colors.white, // لون خلفية القائمة
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(AppFontStyles.borderRadius + 10),
+            topRight: Radius.circular(AppFontStyles.borderRadius + 10),
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(AppFontStyles.padding),
+          child: Column(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  color: AppColor.navyBlueColor,
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(AppFontStyles.borderRadius),
+                  ),
+                ),
+                width: 30,
+                height: 3,
+              ),
+              const SizedBox(height: AppFontStyles.sizeBetweenTitleAndSubTitle),
+              Text(
+                title,
+                style: TextStyle(
+                  color: AppColor.navyBlueColor,
+                  fontSize: AppFontStyles.aboutMe,
+                  fontWeight: AppFontStyles.fontWeightBold,
+                ),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                description,
+                style: TextStyle(
+                  color: AppColor.fontColorDescription,
+                  fontSize: AppFontStyles.descriptionLoginFontSize,
+                  fontWeight: AppFontStyles.fontWeightBold,
+                ),
+              ),
+              const SizedBox(height: AppFontStyles.sizeBetweenTitleAndSubTitle + 16),
+              button(
+                onPressed: onPressed2,
+                text: titleButton2,
+                height: 50,
+                width: 213,
+                fontSize: AppFontStyles.descriptionSplashScreenFontSize,
+                fontWeight: AppFontStyles.fontWeightBold,
+                color: Colors.white,
+                colorBackground: AppColor.googleColor, function: (){},
+              ),
+            ],
+          ),
+        ),
+      );
+    },
+  );
+}
 Widget defaultTextFieldLog({
   required TextEditingController controller,
   required TextInputType type,
