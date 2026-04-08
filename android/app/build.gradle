@@ -84,7 +84,7 @@ flutter {
 }
 dependencies {
  implementation 'com.google.firebase:firebase-core:21.1.1'
- implementation 'com.google.firebase:firebase-messaging:24.0.0'
+ implementation 'com.google.firebase:firebase-messaging:24.1.1'
  // أضف أي تبعيات Firebase أخرى تحتاج إليها
 }
 

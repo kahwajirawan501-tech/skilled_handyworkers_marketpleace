@@ -70,7 +70,6 @@ class _EditProfileState extends State<EditProfile> {
     return BlocConsumer<ProfileCubit,ProfileStates>(
       listener: (context, state) {
         if(state is PostFileSucssessfullStateStates){
-
           ProfileCubit.get(context).editProfile(
             ProfileCubit.get(context).image,
             fullName.text,

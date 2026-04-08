@@ -23,7 +23,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  var formKey = GlobalKey<FormState>();
+  var forKey = GlobalKey<FormState>();
 
   var emailController = TextEditingController();
 
@@ -43,7 +43,7 @@ class _LoginScreenState extends State<LoginScreen> {
               .then(
                 (value) {
               setState(() {
-                accessToken = state.token;
+               // accessToken = state.token;
               });
             },
           );
@@ -254,12 +254,12 @@ class _LoginScreenState extends State<LoginScreen> {
     width: 320,
     onPressed: () async {
     LoginCubit.get(context).loginWithGoogle();
+
     // var user =await Signingoogle.login();
     // print("oke nih");
     // print(user!.displayName);
     // print(user.email);
     // print(user.!acc);
-
     // _googleLogin();
     },
     colorBackground: AppColor.googleColor,

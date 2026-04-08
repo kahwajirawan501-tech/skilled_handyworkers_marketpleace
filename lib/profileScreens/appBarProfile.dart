@@ -109,7 +109,9 @@ class AppBarProfile extends StatelessWidget implements PreferredSizeWidget {
                               ),
                             ),
                           );
-                        } else if (imageCope != null) {
+                        }
+                        else if
+                        (imageCope != null) {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -118,7 +120,9 @@ class AppBarProfile extends StatelessWidget implements PreferredSizeWidget {
                               ),
                             ),
                           );
-                        } else if (imageFiles != null) {
+                        }
+                        else if
+                        (imageFiles != null) {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
